@@ -1,0 +1,126 @@
+#: import MATIERES constants.MATIERES
+#: import EditableLabel editablelabel.EditableLabel
+
+
+<ActionBar>:
+    ActionView:
+		ActionPrevious:
+			with_previous: False
+
+        ActionButton:
+            text: 'Cette Semaine'
+            icon: 'data/icons/calendar.png'
+            on_release: app.go_date()
+		ActionButton:
+		    text: 'Semaine précédante'
+		    icon: 'data/icons/chevron-left.png'
+		    on_release: app.carousel.load_previous()
+		ActionButton:
+		    text: 'Semaine précédante'
+		    icon: 'data/icons/chevron-right.png'
+		    on_release: app.carousel.load_next()
+
+		ActionButton:
+		    text: 'Paramètres'
+		    # icon: 'data/icons/chevron-right.png'
+		    on_release: app.open_settings()
+
+<BaseGrid>:
+	spacing: dp(10)
+	padding: dp(10)
+	canvas.before:
+		Color:
+			rgba: (0, 1, 0,0.5)
+		Rectangle:
+			pos: self.pos
+            size: self.size
+
+	# padding: 20
+
+<JourWidget>:
+	orientation: 'vertical'
+	canvas.before:
+		Color:
+			rgba: (1,0 , 0,0.5)
+		Rectangle:
+			pos: self.pos
+            size: self.size
+	BoxLayout:
+		orientation: 'horizontal'
+		size_hint_y: None
+		text: root.nice_date
+		height: dp(20)
+		canvas.before:
+			Color:
+				rgba: (1,1, 1,0.5)
+			Rectangle:
+				pos: self.pos
+	            size: self.size
+	    Label:
+	    	text: root.nice_date
+	    Button:
+	    	size_hint_x: 0.2
+
+	    	text: '+'
+	    	on_release: root.add_item()
+	ScrollView:
+		id: scroll_items
+		do_scroll_x: False
+
+
+<JourItems>:
+	size_hint_y: None
+	spacing: dp(5)
+	padding: dp(5)
+	cols: 1
+	canvas.before:
+		# Color:
+		# 	rgba: (0.3,1, 1,0.5)
+		Rectangle:
+			pos: self.pos
+            size: self.size
+
+
+
+
+<ItemWidget>:
+	size_hint_y: None
+	height: dp(30)
+	spacing: dp(5)
+	canvas:
+        Color:
+            rgb: self.color
+        Rectangle:
+        	pos: self.pos
+        	size: self.size
+	Spinner:
+		
+		text: root.matiere.nom
+		font_size: sp(12)
+		values: MATIERES
+		on_text:
+			root.matiere = self.text
+			root.dico['bla'] = "ble"
+		size_hint_x: 0.3
+
+	TextInput:
+		text: root.content
+		on_text: root.content = self.text
+		# height: root.height + dp(5)
+		halign: 'left'
+    	valign: 'middle'
+    	# focus: True
+    	multiline: False
+    	# color: self.parent.matiere.color
+
+
+    CheckBox:
+    	size_hint_x: 0.1
+		active: root.done
+		on_active: root.done = self.active
+
+	Button:
+    	size_hint_x: 0.1
+		text: "x"
+		on_release: root.remove()
+
