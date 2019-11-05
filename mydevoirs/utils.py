@@ -1,6 +1,6 @@
 import appdirs
 from pathlib import Path
-from constants import APP_NAME
+from mydevoirs.constants import APP_NAME
 
 def get_dir(key):
 

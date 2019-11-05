@@ -1,3 +1,6 @@
+import pony.orm.dbproviders.sqlite
+
+
 from pony.orm import (
     Required,
     PrimaryKey,
@@ -10,24 +13,13 @@ from pony.orm import (
 )
 from pony.orm.ormtypes import IntArray
 import datetime
-from constants import MATIERES
-from utils import get_dir
+from mydevoirs.constants import MATIERES
+from mydevoirs.utils import get_dir
 
-db = Database()
-
-
-class GetOrCreate:
-    @classmethod
-    def get_or_create(cls, **kwargs):
-        if not cls.exists(**kwargs):
-            res = cls(**kwargs)
-            db.flush()
-        else:
-            res = cls.get(**kwargs)
-        return res
+from .base_db import db, GetOrCreateMixin
 
 
-class Jour(db.Entity, GetOrCreate):
+class Jour(db.Entity, GetOrCreateMixin):
     date = PrimaryKey(datetime.date)
     items = Set("Item")
 
@@ -55,10 +47,14 @@ class Item(db.Entity):
 
 
 @db.on_connect(provider="sqlite")
-def sqlite_case_sensitivity(db, connection):
+def sqlite_synchonous_off(db, connection):
     cursor = connection.cursor()
     cursor.execute("PRAGMA synchronous = OFF")
 
+
+###################################################################
+############## DATABASE SETUP #####################################
+###################################################################
 
 light_db = get_dir("cache") / "ddb.sqlite"
 hard_db = get_dir("cache") / "ddb_hard.sqlite"
@@ -69,9 +65,9 @@ db.bind(provider="sqlite", filename=str(hard_db.absolute()), create_db=True)
 db.generate_mapping(create_tables=True)
 
 with db_session():
-    for k,v in MATIERES.items():
+    for k, v in MATIERES.items():
         try:
-            Matiere(nom=k,color=v)
+            Matiere(nom=k, color=v)
             db.commit()
         except TransactionIntegrityError:
             pass

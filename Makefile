@@ -5,7 +5,7 @@ MODULE:=mydevoirs
 all: dev test
 
 install:
-	python3.6 -m venv .venv
+	python3.7 -m venv .venv
 	.venv/bin/pip install -U pip
 	poetry install
 
@@ -28,8 +28,12 @@ run:
 	poetry run python mydevoirs/app.py
 
 
+
+
+
 clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
 
+clean-full: clean clean-venv
 
 clean-build: ## remove build artifacts
 	rm -fr build/
@@ -53,3 +57,9 @@ clean-test: ## remove test and coverage artifacts
 	rm -f .coverage
 	rm -fr htmlcov/
 	rm -rf .pytest_cache/
+
+clean-venv:
+	rm -rf .venv/
+
+ipython:
+	.venv/bin/ipython

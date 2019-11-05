@@ -9,29 +9,28 @@ from kivy.properties import (
     ListProperty,
     NumericProperty,
     BooleanProperty,
-    DictProperty
+    DictProperty,
 )
 from kivy.uix.carousel import Carousel
 import datetime
 import locale
-from database import db
-from constants import APP_NAME
+from mydevoirs.database.database import db
+from mydevoirs.constants import APP_NAME
 
-from settings import settings_json
+from mydevoirs.settings import settings_json
 from kivy.config import ConfigParser
 from pathlib import Path
 
-from utils import get_dir
+from mydevoirs.utils import get_dir
 
 from pony.orm import db_session
 
 
-from slide_item import SettingSlider
+from mydevoirs.slide_item import SettingSlider
 
 locale.setlocale(locale.LC_ALL, "fr_FR.utf8")
 
-
-Builder.load_file("ressources.kv")
+Builder.load_file('mydevoirs/mmydevoirs.kv')
 
 
 class ItemWidget(BoxLayout):
@@ -42,13 +41,13 @@ class ItemWidget(BoxLayout):
     dico = DictProperty()
 
     def __init__(self, **entry):
-        print(type(entry['matiere']))
-        self.content = entry['content']
-        self.matiere = entry['matiere']
-        self.entry = entry['id']
-        self.color = entry['matiere'].color
-        self.done = entry['done']
-        self.dico['essai'] = 23
+        print(type(entry["matiere"]))
+        self.content = entry["content"]
+        self.matiere = entry["matiere"]
+        self.entry = entry["id"]
+        self.color = entry["matiere"].color
+        self.done = entry["done"]
+        self.dico["essai"] = 23
         super().__init__()
 
     def on_matiere(self, *args):
@@ -56,7 +55,7 @@ class ItemWidget(BoxLayout):
         with db_session:
             a = db.Item[self.entry]
             a.matiere = args[1]
-            self.color = a.matiere.color 
+            self.color = a.matiere.color
 
     def on_content(self, *args):
         with db_session:
@@ -71,7 +70,7 @@ class ItemWidget(BoxLayout):
         with db_session:
             db.Item[self.entry].delete()
 
-    def on_dico(self,*args):
+    def on_dico(self, *args):
         print(args)
 
 
@@ -82,7 +81,8 @@ class JourItems(GridLayout):
 
         with db_session:
             widgets = [
-                ItemWidget(**i.to_dict(related_objects=True)) for i in db.Item.select(lambda x: x.jour.date == date)
+                ItemWidget(**i.to_dict(related_objects=True))
+                for i in db.Item.select(lambda x: x.jour.date == date)
             ]
         for item in widgets:
             self.add_widget(item)
@@ -256,6 +256,4 @@ class MyDevoirsApp(App):
         )
 
 
-
-if __name__ == '__main__':
-    MyDevoirsApp().run()
+# MyDevoirsApp().run()
