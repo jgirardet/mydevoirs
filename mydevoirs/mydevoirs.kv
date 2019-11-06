@@ -95,7 +95,7 @@
         	pos: self.pos
         	size: self.size
 	Spinner:
-		
+		id: matiere_spinner
 		text: root.matiere.nom
 		font_size: sp(12)
 		values: MATIERES
@@ -105,6 +105,7 @@
 		size_hint_x: 0.3
 
 	TextInput:
+		id: matiere_content
 		text: root.content
 		on_text: root.content = self.text
 		# height: root.height + dp(5)
@@ -112,6 +113,7 @@
     	valign: 'middle'
     	# focus: True
     	multiline: False
+    	write_tab: False
     	# color: self.parent.matiere.color
 
 

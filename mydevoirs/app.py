@@ -56,6 +56,9 @@ class ItemWidget(BoxLayout):
             a = db.Item[self.entry]
             a.matiere = args[1]
             self.color = a.matiere.color
+        content = self.ids.matiere_content
+        content.focus=True
+        content.do_cursor_movement("cursor_end")
 
     def on_content(self, *args):
         with db_session:
@@ -105,9 +108,9 @@ class JourWidget(BoxLayout):
         with db_session:
             jour = db.Jour.get_or_create(date=self.date)
             item = db.Item(jour=jour)
-            itew_widget = ItemWidget(**item.to_dict(related_objects=True))
-        print(item)
-        self.jouritem.add_widget(itew_widget)
+            item_widget = ItemWidget(**item.to_dict(related_objects=True))
+        self.jouritem.add_widget(item_widget)
+        item_widget.ids.matiere_spinner.is_open=True
 
 
 class BaseGrid(GridLayout):
