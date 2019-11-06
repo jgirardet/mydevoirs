@@ -1,4 +1,6 @@
 #: import MATIERES mydevoirs.constants.MATIERES
+#: import datas  mydevoirs.datas.datas
+
 
 
 <ActionBar>:
@@ -7,16 +9,16 @@
 			with_previous: False
 
         ActionButton:
-            text: 'Cette Semaine'
-            icon: 'data/icons/calendar.png'
+            text: "Semaine en cours"
+		    icon: datas['icon_today']
             on_release: app.go_date()
 		ActionButton:
 		    text: 'Semaine précédante'
-		    icon: 'data/icons/chevron-left.png'
+		    icon: datas['icon_precedant']
 		    on_release: app.carousel.load_previous()
 		ActionButton:
-		    text: 'Semaine précédante'
-		    icon: 'data/icons/chevron-right.png'
+		    text: 'Semaine suivante'
+		    icon: datas['icon_suivant']
 		    on_release: app.carousel.load_next()
 
 		ActionButton:

@@ -1,3 +1,6 @@
+
+from pathlib import Path
+
 from kivy.uix.actionbar import ActionBar
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
@@ -19,7 +22,6 @@ from mydevoirs.constants import APP_NAME
 
 from mydevoirs.settings import settings_json
 from kivy.config import ConfigParser
-from pathlib import Path
 
 from mydevoirs.utils import get_dir
 
@@ -30,7 +32,7 @@ from mydevoirs.slide_item import SettingSlider
 
 locale.setlocale(locale.LC_ALL, "fr_FR.utf8")
 
-Builder.load_file('mydevoirs/mmydevoirs.kv')
+# Builder.load_file(str(Path(Path(__file__).parent, 'mmydevoirs.kv')))
 
 
 class ItemWidget(BoxLayout):
@@ -41,7 +43,6 @@ class ItemWidget(BoxLayout):
     dico = DictProperty()
 
     def __init__(self, **entry):
-        print(type(entry["matiere"]))
         self.content = entry["content"]
         self.matiere = entry["matiere"]
         self.entry = entry["id"]
@@ -51,7 +52,6 @@ class ItemWidget(BoxLayout):
         super().__init__()
 
     def on_matiere(self, *args):
-        print("on matiere", args)
         with db_session:
             a = db.Item[self.entry]
             a.matiere = args[1]
