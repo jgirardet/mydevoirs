@@ -90,31 +90,27 @@
 	spacing: dp(5)
 	canvas:
         Color:
-            rgb: self.color
+            rgb: root.matiere_color
         Rectangle:
         	pos: self.pos
         	size: self.size
 	Spinner:
-		id: matiere_spinner
-		text: root.matiere.nom
+		id: spinner
+		text: root.matiere_nom
 		font_size: sp(12)
 		values: MATIERES
 		on_text:
-			root.matiere = self.text
-			root.dico['bla'] = "ble"
+			root.update_matiere(self.text)
 		size_hint_x: 0.3
 
 	TextInput:
-		id: matiere_content
+		id : textinput
 		text: root.content
 		on_text: root.content = self.text
-		# height: root.height + dp(5)
 		halign: 'left'
     	valign: 'middle'
-    	# focus: True
     	multiline: False
     	write_tab: False
-    	# color: self.parent.matiere.color
 
 
     CheckBox:

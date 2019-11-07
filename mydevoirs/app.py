@@ -1,4 +1,3 @@
-
 from pathlib import Path
 
 from kivy.uix.actionbar import ActionBar
@@ -14,6 +13,7 @@ from kivy.properties import (
     BooleanProperty,
     DictProperty,
 )
+from kivy.clock import Clock
 from kivy.uix.carousel import Carousel
 import datetime
 import locale
@@ -22,6 +22,7 @@ from mydevoirs.constants import APP_NAME
 
 from mydevoirs.settings import settings_json
 from kivy.config import ConfigParser
+from kivy.uix.spinner import Spinner
 
 from mydevoirs.utils import get_dir
 
@@ -30,51 +31,59 @@ from pony.orm import db_session
 
 from mydevoirs.slide_item import SettingSlider
 
+from functools import partial
+
 locale.setlocale(locale.LC_ALL, "fr_FR.utf8")
 
 # Builder.load_file(str(Path(Path(__file__).parent, 'mmydevoirs.kv')))
 
 
 class ItemWidget(BoxLayout):
-    matiere = ObjectProperty()
     content = StringProperty()
     done = BooleanProperty()
-    color = ListProperty()
-    dico = DictProperty()
+    matiere_nom = StringProperty()
+    matiere_color = ListProperty()
 
     def __init__(self, **entry):
-        self.content = entry["content"]
-        self.matiere = entry["matiere"]
-        self.entry = entry["id"]
-        self.color = entry["matiere"].color
-        self.done = entry["done"]
-        self.dico["essai"] = 23
-        super().__init__()
+        self.loaded_flag = False
+        self.job = None
 
-    def on_matiere(self, *args):
-        with db_session:
-            a = db.Item[self.entry]
-            a.matiere = args[1]
-            self.color = a.matiere.color
-        content = self.ids.matiere_content
-        content.focus=True
-        content.do_cursor_movement("cursor_end")
+        self.entry = entry.pop("id")
+        entry.pop("jour")
+        super().__init__(**entry)
 
-    def on_content(self, *args):
+    def on_kv_post(self, *args):
+        self.loaded_flag = True
+
+    def update_matiere(self, text):
+        if self.ids.spinner.is_open and text != self.matiere_nom:
+            with db_session:
+                a = db.Item[self.entry]
+                a.matiere = text
+                self.matiere_color = a.matiere.color
+            content = self.ids.textinput
+            content.focus = True
+            content.do_cursor_movement("cursor_end")
+
+    def on_content(self, _, text):
+        if self.loaded_flag:
+            if self.job:
+                self.job.cancel()
+            self.job = Clock.schedule_once(partial(self._set_content, text), 0.5)
+
+    def _set_content(self, content, *args):
         with db_session:
-            db.Item[self.entry].content = args[1]
+            db.Item[self.entry].content = content
 
     def on_done(self, *args):
-        with db_session:
-            db.Item[self.entry].toggle()
+        if self.loaded_flag:
+            with db_session:
+                db.Item[self.entry].toggle()
 
     def remove(self):
         self.parent.remove_widget(self)
         with db_session:
             db.Item[self.entry].delete()
-
-    def on_dico(self, *args):
-        print(args)
 
 
 class JourItems(GridLayout):
@@ -84,7 +93,7 @@ class JourItems(GridLayout):
 
         with db_session:
             widgets = [
-                ItemWidget(**i.to_dict(related_objects=True))
+                ItemWidget(**i.to_dict())
                 for i in db.Item.select(lambda x: x.jour.date == date)
             ]
         for item in widgets:
@@ -108,9 +117,9 @@ class JourWidget(BoxLayout):
         with db_session:
             jour = db.Jour.get_or_create(date=self.date)
             item = db.Item(jour=jour)
-            item_widget = ItemWidget(**item.to_dict(related_objects=True))
+            item_widget = ItemWidget(**item.to_dict())
         self.jouritem.add_widget(item_widget)
-        item_widget.ids.matiere_spinner.is_open=True
+        item_widget.ids.spinner.is_open = True
 
 
 class BaseGrid(GridLayout):

@@ -25,7 +25,7 @@ pdb:
 
 
 run:
-	poetry run python mydevoirs/app.py
+	poetry run python main.py
 
 
 

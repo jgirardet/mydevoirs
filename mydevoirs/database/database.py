@@ -45,6 +45,16 @@ class Item(db.Entity):
     def toggle(self):
         self.done = not self.done
 
+    def to_dict(self):
+        dico = super().to_dict()
+        dico.pop("matiere")
+        dico["matiere_nom"] = self.matiere.nom
+        dico["matiere_color"] = self.matiere.color
+        return dico
+
+    def __repr__(self):
+        return f"Item {self.id} => {self.matiere.nom} : {self.content}"
+
 
 @db.on_connect(provider="sqlite")
 def sqlite_synchonous_off(db, connection):
