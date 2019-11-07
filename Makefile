@@ -18,7 +18,8 @@ test:
 	poetry run pytest
 
 cov:
-	poetry run coverage run -m pytest
+	poetry run coverage run --branch --source=mydevoirs -m pytest
+	poetry run coverage report
 	
 pdb:
 	poetry run pytest --pdb

@@ -53,7 +53,7 @@ class Item(db.Entity):
         return dico
 
     def __repr__(self):
-        return f"Item {self.id} => {self.matiere.nom} : {self.content}"
+        return f"Item {self.id} => {self.matiere.nom} : {self.content} {'ø' if self.done else 'o'}"
 
 
 @db.on_connect(provider="sqlite")
@@ -66,12 +66,17 @@ def sqlite_synchonous_off(db, connection):
 ############## DATABASE SETUP #####################################
 ###################################################################
 
-light_db = get_dir("cache") / "ddb.sqlite"
-hard_db = get_dir("cache") / "ddb_hard.sqlite"
-# db.bind(provider="sqlite", filename=":memory:")
-# db.bind(provider="sqlite", filename=str(light_db.absolute()), create_db=True)
-db.bind(provider="sqlite", filename=str(hard_db.absolute()), create_db=True)
-# if not light_db.is_file():
+import os
+
+if os.environ.get("MYDEVOIRS_TESTING", False):
+    db.bind(provider="sqlite", filename=":memory:")
+else:
+
+    light_db = get_dir("cache") / "ddb.sqlite"
+    hard_db = get_dir("cache") / "ddb_hard.sqlite"
+    # db.bind(provider="sqlite", filename=str(light_db.absolute()), create_db=True)
+    db.bind(provider="sqlite", filename=str(hard_db.absolute()), create_db=True)
+    # if not light_db.is_file():
 db.generate_mapping(create_tables=True)
 
 with db_session():
