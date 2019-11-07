@@ -1,4 +1,3 @@
-
 class SettingButtons(SettingItem):
     def __init__(self, **kwargs):
         self.register_event_type("on_release")
@@ -22,6 +21,7 @@ class SettingButtons(SettingItem):
         self.panel.settings.dispatch(
             "on_config_change", self.panel.config, self.section, self.key, instance.ID
         )
+
 
 # box.add_widget(MyKeyboardListener(size_hint_y=0))
 

@@ -180,6 +180,4 @@ class CarouselWidget(Carousel):
         assert len(self.slides) == 3
 
 
-
-
 # MyDevoirsApp().run()

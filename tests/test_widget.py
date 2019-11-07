@@ -22,34 +22,33 @@ with db_session:
     db.Item(content="omko", matiere=m, jour=j, done=True)
 
 
-
 class Touche(UnitTestTouch):
     def click(self):
         self.touch_down()
         self.touch_up()
 
+
 def get_touch(item):
     return Touche(
-                item.ids.done.pos[0] + item.ids.done.size[0] / 2,
-                item.ids.done.pos[1] + item.ids.done.size[1] / 2
-            )
+        item.ids.done.pos[0] + item.ids.done.size[0] / 2,
+        item.ids.done.pos[1] + item.ids.done.size[1] / 2,
+    )
+
 
 class ItemWidgetTestCase(GraphicUnitTest):
     def test_render(self):
 
-        for n in [1,2]:
+        for n in [1, 2]:
             with db_session:
                 d = db.Item[n].to_dict()
 
             item = ItemWidget(**d)
             self.render(item)
 
-            assert item.ids.done.active == d['done']
+            assert item.ids.done.active == d["done"]
 
             touch = get_touch(item)
             touch.click()
 
             with db_session:
                 self.assertTrue(db.Item[n].done == (not d["done"]))
-
-

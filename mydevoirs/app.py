@@ -15,7 +15,6 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.actionbar import ActionBar
 
 
-
 class MyDevoirsApp(App):
 
     carousel = ObjectProperty()
