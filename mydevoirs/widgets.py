@@ -16,17 +16,13 @@ from kivy.uix.carousel import Carousel
 import datetime
 import locale
 from mydevoirs.database.database import db
-from mydevoirs.constants import APP_NAME, SEMAINE
-
-from mydevoirs.settings import settings_json
+from mydevoirs.constants import SEMAINE
+from mydevoirs.matiere_dropdown import MatiereDropDown
 from kivy.config import ConfigParser
-from kivy.uix.spinner import Spinner
 
 import itertools
 from pony.orm import db_session
 
-
-from mydevoirs.slide_item import SettingSlider
 
 from functools import partial
 
@@ -130,16 +126,17 @@ class BaseGrid(GridLayout):
             for i in range(0 - self.day.weekday(), 7 - self.day.weekday())
         ]
         return itertools.compress(days, jours)
-        # return days[: self.number_to_show]
+
+    @staticmethod
+    def get_days_to_show():
+        cp = ConfigParser.get_configparser("app")
+        return [cp.getboolean("agenda", j) for j in SEMAINE]
 
     def __init__(self, day=None):
         super().__init__(cols=2)
         self.day = day or datetime.date.today()
-        self.number_to_show = ConfigParser.get_configparser("app").getint(
-            "agenda", "nbjour"
-        )
-        cp = ConfigParser.get_configparser("app")
-        jours = [cp.getboolean("agenda", j) for j in SEMAINE]
+
+        jours = self.get_days_to_show()
         for d in self.get_week_days(jours):
             self.add_widget(JourWidget(d))
 

@@ -156,14 +156,20 @@ class JourWidgetTestCase(MyDevoirsTestCase):
 
 
 class TestBaseGrid(MyDevoirsTestCase):
-    def test_nb_days(self):
-        config = MagicMock()
-        config.getint.return_value = 3
-        with patch(
-            "mydevoirs.widgets.ConfigParser.get_configparser", return_value=config
-        ):
-            b = BaseGrid()
-            assert len(b.children) == 3
-
     def test_get_week_days(self):
-        
+        with patch.object(
+            BaseGrid,
+            "get_days_to_show",
+            return_value=[False, True, False, True, False, True, False],
+        ):
+            b = BaseGrid(day=datetime.date(2019, 11, 12))
+            for d, z in zip(
+                b.children,
+                [
+                    datetime.date(2019, 11, 16),
+                    datetime.date(2019, 11, 14),
+                    datetime.date(2019, 11, 12),
+                ],
+            ):
+
+                assert d.date == z
