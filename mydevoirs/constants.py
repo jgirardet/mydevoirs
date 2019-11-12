@@ -7,3 +7,6 @@ MATIERES = {
 }
 
 APP_NAME = "MyDevoirs"
+
+
+SEMAINE = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"]

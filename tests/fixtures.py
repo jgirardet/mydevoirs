@@ -47,3 +47,5 @@ class MyDevoirsTestCase(GraphicUnitTest):
             for entity in db.entities.values():
                     if  entity.__name__ != "Matiere":
                         delete(e for e in entity)
+
+

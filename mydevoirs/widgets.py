@@ -16,13 +16,13 @@ from kivy.uix.carousel import Carousel
 import datetime
 import locale
 from mydevoirs.database.database import db
-from mydevoirs.constants import APP_NAME
+from mydevoirs.constants import APP_NAME, SEMAINE
 
 from mydevoirs.settings import settings_json
 from kivy.config import ConfigParser
 from kivy.uix.spinner import Spinner
 
-
+import itertools
 from pony.orm import db_session
 
 
@@ -39,7 +39,6 @@ class ItemWidget(BoxLayout):
     matiere_nom = StringProperty()
     matiere_color = ListProperty()
 
-
     def __init__(self, **entry):
         self.loaded_flag = False
         self.job = None
@@ -47,7 +46,6 @@ class ItemWidget(BoxLayout):
         self.entry = entry.pop("id")
         entry.pop("jour")
         super().__init__(**entry)
-
 
     def on_kv_post(self, *args):
         self.loaded_flag = True
@@ -70,6 +68,7 @@ class ItemWidget(BoxLayout):
             self.job = Clock.schedule_once(partial(self._set_content, text), 0.5)
 
     def _set_content(self, content, *args):
+        print("content :", content, "|")
         with db_session:
             db.Item[self.entry].content = content
 
@@ -123,14 +122,15 @@ class JourWidget(BoxLayout):
 class BaseGrid(GridLayout):
 
     number_to_show = NumericProperty()
-    week_days = None
+    # week_days = None
 
-    def get_week_days(self):
+    def get_week_days(self, jours):
         days = [
             self.day + datetime.timedelta(days=i)
             for i in range(0 - self.day.weekday(), 7 - self.day.weekday())
         ]
-        return days[: self.number_to_show]
+        return itertools.compress(days, jours)
+        # return days[: self.number_to_show]
 
     def __init__(self, day=None):
         super().__init__(cols=2)
@@ -138,7 +138,9 @@ class BaseGrid(GridLayout):
         self.number_to_show = ConfigParser.get_configparser("app").getint(
             "agenda", "nbjour"
         )
-        for d in self.get_week_days():
+        cp = ConfigParser.get_configparser("app")
+        jours = [cp.getboolean("agenda", j) for j in SEMAINE]
+        for d in self.get_week_days(jours):
             self.add_widget(JourWidget(d))
 
 

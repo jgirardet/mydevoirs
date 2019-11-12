@@ -1,13 +1,14 @@
 from mydevoirs import __version__
-from mydevoirs.widgets import ItemWidget, Clock, JourItems, JourWidget
+from mydevoirs.widgets import ItemWidget, Clock, JourItems, JourWidget, BaseGrid
 
 
 from pony.orm import db_session, delete
 from mydevoirs.database.database import db, db_init
 from mydevoirs.constants import MATIERES
 import datetime
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
 import pytest
+from kivy.config import ConfigParser
 
 from .fixtures import *
 
@@ -84,10 +85,11 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
 
     def test_on_content(self):
         item = ItemWidget(**self.FIRST.to_dict())
-        assert item.loaded_flag == True
-        assert item.job == None
+        assert item.loaded_flag
+        assert item.job is None
         item.ids.textinput.text = "mok"
         item.job.callback()
+        item.job.cancel()  #
         with db_session:
             assert db.Item[self.FIRST.id].content == item.ids.textinput.text
         assert item.ids.textinput.text == item.content
@@ -126,7 +128,6 @@ class JourItemsTestCase(MyDevoirsTestCase):
 
 
 class JourWidgetTestCase(MyDevoirsTestCase):
-
     def setUp(self):
 
         super().setUp()
@@ -135,19 +136,34 @@ class JourWidgetTestCase(MyDevoirsTestCase):
         self.b = item_today()
         self.c = item_today()
 
-        self.jouritems = JourItems(self.a.jour.date)
-
-        self.render(self.jouritems)
-
     def test_nice_date(self):
         jour = JourWidget(datetime.date(2019, 11, 12))
         assert jour.ids.titre_jour.text == "mardi 12 novembre 2019"
 
-    # def test_add(self):
-    #     jour = JourWidget(self.a.jour.date)
-    #     add_button = jour.ids.add_button
-    #     assert len(self.jouritems.children) == 3
-    #     touch = get_touch(add_button)
-    #     touch.click()
-    #     # self.render(jour)
-    #     assert len(jour.ids.scroll_items.ids.jour_items.children) == 4
+    def test_add(self):
+        jour = JourWidget(self.a.jour.date)
+        self.render(jour)
+        assert len(jour.jouritem.children) == 3
+
+        get_touch(jour.ids.add_button).click()
+        self.render(jour)
+
+        assert len(jour.jouritem.children) == 4
+        assert jour.jouritem.children[0].ids.spinner.is_open
+
+        with db_session:
+            assert db.Item[jour.jouritem.children[0].entry]
+
+
+class TestBaseGrid(MyDevoirsTestCase):
+    def test_nb_days(self):
+        config = MagicMock()
+        config.getint.return_value = 3
+        with patch(
+            "mydevoirs.widgets.ConfigParser.get_configparser", return_value=config
+        ):
+            b = BaseGrid()
+            assert len(b.children) == 3
+
+    def test_get_week_days(self):
+        

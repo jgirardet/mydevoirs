@@ -19,6 +19,10 @@ from kivy.modules import inspector
 
 from mydevoirs.database.database import db_init
 
+from mydevoirs.settings import settings_json
+from mydevoirs.slide_item import SettingSlider
+
+
 class MyDevoirsApp(App):
 
     carousel = ObjectProperty()
@@ -46,7 +50,19 @@ class MyDevoirsApp(App):
         self.box.add_widget(self.carousel)
 
     def build_config(self, config):
-        config.setdefaults("agenda", {"nbjour": 5})
+        config.setdefaults(
+            "agenda",
+            {
+                "nbjour": 5,
+                "lundi": True,
+                "mardi": True,
+                "mercredi": False,
+                "jeudi": True,
+                "vendredi": True,
+                "samedi": False,
+                "dimanche": False
+            },
+        )
 
     def build_settings(self, settings):
         settings.register_type("slider", SettingSlider)
