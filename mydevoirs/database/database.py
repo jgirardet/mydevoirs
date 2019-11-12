@@ -79,13 +79,15 @@ else:
     # if not light_db.is_file():
 db.generate_mapping(create_tables=True)
 
-with db_session():
-    for k, v in MATIERES.items():
-        try:
-            Matiere(nom=k, color=v)
-            db.commit()
-        except TransactionIntegrityError:
-            pass
+def db_init():
+    with db_session():
+        for k, v in MATIERES.items():
+            try:
+                Matiere(nom=k, color=v)
+                db.commit()
+            except TransactionIntegrityError:
+                pass
+
 
 # with db_session():
 

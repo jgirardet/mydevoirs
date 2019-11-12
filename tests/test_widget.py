@@ -1,42 +1,71 @@
 from mydevoirs import __version__
-from kivy.tests.common import GraphicUnitTest, UnitTestTouch
-from mydevoirs.widgets import ItemWidget
-from kivy.lang import Builder
-import os
+from mydevoirs.widgets import ItemWidget, Clock, JourItems, JourWidget
 
-os.environ["MYDEVOIRS_BASE_DIR"] = os.getcwd()
-Builder.load_file("mydevoirs/mydevoirs.kv")
-from pony.orm import db_session
-from mydevoirs.database.database import db
+
+from pony.orm import db_session, delete
+from mydevoirs.database.database import db, db_init
+from mydevoirs.constants import MATIERES
 import datetime
+from unittest.mock import patch
+import pytest
+
+from .fixtures import *
 
 
-def test_version():
-    assert __version__ == "0.1.0"
+db_init()
 
 
-with db_session:
-    m = db.Matiere["Français"]
-    j = db.Jour(date=datetime.date.today())
-    db.Item(content="omko", matiere=m, jour=j)
-    db.Item(content="omko", matiere=m, jour=j, done=True)
+test_setup()
 
 
-class Touche(UnitTestTouch):
-    def click(self):
-        self.touch_down()
-        self.touch_up()
+class ItemWidgetTestCase(MyDevoirsTestCase):
+    def setUp(self):
+        super().setUp()
 
+        with db_session:
+            self.JOUR = db.Jour(date=datetime.date.today())
+            self.MAT = db.Matiere["Français"]
+            self.FIRST = db.Item(content="un", matiere=self.MAT, jour=self.JOUR)
+            self.SECOND = db.Item(
+                content="deux", matiere=self.MAT, jour=self.JOUR, done=True
+            )
 
-def get_touch(item):
-    return Touche(
-        item.ids.done.pos[0] + item.ids.done.size[0] / 2,
-        item.ids.done.pos[1] + item.ids.done.size[1] / 2,
-    )
+    def test_kv_post(self):
+        """ No update on init """
+        # setup
+        with db_session:
+            dico = db.Item(content="bla", jour=self.JOUR.date).to_dict()
+        item = ItemWidget(**dico)
 
+        # test on_content
+        self.assertIsNone(item.job)
 
-class ItemWidgetTestCase(GraphicUnitTest):
-    def test_render(self):
+        # test on_done
+        with db_session:
+            assert db.Item[dico["id"]].done == dico["done"]
+
+        # test_update_matiere
+        with patch.object(ItemWidget, "update_matiere"):
+            item = ItemWidget(**dico)
+            item.update_matiere.assert_not_called()
+
+    def test_update_matiere(self):
+        item = ItemWidget(**self.FIRST.to_dict())
+        self.render(item)
+        spin = item.ids.spinner
+        spin.is_open = True
+        spin._dropdown.select("Poésie")
+
+        with db_session:
+            it = db.Item[self.FIRST.id]
+            assert self.FIRST.matiere.nom == "Français"
+            assert it.matiere.nom == "Poésie"
+
+        assert item.matiere_nom == "Poésie"
+        assert item.ids.textinput.focus == True
+        assert item.ids.textinput.cursor_col == len(item.ids.textinput.text)
+
+    def test_done(self):
 
         for n in [1, 2]:
             with db_session:
@@ -47,8 +76,78 @@ class ItemWidgetTestCase(GraphicUnitTest):
 
             assert item.ids.done.active == d["done"]
 
-            touch = get_touch(item)
+            touch = get_touch(item.ids.done)
             touch.click()
 
             with db_session:
                 self.assertTrue(db.Item[n].done == (not d["done"]))
+
+    def test_on_content(self):
+        item = ItemWidget(**self.FIRST.to_dict())
+        assert item.loaded_flag == True
+        assert item.job == None
+        item.ids.textinput.text = "mok"
+        item.job.callback()
+        with db_session:
+            assert db.Item[self.FIRST.id].content == item.ids.textinput.text
+        assert item.ids.textinput.text == item.content
+
+
+class JourItemsTestCase(MyDevoirsTestCase):
+    def setUp(self):
+
+        super().setUp()
+
+        self.a = item_today()
+        self.b = item_today()
+        self.c = item_today()
+
+        self.jouritems = JourItems(self.a.jour.date)
+
+        self.render(self.jouritems)
+
+    def test_load(self):
+
+        assert len(self.jouritems.children) == 3
+        assert self.jouritems.children[0].entry == self.c.id
+
+    def test_remove(self):
+
+        remove_item = self.jouritems.children[0].ids.remove_item
+        touch = get_touch(remove_item)
+        touch.click()
+        assert len(self.jouritems.children) == 2
+
+        assert self.jouritems.children[1].entry == self.a.id
+        assert self.jouritems.children[0].entry == self.b.id
+
+        with db_session:
+            assert self.c.id not in db.Item.select()
+
+
+class JourWidgetTestCase(MyDevoirsTestCase):
+
+    def setUp(self):
+
+        super().setUp()
+
+        self.a = item_today()
+        self.b = item_today()
+        self.c = item_today()
+
+        self.jouritems = JourItems(self.a.jour.date)
+
+        self.render(self.jouritems)
+
+    def test_nice_date(self):
+        jour = JourWidget(datetime.date(2019, 11, 12))
+        assert jour.ids.titre_jour.text == "mardi 12 novembre 2019"
+
+    # def test_add(self):
+    #     jour = JourWidget(self.a.jour.date)
+    #     add_button = jour.ids.add_button
+    #     assert len(self.jouritems.children) == 3
+    #     touch = get_touch(add_button)
+    #     touch.click()
+    #     # self.render(jour)
+    #     assert len(jour.ids.scroll_items.ids.jour_items.children) == 4

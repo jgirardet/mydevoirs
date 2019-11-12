@@ -14,12 +14,17 @@ from mydevoirs.utils import get_dir
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.actionbar import ActionBar
 
+from kivy.core.window import Window
+from kivy.modules import inspector
+
+from mydevoirs.database.database import db_init
 
 class MyDevoirsApp(App):
 
     carousel = ObjectProperty()
 
     def __init__(self):
+        db_init()
         super().__init__()
 
         assert self.get_application_name() == APP_NAME
@@ -29,6 +34,8 @@ class MyDevoirsApp(App):
         self.box = BoxLayout(orientation="vertical")
         self.box.add_widget(ActionBar())
         self.box.add_widget(self.carousel)
+        inspector.create_inspector(Window, self.carousel)
+
         return self.box
 
     def go_date(self, date=None):

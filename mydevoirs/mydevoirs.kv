@@ -49,7 +49,6 @@
 	BoxLayout:
 		orientation: 'horizontal'
 		size_hint_y: None
-		text: root.nice_date
 		height: dp(20)
 		canvas.before:
 			Color:
@@ -58,8 +57,10 @@
 				pos: self.pos
 	            size: self.size
 	    Label:
+	    	id: titre_jour
 	    	text: root.nice_date
 	    Button:
+	    	id: add_button
 	    	size_hint_x: 0.2
 
 	    	text: '+'
@@ -70,6 +71,7 @@
 
 
 <JourItems>:
+	id: jours_items
 	size_hint_y: None
 	spacing: dp(5)
 	padding: dp(5)
@@ -120,6 +122,7 @@
 		on_active: root.done = self.active
 
 	Button:
+		id: remove_item 
     	size_hint_x: 0.1
 		text: "x"
 		on_release: root.remove()

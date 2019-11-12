@@ -39,6 +39,7 @@ class ItemWidget(BoxLayout):
     matiere_nom = StringProperty()
     matiere_color = ListProperty()
 
+
     def __init__(self, **entry):
         self.loaded_flag = False
         self.job = None
@@ -46,6 +47,7 @@ class ItemWidget(BoxLayout):
         self.entry = entry.pop("id")
         entry.pop("jour")
         super().__init__(**entry)
+
 
     def on_kv_post(self, *args):
         self.loaded_flag = True
@@ -56,6 +58,7 @@ class ItemWidget(BoxLayout):
                 a = db.Item[self.entry]
                 a.matiere = text
                 self.matiere_color = a.matiere.color
+                self.matiere_nom = text
             content = self.ids.textinput
             content.focus = True
             content.do_cursor_movement("cursor_end")
@@ -71,7 +74,6 @@ class ItemWidget(BoxLayout):
             db.Item[self.entry].content = content
 
     def on_done(self, *args):
-        print("on dones")
         if self.loaded_flag:
             with db_session:
                 db.Item[self.entry].toggle()
