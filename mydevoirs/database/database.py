@@ -37,7 +37,7 @@ class Matiere(db.Entity):
 
 class Item(db.Entity):
     id = PrimaryKey(int, auto=True)
-    matiere = Required(Matiere, default="Français")
+    matiere = Required(Matiere, default="Grammaire")
     jour = Required(Jour)
     content = Optional(str)
     done = Required(bool, default=False)
@@ -79,6 +79,7 @@ else:
     # if not light_db.is_file():
 db.generate_mapping(create_tables=True)
 
+
 def db_init():
     with db_session():
         for k, v in MATIERES.items():
@@ -88,12 +89,3 @@ def db_init():
             except TransactionIntegrityError:
                 pass
 
-
-# with db_session():
-
-#     a= Jour.get(date=datetime.date(2019,11,1)) or Jour(date=datetime.date(2019,11,1))
-
-#     m = Matiere[MATIERES[0]]
-#     n = Matiere[MATIERES[2]]
-#     Item(matiere=m, jour=a, content="blablabal lablab")
-#     Item(matiere=m, jour=a, content="bLe deuxième")

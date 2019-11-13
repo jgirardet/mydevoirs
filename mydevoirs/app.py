@@ -60,7 +60,7 @@ class MyDevoirsApp(App):
                 "jeudi": True,
                 "vendredi": True,
                 "samedi": False,
-                "dimanche": False
+                "dimanche": False,
             },
         )
 

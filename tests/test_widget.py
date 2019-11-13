@@ -25,7 +25,7 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
 
         with db_session:
             self.JOUR = db.Jour(date=datetime.date.today())
-            self.MAT = db.Matiere["Français"]
+            self.MAT = db.Matiere["Grammaire"]
             self.FIRST = db.Item(content="un", matiere=self.MAT, jour=self.JOUR)
             self.SECOND = db.Item(
                 content="deux", matiere=self.MAT, jour=self.JOUR, done=True
@@ -59,7 +59,7 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
 
         with db_session:
             it = db.Item[self.FIRST.id]
-            assert self.FIRST.matiere.nom == "Français"
+            assert self.FIRST.matiere.nom == "Grammaire"
             assert it.matiere.nom == "Poésie"
 
         assert item.matiere_nom == "Poésie"

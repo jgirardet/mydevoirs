@@ -5,7 +5,6 @@ from kivy.uix.bubble import Bubble
 from kivy.animation import Animation
 from kivy.uix.floatlayout import FloatLayout
 from kivy.lang import Builder
-from kivy.uix.button import Button
 
 Builder.load_string(
     """
@@ -26,25 +25,22 @@ Builder.load_string(
         x: self.parent.x + (self.parent.width - self.width)
 
 <Test>
-    ToggleButton:
-        id: base_button
+    Button:
         text: 'press to launch menu'
-        size: 120, 60
-        # size_hint: .2, .2
-        size_hint: None, None
-       
+        size_hint: .2, .2
+        on_release:  root.add_menu(args[0])
 
 <Cmenu>
     size_hint: None, None
     size: 120, 250
-    # pos: (5, 50)
-    # padding: 5
+    pos: (5, 50)
+    padding: 5
     background_color: .2, .9, 1, .7
     #wanna have some fun? set this to 'data/images/image-loading.gif'
     background_image: 'atlas://data/images/defaulttheme/button_pressed'
     orientation: 'vertical'
     BoxLayout:
-        # padding: 5
+        padding: 5
         ScrollView:
             bar_color: (0,0,0,0)
             BoxLayout:
@@ -165,15 +161,11 @@ class Test(FloatLayout):
             self.remove_widget(self.context_menu)
 
     def add_menu(self, obj, *l):
-        self.remove_widget(self.ids.base_button)
         if not hasattr(self, "context_menu"):
             self.context_menu = Cmenu()
-        # self.remove_widget(self.context_menu)
+        self.remove_widget(self.context_menu)
         self.add_widget(self.context_menu)
-        self.context_menu.pos =  self.ids.base_button.pos#obj.pos[0] + obj.width, obj.pos[1]
-
-    def on_release(self, *args):
-        on_release:  self.add_menu(args[0])
+        self.context_menu.pos = obj.pos[0] + obj.width, obj.pos[1]
 
 
 class MyApp(App):
