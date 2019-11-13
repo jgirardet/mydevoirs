@@ -1,16 +1,8 @@
-import pony.orm.dbproviders.sqlite
+import pony.orm.dbproviders.sqlite  # noqa: W291
+import os
 
 
-from pony.orm import (
-    Required,
-    PrimaryKey,
-    Set,
-    Optional,
-    Database,
-    db_session,
-    min,
-    TransactionIntegrityError,
-)
+from pony.orm import Required, PrimaryKey, Set, Optional, db_session, min
 from pony.orm.ormtypes import IntArray
 import datetime
 from mydevoirs.constants import MATIERES
@@ -29,7 +21,6 @@ class Jour(db.Entity, GetOrCreateMixin):
 
 
 class Matiere(db.Entity):
-    # id = PrimaryKey(int, auto=True)
     nom = PrimaryKey(str)
     color = Required(IntArray)
     items = Set("Item")
@@ -66,7 +57,6 @@ def sqlite_synchonous_off(db, connection):
 ############## DATABASE SETUP #####################################
 ###################################################################
 
-import os
 
 if os.environ.get("MYDEVOIRS_TESTING", False):
     db.bind(provider="sqlite", filename=":memory:")
@@ -74,18 +64,16 @@ else:
 
     light_db = get_dir("cache") / "ddb.sqlite"
     hard_db = get_dir("cache") / "ddb_hard.sqlite"
-    # db.bind(provider="sqlite", filename=str(light_db.absolute()), create_db=True)
     db.bind(provider="sqlite", filename=str(hard_db.absolute()), create_db=True)
-    # if not light_db.is_file():
 db.generate_mapping(create_tables=True)
 
 
 def db_init():
     with db_session():
         for k, v in MATIERES.items():
-            try:
-                Matiere(nom=k, color=v)
-                db.commit()
-            except TransactionIntegrityError:
-                pass
+            if db.Matiere.exists(nom=k):
+                if db.Matiere[k].color != v:
+                    db.Matiere[k].color = v
 
+            else:
+                db.Matiere(nom=k, color=v)

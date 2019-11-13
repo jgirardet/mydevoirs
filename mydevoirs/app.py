@@ -1,13 +1,6 @@
 from mydevoirs.widgets import CarouselWidget
 from kivy.app import App
-from kivy.properties import (
-    StringProperty,
-    ObjectProperty,
-    ListProperty,
-    NumericProperty,
-    BooleanProperty,
-    DictProperty,
-)
+from kivy.properties import ObjectProperty
 from mydevoirs.constants import APP_NAME
 from pathlib import Path
 from mydevoirs.utils import get_dir
@@ -53,7 +46,6 @@ class MyDevoirsApp(App):
         config.setdefaults(
             "agenda",
             {
-                "nbjour": 5,
                 "lundi": True,
                 "mardi": True,
                 "mercredi": False,
@@ -65,11 +57,9 @@ class MyDevoirsApp(App):
         )
 
     def build_settings(self, settings):
-        settings.register_type("slider", SettingSlider)
         settings.add_json_panel("agenda", self.config, data=settings_json)
 
     def on_config_change(self, config, *args):
-        print(args)
         self.go_date()
 
     def get_application_config(self):

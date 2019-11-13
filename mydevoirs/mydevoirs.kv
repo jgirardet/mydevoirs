@@ -1,6 +1,8 @@
 #: import MATIERES mydevoirs.constants.MATIERES
 #: import datas  mydevoirs.datas.datas
-#: import MenuMatiere mydevoirs.matiere_dropdown.MenuMatiere
+#: import MatiereOption mydevoirs.matiere_dropdown.MatiereOption
+#: import MatiereDropdown mydevoirs.matiere_dropdown.MatiereDropdown
+#: import get_matiere_color mydevoirs.utils.get_matiere_color
 
 
 <ActionBar>:
@@ -96,19 +98,16 @@
         Rectangle:
         	pos: self.pos
         	size: self.size
-	# Spinner:
-	# 	id: spinner
-	# 	text: root.matiere_nom
-	# 	font_size: sp(12)
-	# 	values: MATIERES
-	# 	on_text:
-	# 		root.update_matiere(self.text)
-	# 	size_hint_x: 0.3
 
+	Button:
+		id: spinner
+		text: root.matiere_nom
+		on_release:
+			MatiereDropdown().open(self)
+		background_color: get_matiere_color(self.text)
+		size_hint_x: 0.4
+		font_size: sp(12)
 
-	MenuMatiere:
-		id: menumatiere
-		size_hint: (0.3, 1)
 
 	TextInput:
 		id : textinput
@@ -132,3 +131,19 @@
 		text: "x"
 		on_release: root.remove()
 
+<EffacerPopup>:
+	title: f"Effacer  {root.item.matiere_nom}: {root.item.content} ?"
+    size_hint: .5, .2
+    BoxLayout:
+    	orientation: 'horizontal'
+        Button:
+        	id: oui
+        	text: "oui"
+	        on_press:
+	        	root.item.remove_after_confirmation()
+	        	root.dismiss()
+	    Button:
+	    	id: non
+	    	text: "non"
+	    	on_press:
+	    		root.dismiss()

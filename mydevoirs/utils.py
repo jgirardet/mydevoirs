@@ -1,6 +1,6 @@
 import appdirs
 from pathlib import Path
-from mydevoirs.constants import APP_NAME
+from mydevoirs.constants import APP_NAME, MATIERES
 import os
 
 
@@ -11,3 +11,10 @@ def get_dir(key):
     if not dire.is_dir():
         dire.mkdir(parents=True)
     return dire
+
+def get_matiere_color(nom):
+    try:
+        
+        return MATIERES[nom]
+    except KeyError:
+        return (0,0,0)

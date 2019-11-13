@@ -52,13 +52,13 @@ settings_json = json.dumps(
             "section": "agenda",
             "key": "dimanche",
         },
-        {
-            "type": "numeric",
-            "title": "Nombre de jour à afficher",
-            "desc": "Nombre de jour à afficher",
-            "section": "agenda",
-            "key": "nbjour",
-        },
+        # {
+        #     "type": "numeric",
+        #     "title": "Nombre de jour à afficher",
+        #     "desc": "Nombre de jour à afficher",
+        #     "section": "agenda",
+        #     "key": "nbjour",
+        # },
         # {
         #     "type": "buttons",
         #     "title": "essai bout",
@@ -74,13 +74,13 @@ settings_json = json.dumps(
         #         {"title": "Rename", "id": "button_rename"},
         #     ],
         # },
-        {
-            "type": "slider",
-            "title": "essai bout",
-            "desc": "la desc",
-            "section": "agenda",
-            "key": "slider1",
-        }
+        # {
+        #     "type": "slider",
+        #     "title": "essai bout",
+        #     "desc": "la desc",
+        #     "section": "agenda",
+        #     "key": "slider1",
+        # }
         # {
         #     "type": "options",
         #     "title": "An options setting",

@@ -17,13 +17,14 @@ import datetime
 import locale
 from mydevoirs.database.database import db
 from mydevoirs.constants import SEMAINE
-# from mydevoirs.matiere_dropdown import MatiereDropDown
+from mydevoirs.matiere_dropdown import MatiereDropdown
 from kivy.config import ConfigParser
 
 import itertools
 from pony.orm import db_session
-
-
+from kivy.uix.popup import Popup
+from kivy.uix.button import Button
+from kivy.uix.label import Label
 from functools import partial
 
 locale.setlocale(locale.LC_ALL, "fr_FR.utf8")
@@ -47,7 +48,7 @@ class ItemWidget(BoxLayout):
         self.loaded_flag = True
 
     def update_matiere(self, text):
-        if self.ids.spinner.is_open and text != self.matiere_nom:
+        if text != self.matiere_nom:
             with db_session:
                 a = db.Item[self.entry]
                 a.matiere = text
@@ -64,7 +65,6 @@ class ItemWidget(BoxLayout):
             self.job = Clock.schedule_once(partial(self._set_content, text), 0.5)
 
     def _set_content(self, content, *args):
-        print("content :", content, "|")
         with db_session:
             db.Item[self.entry].content = content
 
@@ -74,9 +74,13 @@ class ItemWidget(BoxLayout):
                 db.Item[self.entry].toggle()
 
     def remove(self):
-        self.parent.remove_widget(self)
+        EffacerPopup(item=self).open()
+        
+    def remove_after_confirmation(self):
+        print("remove")
         with db_session:
             db.Item[self.entry].delete()
+        self.parent.remove_widget(self)
 
 
 class JourItems(GridLayout):
@@ -112,13 +116,12 @@ class JourWidget(BoxLayout):
             item = db.Item(jour=jour)
             item_widget = ItemWidget(**item.to_dict())
         self.jouritem.add_widget(item_widget)
-        item_widget.ids.spinner.is_open = True
+        MatiereDropdown().open(item_widget.ids.spinner)
 
 
 class BaseGrid(GridLayout):
 
     number_to_show = NumericProperty()
-    # week_days = None
 
     def get_week_days(self, jours):
         days = [
@@ -181,4 +184,6 @@ class CarouselWidget(Carousel):
         assert len(self.slides) == 3
 
 
-# MyDevoirsApp().run()
+class EffacerPopup(Popup):
+    item = ObjectProperty()
+
