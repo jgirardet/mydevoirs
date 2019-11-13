@@ -17,7 +17,7 @@ import datetime
 import locale
 from mydevoirs.database.database import db
 from mydevoirs.constants import SEMAINE
-from mydevoirs.matiere_dropdown import MatiereDropDown
+# from mydevoirs.matiere_dropdown import MatiereDropDown
 from kivy.config import ConfigParser
 
 import itertools

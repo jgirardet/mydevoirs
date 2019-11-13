@@ -1,185 +1,92 @@
 #!python
 #!/usr/bin/env python
 from kivy.app import App
-from kivy.uix.bubble import Bubble
+from kivy.uix.bubble import Bubble, BubbleButton
 from kivy.animation import Animation
 from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.boxlayout import BoxLayout
 from kivy.lang import Builder
 from kivy.uix.button import Button
+from kivy.properties import BooleanProperty
+from kivy.uix.widget import Widget
+
+from mydevoirs.constants import MATIERES_TREE
 
 Builder.load_string(
     """
-#template for menu items
-[ListButton@ToggleButton]
-    background_down: 'atlas://data/images/defaulttheme/bubble_btn'
-    background_normal: 'atlas://data/images/defaulttheme/bubble_btn_pressed'
-    group: 'context_menue_root'
-    on_release: ctx.on_release(self) if hasattr(ctx, 'on_release') else None
-    size_hint: ctx.size_hint if hasattr(ctx, 'size_hint') else (1, 1)
-    width: ctx.width if hasattr(ctx, 'width') else 1
-    text: ctx.text if hasattr(ctx, 'text') else ''
-    Image:
-        source: ctx.btn_img if ctx.text == 'hows' \
-            else 'atlas://data/images/defaulttheme/bubble_btn'
-        size: (20, 20)
-        y: self.parent.y + (self.parent.height/2) - (self.height/2)
-        x: self.parent.x + (self.parent.width - self.width)
+<FirstMenu>:
+    orientation: "vertical"
 
-<Test>
-    ToggleButton:
-        id: base_button
-        text: 'press to launch menu'
-        size: 120, 60
-        # size_hint: .2, .2
-        size_hint: None, None
-       
 
-<Cmenu>
-    size_hint: None, None
-    size: 120, 250
-    # pos: (5, 50)
-    # padding: 5
-    background_color: .2, .9, 1, .7
-    #wanna have some fun? set this to 'data/images/image-loading.gif'
-    background_image: 'atlas://data/images/defaulttheme/button_pressed'
-    orientation: 'vertical'
-    BoxLayout:
-        # padding: 5
-        ScrollView:
-            bar_color: (0,0,0,0)
-            BoxLayout:
-                size_hint: None, 1
-                width: root.width * 5 - 40
-                #root menu add/edit items here to show them in root menu
-                BoxLayout:
-                    orientation: 'vertical'
-                    id: premier
-                    ListButton:
-                        text: 'Hello'
-                        on_release: root.menu_selected
-                    ListButton:
-                        text: 'deux'
-                        on_release: root.menu_selected
-                    ListButton:
-                        text: 'hows'
-                        #'>'image
-                        btn_img: 'atlas://data/images/defaulttheme/tree_closed'
-                        on_release: root.menu_selected
-             
-                # end root menu
-                #sub-menu
-                BoxLayout:
-                    id: deuxième
-                    ListButton:
-                        # go back(root menu) button
-                        text: '<'
-                        size_hint: (.15, 1)
-                        on_release: root.menu_selected
-                    BoxLayout:
-                        orientation: 'vertical'
-                        ListButton:
-                            text: 'The'
-                            on_release: root.menu_selected
-                #end sub-menu
-                #sub-menu
-                BoxLayout:
-                    id: deuxième
-                    ListButton:
-                        # go back(root menu) button
-                        text: '<'
-                        size_hint: (.15, 1)
-                        on_release: root.menu_selected
-                    BoxLayout:
-                        orientation: 'vertical'
-                        ListButton:
-                            text: 'The deuxième'
-                            on_release: root.menu_selected
-                #end sub-menu
-                BoxLayout:
-                    id: deuxième
-                    ListButton:
-                        # go back(root menu) button
-                        text: '<'
-                        size_hint: (.15, 1)
-                        on_release: root.menu_selected
-                    BoxLayout:
-                        orientation: 'vertical'
-                        ListButton:
-                            text: 'The deuxième'
-                            on_release: root.menu_selected
-                #end sub-menu
-                BoxLayout:
-                    id: deuxième
-                    ListButton:
-                        # go back(root menu) button
-                        text: '<'
-                        size_hint: (.15, 1)
-                        on_release: root.menu_selected
-                    BoxLayout:
-                        orientation: 'vertical'
-                        ListButton:
-                            text: 'The deuxième'
-                            on_release: root.menu_selected
-                #end sub-menu
+<ChoixOption>:
+    size_hint_y: None
+    height: dp(20)
 """
 )
 
 
-class Cmenu(Bubble):
-    def menu_selected(self, *l):
-        print(l[0].parent.parent.parent)
-        if l[0].text == "hows":
-            # move to sub menu
-            Animation(scroll_x=0.25, d=0.1).start(l[0].parent.parent.parent)
-            # l[0].parent.parent.parent change this and everything relative to something non-relative if you want-to make the menu more extensible
-        elif l[0].text == "deux":
-            # move back to root menu
-            Animation(scroll_x=1, d=0.1).start(l[0].parent.parent.parent)
-        elif l[0].text == "<":
-            # move back to root menu
-            Animation(scroll_x=0, d=0.1).start(l[0].parent.parent.parent)
-        else:
-            # fade out animation
-            (r, g, b, a) = self.parent.context_menu.background_color
+class ChoixOption(BubbleButton):
+    has_sub = BooleanProperty(False)
 
-            def on_anim_complete(*l):
-                self.parent.context_menu.background_color = (r, g, b, a)
-                self.parent.remove_widget(self.parent.context_menu)
-
-            anim = Animation(background_color=(0, 0, 0, 0), d=0.1)
-            anim.start(self.parent.context_menu)
-            anim.bind(on_complete=on_anim_complete)
-            print(l[0].text + " selected")
-
-
-class Test(FloatLayout):
     def __init__(self, **kwargs):
-        super(Test, self).__init__(**kwargs)
-
-    def on_touch_down(self, *l):
-        # allow kids to get touch
-        if super(Test, self).on_touch_down(*l):
-            return True
-        # remove menu when touched and menu exists
-        if hasattr(self, "context_menu"):
-            self.remove_widget(self.context_menu)
-
-    def add_menu(self, obj, *l):
-        self.remove_widget(self.ids.base_button)
-        if not hasattr(self, "context_menu"):
-            self.context_menu = Cmenu()
-        # self.remove_widget(self.context_menu)
-        self.add_widget(self.context_menu)
-        self.context_menu.pos =  self.ids.base_button.pos#obj.pos[0] + obj.width, obj.pos[1]
+        super().__init__(**kwargs)
+        # self.has_sub=has_subb
 
     def on_release(self, *args):
-        on_release:  self.add_menu(args[0])
+        print("relase", args)
+        self.parent.parent.option_clicked(self.text,self.has_sub)
 
 
-class MyApp(App):
-    def build(self):
-        return Test()
+class BaseBouton(BubbleButton):
+    # size_hint = (0.1, 0.1)
+    # text = "matiere"
+    id = "basebouton"
+
+    def on_release(self, *args):
+        print(*args)
+
+        self.add_widget(FirstMenu(pos=(self.pos[0]/2, self.pos[1])))
+        # self.parent.remove_widget(self)
+
+
+class FirstMenu(Bubble):
+
+    def __init__(self, nom=None, **kwargs):
+        super().__init__(**kwargs)
+        if not nom:
+            for m in MATIERES_TREE.keys():
+                self.add_widget(ChoixOption(text=m))
+
+    def option_clicked(self, text, has_sub):
+        if has_sub:
+            self.parent.do_sub(text)
+        else:
+            self.parent.selected(text)
+
+
+class MenuMatiere(BoxLayout):
+    # pass
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        b = BaseBouton(text="début")
+        self.add_widget(b)
+
+    def selected(self, text):
+        print("update database§matiere")
+        self.clear_widgets()
+        self.add_widget(BaseBouton(text=text))
+
+    def do_sub(self, text):
+        self.clear_widgets()
+        print("do sub")
 
 
 if __name__ == "__main__":
+
+    class MyApp(App):
+        def build(self):
+            a =BoxLayout(height=50, size_hint_y=None, pos=(0, 300))
+            a.add_widget(MenuMatiere())
+            return a
     MyApp().run()

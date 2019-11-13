@@ -1,6 +1,6 @@
 #: import MATIERES mydevoirs.constants.MATIERES
 #: import datas  mydevoirs.datas.datas
-#: import MatiereDropDown mydevoirs.matiere_dropdown.MatiereDropDown
+#: import MenuMatiere mydevoirs.matiere_dropdown.MenuMatiere
 
 
 <ActionBar>:
@@ -96,15 +96,19 @@
         Rectangle:
         	pos: self.pos
         	size: self.size
-	Spinner:
-		id: spinner
-		text: root.matiere_nom
-		font_size: sp(12)
-		values: MATIERES
-		on_text:
-			root.update_matiere(self.text)
-		size_hint_x: 0.3
+	# Spinner:
+	# 	id: spinner
+	# 	text: root.matiere_nom
+	# 	font_size: sp(12)
+	# 	values: MATIERES
+	# 	on_text:
+	# 		root.update_matiere(self.text)
+	# 	size_hint_x: 0.3
 
+
+	MenuMatiere:
+		id: menumatiere
+		size_hint: (0.3, 1)
 
 	TextInput:
 		id : textinput
