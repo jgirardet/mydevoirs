@@ -41,6 +41,12 @@ class Item(db.Entity):
     def toggle(self):
         self.done = not self.done
 
+    @classmethod
+    def todo_list(self):
+        return Item.select(
+            lambda x: x.jour.date >= datetime.date.today() and not x.done
+        ).order_by(lambda x: x.jour)
+
     def to_dict(self):
         dico = super().to_dict()
         dico.pop("matiere")

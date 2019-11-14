@@ -76,7 +76,3 @@ class MatiereOption(Button):
 
     def on_release(self):
         self.parent.parent.select(self)
-
-
-print(MATIERES)
-print(MATIERES_TREE)

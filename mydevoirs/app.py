@@ -1,4 +1,4 @@
-from mydevoirs.widgets import CarouselWidget
+from mydevoirs.widgets import CarouselWidget, TodoList
 from kivy.app import App
 from kivy.properties import ObjectProperty
 from mydevoirs.constants import APP_NAME
@@ -29,6 +29,16 @@ class Agenda(Screen):
 
         self.add_widget(self.carousel)
 
+class Todo(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.todolist = TodoList()
+        self.add_widget(self.todolist)
+
+    def reload(self):
+        self.remove_widget(self.todolist)
+        self.todolist = TodoList()
+        self.add_widget(self.todolist)
 
 class MyDevoirsApp(App):
 
@@ -43,7 +53,7 @@ class MyDevoirsApp(App):
     def build(self):
         self.sm = ScreenManager(transition=SlideTransition(direction="up"))
         agenda = Agenda(name="agenda")
-        todo = Screen(name="todo")
+        todo = Todo(name="todo")
         self.sm.add_widget(agenda)
         self.sm.add_widget(todo)
         self.sm.current = "agenda"
@@ -52,12 +62,12 @@ class MyDevoirsApp(App):
         self.box.add_widget(ActionBar())
         self.box.add_widget(self.sm)
         inspector.create_inspector(Window, self.sm)
-        print(self.sm.ids)
 
         return self.box
 
     def go_todo(self):
         self.sm.current = "todo"
+        self.sm.current_screen.reload()
 
     def go_agenda(self):
         self.sm.current = "agenda"

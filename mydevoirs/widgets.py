@@ -24,6 +24,7 @@ import itertools
 from pony.orm import db_session
 from kivy.uix.popup import Popup
 from kivy.uix.button import Button
+from kivy.uix.scrollview import ScrollView
 from kivy.uix.label import Label
 from functools import partial
 
@@ -74,7 +75,9 @@ class ItemWidget(BoxLayout):
         if self.loaded_flag:
             with db_session:
                 db.Item[self.entry].toggle()
-            self.jour_widget.update_progression()
+            if self.jour_widget: 
+                self.jour_widget.update_progression()
+            self.parent.parent.parent.parent.reload()
 
     @property
     def jour_widget(self):
@@ -203,3 +206,52 @@ class CarouselWidget(Carousel):
 
 class EffacerPopup(Popup):
     item = ObjectProperty()
+
+from kivy.uix.widget import Widget
+
+
+class DateLabel(Label):
+    pass
+
+class TodoList(BoxLayout):
+
+    progression = StringProperty("0/0")
+    # orientation = "vertical"
+    # size_hint = (None, None   )
+    # id = "scroll_items"
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.box = BoxLayout(orientation="vertical", size_hint_y=None)
+        self.box.bind(minimum_height=self.box.setter("height"))
+        self.load_items()
+        sc = ScrollView(do_scroll_x=False)
+        sc.add_widget(self.box)
+        self.add_widget(sc)
+        # self.add_widget(self.box)
+
+    def load_items(self):
+        with db_session:
+            items = [x.to_dict() for x in  db.Item.todo_list()]
+
+        date_en_cours = items[0]['date']
+        
+        self.add_date_label(date_en_cours)
+        for it in items:
+            if it['date'] != date_en_cours:
+                date_en_cours = it['date']
+                self.add_date_label(it['date'])
+            self.box.add_widget(ItemWidget(**it))
+
+    def add_date_label(self, date):
+        self.box.add_widget(DateLabel(text=date.strftime("%A %d %B %Y")))
+
+
+        # self.jouritem = JourItems(date)
+        # self.jouritem.bind(minimum_height=self.jouritem.setter("height"))
+        # self.ids.scroll_items.add_widget(self.jouritem)
+        # self.update_progression()
+
+    # def update_progression(self):
+    #     with db_session:
+    #         pro = db.Jour.get_or_create(date=self.date).progression
+    #         self.progression = f"{pro[0]}/{pro[1]}"

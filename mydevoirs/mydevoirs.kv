@@ -162,19 +162,19 @@
             pos: self.parent.x, self.parent.y +self.parent.height/2 - self.height/2
             size: self.parent.width*0.9, self.parent.height*0.9
 	    	Image:
-	    		source: datas['icon_checked'] if root.done else datas['icon_remove']
+	    		source: datas['icon_checked'] if root.done else datas['icon_unchecked']
 
 
-	# Button:
-		# id: remove_item 
-  #   	size_hint_x: 0.1
-		# on_release: root.remove()
-		# background_color: (1, 1, 1, 0)
-		# BoxLayout:
-  #           pos: self.parent.x, self.parent.y +self.parent.height/2 - self.height/2
-  #           size: self.parent.width*0.7, self.parent.height*0.7
-	 #    	Image:
-	 #    		source: datas['icon_remove']
+	Button:
+		id: remove_item 
+    	size_hint_x: 0.1
+		on_release: root.remove()
+		background_color: (1, 1, 1, 0)
+		BoxLayout:
+            pos: self.parent.x, self.parent.y +self.parent.height/2 - self.height/2
+            size: self.parent.width*0.7, self.parent.height*0.7
+	    	Image:
+	    		source: datas['icon_remove']
 
 <EffacerPopup>:
 	title: f"Effacer  {root.item.matiere_nom}: {root.item.content} ?"
@@ -194,3 +194,16 @@
 	    		root.dismiss()
 
 <CarouselWidget>:
+
+<DateLabel>:
+	size_hint_y: None
+	height: dp(30)
+	spacing: dp(5)
+	font_name: datas['font_base']
+	font_size: sp(16)
+	canvas.before:
+        Color:
+            rgb: COLORS['card_entete']
+        Rectangle:
+        	pos: self.pos
+        	size: self.size
