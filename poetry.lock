@@ -255,17 +255,6 @@ pytest = ">=2.6.0"
 
 [[package]]
 category = "dev"
-description = "PonyORM in Pytest"
-name = "pytest-ponyorm"
-optional = false
-python-versions = ">=3.5"
-version = "0.3.3"
-
-[package.dependencies]
-pytest = ">=3.1.1"
-
-[[package]]
-category = "dev"
 description = "Alternative regular expression module, to replace re."
 name = "regex"
 optional = false
@@ -321,7 +310,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["pathlib2", "contextlib2", "unittest2"]
 
 [metadata]
-content-hash = "f669645ce1be5c6b62798e0470d188655263a4a4cd20d3b8802695abe0c34c34"
+content-hash = "a1400c1183c8cf84fb14c5106c6cb6ffeedd3d5db70cce8cc1781d473ff525e0"
 python-versions = "^3.7.5"
 
 [metadata.hashes]
@@ -348,7 +337,6 @@ pyinstaller = ["ee7504022d1332a3324250faf2135ea56ac71fdb6309cff8cd235de26b1d0a96
 pyparsing = ["20f995ecd72f2a1f4bf6b072b63b22e2eb457836601e76d6e5dfcd75436acc1f", "4ca62001be367f01bd3e92ecbb79070272a9d4964dce6a48a82ff0b8bc7e683a"]
 pytest = ["27abc3fef618a01bebb1f0d6d303d2816a99aa87a5968ebc32fe971be91eb1e6", "58cee9e09242937e136dbb3dab466116ba20d6b7828c7620f23947f37eb4dae4"]
 pytest-env = ["7e94956aef7f2764f3c147d216ce066bf6c42948bb9e293169b1b1c880a580c2"]
-pytest-ponyorm = ["8c17bf7cdb339d55bbe83d03e173bcf68d619b539bd957d12968834ca7e8b75b", "e387ce9572b64a63c9aa2b74391c24a21ef75e855c1b390fb5e7d862df0b25fb"]
 regex = ["15454b37c5a278f46f7aa2d9339bda450c300617ca2fca6558d05d870245edc7", "1ad40708c255943a227e778b022c6497c129ad614bb7a2a2f916e12e8a359ee7", "5e00f65cc507d13ab4dfa92c1232d004fa202c1d43a32a13940ab8a5afe2fb96", "604dc563a02a74d70ae1f55208ddc9bfb6d9f470f6d1a5054c4bd5ae58744ab1", "720e34a539a76a1fedcebe4397290604cc2bdf6f81eca44adb9fb2ea071c0c69", "7caf47e4a9ac6ef08cabd3442cc4ca3386db141fb3c8b2a7e202d0470028e910", "7faf534c1841c09d8fefa60ccde7b9903c9b528853ecf41628689793290ca143", "b4e0406d822aa4993ac45072a584d57aa4931cf8288b5455bbf30c1d59dbad59", "c31eaf28c6fe75ea329add0022efeed249e37861c19681960f99bbc7db981fb2", "c7393597191fc2043c744db021643549061e12abe0b3ff5c429d806de7b93b66", "d2b302f8cdd82c8f48e9de749d1d17f85ce9a0f082880b9a4859f66b07037dc6", "e3d8dd0ec0ea280cf89026b0898971f5750a7bd92cb62c51af5a52abd020054a", "ec032cbfed59bd5a4b8eab943c310acfaaa81394e14f44454ad5c9eba4f24a74"]
 six = ["1f1b7d42e254082a9db6279deae68afb421ceba6158efa6131de7b3003ee93fd", "30f610279e8b2578cab6db20741130331735c781b56053c59c4076da27f06b66"]
 toml = ["229f81c57791a41d65e399fc06bf0848bab550a9dfd5ed66df18ce5f05e73d5c", "235682dd292d5899d361a811df37e04a8828a5b1da3115886b73cf81ebc9100e", "f1db651f9657708513243e61e6cc67d101a39bad662eaa9b5546f789338e07a3"]
