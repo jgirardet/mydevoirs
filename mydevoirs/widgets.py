@@ -138,6 +138,8 @@ class JourWidget(BoxLayout):
             item_widget = ItemWidget(**item.to_dict())
         self.jouritem.add_widget(item_widget)
         MatiereDropdown().open(item_widget.ids.spinner)
+        # if self.jouritem.height >  self.ids.scroll_items.height:
+        #     self.add_widget(Button(text="ça dépasse "))
 
 
 class BaseGrid(GridLayout):
