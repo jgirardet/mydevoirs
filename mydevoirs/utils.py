@@ -2,6 +2,7 @@ import appdirs
 from pathlib import Path
 from mydevoirs.constants import APP_NAME, MATIERES
 import os
+from kivy.utils import rgba
 
 
 def get_dir(key):
@@ -15,6 +16,9 @@ def get_dir(key):
 def get_matiere_color(nom):
     try:
         
-        return MATIERES[nom]
+        return rgba(MATIERES[nom])
     except KeyError:
         return (0,0,0)
+
+
+gmc = get_matiere_color

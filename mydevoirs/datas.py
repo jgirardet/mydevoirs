@@ -17,6 +17,10 @@ DATAS = {
     "icon_precedant": "chevron-left.png",
     "icon_suivant": "chevron-right.png",
     "icon_today": "calendar.png",
+    "icon_new": "012-add.png",
+    "icon_remove": "017-cancel.png",
+    "font_base": "Verdana.ttf",
+    # "font_base": "OpenDyslexic-Bold.otf",
 }
 
 

@@ -89,15 +89,19 @@ class JourItems(GridLayout):
         self.date = date
 
         with db_session:
+            query = db.Item.select(lambda x: x.jour.date == date)
             widgets = [
                 ItemWidget(**i.to_dict())
-                for i in db.Item.select(lambda x: x.jour.date == date)
+                for i in query
             ]
         for item in widgets:
             self.add_widget(item)
 
 
 class JourWidget(BoxLayout):
+
+    progression = StringProperty("0/0")
+
     def __init__(self, date):
         self.date = date  # need in nice_date
         super().__init__()
@@ -105,6 +109,11 @@ class JourWidget(BoxLayout):
         self.jouritem = JourItems(date)
         self.jouritem.bind(minimum_height=self.jouritem.setter("height"))
         self.ids.scroll_items.add_widget(self.jouritem)
+        with db_session:
+            pro = db.Jour.get_or_create(date=self.date).progression
+            # self.progression =  db.Jour.get_or_create(date=self.date).progression
+            self.progression = f"{pro[0]}/{pro[1]}"
+            print(self.progression[2])
 
     @property
     def nice_date(self):

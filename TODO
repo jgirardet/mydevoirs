@@ -1,4 +1,21 @@
-parametreage couleur
-valeur defaut couleur
-autofocus matiere si new
-plusieurs boutons ?
+test remove avec popup
+graphique
+taille police
+clœavier
+couleur textinput
+miximisé d'emblée
+montrer à faire
+àfaire la semaine prochaine
+ci
+compile windows
+
+àapros
+crediter images
+
+*** Primary color:
+
+   shade 0 = #869408 = rgb(134,148,  8) = rgba(134,148,  8,1) = rgb0(0.525,0.58,0.031)
+   shade 1 = #D0E602 = rgb(208,230,  2) = rgba(208,230,  2,1) = rgb0(0.816,0.902,0.008)
+   shade 2 = #A6B60B = rgb(166,182, 11) = rgba(166,182, 11,1) = rgb0(0.651,0.714,0.043)
+   shade 3 = #5D6700 = rgb( 93,103,  0) = rgba( 93,103,  0,1) = rgb0(0.365,0.404,0)
+   shade 4 = #373D00 = rgb( 55, 61,  0) = rgba( 55, 61,  0,1) = rgb0(0.216,0.239,0)

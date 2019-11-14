@@ -2,7 +2,7 @@ import pony.orm.dbproviders.sqlite  # noqa: W291
 import os
 
 
-from pony.orm import Required, PrimaryKey, Set, Optional, db_session, min
+from pony.orm import Required, PrimaryKey, Set, Optional, db_session, min, select, count
 from pony.orm.ormtypes import IntArray
 import datetime
 from mydevoirs.constants import MATIERES
@@ -18,6 +18,11 @@ class Jour(db.Entity, GetOrCreateMixin):
     @classmethod
     def oldest(cls):
         return min(i.date for i in cls)
+
+    @property
+    def progression(self):
+        return count(x for x in self.items if x.done), len(self.items)
+        # return len(dones)
 
 
 class Matiere(db.Entity):

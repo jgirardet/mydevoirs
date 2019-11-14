@@ -4,38 +4,20 @@ from mydevoirs.constants import build_matiere
 def test_buildmatiere():
     tree = {
         "Français": {
-            "Grammaire": (0, 0, 1),
-            "Orthographe": (0, 0, 1),
-            "Conjugaison": (0, 0, 1),
-            "Vocabulaire": (0, 0, 1),
-            "Rédaction": (0, 0, 1),
+            "Grammaire": (0, 0, 255),
+            "Orthographe": (0, 0, 255),
+            "Conjugaison": (0, 0, 255),
+            "Vocabulaire": (0, 0, 255),
+            "Rédaction": (0, 0, 255),
         },
-        "Mathématiques": {"Mathématiques": (0, 1, 0), "Géométrie": (0, 1, 0)},
-        "Histoire-Géo-Science": {
-            "Histoire": (1, 0, 0),
-            "Géographie": (1, 0, 0),
-            "Sciences": (1, 0, 0),
-        },
-        "Musqiue-Poésie": {"Musique": (1, 1, 0), "Poésie": (1, 1, 0),},
-        "Anglais": (50, 50, 20),
-        "Divers": (200, 200, 0),
+        "Mathématiques": {"Mathématiques": (0, 255, 0), "Géométrie": (0, 255, 0)},
+        "Histoire-Géo": {"Histoire": (255, 0, 0), "Géographie": (255, 0, 0)},
+        "Sciences": (255, 0, 255),
+        "Musqiue-Poésie": {"Musique": (255, 255, 0), "Poésie": (255, 255, 0)},
+        "Anglais": (255, 120, 0),
+        "Divers": (232, 120, 221),
     }
 
-    res = {
-        "Grammaire": (0, 0, 1),
-        "Orthographe": (0, 0, 1),
-        "Conjugaison": (0, 0, 1),
-        "Vocabulaire": (0, 0, 1),
-        "Rédaction": (0, 0, 1),
-        "Mathématiques": (0, 1, 0),
-        "Géométrie": (0, 1, 0),
-        "Histoire": (1, 0, 0),
-        "Géographie": (1, 0, 0),
-        "Sciences": (1, 0, 0),
-        "Musique": (1, 1, 0),
-        "Poésie": (1, 1, 0),
-        "Anglais": (50, 50, 20),
-        "Divers": (200, 200, 0),
-    }
+    res = {'Français': (0, 0, 255), 'Grammaire': (0, 0, 255), 'Orthographe': (0, 0, 255), 'Conjugaison': (0, 0, 255), 'Vocabulaire': (0, 0, 255), 'Rédaction': (0, 0, 255), 'Mathématiques': (0, 255, 0), 'Géométrie': (0, 255, 0), 'Histoire-Géo': (255, 0, 0), 'Histoire': (255, 0, 0), 'Géographie': (255, 0, 0), 'Sciences': (255, 0, 255), 'Musqiue-Poésie': (255, 255, 0), 'Musique': (255, 255, 0), 'Poésie': (255, 255, 0), 'Anglais': (255, 120, 0), 'Divers': (232, 120, 221)}
 
     assert res == build_matiere(tree)
