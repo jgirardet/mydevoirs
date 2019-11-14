@@ -236,6 +236,8 @@ class TodoList(BoxLayout):
         with db_session:
             items = [x.to_dict() for x in  db.Item.todo_list()]
 
+        if not item:
+            return
         date_en_cours = items[0]['date']
         
         self.add_date_label(date_en_cours)

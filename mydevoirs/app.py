@@ -95,5 +95,5 @@ class MyDevoirsApp(App):
 
     def get_application_config(self):
         return super().get_application_config(
-            Path(get_dir("config"), "settings.ini").absolute()
+            (Path(get_dir("config"), "settings.ini").absolute())
         )
