@@ -13,16 +13,22 @@
 
         ActionButton:
             text: "Semaine en cours"
-		    icon: datas['icon_today']
-            on_release: app.go_date()
+		    icon: datas['icon_todo']
+            on_release: app.go_todo()
+        ActionButton:
+		    icon: datas['icon_agenda']
+            on_release: app.go_agenda()
 		ActionButton:
-		    text: 'Semaine précédante'
-		    icon: datas['icon_precedant']
-		    on_release: app.carousel.load_previous()
+		    icon: datas['icon_precedant'] if app.sm.current == "agenda" else ""
+		    on_release: app.sm.current_screen.carousel.load_previous()
+		    disabled: app.sm.current != "agenda"
+		    background_disabled_normal: self.background_normal
+
 		ActionButton:
-		    text: 'Semaine suivante'
-		    icon: datas['icon_suivant']
-		    on_release: app.carousel.load_next()
+		    icon: datas['icon_suivant'] if app.sm.current == "agenda" else ""
+		    disabled: app.sm.current != "agenda"
+		    background_disabled_normal: self.background_normal
+		    on_release: app.sm.current_screen.carousel.load_next()
 
 		ActionButton:
 		    text: 'Paramètres'
@@ -127,6 +133,7 @@
 			MatiereDropdown().open(self)
 		background_color: gmc(self.text)
 		background_normal: ''
+		color: (0,0,0,1)
 		size_hint_x: 0.4
 		font_size: sp(14)
 		font_name: datas['font_base']
@@ -144,22 +151,30 @@
     	font_size: sp(14)
 
 
-    CheckBox:
+    ToggleButton:
     	id: done
     	size_hint_x: 0.1
-		active: root.done
-		on_active: root.done = self.active
-
-	Button:
-		id: remove_item 
-    	size_hint_x: 0.1
-		on_release: root.remove()
+    	# source: datas['icon_unchecked']
 		background_color: (1, 1, 1, 0)
-		BoxLayout:
+    	background_normal: ''
+	    on_release: root.done = (not root.done)
+    	BoxLayout:
             pos: self.parent.x, self.parent.y +self.parent.height/2 - self.height/2
-            size: self.parent.width*0.7, self.parent.height*0.7
+            size: self.parent.width*0.9, self.parent.height*0.9
 	    	Image:
-	    		source: datas['icon_remove']
+	    		source: datas['icon_checked'] if root.done else datas['icon_remove']
+
+
+	# Button:
+		# id: remove_item 
+  #   	size_hint_x: 0.1
+		# on_release: root.remove()
+		# background_color: (1, 1, 1, 0)
+		# BoxLayout:
+  #           pos: self.parent.x, self.parent.y +self.parent.height/2 - self.height/2
+  #           size: self.parent.width*0.7, self.parent.height*0.7
+	 #    	Image:
+	 #    		source: datas['icon_remove']
 
 <EffacerPopup>:
 	title: f"Effacer  {root.item.matiere_nom}: {root.item.content} ?"

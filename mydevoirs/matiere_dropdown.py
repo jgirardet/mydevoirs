@@ -7,7 +7,6 @@ from kivy.utils import rgba
 from mydevoirs.utils import gmc
 from mydevoirs.constants import MATIERES_TREE, MATIERES
 
-print(MATIERES)
 kvoption = """
 #: import MATIERES_TREE mydevoirs.constants.MATIERES_TREE
 #: import MATIERES mydevoirs.constants.MATIERES

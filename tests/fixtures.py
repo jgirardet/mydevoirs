@@ -18,7 +18,7 @@ class Touche(UnitTestTouch):
 
 
 def get_touch(item):
-    return Touche(item.pos[0] + item.size[0] / 2, item.pos[1] + item.size[1] / 2,)
+    return Touche(item.pos[0] + item.size[0] / 2, item.pos[1] + item.size[1] / 2)
 
 
 def matiere_francais():

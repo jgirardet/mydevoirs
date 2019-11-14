@@ -41,8 +41,10 @@ class ItemWidget(BoxLayout):
         self.job = None
 
         self.entry = entry.pop("id")
+        self.date = entry.pop("date")
         entry.pop("jour")
         super().__init__(**entry)
+        self._jour_widget = None
 
     def on_kv_post(self, *args):
         self.loaded_flag = True
@@ -72,12 +74,20 @@ class ItemWidget(BoxLayout):
         if self.loaded_flag:
             with db_session:
                 db.Item[self.entry].toggle()
+            self.jour_widget.update_progression()
+
+    @property
+    def jour_widget(self):
+        if not self._jour_widget:
+            for x in self.walk_reverse():
+                if isinstance(x, JourWidget) and x.date == self.date:
+                    self._jour_widget = x
+        return self._jour_widget
 
     def remove(self):
         EffacerPopup(item=self).open()
-        
+
     def remove_after_confirmation(self):
-        print("remove")
         with db_session:
             db.Item[self.entry].delete()
         self.parent.remove_widget(self)
@@ -90,10 +100,7 @@ class JourItems(GridLayout):
 
         with db_session:
             query = db.Item.select(lambda x: x.jour.date == date)
-            widgets = [
-                ItemWidget(**i.to_dict())
-                for i in query
-            ]
+            widgets = [ItemWidget(**i.to_dict()) for i in query]
         for item in widgets:
             self.add_widget(item)
 
@@ -109,11 +116,12 @@ class JourWidget(BoxLayout):
         self.jouritem = JourItems(date)
         self.jouritem.bind(minimum_height=self.jouritem.setter("height"))
         self.ids.scroll_items.add_widget(self.jouritem)
+        self.update_progression()
+
+    def update_progression(self):
         with db_session:
             pro = db.Jour.get_or_create(date=self.date).progression
-            # self.progression =  db.Jour.get_or_create(date=self.date).progression
             self.progression = f"{pro[0]}/{pro[1]}"
-            print(self.progression[2])
 
     @property
     def nice_date(self):
@@ -195,4 +203,3 @@ class CarouselWidget(Carousel):
 
 class EffacerPopup(Popup):
     item = ObjectProperty()
-

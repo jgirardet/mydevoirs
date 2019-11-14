@@ -3,7 +3,7 @@ import os
 
 
 from pony.orm import Required, PrimaryKey, Set, Optional, db_session, min, select, count
-from pony.orm.ormtypes import IntArray
+from pony.orm.ormtypes import IntArray, FloatArray
 import datetime
 from mydevoirs.constants import MATIERES
 from mydevoirs.utils import get_dir
@@ -27,7 +27,7 @@ class Jour(db.Entity, GetOrCreateMixin):
 
 class Matiere(db.Entity):
     nom = PrimaryKey(str)
-    color = Required(IntArray)
+    color = Required(FloatArray)
     items = Set("Item")
 
 
@@ -46,6 +46,7 @@ class Item(db.Entity):
         dico.pop("matiere")
         dico["matiere_nom"] = self.matiere.nom
         dico["matiere_color"] = self.matiere.color
+        dico["date"] = self.jour.date
         return dico
 
     def __repr__(self):

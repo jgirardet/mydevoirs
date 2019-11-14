@@ -13,12 +13,13 @@ def get_dir(key):
         dire.mkdir(parents=True)
     return dire
 
+
 def get_matiere_color(nom):
     try:
-        
+
         return rgba(MATIERES[nom])
     except KeyError:
-        return (0,0,0)
+        return (0, 0, 0)
 
 
 gmc = get_matiere_color
