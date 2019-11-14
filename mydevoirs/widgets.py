@@ -77,7 +77,8 @@ class ItemWidget(BoxLayout):
                 db.Item[self.entry].toggle()
             if self.jour_widget: 
                 self.jour_widget.update_progression()
-            self.parent.parent.parent.parent.reload()
+            else:
+                self.parent.parent.parent.parent.reload()
 
     @property
     def jour_widget(self):
