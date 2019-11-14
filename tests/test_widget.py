@@ -68,22 +68,21 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
         assert item.ids.textinput.focus == True
         assert item.ids.textinput.cursor_col == len(item.ids.textinput.text)
 
-    def test_done(self):
+    # def test_done(self):
 
-        for n in [1, 2]:
-            with db_session:
-                d = db.Item[n].to_dict()
+    #     for n in [1, 2]:
+    #         with db_session:
+    #             d = db.Item[n].to_dict()
 
-            item = ItemWidget(**d)
-            self.render(item)
+    #         item = ItemWidget(**d)
+    #         self.render(item)
 
-            assert item.ids.done.active == d["done"]
+    #         touch = get_touch(item.ids.done)
+    #         touch.click()
 
-            touch = get_touch(item.ids.done)
-            touch.click()
-
-            with db_session:
-                self.assertTrue(db.Item[n].done == (not d["done"]))
+    #         with db_session:
+    #             if db.Item[n].done:
+    #                 item.done.ids.boximage.children[0].source = "omkk"
 
     def test_on_content(self):
         item = ItemWidget(**self.FIRST.to_dict())
