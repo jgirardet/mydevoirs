@@ -9,7 +9,10 @@ from kivy.lang import Builder
 def test_setup():
     os.environ["MYDEVOIRS_BASE_DIR"] = os.getcwd()
     Builder.load_file("mydevoirs/mydevoirs.kv")
+    Builder.load_file("mydevoirs/itemwidget.kv")
 
+test_setup()
+db_init()
 
 class Touche(UnitTestTouch):
     def click(self):
