@@ -53,7 +53,9 @@ class ItemWidget(BoxLayout):
     def on_content(self, _, text):
         if self.loaded_flag:
             if self.job:
-                self.job.cancel()
+                print('called')
+                if self.job.is_triggered:
+                    self.job.cancel()
             self.job = Clock.schedule_once(partial(self._set_content, text), 0.5)
 
     def _set_content(self, content, *args):
