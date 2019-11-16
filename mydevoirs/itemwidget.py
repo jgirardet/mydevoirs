@@ -70,7 +70,7 @@ class ItemWidget(BoxLayout):
 
     def remove(self):
         print('debut relve')
-        self.popup = EffacerPopup(item=self)
+        self.popup = EffacerPopup(item=self, content=ValidationPopup())
         print('remov enc ours')
         self.popup.open()
         print('fin remove')
@@ -85,3 +85,6 @@ class ItemWidget(BoxLayout):
 
 class EffacerPopup(Popup):
     item = ObjectProperty()
+
+class ValidationPopup(BoxLayout):
+    pass

@@ -15,7 +15,7 @@ from mydevoirs.matiere_dropdown import MatiereOption
 from mydevoirs.datas import datas
 import pytest
 from kivy.uix.widget import Widget
-
+from kivy.uix.boxlayout import BoxLayout
 
 class ItemWidgetTestCase(MyDevoirsTestCase):
     def setUp(self):
@@ -65,6 +65,10 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
         assert item.matiere_nom == "Divers"
         assert item.ids.textinput.focus == True
         assert item.ids.textinput.cursor_col == len(item.ids.textinput.text)
+
+
+        #no change:
+        assert item.update_matiere("Divers") is None
 
     def test_done(self):
 
@@ -133,16 +137,22 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
 
 
 
-#     def test_remove(self):
-#         a = Widget()
-#         b = ItemWidget(**self.FIRST.to_dict())
-#         c = ItemWidget(**self.SECOND.to_dict())
-#         a.add_widget(b)
-#         a.add_widget(c)
+    def test_remove(self):
+        a = BoxLayout()
+        b = ItemWidget(**self.FIRST.to_dict(), size_hint=(200, None))
+        a.add_widget(b)
 
-#         # t = get_touch(b.ids.remove_item)
-#         # t.click()
-#         b.remove()
-# #
-#         print(b.popup)
-#         assert False
+        self.render(a)
+        t = get_touch(b.ids.remove_item)
+        t.click()
+        self.render(a)
+        oui = get_touch(b.popup.content.ids.oui)
+        oui.click()
+        self.render(a)
+
+
+        assert b not in a.children
+
+
+        with db_session:
+            assert not db.Item.exists(lambda x: x.id == self.FIRST.id)

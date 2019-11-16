@@ -62,19 +62,20 @@
                 source: datas['icon_remove']
 
 
+<ValidationPopup>:
+    orientation: 'horizontal'
+    Button:
+        text: "oui"
+        id: oui
+        on_press:
+            root.parent.parent.parent.item.remove_after_confirmation()
+            root.parent.parent.parent.dismiss()
+    Button:
+        id: non
+        text: "non"
+        on_press:
+            root.dismiss()
+
 <EffacerPopup>:
     title: f"Effacer  {root.item.matiere_nom}: {root.item.content} ?"
     size_hint: .5, .2
-    BoxLayout:
-        orientation: 'horizontal'
-        Button:
-            id: oui
-            text: "oui"
-            on_press:
-                root.item.remove_after_confirmation()
-                root.dismiss()
-        Button:
-            id: non
-            text: "non"
-            on_press:
-                root.dismiss()
