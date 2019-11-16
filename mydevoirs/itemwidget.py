@@ -67,16 +67,13 @@ class ItemWidget(BoxLayout):
             with db_session:
                 db.Item[self.entry].toggle()
 
-    @property
-    def jour_widget(self):
-        if not self._jour_widget:
-            for x in self.walk_reverse():
-                if isinstance(x, JourWidget) and x.date == self.date:
-                    self._jour_widget = x
-        return self._jour_widget
 
     def remove(self):
-        EffacerPopup(item=self).open()
+        print('debut relve')
+        self.popup = EffacerPopup(item=self)
+        print('remov enc ours')
+        self.popup.open()
+        print('fin remove')
 
     def remove_after_confirmation(self):
         with db_session:

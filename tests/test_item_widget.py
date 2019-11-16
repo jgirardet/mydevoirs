@@ -14,6 +14,7 @@ from kivy.uix.dropdown import DropDown
 from mydevoirs.matiere_dropdown import MatiereOption
 from mydevoirs.datas import datas
 import pytest
+from kivy.uix.widget import Widget
 
 
 class ItemWidgetTestCase(MyDevoirsTestCase):
@@ -86,17 +87,6 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
 
     def test_on_content(self):
         item = ItemWidget(**self.FIRST.to_dict())
-        assert item.loaded_flag
-        assert item.job is None
-        item.ids.textinput.text = "mok"
-        item.job.callback()
-        item.job.cancel()  #
-        with db_session:
-            assert db.Item[self.FIRST.id].content == item.ids.textinput.text
-        assert item.ids.textinput.text == item.content
-
-    def test_on_content_job_cancel_if_previous(self):
-        item = ItemWidget(**self.FIRST.to_dict())
         assert item.loaded_flag, "should be loaded"
         assert item.job is None, "There is no job at init"
 
@@ -114,7 +104,7 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
         item.job = fakejob
         item.job.is_triggered = 1
         item.ids.textinput.text = "triggredjob"
-        assert fakejob.cancel.called, "no trigger,  no cancel"
+        assert fakejob.cancel.called, "trigger then cancel"
 
         assert item.job.is_triggered, "a job sould be triggered after content"
 
@@ -125,3 +115,34 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
         with db_session:
             assert db.Item[self.FIRST.id].content == item.ids.textinput.text
         assert item.ids.textinput.text == item.content
+
+    def test_remove_after_confirmation(self):
+        a = Widget()
+        b = ItemWidget(**self.FIRST.to_dict())
+        c = ItemWidget(**self.SECOND.to_dict())
+        a.add_widget(b)
+        a.add_widget(c)
+
+        c.remove_after_confirmation()
+
+        assert b  in a.children
+        assert c  not in a.children
+
+        with db_session:
+            assert not db.Item.exists(lambda x: x.id == self.SECOND.id)
+
+
+
+#     def test_remove(self):
+#         a = Widget()
+#         b = ItemWidget(**self.FIRST.to_dict())
+#         c = ItemWidget(**self.SECOND.to_dict())
+#         a.add_widget(b)
+#         a.add_widget(c)
+
+#         # t = get_touch(b.ids.remove_item)
+#         # t.click()
+#         b.remove()
+# #
+#         print(b.popup)
+#         assert False

@@ -40,11 +40,6 @@ class AgendaItemWidget(ItemWidget):
         if self.loaded_flag:
             self.jour_widget.update_progression()
 
-    # def remove_after_confirmation(self):
-    #     super().remove_after_confirmation()
-    #     print('update')
-    #     if self.loaded_flag:
-    #         self.jour_widget.update_progression()
 
     @property
     def jour_widget(self):
