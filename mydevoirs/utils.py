@@ -22,10 +22,12 @@ def get_matiere_color(nom):
         return (0, 0, 0)
 
 
-BASE_DIR = os.environ['MYDEVOIRS_BASE_DIR']
+BASE_DIR = os.environ["MYDEVOIRS_BASE_DIR"]
+
 
 def get_base_dir():
     print(BASE_DIR)
-    return Path(BASE_DIR) 
+    return Path(BASE_DIR)
+
 
 gmc = get_matiere_color

@@ -6,7 +6,7 @@ from kivy.properties import (
     StringProperty,
     ListProperty,
     BooleanProperty,
-    ObjectProperty
+    ObjectProperty,
 )
 from kivy.clock import Clock
 from mydevoirs.database.database import db
@@ -16,8 +16,7 @@ from functools import partial
 from kivy.uix.popup import Popup
 
 
-Builder.load_file(str(get_base_dir()/ "mydevoirs" / "itemwidget.kv"))
-
+Builder.load_file(str(get_base_dir() / "mydevoirs" / "itemwidget.kv"))
 
 
 class ItemWidget(BoxLayout):
@@ -34,7 +33,6 @@ class ItemWidget(BoxLayout):
         self.date = entry.pop("date")
         entry.pop("jour")
         super().__init__(**entry)
-        
 
     def on_kv_post(self, *args):
         self.loaded_flag = True
@@ -53,7 +51,6 @@ class ItemWidget(BoxLayout):
     def on_content(self, _, text):
         if self.loaded_flag:
             if self.job:
-                print('called')
                 if self.job.is_triggered:
                     self.job.cancel()
             self.job = Clock.schedule_once(partial(self._set_content, text), 0.5)
@@ -67,13 +64,9 @@ class ItemWidget(BoxLayout):
             with db_session:
                 db.Item[self.entry].toggle()
 
-
     def remove(self):
-        print('debut relve')
         self.popup = EffacerPopup(item=self, content=ValidationPopup())
-        print('remov enc ours')
         self.popup.open()
-        print('fin remove')
 
     def remove_after_confirmation(self):
         with db_session:
@@ -81,10 +74,9 @@ class ItemWidget(BoxLayout):
         self.parent.remove_widget(self)
 
 
-
-
 class EffacerPopup(Popup):
     item = ObjectProperty()
+
 
 class ValidationPopup(BoxLayout):
     pass

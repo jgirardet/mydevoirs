@@ -11,8 +11,10 @@ def test_setup():
     Builder.load_file("mydevoirs/mydevoirs.kv")
     Builder.load_file("mydevoirs/itemwidget.kv")
 
+
 test_setup()
 db_init()
+
 
 class Touche(UnitTestTouch):
     def click(self):
@@ -24,7 +26,7 @@ def get_touch(item):
     return Touche(item.pos[0] + item.size[0] / 2, item.pos[1] + item.size[1] / 2)
 
 
-def matiere_francais():
+def matiere_grammaire():
     with db_session:
         return db.Matiere["Grammaire"]
 
@@ -38,7 +40,9 @@ def jour_today():
 
 def item_today():
     with db_session:
-        i = db.Item(content="item today", matiere=matiere_francais(), jour=jour_today())
+        i = db.Item(
+            content="item today", matiere=matiere_grammaire(), jour=jour_today()
+        )
         return i
 
 

@@ -18,13 +18,11 @@ from mydevoirs.database.database import db
 from mydevoirs.agenda import ItemWidget
 
 
-
 class TodoItemWidget(ItemWidget):
     def on_done(self, *args):
         super().on_done(*args)
         if self.loaded_flag:
             self.parent.parent.parent.parent.reload()
-
 
 
 class Todo(Screen):
@@ -38,8 +36,10 @@ class Todo(Screen):
         self.todolist = TodoList()
         self.add_widget(self.todolist)
 
+
 class DateLabel(Label):
     pass
+
 
 class TodoList(BoxLayout):
 
@@ -59,17 +59,17 @@ class TodoList(BoxLayout):
 
     def load_items(self):
         with db_session:
-            items = [x.to_dict() for x in  db.Item.todo_list()]
+            items = [x.to_dict() for x in db.Item.todo_list()]
 
         if not items:
             return
-        date_en_cours = items[0]['date']
-        
+        date_en_cours = items[0]["date"]
+
         self.add_date_label(date_en_cours)
         for it in items:
-            if it['date'] != date_en_cours:
-                date_en_cours = it['date']
-                self.add_date_label(it['date'])
+            if it["date"] != date_en_cours:
+                date_en_cours = it["date"]
+                self.add_date_label(it["date"])
             self.box.add_widget(TodoItemWidget(**it))
 
     def add_date_label(self, date):

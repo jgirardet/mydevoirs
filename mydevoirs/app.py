@@ -1,11 +1,9 @@
-
-
 from pathlib import Path
 
 from kivy.app import App
 from kivy.properties import ObjectProperty
 from mydevoirs.constants import APP_NAME
-from mydevoirs.agenda import  Agenda
+from mydevoirs.agenda import Agenda
 from mydevoirs.todo import Todo
 from mydevoirs.utils import get_dir
 from kivy.uix.boxlayout import BoxLayout
@@ -18,9 +16,6 @@ from mydevoirs.database.database import db_init
 
 from mydevoirs.settings import settings_json
 from mydevoirs.slide_item import SettingSlider
-
-
-
 
 
 class MyDevoirsApp(App):

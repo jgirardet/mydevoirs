@@ -56,7 +56,8 @@ class Item(db.Entity):
         return dico
 
     def __repr__(self):
-        return f"Item {self.id} => {self.matiere.nom} : {self.content} {'ø' if self.done else 'o'}"
+        return f"Item {self.id} => {self.matiere.nom} :\
+         {self.content} {'ø' if self.done else 'o'}"
 
 
 @db.on_connect(provider="sqlite")

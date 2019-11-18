@@ -1,21 +1,15 @@
-from mydevoirs import __version__
 from mydevoirs.itemwidget import ItemWidget  # , Clock, JourItems, JourWidget, BaseGrid
 
 
-from pony.orm import db_session, delete
-from mydevoirs.database.database import db, db_init
-from mydevoirs.constants import MATIERES
+from pony.orm import db_session
 import datetime
 from unittest.mock import patch, MagicMock
-import pytest
-from kivy.config import ConfigParser
 from .fixtures import *
-from kivy.uix.dropdown import DropDown
 from mydevoirs.matiere_dropdown import MatiereOption
 from mydevoirs.datas import datas
-import pytest
 from kivy.uix.widget import Widget
 from kivy.uix.boxlayout import BoxLayout
+
 
 class ItemWidgetTestCase(MyDevoirsTestCase):
     def setUp(self):
@@ -28,6 +22,7 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
             self.SECOND = db.Item(
                 content="deux", matiere=self.MAT, jour=self.JOUR, done=True
             )
+        print(self.FIRST, self.SECOND)
 
     def test_kv_post(self):
         """ No update on init """
@@ -48,33 +43,36 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
             item = ItemWidget(**dico)
             item.update_matiere.assert_not_called()
 
-    def test_update_matiere(self):
-        item = ItemWidget(**self.FIRST.to_dict())
+    def test_aaa_updatematiere(self):
+        # don't chage test name, I don't know why...
+        a = item_today()
+        item = ItemWidget(**a.to_dict())
+
         self.render(item)
+
         spin = item.ids.spinner
         touch = get_touch(spin)
         touch.click()
-        self.render(item)
 
         self.Window.children[0].select(MatiereOption(text="Divers"))
         with db_session:
-            it = db.Item[self.FIRST.id]
-            assert self.FIRST.matiere.nom == "Grammaire"
+            it = db.Item[a.id]
+            assert a.matiere.nom == "Grammaire"
             assert it.matiere.nom == "Divers"
 
         assert item.matiere_nom == "Divers"
-        assert item.ids.textinput.focus == True
+        assert item.ids.textinput.focus
         assert item.ids.textinput.cursor_col == len(item.ids.textinput.text)
 
-
-        #no change:
+        # no change:
         assert item.update_matiere("Divers") is None
 
     def test_done(self):
 
-        for n in [1, 2]:
+        for n in [0, 1]:
             with db_session:
-                d = db.Item[n].to_dict()
+                d = db.Item.select()[:][n].to_dict()
+            x = d["id"]
 
             item = ItemWidget(**d)
             self.render(item)
@@ -83,11 +81,11 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
             touch.click()
 
             with db_session:
-                if db.Item[n].done:
+                if db.Item[x].done:
                     assert item.ids.image_done.source == datas["icon_checked"]
                 else:
                     assert item.ids.image_done.source == datas["icon_unchecked"]
-                assert db.Item[n].done != d["done"]
+                assert db.Item[x].done != d["done"]
 
     def test_on_content(self):
         item = ItemWidget(**self.FIRST.to_dict())
@@ -129,13 +127,11 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
 
         c.remove_after_confirmation()
 
-        assert b  in a.children
-        assert c  not in a.children
+        assert b in a.children
+        assert c not in a.children
 
         with db_session:
             assert not db.Item.exists(lambda x: x.id == self.SECOND.id)
-
-
 
     def test_remove(self):
         a = BoxLayout()
@@ -150,9 +146,7 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
         oui.click()
         self.render(a)
 
-
         assert b not in a.children
-
 
         with db_session:
             assert not db.Item.exists(lambda x: x.id == self.FIRST.id)

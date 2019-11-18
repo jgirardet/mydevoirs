@@ -30,16 +30,14 @@ locale.setlocale(locale.LC_ALL, "fr_FR.utf8")
 
 
 class AgendaItemWidget(ItemWidget):
-
     def __init__(self, **kwargs):
         self._jour_widget = None
         super().__init__(**kwargs)
-        
+
     def on_done(self, *args):
         super().on_done(*args)
         if self.loaded_flag:
             self.jour_widget.update_progression()
-
 
     @property
     def jour_widget(self):
@@ -48,6 +46,7 @@ class AgendaItemWidget(ItemWidget):
                 if isinstance(x, JourWidget) and x.date == self.date:
                     self._jour_widget = x
         return self._jour_widget
+
 
 class Agenda(Screen):
     def __init__(self, **kwargs):
@@ -79,9 +78,9 @@ class JourWidget(BoxLayout):
 
     progression = StringProperty("0/0")
 
-    def __init__(self, date):
+    def __init__(self, date, **kwargs):
         self.date = date  # need in nice_date
-        super().__init__()
+        super().__init__(**kwargs)
 
         self.jouritem = JourItems(date)
         self.jouritem.bind(minimum_height=self.jouritem.setter("height"))
@@ -120,15 +119,14 @@ class BaseGrid(GridLayout):
         return itertools.compress(days, jours)
 
     @staticmethod
-    def get_days_to_show():
-        cp = ConfigParser.get_configparser("app")
+    def get_days_to_show(cp):
         return [cp.getboolean("agenda", j) for j in SEMAINE]
 
     def __init__(self, day=None):
         super().__init__(cols=2)
         self.day = day or datetime.date.today()
 
-        jours = self.get_days_to_show()
+        jours = self.get_days_to_show(ConfigParser.get_configparser("app"))
         for d in self.get_week_days(jours):
             self.add_widget(JourWidget(d))
 
@@ -171,11 +169,6 @@ class CarouselWidget(Carousel):
 
         self.index = 1
         assert len(self.slides) == 3
-
-
-
-
-
 
         # self.jouritem = JourItems(date)
         # self.jouritem.bind(minimum_height=self.jouritem.setter("height"))
