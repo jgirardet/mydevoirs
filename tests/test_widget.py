@@ -1,24 +1,50 @@
 # from mydevoirs import __version__
 # from mydevoirs.widgets import ItemWidget, Clock, JourItems, JourWidget, BaseGrid
-
+from mydevoirs.agenda import AgendaItemWidget
 
 # from pony.orm import db_session, delete
 from mydevoirs.database.database import db, db_init
 # from mydevoirs.constants import MATIERES
 # import datetime
-# from unittest.mock import patch, MagicMock
+from unittest.mock import patch, MagicMock
 # import pytest
 # from kivy.config import ConfigParser
 from .fixtures import *
 # from kivy.uix.dropdown import DropDown
 # from mydevoirs.matiere_dropdown import MatiereOption
 
-db_init()
 
 
-# test_setup()
+class AgendaItemWidgetTestCase(MyDevoirsTestCase):
+        def setUp(self):
+            super().setUp()
+
+            with db_session:
+                self.JOUR = db.Jour(date=datetime.date.today())
+                self.MAT = db.Matiere["Grammaire"]
+                self.FIRST = db.Item(content="un", matiere=self.MAT, jour=self.JOUR)
+                self.SECOND = db.Item(
+                    content="deux", matiere=self.MAT, jour=self.JOUR, done=True
+                )
+        def test_widget_init(self):
+
+            item = AgendaItemWidget(**self.FIRST.to_dict())
+            assert item.entry == self.FIRST.id # super.__init__ called
+            assert hasattr(item, "_jour_widget")
+
+        def test_on_done(self):
 
 
+            item = AgendaItemWidget(**self.FIRST.to_dict())
+            item._jour_widget = MagicMock()
+            item.on_done()
+            assert item.jour_widget.update_progression.called
+
+            a = MagicMock()
+            with patch("mydevoirs.agenda.ItemWidget.on_done", a):
+                item = AgendaItemWidget(**self.FIRST.to_dict())
+                item.on_done()
+                assert a.called
 # class JourItemsTestCase(MyDevoirsTestCase):
 #     def setUp(self):
 
@@ -100,3 +126,4 @@ db_init()
 #             ):
 
 #                 assert d.date == z
+
