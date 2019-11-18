@@ -21,6 +21,7 @@ cov:
 	poetry run coverage run --branch --source=mydevoirs -m pytest
 	poetry run coverage report
 	poetry run coverage html
+	x-www-browser htmlcov/index.html &
 	
 pdb:
 	poetry run pytest --pdb
