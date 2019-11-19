@@ -68,7 +68,7 @@ class JourItems(GridLayout):
         self.date = date
 
         with db_session:
-            query = db.Item.select(lambda x: x.jour.date == date)
+            query = db.Item.select(lambda x: x.jour.date == date)  # pragma: no cover
             widgets = [AgendaItemWidget(**i.to_dict()) for i in query]
         for item in widgets:
             self.add_widget(item)
@@ -103,8 +103,6 @@ class JourWidget(BoxLayout):
             item_widget = AgendaItemWidget(**item.to_dict())
         self.jouritem.add_widget(item_widget)
         MatiereDropdown().open(item_widget.ids.spinner)
-        # if self.jouritem.height >  self.ids.scroll_items.height:
-        #     self.add_widget(Button(text="ça dépasse "))
 
 
 class BaseGrid(GridLayout):
@@ -119,16 +117,18 @@ class BaseGrid(GridLayout):
         return itertools.compress(days, jours)
 
     @staticmethod
-    def get_days_to_show(cp):
+    def get_days_to_show():
+        cp = ConfigParser.get_configparser("app")
         return [cp.getboolean("agenda", j) for j in SEMAINE]
+
+    def build_grid(self, jours):
+        for d in self.get_week_days(jours):
+            self.add_widget(JourWidget(d))
 
     def __init__(self, day=None):
         super().__init__(cols=2)
         self.day = day or datetime.date.today()
-
-        jours = self.get_days_to_show(ConfigParser.get_configparser("app"))
-        for d in self.get_week_days(jours):
-            self.add_widget(JourWidget(d))
+        self.build_grid(self.get_days_to_show())
 
 
 class CarouselWidget(Carousel):
@@ -151,31 +151,22 @@ class CarouselWidget(Carousel):
         if index == 1:
             return
 
-        sens = 0 if index else -1
+        else:
+            sens = 0 if index else -1
 
-        # can't remove the if statement/don't why.
-        if index == 0:
-            self.add_widget(
-                BaseGrid(self.slides[index].day - datetime.timedelta(weeks=1)), sens
-            )
-            self.remove_widget(self.slides[sens])
+            # can't remove the if statement/don't why.
+            if index:
+                # build right
+                self.add_widget(
+                    BaseGrid(self.slides[index].day + datetime.timedelta(weeks=1)), sens
+                )
+                self.remove_widget(self.slides[sens])
 
-        elif index == 2:
-            # build right
-            self.add_widget(
-                BaseGrid(self.slides[index].day + datetime.timedelta(weeks=1)), sens
-            )
-            self.remove_widget(self.slides[sens])
+            else:
+                # build left
+                self.add_widget(
+                    BaseGrid(self.slides[index].day - datetime.timedelta(weeks=1)), sens
+                )
+                self.remove_widget(self.slides[sens])
 
         self.index = 1
-        assert len(self.slides) == 3
-
-        # self.jouritem = JourItems(date)
-        # self.jouritem.bind(minimum_height=self.jouritem.setter("height"))
-        # self.ids.scroll_items.add_widget(self.jouritem)
-        # self.update_progression()
-
-    # def update_progression(self):
-    #     with db_session:
-    #         pro = db.Jour.get_or_create(date=self.date).progression
-    #         self.progression = f"{pro[0]}/{pro[1]}"

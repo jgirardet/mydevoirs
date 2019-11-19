@@ -24,6 +24,9 @@ from kivy.uix.dropdown import DropDown
 
 # from mydevoirs.matiere_dropdown import MatiereOption
 
+from configparser import ConfigParser
+from mydevoirs.constants import SEMAINE
+
 
 class AgendaItemWidgetTestCase(MyDevoirsTestCase):
     def setUp(self):
@@ -138,3 +141,106 @@ class TestBaseGrid(MyDevoirsTestCase):
             ):
 
                 assert d.date == z
+
+    def test_init(self):
+        cp = ConfigParser()
+        cp.add_section("agenda")
+        cp["agenda"].update({k: "True" for k in SEMAINE})
+
+        with patch("mydevoirs.agenda.ConfigParser.get_configparser", return_value=cp):
+            b = BaseGrid()
+            assert b.get_days_to_show() == [True] * 7
+            assert len(b.children) == 7
+
+        cp["agenda"].update({k: "False" for k in SEMAINE})
+        with patch("mydevoirs.agenda.ConfigParser.get_configparser", return_value=cp):
+            b = BaseGrid()
+            assert b.get_days_to_show() == [False] * 7
+            assert len(b.children) == 0
+
+        with patch("mydevoirs.agenda.ConfigParser.get_configparser", return_value=cp):
+            with patch("mydevoirs.agenda.GridLayout.__init__") as m:
+                b = BaseGrid(day=datetime.date(2019, 7, 18))
+                assert b.day == datetime.date(2019, 7, 18)
+                assert m.called
+
+
+# cp = ConfigParser()
+# cp.add_section("agenda")
+# cp["agenda"].update(
+#     {
+#         "lundi": "True",
+#         "mardi": "True",
+#         "mercredi": "False",
+#         "jeudi": "True",
+#         "vendredi": "True",
+#         "samedi": "False",
+#         "dimanche": "False",
+#     }
+# )
+
+
+@patch(
+    "mydevoirs.agenda.BaseGrid.get_days_to_show",
+    return_value=[True, True, False, True, True, False, False],
+)
+class TestCaroussel(MyDevoirsTestCase):
+    def test_init(self, bg):
+        d = datetime.date(2015, 12, 11)
+        c = CarouselWidget(day=d)
+        assert c.index == 1
+
+        # also test Carousel.on_done
+        assert c.slides[0].day == datetime.date(2015, 12, 4)
+        assert c.slides[1].day == datetime.date(2015, 12, 11)
+        assert c.slides[2].day == datetime.date(2015, 12, 18)
+
+        # init called
+        with patch("mydevoirs.agenda.Carousel.__init__") as m:
+            try:
+                cc = CarouselWidget()
+            except AttributeError:  # we don't care the rest of __init__
+                assert m.called
+
+    def test_on_index(self, bg):
+        """Carousel slides values:
+            0: gauche
+            1: centre
+            2: droite
+            """
+
+        d = datetime.date(2015, 12, 11)
+        c = CarouselWidget(day=d)
+
+        un, deux, trois = c.slides
+        # in the middle, no move
+        c.on_index(None, 1)
+        assert c.slides == [un, deux, trois]
+        assert len(c.slides) == 3
+
+        # go right/previous
+        c.on_index(None, 0)
+        assert c.slides[1:3] == [un, deux]
+        assert len(c.slides) == 3
+
+        quatre = c.slides[0]
+
+        # then left/after
+        c.on_index(None, 2)
+        assert c.slides[0:2] == [un, deux]
+        cinq = c.slides[2]
+        assert trois.day == cinq.day
+        assert len(c.slides) == 3
+
+        # then left/after
+        c.on_index(None, 2)
+        assert c.slides[0:2] == [deux, cinq]
+        assert len(c.slides) == 3
+
+        # two times right previous
+        c.on_index(None, 0)
+        c.on_index(None, 0)
+        assert c.slides[2] == deux
+        assert len(c.slides) == 3
+        for i, j in zip(range(3), [quatre, un, deux]):
+            assert c.slides[i].day == j.day
