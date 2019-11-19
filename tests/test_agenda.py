@@ -28,8 +28,6 @@ from configparser import ConfigParser
 from mydevoirs.constants import SEMAINE
 
 
-
-
 class AgendaItemWidgetTestCase(MyDevoirsTestCase):
     def setUp(self):
         super().setUp()
@@ -44,7 +42,7 @@ class AgendaItemWidgetTestCase(MyDevoirsTestCase):
 
     def test_widget_init(self):
 
-        # self.check_super_init("ItemWidget", AgendaItemWidget, **self.FIRST.to_dict())
+        self.check_super_init("ItemWidget", AgendaItemWidget, **self.FIRST.to_dict())
         item = AgendaItemWidget(**self.FIRST.to_dict())
         assert item.entry == self.FIRST.id  # super.__init__ called
         assert hasattr(item, "_jour_widget")
@@ -52,13 +50,12 @@ class AgendaItemWidgetTestCase(MyDevoirsTestCase):
     def test_on_done(self):
 
         # check super call
-        # with patch("ItemWidget.on_done") as e:
-        #     print(e)
-        #     item = AgendaItemWidget(**self.FIRST.to_dict())
-        #     item.loaded_flag = False
-        #     item.on_done()
-        #     assert e.called
-        # self.check_super_init("ItemWidget", AgendaItemWidget, "on_done")        
+        with patch("mydevoirs.agenda.ItemWidget.on_done") as e:
+            print(e)
+            item = AgendaItemWidget(**self.FIRST.to_dict())
+            item.loaded_flag = False
+            item.on_done()
+            assert e.called
 
         # reste
         item = AgendaItemWidget(**self.FIRST.to_dict())
@@ -93,8 +90,8 @@ class JourItemsTestCase(MyDevoirsTestCase):
 
         self.render(self.jouritems)
 
-    # def test_init(self):
-        # self.check_super_init("GridLayout", JourItems, datetime.date.today())
+    def test_init(self):
+        self.check_super_init("GridLayout", JourItems, datetime.date.today())
 
     def test_load(self):
 
@@ -111,25 +108,26 @@ class JourWidgetTestCase(MyDevoirsTestCase):
         self.b = item_today()
         self.c = item_today()
 
-    # def test_init(self):
-        self.check_super_init("BoxLayout", JourWidget, datetime.date(1999,1,1))
+    def test_init(self):
+        self.check_super_init("BoxLayout", JourWidget, datetime.date(1999, 1, 1))
 
     def test_nice_date(self):
         jour = JourWidget(datetime.date(2019, 11, 12))
         assert jour.ids.titre_jour.text == "mardi 12 novembre 2019"
 
-    # def test_add(self):
-    #     jour = JourWidget(self.a.jour.date)
-    #     self.render(jour)
-    #     assert len(jour.jouritem.children) == 3
+    def test_add(self):
+        jour = JourWidget(self.a.jour.date)
+        self.render(jour)
+        assert len(jour.jouritem.children) == 3
+        get_touch(jour.ids.add_button).click()
+        self.render(jour)
 
-    #     get_touch(jour.ids.add_button).click()
-    #     self.render(jour)
-
-    #     assert len(jour.jouritem.children) == 4
-    #     assert any(isinstance(x, DropDown) for x in self.Window.children)
-    #     with db_session:
-    #         assert db.Item[jour.jouritem.children[0].entry]
+        print(jour.jouritem.children)
+        # return
+        assert len(jour.jouritem.children) == 4
+        assert any(isinstance(x, DropDown) for x in self.Window.children)
+        with db_session:
+            assert db.Item[jour.jouritem.children[0].entry]
 
 
 class TestBaseGrid(MyDevoirsTestCase):
@@ -151,37 +149,36 @@ class TestBaseGrid(MyDevoirsTestCase):
 
                 assert d.date == z
 
-    # def test_init(self):
-    #     # self.check_super_init("GridLayout", BaseGrid)
+    def test_init(self):
+        self.check_super_init("GridLayout", BaseGrid)
 
-    #     cp = ConfigParser()
-    #     cp.add_section("agenda")
-    #     cp["agenda"].update({k: "True" for k in SEMAINE})
+        cp = ConfigParser()
+        cp.add_section("agenda")
+        cp["agenda"].update({k: "True" for k in SEMAINE})
 
-    #     with patch("ConfigParser.get_configparser", return_value=cp):
-    #         b = BaseGrid()
-    #         assert b.get_days_to_show() == [True] * 7
-    #         assert len(b.children) == 7
+        with patch("mydevoirs.agenda.ConfigParser.get_configparser", return_value=cp):
+            b = BaseGrid()
+            assert b.get_days_to_show() == [True] * 7
+            assert len(b.children) == 7
 
-    #     cp["agenda"].update({k: "False" for k in SEMAINE})
-    #     with patch("ConfigParser.get_configparser", return_value=cp):
-    #         b = BaseGrid()
-    #         assert b.get_days_to_show() == [False] * 7
-    #         assert len(b.children) == 0
+        cp["agenda"].update({k: "False" for k in SEMAINE})
+        with patch("mydevoirs.agenda.ConfigParser.get_configparser", return_value=cp):
+            b = BaseGrid()
+            assert b.get_days_to_show() == [False] * 7
+            assert len(b.children) == 0
 
-    #     with patch("ConfigParser.get_configparser", return_value=cp):
-    #         # with patch(ridLayout") as m:
-    #         b = BaseGrid(day=datetime.date(2019, 7, 18))
-    #         assert b.day == datetime.date(2019, 7, 18)
+        with patch("mydevoirs.agenda.ConfigParser.get_configparser", return_value=cp):
+            b = BaseGrid(day=datetime.date(2019, 7, 18))
+            assert b.day == datetime.date(2019, 7, 18)
 
 
 @patch(
-    "BaseGrid.get_days_to_show",
+    "mydevoirs.agenda.BaseGrid.get_days_to_show",
     return_value=[True, True, False, True, True, False, False],
 )
 class TestCaroussel(MyDevoirsTestCase):
     def test_init(self, bg):
-        # self.check_super_init("Carousel", CarouselWidget)
+        self.check_super_init("Carousel", CarouselWidget)
 
         d = datetime.date(2015, 12, 11)
         c = CarouselWidget(day=d)
@@ -237,10 +234,15 @@ class TestCaroussel(MyDevoirsTestCase):
 
 
 @patch(
-    "BaseGrid.get_days_to_show",
+    "mydevoirs.agenda.BaseGrid.get_days_to_show",
     return_value=[True, True, False, True, True, False, False],
 )
 class TestAgendaScreen(MyDevoirsTestCase):
     def test_init(self, gd):
-        pass
-        # self.check_super_init("Screen", Agenda)
+        self.check_super_init("Screen", Agenda)
+
+    def test_go_date(self, gd):
+        b = Agenda()
+        assert b.carousel.date == datetime.date.today()
+        b.go_date(datetime.date(2012, 3, 2))
+        assert b.carousel.date == datetime.date(2012, 3, 2)

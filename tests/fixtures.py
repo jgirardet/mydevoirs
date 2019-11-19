@@ -50,6 +50,7 @@ def item_today():
 
 class MyDevoirsTestCase(GraphicUnitTest):
     def setUp(self):
+        super().setUp()
         with db_session:
             for entity in db.entities.values():
                 if entity.__name__ != "Matiere":
@@ -58,7 +59,6 @@ class MyDevoirsTestCase(GraphicUnitTest):
     def check_super_init(self, parent, enfant, *args, fn="__init__", **kwargs):
         module = self.__module__.split("_")[-1]
         full_parent = ".".join((APP_NAME.lower(), module, parent, fn))
-        print("full", full_parent)
         with patch(full_parent) as m:
             try:
                 enfant(*args, **kwargs)

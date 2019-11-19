@@ -19,11 +19,11 @@ test:
 
 cov:
 	rm -rf .pytest_cache
-	poetry run coverage run --branch --source=mydevoirs -m pytest
+	poetry run coverage run -m pytest
 	poetry run coverage report
-	poetry run coverage html
 
 cov_html: cov
+	poetry run coverage html
 	firefox htmlcov/index.html
 	
 pdb:

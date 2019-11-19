@@ -133,12 +133,12 @@ class BaseGrid(GridLayout):
 
 class CarouselWidget(Carousel):
     def __init__(self, day=None):
-        today = day or datetime.date.today()
+        self.date = day or datetime.date.today()
         super().__init__()
 
-        self.add_widget(BaseGrid(today - datetime.timedelta(weeks=1)))
-        self.add_widget(BaseGrid(today))
-        self.add_widget(BaseGrid(today + datetime.timedelta(weeks=1)))
+        self.add_widget(BaseGrid(self.date - datetime.timedelta(weeks=1)))
+        self.add_widget(BaseGrid(self.date))
+        self.add_widget(BaseGrid(self.date + datetime.timedelta(weeks=1)))
 
         self.index = 1
 

@@ -24,6 +24,9 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
             )
         print(self.FIRST, self.SECOND)
 
+    def test_init(self):
+        self.check_super_init("BoxLayout", ItemWidget, **self.FIRST.to_dict())
+
     def test_kv_post(self):
         """ No update on init """
         # setup

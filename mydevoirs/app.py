@@ -8,14 +8,13 @@ from mydevoirs.todo import Todo
 from mydevoirs.utils import get_dir
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.actionbar import ActionBar
-from kivy.uix.screenmanager import ScreenManager, Screen, SlideTransition
+from kivy.uix.screenmanager import ScreenManager, SlideTransition
 from kivy.core.window import Window
 from kivy.modules import inspector
 
 from mydevoirs.database.database import db_init
 
 from mydevoirs.settings import settings_json
-from mydevoirs.slide_item import SettingSlider
 
 
 class MyDevoirsApp(App):
