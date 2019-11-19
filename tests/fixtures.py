@@ -4,6 +4,8 @@ from mydevoirs.database.database import db, db_init
 import datetime
 import os
 from kivy.lang import Builder
+from unittest.mock import patch
+from mydevoirs.constants import APP_NAME
 
 
 def test_setup():
@@ -48,9 +50,18 @@ def item_today():
 
 class MyDevoirsTestCase(GraphicUnitTest):
     def setUp(self):
-        super().setUp()
-
         with db_session:
             for entity in db.entities.values():
                 if entity.__name__ != "Matiere":
                     delete(e for e in entity)
+
+    def check_super_init(self, parent, enfant, *args, fn="__init__", **kwargs):
+        module = self.__module__.split("_")[-1]
+        full_parent = ".".join((APP_NAME.lower(), module, parent, fn))
+        print("full", full_parent)
+        with patch(full_parent) as m:
+            try:
+                enfant(*args, **kwargs)
+            except:
+                pass
+            assert m.called
