@@ -10,9 +10,9 @@ a = Analysis(
     # datas=[("data/icons/*.png", "data/icons")],
     datas=[
         ("mydevoirs/*.kv", "mydevoirs"),
-        ("data/icons/*.png", "mydevoirs/data/icons"),
-        ("data/fonts/*.ttf", "mydevoirs/data/fonts"),
-        ("data/fonts/*.otf", "mydevoirs/data/fonts"),
+        ("data/icons/*.png", "data/icons"),
+        ("data/fonts/*.ttf", "data/fonts"),
+        ("data/fonts/*.otf", "data/fonts"),
     ],
     hiddenimports=[],
     hookspath=[],
