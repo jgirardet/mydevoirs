@@ -5,14 +5,18 @@ import datetime
 import os
 from kivy.lang import Builder
 from unittest.mock import patch
-from mydevoirs.constants import APP_NAME
+from mydevoirs.constants import APP_NAME, MATIERES
 import time
+from mimesis import Generic
+import random
+
+gen = Generic("fr")
 
 
 def test_setup():
     os.environ["MYDEVOIRS_BASE_DIR"] = os.getcwd()
     Builder.load_file("mydevoirs/mydevoirs.kv")
-    Builder.load_file("mydevoirs/itemwidget.kv")
+    # Builder.load_file("mydevoirs/itemwidget.kv")
 
 
 test_setup()
@@ -29,22 +33,24 @@ def get_touch(item):
     return Touche(item.pos[0] + item.size[0] / 2, item.pos[1] + item.size[1] / 2)
 
 
-def matiere_grammaire():
+def f_matiere(matiere=None):
+    matiere = matiere or random.choice(list(MATIERES))
     with db_session:
-        return db.Matiere["Grammaire"]
+        return db.Matiere[matiere]
 
 
-def jour_today():
+def f_jour(jour=None):
+    jour = jour or gen.datetime.date()
     with db_session:
-        return db.Jour.get(date=datetime.date.today()) or db.Jour(
-            date=datetime.date.today()
-        )
+        return db.Jour.get(date=jour) or db.Jour(date=jour)
 
 
-def item_today():
+def f_item(content=None, matiere=None, jour=None, done=None):
+    content = content or gen.text.sentence()
+    done = done or False
     with db_session:
         i = db.Item(
-            content="item today", matiere=matiere_grammaire(), jour=jour_today()
+            content=content, matiere=f_matiere(matiere), jour=f_jour(jour), done=done
         )
         return i
 

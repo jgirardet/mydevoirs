@@ -65,8 +65,8 @@ class ItemWidget(BoxLayout):
                 db.Item[self.entry].toggle()
 
     def remove(self):
-        self.popup = EffacerPopup(item=self, content=ValidationPopup())
-        self.popup.open()
+        popup = EffacerPopup(content=ValidationPopup(item=self))
+        popup.open()
 
     def remove_after_confirmation(self):
         with db_session:
@@ -75,8 +75,12 @@ class ItemWidget(BoxLayout):
 
 
 class EffacerPopup(Popup):
-    item = ObjectProperty()
+    pass
 
 
 class ValidationPopup(BoxLayout):
-    pass
+    item = ObjectProperty()
+    def on_press(self, *args):
+        print("on press")
+        print(args)
+

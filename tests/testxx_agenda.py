@@ -29,42 +29,34 @@ from mydevoirs.constants import SEMAINE
 
 
 class AgendaItemWidgetTestCase(MyDevoirsTestCase):
-    def setUp(self):
-        super().setUp()
-
-        with db_session:
-            self.JOUR = db.Jour(date=datetime.date.today())
-            self.MAT = db.Matiere["Grammaire"]
-            self.FIRST = db.Item(content="un", matiere=self.MAT, jour=self.JOUR)
-            self.SECOND = db.Item(
-                content="deux", matiere=self.MAT, jour=self.JOUR, done=True
-            )
+ 
 
     def test_widget_init(self):
 
-        self.check_super_init("ItemWidget", AgendaItemWidget, **self.FIRST.to_dict())
-        item = AgendaItemWidget(**self.FIRST.to_dict())
-        assert item.entry == self.FIRST.id  # super.__init__ called
+        self.check_super_init("ItemWidget", AgendaItemWidget, **f_item().to_dict())
+        it = f_item()
+        item = AgendaItemWidget(**it.to_dict())
+        assert item.entry == it.id  # super.__init__ called
         assert hasattr(item, "_jour_widget")
 
     def test_on_done(self):
 
         # check super call
         with patch("mydevoirs.agenda.ItemWidget.on_done") as e:
-            item = AgendaItemWidget(**self.FIRST.to_dict())
+            item = AgendaItemWidget(**f_item().to_dict())
             item.loaded_flag = False
             item.on_done()
             assert e.called
 
         # reste
-        item = AgendaItemWidget(**self.FIRST.to_dict())
+        item = AgendaItemWidget(**f_item().to_dict())
         item._jour_widget = MagicMock()
         item.on_done()
         assert item.jour_widget.update_progression.called
 
     def test_jour_widget(self):
-        item_today()
-        jw = JourWidget(datetime.date.today())
+        f = f_item()
+        jw = JourWidget(f.jour.date)
         item = jw.jouritem.children[0]
 
         # base behaviour
@@ -81,21 +73,22 @@ class JourItemsTestCase(MyDevoirsTestCase):
 
         super().setUp()
 
-        self.a = item_today()
-        self.b = item_today()
-        self.c = item_today()
-
-        self.jouritems = JourItems(self.a.jour.date)
-
-        self.render(self.jouritems)
-
     def test_init(self):
         self.check_super_init("GridLayout", JourItems, datetime.date.today())
 
     def test_load(self):
 
-        assert len(self.jouritems.children) == 3
-        assert self.jouritems.children[0].entry == self.c.id
+        day = f_jour().date
+        f_item(jour=day)
+        f_item(jour=day)
+        c = f_item(jour=day)
+
+        jouritems = JourItems(day)
+
+        self.render(jouritems)
+
+        assert len(jouritems.children) == 3
+        assert jouritems.children[0].entry == c.id
 
 
 class JourWidgetTestCase(MyDevoirsTestCase):
@@ -103,10 +96,7 @@ class JourWidgetTestCase(MyDevoirsTestCase):
 
         super().setUp()
 
-        self.a = item_today()
-        self.b = item_today()
-        self.c = item_today()
-
+        
     def test_init(self):
         self.check_super_init("BoxLayout", JourWidget, datetime.date(1999, 1, 1))
 
@@ -115,7 +105,11 @@ class JourWidgetTestCase(MyDevoirsTestCase):
         assert jour.ids.titre_jour.text == "mardi 12 novembre 2019"
 
     def test_add(self):
-        jour = JourWidget(self.a.jour.date)
+        day = f_jour()
+        for i in range(3):
+            f_item(jour=day.date)
+
+        jour = JourWidget(day.date)
         self.render(jour)
         assert len(jour.jouritem.children) == 3
         get_touch(jour.ids.add_button).click()

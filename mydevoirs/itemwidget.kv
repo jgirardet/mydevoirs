@@ -68,14 +68,18 @@
         text: "oui"
         id: oui
         on_press:
-            root.parent.parent.parent.item.remove_after_confirmation()
+            print("dans oui")
+            root.item.remove_after_confirmation()
             root.parent.parent.parent.dismiss()
+
     Button:
         id: non
         text: "non"
         on_press:
-            root.dismiss()
+            print("dans non")
+            root.on_press("nonnnnnnnn")
+            # root.parent.parent.parent.dismiss()
 
 <EffacerPopup>:
-    title: f"Effacer  {root.item.matiere_nom}: {root.item.content} ?"
+    title: f"Effacer  {self.content.item.matiere_nom}: {self.content.item.content} ?"
     size_hint: .5, .2
