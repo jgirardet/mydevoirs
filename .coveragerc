@@ -1,0 +1,13 @@
+[run]
+branch = True
+source = mydevoirs
+omit =
+  */.env/*,
+  */__init__.py,
+  mydevoirs/reserve
+
+[report]
+ignore_errors = True
+exclude_lines =
+    pragma: no cover
+    def __repr__

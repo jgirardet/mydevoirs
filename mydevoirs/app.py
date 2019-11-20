@@ -1,44 +1,21 @@
-from mydevoirs.widgets import CarouselWidget, TodoList
+from pathlib import Path
+
 from kivy.app import App
 from kivy.properties import ObjectProperty
 from mydevoirs.constants import APP_NAME
-from pathlib import Path
+from mydevoirs.agenda import Agenda
+from mydevoirs.todo import Todo
 from mydevoirs.utils import get_dir
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.actionbar import ActionBar
-from kivy.uix.screenmanager import ScreenManager, Screen, SlideTransition
+from kivy.uix.screenmanager import ScreenManager, SlideTransition
 from kivy.core.window import Window
 from kivy.modules import inspector
 
 from mydevoirs.database.database import db_init
 
 from mydevoirs.settings import settings_json
-from mydevoirs.slide_item import SettingSlider
 
-
-class Agenda(Screen):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.carousel = CarouselWidget()
-        self.add_widget(self.carousel)
-
-    def go_date(self, date=None):
-        self.remove_widget(self.carousel)
-
-        self.carousel = CarouselWidget(date)
-
-        self.add_widget(self.carousel)
-
-class Todo(Screen):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.todolist = TodoList()
-        self.add_widget(self.todolist)
-
-    def reload(self):
-        self.remove_widget(self.todolist)
-        self.todolist = TodoList()
-        self.add_widget(self.todolist)
 
 class MyDevoirsApp(App):
 
@@ -52,10 +29,10 @@ class MyDevoirsApp(App):
 
     def build(self):
         self.sm = ScreenManager(transition=SlideTransition(direction="up"))
-        agenda = Agenda(name="agenda")
-        todo = Todo(name="todo")
-        self.sm.add_widget(agenda)
-        self.sm.add_widget(todo)
+        self.agenda = Agenda(name="agenda")
+        self.todo = Todo(name="todo")
+        self.sm.add_widget(self.agenda)
+        self.sm.add_widget(self.todo)
         self.sm.current = "agenda"
 
         self.box = BoxLayout(orientation="vertical")

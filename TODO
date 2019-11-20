@@ -1,13 +1,12 @@
 test remove avec popup
-Test Done => need refactor
+Test Done  : class
+ALl update afer delete or add
 
 graphique
 taille police
 clœavier
 couleur textinput
 miximisé d'emblée
-montrer à faire
-àfaire la semaine prochaine
 ci
 compile windows
 
@@ -15,5 +14,4 @@ compile windows
 crediter images
 
 
-Refactor:
-ItemWidget 1 seul et hériter ensuite
+autocomplete
