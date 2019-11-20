@@ -6,6 +6,7 @@ import os
 from kivy.lang import Builder
 from unittest.mock import patch
 from mydevoirs.constants import APP_NAME
+import time
 
 
 def test_setup():
@@ -50,11 +51,16 @@ def item_today():
 
 class MyDevoirsTestCase(GraphicUnitTest):
     def setUp(self):
+        self.debut_time = time.time()
         super().setUp()
         with db_session:
             for entity in db.entities.values():
                 if entity.__name__ != "Matiere":
                     delete(e for e in entity)
+
+    def tearDown(self):
+        super().tearDown()
+        # print(f"durée: {(time.time()-self.debut_time)*1000}")
 
     def check_super_init(self, parent, enfant, *args, fn="__init__", **kwargs):
         module = self.__module__.split("_")[-1]

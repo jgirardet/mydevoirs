@@ -26,7 +26,6 @@ BASE_DIR = os.environ["MYDEVOIRS_BASE_DIR"]
 
 
 def get_base_dir():
-    print(BASE_DIR)
     return Path(BASE_DIR)
 
 

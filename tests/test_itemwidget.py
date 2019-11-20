@@ -22,7 +22,6 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
             self.SECOND = db.Item(
                 content="deux", matiere=self.MAT, jour=self.JOUR, done=True
             )
-        print(self.FIRST, self.SECOND)
 
     def test_init(self):
         self.check_super_init("BoxLayout", ItemWidget, **self.FIRST.to_dict())

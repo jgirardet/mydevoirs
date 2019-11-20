@@ -29,10 +29,10 @@ class MyDevoirsApp(App):
 
     def build(self):
         self.sm = ScreenManager(transition=SlideTransition(direction="up"))
-        agenda = Agenda(name="agenda")
-        todo = Todo(name="todo")
-        self.sm.add_widget(agenda)
-        self.sm.add_widget(todo)
+        self.agenda = Agenda(name="agenda")
+        self.todo = Todo(name="todo")
+        self.sm.add_widget(self.agenda)
+        self.sm.add_widget(self.todo)
         self.sm.current = "agenda"
 
         self.box = BoxLayout(orientation="vertical")

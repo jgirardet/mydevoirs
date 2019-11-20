@@ -51,7 +51,6 @@ class AgendaItemWidgetTestCase(MyDevoirsTestCase):
 
         # check super call
         with patch("mydevoirs.agenda.ItemWidget.on_done") as e:
-            print(e)
             item = AgendaItemWidget(**self.FIRST.to_dict())
             item.loaded_flag = False
             item.on_done()

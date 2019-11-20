@@ -16,13 +16,16 @@ from kivy.properties import (
 from pony.orm import db_session
 from mydevoirs.database.database import db
 from mydevoirs.agenda import ItemWidget
+from kivy.app import App
 
 
 class TodoItemWidget(ItemWidget):
     def on_done(self, *args):
         super().on_done(*args)
         if self.loaded_flag:
-            self.parent.parent.parent.parent.reload()
+            app = App.get_running_app()
+            app.todo.reload()
+            print("ok", app)
 
 
 class Todo(Screen):
