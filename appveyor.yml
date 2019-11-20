@@ -26,7 +26,22 @@ build: off
 test_script:
 
     # run tests with test coverage report
-    - poetry run pytest
+    - poetry -V
+
+
+after_test:
+    - poetry run  pyinstaller -y --clean main_win.spec
+
+artifacts:
+    - path: dist/MyDevoirs.exe
+
+# deploy:
+#     provider: GitHub
+#     description: ""
+#     auth_token:
+#         secure: uplI9CJ2dTGcEBCbZuIn+Qb4rC38hOoRSH9lcwuGCr5g9fSnhK1MZdNT6Cjf/mFL
+  # on:
+  #   APPVEYOR_REPO_TAG: true
 
 # after_test:
 #     - pip install codecov
