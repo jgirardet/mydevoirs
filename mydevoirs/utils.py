@@ -3,7 +3,9 @@ from pathlib import Path
 from mydevoirs.constants import APP_NAME, MATIERES
 import os
 from kivy.utils import rgba
+from mydevoirs.datas import get_datas
 
+datas = get_datas()
 
 def get_dir(key):
 

@@ -36,4 +36,4 @@ def get_datas():
     return res
 
 
-datas = get_datas()
+
