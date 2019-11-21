@@ -30,7 +30,7 @@ import platform
 if platform.system() == "Linux":
     locale.setlocale(locale.LC_ALL, "fr_FR.utf8")
 else:
-    locale.setlocale(locale.LC_ALL, "fr_FR")
+    locale.setlocale(locale.LC_ALL, "french")
 
 
 
