@@ -6,7 +6,7 @@ all: dev test
 
 install:
 	python3.7 -m venv .venv
-	.venv/bin/pip install -U pip
+	.venv/bin/pip install -U pip	
 	poetry install
 
 devtools:
