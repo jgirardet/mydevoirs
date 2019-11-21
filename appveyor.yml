@@ -36,11 +36,11 @@ after_test:
 artifacts:
     - path: dist/MyDevoirs.exe
 
-# deploy:
-#     provider: GitHub
-#     description: ""
-#     auth_token:
-#         secure: bc2ac21caa03ceab61c847b8858c76cd6609bafe
+deploy:
+    provider: GitHub
+    description: ""
+    auth_token:
+        secure: bc2ac21caa03ceab61c847b8858c76cd6609bafe
   # on:
   #   APPVEYOR_REPO_TAG: true
 
