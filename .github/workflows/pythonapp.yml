@@ -22,8 +22,7 @@ jobs:
     - name: Test with pytest
       run: |
         source $HOME/.poetry/env
-        make test
-        make cov
+        poetry run pytest        
     - name: Build 
       run: |
         source $HOME/.poetry/env
