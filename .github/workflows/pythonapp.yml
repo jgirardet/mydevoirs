@@ -21,8 +21,10 @@ jobs:
         make install
     - name: Test with pytest
       run: |
+        source $HOME/.poetry/env
         make test
         make cov
     - name: Build 
       run: |
+        source $HOME/.poetry/env
         make build
