@@ -27,7 +27,7 @@ build: off
 test_script:
 
     - poetry -V
-    - run tests with test coverage report
+    - poetry run tests with test coverage report
 
 
 after_test:
