@@ -6,7 +6,6 @@ import datetime
 from unittest.mock import patch, MagicMock
 from .fixtures import *
 from mydevoirs.matiere_dropdown import MatiereOption
-from mydevoirs.datas import datas
 from kivy.uix.widget import Widget
 from kivy.uix.boxlayout import BoxLayout
 
