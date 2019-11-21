@@ -25,8 +25,10 @@ from kivy.uix.screenmanager import Screen
 import itertools
 from pony.orm import db_session
 
+import platform
 
-locale.setlocale(locale.LC_ALL, "fr_FR.utf8")
+if platform.system() == "Linux":
+    locale.setlocale(locale.LC_ALL, "fr_FR.utf8")
 
 
 class AgendaItemWidget(ItemWidget):
