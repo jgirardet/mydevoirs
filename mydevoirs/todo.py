@@ -56,7 +56,6 @@ class TodoList(BoxLayout):
         sc = ScrollView(do_scroll_x=False)
         sc.add_widget(self.box)
         self.add_widget(sc)
-        # self.add_widget(self.box)
 
     def load_items(self):
         with db_session:

@@ -30,6 +30,8 @@ test_script:
 
 
 after_test:
+    - poetry run coverage run --rcfile=.coveragerc_win -m pytest
+    - poetry run coverage report
     - poetry run  pyinstaller -y --clean main_win.spec
 
 artifacts:

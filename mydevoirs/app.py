@@ -17,13 +17,11 @@ from kivy.modules import inspector
 from mydevoirs.settings import settings_json
 
 
-
 class MyDevoirsApp(App):
 
     carousel = ObjectProperty()
 
-          
-
+    name = "MyDevoirs"
 
     def build(self):
         self.sm = ScreenManager(transition=SlideTransition(direction="up"))
@@ -41,11 +39,14 @@ class MyDevoirsApp(App):
         return self.box
 
     def go_todo(self):
+        self.sm.transition.direction = "down"
         self.sm.current = "todo"
         self.sm.current_screen.reload()
 
     def go_agenda(self):
+        self.sm.transition.direction = "up"
         self.sm.current = "agenda"
+        # self.sm.switch_to(self.sm.get_screen("agenda"), direction="right")
         self.sm.current_screen.go_date()
 
     def build_config(self, config):

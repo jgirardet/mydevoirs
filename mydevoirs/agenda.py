@@ -26,8 +26,6 @@ import itertools
 from pony.orm import db_session
 
 
-
-
 class AgendaItemWidget(ItemWidget):
     def __init__(self, **kwargs):
         self._jour_widget = None
@@ -67,7 +65,9 @@ class JourItems(GridLayout):
         self.date = date
 
         with db_session:
-            query = db.Item.select(lambda x: x.jour.date == date)  # pragma: no cover
+            query = db.Item.select(
+                lambda x: x.jour.date == date
+            )  # pragma: no cover_all
             widgets = [AgendaItemWidget(**i.to_dict()) for i in query]
         for item in widgets:
             self.add_widget(item)
@@ -117,8 +117,11 @@ class BaseGrid(GridLayout):
 
     @staticmethod
     def get_days_to_show():
-        cp = ConfigParser.get_configparser("app")
-        return [cp.getboolean("agenda", j) for j in SEMAINE]
+        try:
+            cp = ConfigParser.get_configparser("app")
+            return [cp.getboolean("agenda", j) for j in SEMAINE]
+        except AttributeError:
+            return [True, True, False, True, True, False, False]
 
     def build_grid(self, jours):
         for d in self.get_week_days(jours):

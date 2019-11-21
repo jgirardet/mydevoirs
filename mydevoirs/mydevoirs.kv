@@ -7,30 +7,36 @@
 
 
 <ActionBar>:
+	id: actionbar
     ActionView:
 		ActionPrevious:
 			with_previous: False
 
         ActionButton:
+        	id: go_todo
             text: "Semaine en cours"
 		    icon: datas['icon_todo']
             on_release: app.go_todo()
         ActionButton:
+        	id: go_agenda
 		    icon: datas['icon_agenda']
             on_release: app.go_agenda()
 		ActionButton:
+			id: previous
 		    icon: datas['icon_precedant'] if app.sm.current == "agenda" else ""
 		    on_release: app.sm.current_screen.carousel.load_previous()
 		    disabled: app.sm.current != "agenda"
 		    background_disabled_normal: self.background_normal
 
 		ActionButton:
+			id: next
 		    icon: datas['icon_suivant'] if app.sm.current == "agenda" else ""
 		    disabled: app.sm.current != "agenda"
 		    background_disabled_normal: self.background_normal
 		    on_release: app.sm.current_screen.carousel.load_next()
 
 		ActionButton:
+			id: params
 		    text: 'Paramètres'
 		    # icon: 'data/icons/chevron-right.png'
 		    on_release: app.open_settings()

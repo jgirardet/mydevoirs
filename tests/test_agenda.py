@@ -161,12 +161,8 @@ class TestBaseGrid(MyDevoirsTestCase):
             assert b.day == datetime.date(2019, 7, 18)
 
 
-@patch(
-    "mydevoirs.agenda.BaseGrid.get_days_to_show",
-    return_value=[True, True, False, True, True, False, False],
-)
 class TestCaroussel(MyDevoirsTestCase):
-    def test_init(self, bg):
+    def test_init(self):
         self.check_super_init("Carousel", CarouselWidget)
 
         d = datetime.date(2015, 12, 11)
@@ -178,7 +174,7 @@ class TestCaroussel(MyDevoirsTestCase):
         assert c.slides[1].day == datetime.date(2015, 12, 11)
         assert c.slides[2].day == datetime.date(2015, 12, 18)
 
-    def test_on_index(self, bg):
+    def test_on_index(self):
         """Carousel slides values:
             0: gauche
             1: centre
@@ -222,15 +218,11 @@ class TestCaroussel(MyDevoirsTestCase):
             assert c.slides[i].day == j.day
 
 
-@patch(
-    "mydevoirs.agenda.BaseGrid.get_days_to_show",
-    return_value=[True, True, False, True, True, False, False],
-)
 class TestAgendaScreen(MyDevoirsTestCase):
-    def test_init(self, gd):
+    def test_init(self):
         self.check_super_init("Screen", Agenda)
 
-    def test_go_date(self, gd):
+    def test_go_date(self):
         b = Agenda()
         assert b.carousel.date == datetime.date.today()
         b.go_date(datetime.date(2012, 3, 2))
