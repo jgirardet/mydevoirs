@@ -34,6 +34,3 @@ def get_datas():
         genre, nom = k.split("_")
         res[k] = os.path.join(base, "data", genre + "s", v)
     return res
-
-
-

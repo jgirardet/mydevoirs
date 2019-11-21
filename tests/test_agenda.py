@@ -29,8 +29,6 @@ from mydevoirs.constants import SEMAINE
 
 
 class AgendaItemWidgetTestCase(MyDevoirsTestCase):
- 
-
     def test_widget_init(self):
 
         self.check_super_init("ItemWidget", AgendaItemWidget, **f_item().to_dict())
@@ -96,7 +94,6 @@ class JourWidgetTestCase(MyDevoirsTestCase):
 
         super().setUp()
 
-        
     def test_init(self):
         self.check_super_init("BoxLayout", JourWidget, datetime.date(1999, 1, 1))
 
@@ -112,8 +109,7 @@ class JourWidgetTestCase(MyDevoirsTestCase):
         jour = JourWidget(day.date)
         self.render(jour)
         assert len(jour.jouritem.children) == 3
-        get_touch(jour.ids.add_button).click()
-        self.render(jour)
+        jour.ids.add_button.trigger_action(0)
 
         print(jour.jouritem.children)
         # return

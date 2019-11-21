@@ -34,6 +34,9 @@ class ItemWidget(BoxLayout):
         entry.pop("jour")
         super().__init__(**entry)
 
+    def __repr__(self):
+        return f"{self.date} : {self.matiere_nom} --- {self.content[:10]}  {'X' if self.done else 'O'}"
+
     def on_kv_post(self, *args):
         self.loaded_flag = True
 
@@ -80,7 +83,7 @@ class EffacerPopup(Popup):
 
 class ValidationPopup(BoxLayout):
     item = ObjectProperty()
+
     def on_press(self, *args):
         print("on press")
         print(args)
-

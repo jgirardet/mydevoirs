@@ -44,8 +44,7 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
         self.render(item)
 
         spin = item.ids.spinner
-        touch = get_touch(spin)
-        touch.click()
+        spin.trigger_action(0)
 
         self.Window.children[0].select(MatiereOption(text="Divers"))
         with db_session:
@@ -71,11 +70,8 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
             x = d["id"]
 
             item = ItemWidget(**d)
-            self.render(item)
 
-            touch = get_touch(item.ids.done)
-            touch.click()
-
+            item.ids.done.trigger_action(0)
             with db_session:
                 if not n.done:
                     assert item.ids.image_done.source == datas["icon_checked"]
@@ -131,25 +127,15 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
         with db_session:
             assert not db.Item.exists(lambda x: x.id == second.id)
 
+    def test_remove2(self):
+        b = ItemWidget(**f_item().to_dict())
 
+        EventLoop.ensure_window()
+        window = EventLoop.window
+        window.clear()
+        window.add_widget(b)
 
-    # def test_remove2(self):
-    #     b = ItemWidget(**f_item().to_dict())
+        b.ids.remove_item.trigger_action(0)
 
-    #     EventLoop.ensure_window()
-    #     window = EventLoop.window
-    #     window.clear()
-
-    #     window.add_widget(b)
-
-    #     self.render(b)
-    #     t = get_touch(b.ids.remove_item)
-    #     t.click()
-
-    #     self.render(b)
-
-    #     t = get_touch(window.children[0].content.ids.oui)
-    #     t.click()
-
-    #     print(window.children)
-    #     assert b not in window.children
+        window.children[0].content.ids.oui.trigger_action(0)
+        assert b not in window.children

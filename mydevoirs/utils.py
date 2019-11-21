@@ -7,6 +7,7 @@ from mydevoirs.datas import get_datas
 
 datas = get_datas()
 
+
 def get_dir(key):
 
     # test config dir

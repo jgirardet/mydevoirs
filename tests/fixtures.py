@@ -13,13 +13,13 @@ import random
 gen = Generic("fr")
 
 
-def test_setup():
+def setup_test():
     os.environ["MYDEVOIRS_BASE_DIR"] = os.getcwd()
     Builder.load_file("mydevoirs/mydevoirs.kv")
     # Builder.load_file("mydevoirs/itemwidget.kv")
 
 
-test_setup()
+setup_test()
 db_init()
 
 
@@ -66,7 +66,7 @@ class MyDevoirsTestCase(GraphicUnitTest):
 
     def tearDown(self):
         super().tearDown()
-        # print(f"durée: {(time.time()-self.debut_time)*1000}")
+        print(f"durée: {(time.time()-self.debut_time)*1000}")
 
     def check_super_init(self, parent, enfant, *args, fn="__init__", **kwargs):
         module = self.__module__.split("_")[-1]
@@ -77,3 +77,5 @@ class MyDevoirsTestCase(GraphicUnitTest):
             except:
                 pass
             assert m.called
+
+            del enfant

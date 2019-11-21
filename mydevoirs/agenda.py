@@ -33,7 +33,6 @@ else:
     locale.setlocale(locale.LC_ALL, "french")
 
 
-
 class AgendaItemWidget(ItemWidget):
     def __init__(self, **kwargs):
         self._jour_widget = None

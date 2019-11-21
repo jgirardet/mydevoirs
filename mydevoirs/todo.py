@@ -47,9 +47,7 @@ class DateLabel(Label):
 class TodoList(BoxLayout):
 
     progression = StringProperty("0/0")
-    # orientation = "vertical"
-    # size_hint = (None, None   )
-    # id = "scroll_items"
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.box = BoxLayout(orientation="vertical", size_hint_y=None)
