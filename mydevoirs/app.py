@@ -12,20 +12,18 @@ from kivy.uix.screenmanager import ScreenManager, SlideTransition
 from kivy.core.window import Window
 from kivy.modules import inspector
 
-from mydevoirs.database.database import db_init
+# from mydevoirs.database.database import db_init
 
 from mydevoirs.settings import settings_json
+
 
 
 class MyDevoirsApp(App):
 
     carousel = ObjectProperty()
 
-    def __init__(self):
-        db_init()
-        super().__init__()
+          
 
-        assert self.get_application_name() == APP_NAME
 
     def build(self):
         self.sm = ScreenManager(transition=SlideTransition(direction="up"))

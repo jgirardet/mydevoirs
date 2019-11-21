@@ -24,7 +24,7 @@ cov:
 
 cov_html: cov
 	poetry run coverage html
-	firefox htmlcov/index.html
+	firefox htmlcov/index.html &
 	
 pdb:
 	poetry run pytest --pdb

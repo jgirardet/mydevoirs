@@ -9,18 +9,17 @@ from mydevoirs.constants import APP_NAME, MATIERES
 import time
 from mimesis import Generic
 import random
+from main import setup_start
 
 gen = Generic("fr")
 
 
 def setup_test():
-    os.environ["MYDEVOIRS_BASE_DIR"] = os.getcwd()
     Builder.load_file("mydevoirs/mydevoirs.kv")
-    # Builder.load_file("mydevoirs/itemwidget.kv")
+    setup_start()
 
 
 setup_test()
-db_init()
 
 
 class Touche(UnitTestTouch):
