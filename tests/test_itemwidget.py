@@ -198,4 +198,4 @@ class Atest(MyDevoirsTestCase):
         t.click()
 
         print(window.children)
-        # assert b not in window.children
+        assert b not in window.children
