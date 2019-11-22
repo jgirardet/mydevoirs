@@ -1,15 +1,14 @@
-from mydevoirs.itemwidget import ItemWidget  # , Clock, JourItems, JourWidget, BaseGrid
+from unittest.mock import MagicMock, patch
 
-
-from pony.orm import db_session
-import datetime
-from unittest.mock import patch, MagicMock
-from .fixtures import *
-from mydevoirs.matiere_dropdown import MatiereOption
-from kivy.uix.widget import Widget
-from kivy.uix.boxlayout import BoxLayout
 from kivy.base import EventLoop
+from kivy.uix.widget import Widget
+from pony.orm import db_session
+
+from mydevoirs.itemwidget import ItemWidget  # , Clock, JourItems, JourWidget, BaseGrid
+from mydevoirs.matiere_dropdown import MatiereOption
 from mydevoirs.utils import datas
+
+from .fixtures import *
 
 
 class ItemWidgetTestCase(MyDevoirsTestCase):
@@ -127,7 +126,7 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
         with db_session:
             assert not db.Item.exists(lambda x: x.id == second.id)
 
-    def test_remove2(self):
+    def test_remove(self):
         b = ItemWidget(**f_item().to_dict())
 
         EventLoop.ensure_window()

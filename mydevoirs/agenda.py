@@ -1,29 +1,29 @@
+import datetime
+import itertools
+import locale
 from pathlib import Path
 
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.boxlayout import BoxLayout
+from kivy.clock import Clock
+from kivy.config import ConfigParser
 from kivy.lang import Builder
 from kivy.properties import (
-    StringProperty,
-    ObjectProperty,
-    ListProperty,
-    NumericProperty,
     BooleanProperty,
     DictProperty,
+    ListProperty,
+    NumericProperty,
+    ObjectProperty,
+    StringProperty,
 )
-from kivy.clock import Clock
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.carousel import Carousel
-import datetime
-import locale
-from mydevoirs.database.database import db
-from mydevoirs.constants import SEMAINE
-from mydevoirs.matiere_dropdown import MatiereDropdown
-from mydevoirs.itemwidget import ItemWidget
-from kivy.config import ConfigParser
+from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import Screen
-
-import itertools
 from pony.orm import db_session
+
+from mydevoirs.constants import SEMAINE
+from mydevoirs.database.database import db
+from mydevoirs.itemwidget import ItemWidget
+from mydevoirs.matiere_dropdown import MatiereDropdown
 
 
 class AgendaItemWidget(ItemWidget):

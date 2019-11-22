@@ -1,20 +1,19 @@
-from pathlib import Path
+from functools import partial
 
-from kivy.uix.boxlayout import BoxLayout
+from kivy.clock import Clock
 from kivy.lang import Builder
 from kivy.properties import (
-    StringProperty,
-    ListProperty,
     BooleanProperty,
+    ListProperty,
     ObjectProperty,
+    StringProperty,
 )
-from kivy.clock import Clock
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.popup import Popup
+from pony.orm import db_session
+
 from mydevoirs.database.database import db
 from mydevoirs.utils import get_base_dir
-from pony.orm import db_session
-from functools import partial
-from kivy.uix.popup import Popup
-
 
 Builder.load_file(str(get_base_dir() / "mydevoirs" / "itemwidget.kv"))
 

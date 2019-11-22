@@ -10,9 +10,9 @@ install:
 	poetry install
 
 devtools:
-	.venv/bin/pip install -U ipython pdbpp
+	.venv/bin/pip install -U ipython pdbpp autoflake
 
-dev:  install devtools
+dev:  install devtools 
 
 test:
 	poetry run pytest
@@ -32,6 +32,12 @@ pdb:
 
 run:
 	poetry run python main.py
+
+style:
+	poetry run black
+	poetry run isort main.py
+	poetry run isort -rc mydevoirs
+	poetry run isort -rc tests
 
 
 

@@ -1,8 +1,7 @@
+from kivy.lang import Builder
+from kivy.properties import ColorProperty
 from kivy.uix.settings import SettingItem
 from kivy.uix.slider import Slider
-from kivy.lang import Builder
-
-from kivy.properties import ColorProperty
 
 
 class SettingSlider(SettingItem):

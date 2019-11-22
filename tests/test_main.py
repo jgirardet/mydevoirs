@@ -1,10 +1,11 @@
-from main import set_my_devoirs_base_dir, do_import, set_locale_fr, setup_start
+import locale
 import os
+import platform
 from pathlib import Path
+
 import mydevoirs.app as m_app
 import mydevoirs.database.database as m_database
-import locale
-import platform
+from main import do_import, set_locale_fr, set_my_devoirs_base_dir, setup_start
 
 
 def test_set_base_dir():

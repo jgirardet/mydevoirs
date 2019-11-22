@@ -1,14 +1,14 @@
-import pony.orm.dbproviders.sqlite  # noqa: W291
+import datetime
 import os
 
+import pony.orm.dbproviders.sqlite  # noqa: W291
+from pony.orm import Optional, PrimaryKey, Required, Set, count, db_session, min
+from pony.orm.ormtypes import FloatArray
 
-from pony.orm import Required, PrimaryKey, Set, Optional, db_session, min, select, count
-from pony.orm.ormtypes import IntArray, FloatArray
-import datetime
 from mydevoirs.constants import MATIERES
 from mydevoirs.utils import get_dir
 
-from .base_db import db, GetOrCreateMixin
+from .base_db import GetOrCreateMixin, db
 
 
 class Jour(db.Entity, GetOrCreateMixin):

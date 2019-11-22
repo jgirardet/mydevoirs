@@ -1,15 +1,18 @@
-from kivy.tests.common import GraphicUnitTest, UnitTestTouch
-from pony.orm import db_session, delete
-from mydevoirs.database.database import db, db_init
 import datetime
 import os
-from kivy.lang import Builder
-from unittest.mock import patch
-from mydevoirs.constants import APP_NAME, MATIERES
-import time
-from mimesis import Generic
+import platform
 import random
+import time
+from unittest.mock import patch
+
+from kivy.lang import Builder
+from kivy.tests.common import GraphicUnitTest, UnitTestTouch
+from mimesis import Generic
+from pony.orm import db_session, delete
+
 from main import setup_start
+from mydevoirs.constants import APP_NAME, MATIERES
+from mydevoirs.database.database import db, db_init
 
 gen = Generic("fr")
 
@@ -78,3 +81,10 @@ class MyDevoirsTestCase(GraphicUnitTest):
             assert m.called
 
             del enfant
+
+
+def platform_dispatcher(test, linux, windows):
+    if platform.system() == "Linux": # pragma: no cover_win
+        assert test == linux
+    elif platform.system() == "Windows":  # pragma: no cover_linux
+        assert test == windows

@@ -1,22 +1,21 @@
-from kivy.uix.screenmanager import ScreenManager, Screen, SlideTransition
-from kivy.uix.button import Button
-from kivy.uix.scrollview import ScrollView
-from kivy.uix.label import Label
-from kivy.uix.boxlayout import BoxLayout
-
+from kivy.app import App
 from kivy.properties import (
-    StringProperty,
-    ObjectProperty,
-    ListProperty,
-    NumericProperty,
     BooleanProperty,
     DictProperty,
+    ListProperty,
+    NumericProperty,
+    ObjectProperty,
+    StringProperty,
 )
-
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.button import Button
+from kivy.uix.label import Label
+from kivy.uix.screenmanager import Screen, ScreenManager, SlideTransition
+from kivy.uix.scrollview import ScrollView
 from pony.orm import db_session
-from mydevoirs.database.database import db
+
 from mydevoirs.agenda import ItemWidget
-from kivy.app import App
+from mydevoirs.database.database import db
 
 
 class TodoItemWidget(ItemWidget):

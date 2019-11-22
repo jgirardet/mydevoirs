@@ -1,11 +1,11 @@
 # flake8: noqa
 
-from pathlib import Path
-import sys
 import locale
-import platform
 import os
+import platform
+import sys
 from importlib import import_module
+from pathlib import Path
 
 
 def set_my_devoirs_base_dir():

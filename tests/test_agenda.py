@@ -1,31 +1,31 @@
 # from mydevoirs import __version__
 # from mydevoirs.widgets import ItemWidget, Clock, JourItems, JourWidget, BaseGrid
-from mydevoirs.agenda import (
-    AgendaItemWidget,
-    JourWidget,
-    Agenda,
-    CarouselWidget,
-    JourItems,
-    BaseGrid,
-)
-
-# from pony.orm import db_session, delete
-from .fixtures import *
-
+from configparser import ConfigParser
 # from mydevoirs.constants import MATIERES
 # import datetime
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
+
+from kivy.uix.dropdown import DropDown
 from kivy.uix.widget import Widget
+
+from mydevoirs.agenda import (
+    Agenda,
+    AgendaItemWidget,
+    BaseGrid,
+    CarouselWidget,
+    JourItems,
+    JourWidget,
+)
+from mydevoirs.constants import SEMAINE
+
+from .fixtures import *
 
 # import pytest
 # from kivy.config import ConfigParser
 
-from kivy.uix.dropdown import DropDown
 
 # from mydevoirs.matiere_dropdown import MatiereOption
 
-from configparser import ConfigParser
-from mydevoirs.constants import SEMAINE
 
 
 class AgendaItemWidgetTestCase(MyDevoirsTestCase):
@@ -67,10 +67,6 @@ class AgendaItemWidgetTestCase(MyDevoirsTestCase):
 
 
 class JourItemsTestCase(MyDevoirsTestCase):
-    def setUp(self):
-
-        super().setUp()
-
     def test_init(self):
         self.check_super_init("GridLayout", JourItems, datetime.date.today())
 
@@ -90,9 +86,6 @@ class JourItemsTestCase(MyDevoirsTestCase):
 
 
 class JourWidgetTestCase(MyDevoirsTestCase):
-    def setUp(self):
-
-        super().setUp()
 
     def test_init(self):
         self.check_super_init("BoxLayout", JourWidget, datetime.date(1999, 1, 1))

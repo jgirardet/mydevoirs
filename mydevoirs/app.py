@@ -1,23 +1,22 @@
 from pathlib import Path
 
 from kivy.app import App
-from kivy.properties import ObjectProperty
-from mydevoirs.constants import APP_NAME
-from mydevoirs.agenda import Agenda
-from mydevoirs.todo import Todo
-from mydevoirs.utils import get_dir
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.actionbar import ActionBar
-from kivy.uix.screenmanager import ScreenManager, SlideTransition
 from kivy.core.window import Window
 from kivy.modules import inspector
+from kivy.properties import ObjectProperty
+from kivy.uix.actionbar import ActionBar
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.screenmanager import ScreenManager, SlideTransition
 
-# from mydevoirs.database.database import db_init
-
-from mydevoirs.settings import settings_json
+from mydevoirs.agenda import Agenda
+from mydevoirs.settings import DEFAULT_SETTINGS, SETTING_PANELS
+from mydevoirs.todo import Todo
+from mydevoirs.utils import get_dir
 
 
 class MyDevoirsApp(App):
+
+    use_kivy_settings = False
 
     carousel = ObjectProperty()
 
@@ -50,24 +49,18 @@ class MyDevoirsApp(App):
         self.sm.current_screen.go_date()
 
     def build_config(self, config):
-        config.setdefaults(
-            "agenda",
-            {
-                "lundi": True,
-                "mardi": True,
-                "mercredi": False,
-                "jeudi": True,
-                "vendredi": True,
-                "samedi": False,
-                "dimanche": False,
-            },
-        )
+        for section, values in DEFAULT_SETTINGS.items():
+            config.setdefaults(section, values)
 
     def build_settings(self, settings):
-        settings.add_json_panel("agenda", self.config, data=settings_json)
+        for pan in SETTING_PANELS:
+            settings.add_json_panel(pan[0], self.config, data=pan[1])
 
     def on_config_change(self, config, *args):
-        self.go_date()
+        getattr(self, "on_config_change_" + args[0])(config, *args)
+
+    def on_config_change_agenda(self, config, *args):
+        self.go_agenda()
 
     def get_application_config(self):
         return super().get_application_config(

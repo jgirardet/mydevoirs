@@ -1,7 +1,10 @@
-from .fixtures import *
-from mydevoirs.todo import TodoItemWidget, Todo, TodoList, DateLabel
 from unittest.mock import patch
+
 from pony.orm import db_session
+
+from mydevoirs.todo import DateLabel, Todo, TodoItemWidget, TodoList
+
+from .fixtures import *
 
 
 class TodoItemWidgetTestCas(MyDevoirsTestCase):
@@ -12,10 +15,7 @@ class TodoItemWidgetTestCas(MyDevoirsTestCase):
             with db_session:
                 it = TodoItemWidget(**f_item().to_dict())
             it.loaded_flag = True
-            self.render(it)
-
-            t = get_touch(it.ids.done)
-            t.click()
+            it.ids.done.trigger_action(0)
             assert m.return_value.todo.reload.called
 
 

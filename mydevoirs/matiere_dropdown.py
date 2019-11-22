@@ -1,11 +1,11 @@
-from kivy.uix.dropdown import DropDown
 from kivy.lang import Builder
+from kivy.properties import ColorProperty, ObjectProperty
 from kivy.uix.button import Button
-from kivy.properties import ObjectProperty, ColorProperty
+from kivy.uix.dropdown import DropDown
 from kivy.utils import rgba
 
+from mydevoirs.constants import MATIERES, MATIERES_TREE
 from mydevoirs.utils import gmc
-from mydevoirs.constants import MATIERES_TREE, MATIERES
 
 kvoption = """
 #: import MATIERES_TREE mydevoirs.constants.MATIERES_TREE

@@ -1,6 +1,5 @@
 import os
 
-
 base = os.environ["MYDEVOIRS_BASE_DIR"]
 
 """
