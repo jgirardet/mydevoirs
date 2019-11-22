@@ -38,7 +38,7 @@ def test_set_locale_fr():
 
     set_locale_fr()
 
-    assert locale.getlocale() == ("fr_FR", "UTF-8")
+    assert locale.getlocale()[0]== ("fr_FR")
 
     # locale.setlocale(*backup)
     locale.setlocale(locale.LC_ALL, backup[0] + "." + backup[1].strip("-").lower())
