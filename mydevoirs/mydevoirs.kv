@@ -23,7 +23,9 @@
 		ActionButton:
 			id: previous
 		    icon: datas['icon_precedant'] if app.sm.current == "agenda" else ""
-		    on_release: app.sm.current_screen.carousel.load_previous()
+		    # on_release: app.sm.current_screen.carousel.load_previous()
+		    on_release: app.sm.current_screen.carousel.index=0
+
 		    disabled: app.sm.current != "agenda"
 		    background_disabled_normal: self.background_normal
 
@@ -52,7 +54,7 @@
 
 
 <JourWidget>:
-	orientation: 'vertical'
+	orientation: 'vertical' # pragma: no cover
 	canvas.before:
 		Color:
 			rgba: COLORS['card']
@@ -60,7 +62,8 @@
 			pos: self.pos
             size: self.size
 	BoxLayout:
-		orientation: 'horizontal'
+		id: zone_titre
+		orientation: 'horizontal' # pragma: no cover
 		size_hint_y: None
 		height: dp(30)
 		canvas.before:
@@ -78,31 +81,21 @@
 	    	text: root.progression
 	    	font_name: datas['font_base']
 	    	font_size: sp(16)
-	    	size_hint_x: 0.3
+	    	size_hint_x: 0.3 # pragma: no cover
 	    	color: COLORS['fond'] if root.progression[0] == root.progression[2] else COLORS['progression']
 	    Button:
 	    	id: add_button
-	    	size_hint_x: 0.2
-	    	# width: self.height
-	    	background_color: (0,0,0,0)
-	    	# background_normal: ''
+	    	size_hint_x: 0.2  # pragma: no cover
+	    	background_color: (0,0,0,0) # pragma: no cover
 	    	on_release: root.add_item()
 	    	BoxLayout:
 	            pos: self.parent.pos
 	            size: self.parent.size
 		    	Image:
 		    		source: datas['icon_new']
-		    		# x: self.parent.x + self.width/2
-		    		# y: self.parent.y + self.height/2
 	ScrollView:
 		id: scroll_items
 		do_scroll_x: False
-		# canvas.before:
-	 #        Color:
-	 #            rgb: COLORS['card']
-	 #        Rectangle:
-	 #        	pos: self.pos
-	 #        	size: self.size
 
 
 <JourItems>:
@@ -110,15 +103,7 @@
 	size_hint_y: None
 	spacing: dp(5)
 	padding: dp(5)
-	cols: 1
-	# canvas.before:
-	# 	Color:
-	# 		rgba: COLORS['card']
-	# 	Rectangle:
-	# 		pos: self.pos
- #            size: self.size
-
-
+	orientation: 'vertical' # pragma: no cover
 
 
 <CarouselWidget>:

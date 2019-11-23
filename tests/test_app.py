@@ -1,3 +1,4 @@
+import datetime
 from pathlib import Path
 from unittest.mock import MagicMock, call
 
@@ -46,6 +47,16 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
         assert self.app.sm.current == "agenda"
         assert self.app.sm.transition.direction == "up"
         assert id(carousel) != id(self.app.sm.current_screen.carousel)  # widget rebuild
+
+    def test_go_previous(self):
+        self.app.sm.current = "agenda"
+        print(self.app.agenda.carousel.current_slide)
+        today = datetime.date.today()
+        assert self.app.agenda.carousel.date == today
+        self.actionbar.ids.previous.trigger_action(0)
+        # self.app.agenda.
+        print(self.app.agenda.carousel.current_slide)
+        assert self.app.agenda.carousel.date == today - datetime.timedelta(days=7)
 
     def test_build_config(self):
         config = ConfigParser()

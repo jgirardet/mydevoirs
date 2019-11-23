@@ -41,21 +41,7 @@ class AgendaItemWidget(ItemWidget):
         return self._jour_widget
 
 
-class Agenda(Screen):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.carousel = CarouselWidget()
-        self.add_widget(self.carousel)
-
-    def go_date(self, date=None):
-        self.remove_widget(self.carousel)
-
-        self.carousel = CarouselWidget(date)
-
-        self.add_widget(self.carousel)
-
-
-class JourItems(GridLayout):
+class JourItems(BoxLayout):
     def __init__(self, date):
         super().__init__()
         self.date = date
@@ -143,6 +129,7 @@ class CarouselWidget(Carousel):
     def on_index(self, *args):
 
         super().on_index(*args)
+        print("mlokk", self.current_slide.day)
 
         index = args[1]
 
@@ -167,4 +154,30 @@ class CarouselWidget(Carousel):
                 )
                 self.remove_widget(self.slides[sens])
 
+        self.date = self.current_slide.day
+        print(self.current_slide.day)
         self.index = 1
+
+
+    def load_previous(self, *args):
+        print(self.current_slide)
+        super().load_previous(*args)
+        self.date = self.current_slide.day
+        print("après previous", self.current_slide.day)
+        print(self.current_slide)
+
+
+
+
+class Agenda(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.carousel = CarouselWidget()
+        self.add_widget(self.carousel)
+
+    def go_date(self, date=None):
+        self.remove_widget(self.carousel)
+
+        self.carousel = CarouselWidget(date)
+
+        self.add_widget(self.carousel)

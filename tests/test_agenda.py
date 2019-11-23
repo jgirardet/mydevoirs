@@ -57,7 +57,7 @@ class AgendaItemWidgetTestCase(MyDevoirsTestCase):
 
 class JourItemsTestCase(MyDevoirsTestCase):
     def test_init(self):
-        self.check_super_init("GridLayout", JourItems, datetime.date.today())
+        self.check_super_init("BoxLayout", JourItems, datetime.date.today())
 
     def test_load(self):
 
@@ -93,7 +93,6 @@ class JourWidgetTestCase(MyDevoirsTestCase):
         jour.ids.add_button.trigger_action(0)
 
         print(jour.jouritem.children)
-        # return
         assert len(jour.jouritem.children) == 4
         assert any(isinstance(x, DropDown) for x in self.Window.children)
         with db_session:
