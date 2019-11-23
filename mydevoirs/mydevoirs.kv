@@ -14,7 +14,6 @@
 
         ActionButton:
         	id: go_todo
-            text: "Semaine en cours"
 		    icon: datas['icon_todo']
             on_release: app.go_todo()
         ActionButton:
@@ -37,7 +36,7 @@
 
 		ActionButton:
 			id: params
-		    text: 'Paramètres'
+		    text: 'Paramètres' # pragma: no cover
 		    # icon: 'data/icons/chevron-right.png'
 		    on_release: app.open_settings()
 

@@ -166,3 +166,4 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
 
         #background_normal
         assert item.ids.spinner.background_normal == ''
+
