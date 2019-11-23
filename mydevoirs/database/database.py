@@ -2,7 +2,7 @@ import datetime
 import os
 
 import pony.orm.dbproviders.sqlite  # noqa: W291
-from pony.orm import Optional, PrimaryKey, Required, Set, count, db_session, min
+from pony.orm import Optional, PrimaryKey, Required, Set, count, db_session
 from pony.orm.ormtypes import FloatArray
 
 from mydevoirs.constants import MATIERES
@@ -14,10 +14,6 @@ from .base_db import GetOrCreateMixin, db
 class Jour(db.Entity, GetOrCreateMixin):
     date = PrimaryKey(datetime.date)
     items = Set("Item")
-
-    @classmethod
-    def oldest(cls):
-        return min(i.date for i in cls)
 
     @property
     def progression(self):
@@ -60,10 +56,10 @@ class Item(db.Entity):
          {self.content} {'ø' if self.done else 'o'}"
 
 
-@db.on_connect(provider="sqlite")
-def sqlite_synchonous_off(db, connection):
-    cursor = connection.cursor()
-    cursor.execute("PRAGMA synchronous = OFF")
+# @db.on_connect(provider="sqlite")
+# def sqlite_synchonous_off(db, connection):
+#     cursor = connection.cursor()
+#     cursor.execute("PRAGMA synchronous = OFF")
 
 
 ###################################################################
@@ -74,16 +70,14 @@ def sqlite_synchonous_off(db, connection):
 if os.environ.get("MYDEVOIRS_TESTING", False):
     db.bind(provider="sqlite", filename=":memory:")
 else:
-
-    light_db = get_dir("cache") / "ddb.sqlite"
     hard_db = get_dir("cache") / "ddb_hard.sqlite"
     db.bind(provider="sqlite", filename=str(hard_db.absolute()), create_db=True)
 db.generate_mapping(create_tables=True)
 
 
-def db_init():
+def db_init(matieres=MATIERES):
     with db_session():
-        for k, v in MATIERES.items():
+        for k, v in matieres.items():
             if db.Matiere.exists(nom=k):
                 if db.Matiere[k].color != v:
                     db.Matiere[k].color = v

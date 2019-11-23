@@ -1,6 +1,7 @@
 #: import gmc mydevoirs.utils.gmc
 #: import COLORS mydevoirs.constants.COLORS
-
+#: import MATIERES_TREE mydevoirs.constants.MATIERES_TREE
+#: import MATIERES mydevoirs.constants.MATIERES
 
 <ItemWidget>:
     size_hint_y: None
@@ -19,9 +20,9 @@
         on_release:
             MatiereDropdown().open(self)
         background_color: gmc(self.text)
-        background_normal: ''
+        background_normal: '' # pragma: no cover
         color: COLORS["spinner_text_color"]
-        size_hint_x: 0.4
+        size_hint_x: 0.4 # pragma: no cover
         font_size: sp(14)
         font_name: datas['font_base']
 
@@ -30,8 +31,8 @@
         id : textinput
         text: root.content
         on_text: root.content = self.text
-        halign: 'left'
-        valign: 'middle'
+        halign: 'left' # pragma: no cover
+        valign: 'middle' # pragma: no cover
         multiline: False
         write_tab: False
         font_name: datas['font_base']
@@ -40,9 +41,9 @@
 
     ToggleButton:
         id: done
-        size_hint_x: 0.1
-        background_color: (1, 1, 1, 0)
-        background_normal: ''
+        size_hint_x: 0.1 # pragma: no cover
+        background_color: (1, 1, 1, 0) # pragma: no cover
+        background_normal: '' # pragma: no cover
         on_release: root.done = (not root.done)
         BoxLayout:
             id: boximage
@@ -55,9 +56,9 @@
 
     Button:
         id: remove_item 
-        size_hint_x: 0.1
+        size_hint_x: 0.1 # pragma: no cover
         on_release: root.remove()
-        background_color: (1, 1, 1, 0)
+        background_color: (1, 1, 1, 0) # pragma: no cover
         BoxLayout:
             pos: self.parent.x, self.parent.y +self.parent.height/2 - self.height/2
             size: self.parent.width*0.7, self.parent.height*0.7
@@ -65,10 +66,24 @@
                 source: datas['icon_remove']
 
 
+
+<MatiereOption>:
+    size_hint_y: None
+    height: dp(20)
+    background_color: gmc(self.text)
+    background_normal: '' # pragma: no cover
+    color: (0,0,0) # pragma: no cover
+
+<MatiereDropdown>:
+    auto_width: False
+    size_hint_x: None
+    width: dp(200)
+
+
 <ValidationPopup>:
-    orientation: 'horizontal'
+    orientation: 'horizontal' # pragma: no cover
     Button:
-        text: "oui"
+        text: "oui" # pragma: no cover
         id: oui
         on_press:
             root.item.remove_after_confirmation()
@@ -76,10 +91,10 @@
 
     Button:
         id: non
-        text: "non"
+        text: "non" # pragma: no cover
         on_press:
             root.parent.parent.parent.dismiss()
 
 <EffacerPopup>:
     title: f"Effacer  {self.content.item.matiere_nom}: {self.content.item.content} ?"
-    size_hint: .5, .2
+    size_hint: .5, .2 # pragma: no cover

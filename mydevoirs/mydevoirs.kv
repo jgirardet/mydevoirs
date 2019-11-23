@@ -1,8 +1,8 @@
 #: import MATIERES mydevoirs.constants.MATIERES
 #: import COLORS mydevoirs.constants.COLORS
 #: import datas  mydevoirs.utils.datas
-#: import MatiereOption mydevoirs.matiere_dropdown.MatiereOption
-#: import MatiereDropdown mydevoirs.matiere_dropdown.MatiereDropdown
+#: import MatiereOption mydevoirs.matieredropdown.MatiereOption
+#: import MatiereDropdown mydevoirs.matieredropdown.MatiereDropdown
 #: import gmc mydevoirs.utils.gmc
 
 
@@ -23,8 +23,8 @@
 		ActionButton:
 			id: previous
 		    icon: datas['icon_precedant'] if app.sm.current == "agenda" else ""
-		    # on_release: app.sm.current_screen.carousel.load_previous()
-		    on_release: app.sm.current_screen.carousel.index=0
+		    on_release: app.sm.current_screen.carousel.load_previous()
+		    # on_release: app.sm.current_screen.carousel.index=0
 
 		    disabled: app.sm.current != "agenda"
 		    background_disabled_normal: self.background_normal

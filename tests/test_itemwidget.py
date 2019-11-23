@@ -5,9 +5,9 @@ from kivy.uix.widget import Widget
 from pony.orm import db_session
 
 from mydevoirs.itemwidget import ItemWidget  # , Clock, JourItems, JourWidget, BaseGrid
-from mydevoirs.matiere_dropdown import MatiereOption
+from mydevoirs.matieredropdown import MatiereOption
 from mydevoirs.utils import datas
-from mydevoirs.constants import COLORS
+
 from .fixtures import *
 
 
@@ -151,19 +151,3 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
 
         window.children[0].content.ids.non.trigger_action(0)
         assert b in window.children
-
-    def test_kv(self):
-        item = ItemWidget(**f_item().to_dict())
-
-        # Some background color should be hidden
-        ids = ["remove_item", "done"]
-        for x in ids:
-            assert item.ids[x].background_color[3] == 0
-
-
-        #spinner color
-        assert item.ids.spinner.color == COLORS['spinner_text_color']
-
-        #background_normal
-        assert item.ids.spinner.background_normal == ''
-

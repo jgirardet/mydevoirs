@@ -19,12 +19,12 @@ def get_dir(key):
     return dire
 
 
-def get_matiere_color(nom):
+def get_matiere_color(nom, matiere=MATIERES):
     try:
 
-        return rgba(MATIERES[nom])
+        return rgba(matiere[nom])
     except KeyError:
-        return (0, 0, 0)
+        return rgba(0, 0, 0)
 
 
 gmc = get_matiere_color

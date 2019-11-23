@@ -3,9 +3,10 @@ from pathlib import Path
 from unittest.mock import MagicMock, call
 
 from kivy.config import ConfigParser
+from kivy.uix.settings import Settings
 
 from mydevoirs.app import MyDevoirsApp
-from mydevoirs.settings import DEFAULT_SETTINGS
+from mydevoirs.settings import DEFAULT_SETTINGS, SETTING_PANELS
 
 from .fixtures import *
 
@@ -50,13 +51,37 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
 
     def test_go_previous(self):
         self.app.sm.current = "agenda"
-        print(self.app.agenda.carousel.current_slide)
         today = datetime.date.today()
         assert self.app.agenda.carousel.date == today
-        self.actionbar.ids.previous.trigger_action(0)
-        # self.app.agenda.
-        print(self.app.agenda.carousel.current_slide)
+
+        def go(self, *args):  # workaround because test can't wait transition duration
+            self.index = 0
+
+        with patch("mydevoirs.agenda.Carousel.load_previous", go):
+            self.actionbar.ids.previous.trigger_action(0)
         assert self.app.agenda.carousel.date == today - datetime.timedelta(days=7)
+        self.app.go_agenda()  # reset
+
+    def test_go_next(self):
+        self.app.sm.current = "agenda"
+        today = datetime.date.today()
+        assert self.app.agenda.carousel.date == today
+
+        def go(
+            self, *args, mode=None
+        ):  # workaround because test can't wait transition duration
+            self.index = 2
+
+        with patch("mydevoirs.agenda.Carousel.load_next", go):
+            self.actionbar.ids.next.trigger_action(0)
+        assert self.app.agenda.carousel.date == today + datetime.timedelta(days=7)
+        self.app.go_agenda()  # reset
+
+    def test_go_settings(self):
+
+        with patch.object(self.app, "open_settings") as m:
+            self.actionbar.ids.params.trigger_action(0)
+            assert m.called
 
     def test_build_config(self):
         config = ConfigParser()
@@ -69,15 +94,14 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
                 else:
                     assert False, "un cas est manquant"
 
-    # def test_build_settings(self):
-    #     config = ConfigParser()
-    #     self.app.build_config(config)
-    #     reglages = Settings()
-    #     self.app.build_settings(reglages)
-    #     print(dir(reglages))
-    #     for panel in SETTING_PANELS:
-    #         assert panel[0] == reglages.children[0].content.panels[1339].title)
-    #     assert "Jours à afficher" == False
+    def test_build_settings(self):
+        config = ConfigParser()
+        self.app.build_config(config)
+        reglages = Settings()
+        self.app.build_settings(reglages)
+        panels = reglages.children[0].content.panels
+        for panel in SETTING_PANELS:
+            assert any(p.title == panel[0] for p in panels.values())
 
     def test_on_change_section_exists(self):
         for section in DEFAULT_SETTINGS:

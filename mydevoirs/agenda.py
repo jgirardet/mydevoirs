@@ -19,7 +19,7 @@ from pony.orm import db_session
 from mydevoirs.constants import SEMAINE
 from mydevoirs.database.database import db
 from mydevoirs.itemwidget import ItemWidget
-from mydevoirs.matiere_dropdown import MatiereDropdown
+from mydevoirs.matieredropdown import MatiereDropdown
 
 
 class AgendaItemWidget(ItemWidget):
@@ -129,7 +129,6 @@ class CarouselWidget(Carousel):
     def on_index(self, *args):
 
         super().on_index(*args)
-        print("mlokk", self.current_slide.day)
 
         index = args[1]
 
@@ -154,19 +153,15 @@ class CarouselWidget(Carousel):
                 )
                 self.remove_widget(self.slides[sens])
 
-        self.date = self.current_slide.day
-        print(self.current_slide.day)
         self.index = 1
-
-
-    def load_previous(self, *args):
-        print(self.current_slide)
-        super().load_previous(*args)
         self.date = self.current_slide.day
-        print("après previous", self.current_slide.day)
-        print(self.current_slide)
 
-
+    # def load_previous(self, *args):
+    #     print(self.current_slide)
+    #     super().load_previous(*args)
+    #     self.date = self.current_slide.day
+    #     print("après previous", self.current_slide.day)
+    #     print(self.current_slide)
 
 
 class Agenda(Screen):

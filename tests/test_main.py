@@ -40,11 +40,20 @@ def test_set_locale_fr():
 
     assert locale.getlocale()[0] == ("fr_FR")
 
-    locale.resetlocale()
+    _reset_locale()
 
 
 def test_setup_start():
     a = setup_start()
     assert "MYDEVOIRS_BASE_DIR" in os.environ
-    assert locale.getlocale() == ("fr_FR", "UTF-8")
     assert a == m_app
+
+    if platform.system() == "Linux":
+        assert locale.getlocale() == ("fr_FR", "UTF-8")
+    else:
+        assert locale.getlocale() == ("fr_FR", "cp1252")
+
+
+def _reset_locale():
+    if platform.system() == "Linux":
+        locale.resetlocale()

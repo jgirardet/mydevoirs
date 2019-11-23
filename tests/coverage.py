@@ -3,6 +3,7 @@ Form https://github.com/kivy/kivy
 """
 
 import os
+
 import coverage
 from kivy.lang.parser import Parser
 

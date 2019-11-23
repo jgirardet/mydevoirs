@@ -33,13 +33,18 @@ pdb:
 run:
 	poetry run python main.py
 
-style:
+isort:
 	poetry run isort main.py
 	poetry run isort -rc mydevoirs
 	poetry run isort -rc tests
+
+black:
 	poetry run black mydevoirs tests main.py
 
+style: isort black
 
+remove_unused_imports: isort
+	poetry run autoflake -r -i --remove-all-unused-imports mydevoirs tests 
 
 
 
