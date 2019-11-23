@@ -31,7 +31,6 @@ def test_do_import():
 
 
 def test_set_locale_fr():
-    backup = locale.getlocale()
     if platform.system() == "Linux":
         locale.setlocale(locale.LC_ALL, "en_GB.utf8")
     else:
@@ -39,10 +38,9 @@ def test_set_locale_fr():
 
     set_locale_fr()
 
-    assert locale.getlocale()[0]== ("fr_FR")
+    assert locale.getlocale()[0] == ("fr_FR")
 
-    # locale.setlocale(*backup)
-    locale.setlocale(locale.LC_ALL, backup[0] + "." + backup[1].strip("-").lower())
+    locale.resetlocale()
 
 
 def test_setup_start():

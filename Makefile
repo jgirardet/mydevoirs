@@ -34,10 +34,10 @@ run:
 	poetry run python main.py
 
 style:
-	poetry run black
 	poetry run isort main.py
 	poetry run isort -rc mydevoirs
 	poetry run isort -rc tests
+	poetry run black mydevoirs tests main.py
 
 
 

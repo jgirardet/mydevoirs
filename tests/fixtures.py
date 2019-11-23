@@ -1,5 +1,3 @@
-import datetime
-import os
 import platform
 import random
 import time
@@ -12,7 +10,7 @@ from pony.orm import db_session, delete
 
 from main import setup_start
 from mydevoirs.constants import APP_NAME, MATIERES
-from mydevoirs.database.database import db, db_init
+from mydevoirs.database.database import db
 
 gen = Generic("fr")
 
@@ -76,7 +74,7 @@ class MyDevoirsTestCase(GraphicUnitTest):
         with patch(full_parent) as m:
             try:
                 enfant(*args, **kwargs)
-            except:
+            except Exception:
                 pass
             assert m.called
 
@@ -84,7 +82,7 @@ class MyDevoirsTestCase(GraphicUnitTest):
 
 
 def platform_dispatcher(test, linux, windows):
-    if platform.system() == "Linux": # pragma: no cover_win
+    if platform.system() == "Linux":  # pragma: no cover_win
         assert test == linux
     elif platform.system() == "Windows":  # pragma: no cover_linux
         assert test == windows

@@ -1,12 +1,8 @@
-# from mydevoirs import __version__
-# from mydevoirs.widgets import ItemWidget, Clock, JourItems, JourWidget, BaseGrid
-from configparser import ConfigParser
-# from mydevoirs.constants import MATIERES
-# import datetime
+import datetime
 from unittest.mock import MagicMock, patch
 
+from kivy.config import ConfigParser
 from kivy.uix.dropdown import DropDown
-from kivy.uix.widget import Widget
 
 from mydevoirs.agenda import (
     Agenda,
@@ -19,13 +15,6 @@ from mydevoirs.agenda import (
 from mydevoirs.constants import SEMAINE
 
 from .fixtures import *
-
-# import pytest
-# from kivy.config import ConfigParser
-
-
-# from mydevoirs.matiere_dropdown import MatiereOption
-
 
 
 class AgendaItemWidgetTestCase(MyDevoirsTestCase):
@@ -86,7 +75,6 @@ class JourItemsTestCase(MyDevoirsTestCase):
 
 
 class JourWidgetTestCase(MyDevoirsTestCase):
-
     def test_init(self):
         self.check_super_init("BoxLayout", JourWidget, datetime.date(1999, 1, 1))
 

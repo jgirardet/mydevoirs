@@ -2,10 +2,9 @@ from pathlib import Path
 from unittest.mock import MagicMock, call
 
 from kivy.config import ConfigParser
-from kivy.uix.settings import Settings
 
 from mydevoirs.app import MyDevoirsApp
-from mydevoirs.settings import DEFAULT_SETTINGS, SETTING_PANELS
+from mydevoirs.settings import DEFAULT_SETTINGS
 
 from .fixtures import *
 

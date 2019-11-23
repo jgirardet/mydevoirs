@@ -1,11 +1,7 @@
 import datetime
 import itertools
-import locale
-from pathlib import Path
 
-from kivy.clock import Clock
 from kivy.config import ConfigParser
-from kivy.lang import Builder
 from kivy.properties import (
     BooleanProperty,
     DictProperty,
