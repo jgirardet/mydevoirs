@@ -17,7 +17,6 @@ class CoverageKVParser(Parser):
                     start=parser_prop.line + 1):
                 if line.strip():
                     lines.add(line_num)
-
         return lines
 
 
@@ -74,6 +73,9 @@ class KivyCoveragePlugin(coverage.plugin.CoveragePlugin):
             for filename in filenames:
                 if filename.endswith('.kv'):
                     yield os.path.join(dirpath, filename)
+
+    def configure(config):
+        config.set('lij', 'lij')
 
 
 class KivyFileTracer(coverage.plugin.FileTracer):

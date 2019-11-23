@@ -40,11 +40,6 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
         a = f_item(matiere="Grammaire")
         item = ItemWidget(**a.to_dict())
 
-        #test ui:
-
-        assert item.ids.spinner.color == COLORS['spinner_text_color']        
-
-
         self.render(item)
 
         spin = item.ids.spinner
@@ -62,7 +57,6 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
 
         # no change:
         assert item.update_matiere("Divers") is None
-
 
     def test_done(self):
 
@@ -158,7 +152,6 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
         window.children[0].content.ids.non.trigger_action(0)
         assert b in window.children
 
-
     def test_kv(self):
         item = ItemWidget(**f_item().to_dict())
 
@@ -167,3 +160,9 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
         for x in ids:
             assert item.ids[x].background_color[3] == 0
 
+
+        #spinner color
+        assert item.ids.spinner.color == COLORS['spinner_text_color']
+
+        #background_normal
+        assert item.ids.spinner.background_normal == ''

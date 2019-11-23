@@ -16,4 +16,5 @@ exclude_lines =
     pragma: no cover_all
     pragma: no cover_linux
     def __repr__
+    size_hint_x
 
