@@ -80,6 +80,7 @@ THEMES = {
         "card_entete": [83 / 255, 93 / 255, 105 / 236, 1],
         "titre_jour": [0.2, 0.4, 0, 1],
         "progression": [0.92, 0.008, 0.008, 1],
+        "spinner_text_color": [0, 0, 0, 1]
     },
     "vert_gris": {"fond": [0, 0.4, 0.196, 1], "card": [0, 0.6, 0.404, 1]},
 }

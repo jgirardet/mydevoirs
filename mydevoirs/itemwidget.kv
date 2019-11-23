@@ -1,3 +1,7 @@
+#: import gmc mydevoirs.utils.gmc
+#: import COLORS mydevoirs.constants.COLORS
+
+
 <ItemWidget>:
     size_hint_y: None
     height: dp(30)
@@ -16,7 +20,7 @@
             MatiereDropdown().open(self)
         background_color: gmc(self.text)
         background_normal: ''
-        color: (0,0,0,1)
+        color: COLORS["spinner_text_color"]
         size_hint_x: 0.4
         font_size: sp(14)
         font_name: datas['font_base']
@@ -37,7 +41,6 @@
     ToggleButton:
         id: done
         size_hint_x: 0.1
-        # source: datas['icon_unchecked']
         background_color: (1, 1, 1, 0)
         background_normal: ''
         on_release: root.done = (not root.done)
@@ -68,7 +71,6 @@
         text: "oui"
         id: oui
         on_press:
-            print("dans oui")
             root.item.remove_after_confirmation()
             root.parent.parent.parent.dismiss()
 
@@ -76,9 +78,7 @@
         id: non
         text: "non"
         on_press:
-            print("dans non")
-            root.on_press("nonnnnnnnn")
-            # root.parent.parent.parent.dismiss()
+            root.parent.parent.parent.dismiss()
 
 <EffacerPopup>:
     title: f"Effacer  {self.content.item.matiere_nom}: {self.content.item.content} ?"

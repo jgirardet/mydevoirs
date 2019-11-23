@@ -7,7 +7,7 @@ from pony.orm import db_session
 from mydevoirs.itemwidget import ItemWidget  # , Clock, JourItems, JourWidget, BaseGrid
 from mydevoirs.matiere_dropdown import MatiereOption
 from mydevoirs.utils import datas
-
+from mydevoirs.constants import COLORS
 from .fixtures import *
 
 
@@ -40,6 +40,11 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
         a = f_item(matiere="Grammaire")
         item = ItemWidget(**a.to_dict())
 
+        #test ui:
+
+        assert item.ids.spinner.color == COLORS['spinner_text_color']        
+
+
         self.render(item)
 
         spin = item.ids.spinner
@@ -57,6 +62,7 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
 
         # no change:
         assert item.update_matiere("Divers") is None
+
 
     def test_done(self):
 
@@ -126,7 +132,7 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
         with db_session:
             assert not db.Item.exists(lambda x: x.id == second.id)
 
-    def test_remove(self):
+    def test_remove_oui(self):
         b = ItemWidget(**f_item().to_dict())
 
         EventLoop.ensure_window()
@@ -138,3 +144,26 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
 
         window.children[0].content.ids.oui.trigger_action(0)
         assert b not in window.children
+
+    def test_remove_non(self):
+        b = ItemWidget(**f_item().to_dict())
+
+        EventLoop.ensure_window()
+        window = EventLoop.window
+        window.clear()
+        window.add_widget(b)
+
+        b.ids.remove_item.trigger_action(0)
+
+        window.children[0].content.ids.non.trigger_action(0)
+        assert b in window.children
+
+
+    def test_kv(self):
+        item = ItemWidget(**f_item().to_dict())
+
+        # Some background color should be hidden
+        ids = ["remove_item", "done"]
+        for x in ids:
+            assert item.ids[x].background_color[3] == 0
+

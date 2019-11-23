@@ -82,7 +82,3 @@ class EffacerPopup(Popup):
 
 class ValidationPopup(BoxLayout):
     item = ObjectProperty()
-
-    def on_press(self, *args):
-        print("on press")
-        print(args)
