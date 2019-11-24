@@ -7,6 +7,7 @@ environment:
     PACKAGE: "mydevoirs"
     SUBLIME_TEXT_VERSION : "3"
     KIVY_GL_BACKEND: angle_sdl2
+    CODECOV_TOKEN=:b12c1d6f-032c-40bf-ab16-3cc301e48115
 
 install:
     - "SET PYTHON=C:\\Python37"
@@ -29,6 +30,10 @@ test_script:
     - poetry run pytest
 
 
+after_success:
+    - pip install codecov
+    - codecov
+
 after_test:
     - poetry run coverage run --rcfile=.coveragerc_win -m pytest
     - poetry run coverage report
@@ -37,11 +42,11 @@ after_test:
 artifacts:
     - path: dist/MyDevoirs.exe
 
-deploy:
-    provider: GitHub
-    description: ""
-    auth_token:
-        secure: jOc864aSLCmCpG28CvNJB/0AgdcPUggAF/Cum78+Lw1sNPO/xn7LCTtLHzpDxzgBQHSGeBMh25KDn8RD24udfIVsVOe4TLKD3l23LEcG0c2WU3Pb/Ci7zu6GE3+LUOCJGHMI9uSZS232Ssh/iMYCT0kQh5h1onUN1AfjZbsNsLGaMiMK3r3lngWV+n60X56tzCLWniBoqKVeNIeDm7qTHt42f3bGQ3Y9QrNdtfL8vJuEGnyA/cSarR0HZFH1IGtK0VkjWr8jeew6sfpEEepI8TNTsKRJ71HAYcbEku7s+GrOU029qBID8vgCcCZy+H4W4KEFUnpVjraaVDFwV1l3tu/4wCtx9U8jI21V92uuMiNOjheXrDuJjXNCBLtYaQ43Q/9UwAFYCX1f3lcn0MchBkBwUFGhCpsRe5b08WnJ3J8Op6a+Cg/PL9CQJFOoTtHdlBG7afY4WrYVK5Hr8NUVoJc/YzcjOnJg5TKfxKWmYjMlYBAH3w83SsZm8YuCXfpb
+# deploy:
+#     provider: GitHub
+#     description: ""
+#     auth_token:
+#         secure: jOc864aSLCmCpG28CvNJB/0AgdcPUggAF/Cum78+Lw1sNPO/xn7LCTtLHzpDxzgBQHSGeBMh25KDn8RD24udfIVsVOe4TLKD3l23LEcG0c2WU3Pb/Ci7zu6GE3+LUOCJGHMI9uSZS232Ssh/iMYCT0kQh5h1onUN1AfjZbsNsLGaMiMK3r3lngWV+n60X56tzCLWniBoqKVeNIeDm7qTHt42f3bGQ3Y9QrNdtfL8vJuEGnyA/cSarR0HZFH1IGtK0VkjWr8jeew6sfpEEepI8TNTsKRJ71HAYcbEku7s+GrOU029qBID8vgCcCZy+H4W4KEFUnpVjraaVDFwV1l3tu/4wCtx9U8jI21V92uuMiNOjheXrDuJjXNCBLtYaQ43Q/9UwAFYCX1f3lcn0MchBkBwUFGhCpsRe5b08WnJ3J8Op6a+Cg/PL9CQJFOoTtHdlBG7afY4WrYVK5Hr8NUVoJc/YzcjOnJg5TKfxKWmYjMlYBAH3w83SsZm8YuCXfpb
     # on:
     #     branch: master
     #     APPVEYOR_REPO_TAG: true
