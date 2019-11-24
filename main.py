@@ -4,7 +4,6 @@ import locale
 import os
 import platform
 import sys
-from importlib import import_module
 from pathlib import Path
 
 
@@ -15,8 +14,9 @@ def set_my_devoirs_base_dir():
 
 
 def do_import():
-    app = import_module("mydevoirs.app")
-    database = import_module("mydevoirs.database.database")
+    from mydevoirs import app
+    from mydevoirs.database import database
+
     return app, database
 
 

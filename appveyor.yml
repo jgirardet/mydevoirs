@@ -34,9 +34,9 @@ after_test:
     - poetry run coverage run --rcfile=.coveragerc_win -m pytest
     - poetry run coverage report
     - poetry run coverage xml -i
-    - pip install codecov
-    - codecov
-    - poetry run  pyinstaller -y --clean main_win.spec
+    - poetry run python -m pip  install codecov
+    - poetry run codecov
+    - poetry run  python scripted/build_executable.py
 
 artifacts:
     - path: dist/MyDevoirs.exe

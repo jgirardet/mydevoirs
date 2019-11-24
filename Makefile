@@ -82,6 +82,4 @@ ipython:
 	.venv/bin/ipython
 
 build:
-	rm -rf build
-	rm -rf dist
-	poetry run pyinstaller -y --clean main.spec
+	poetry run scripted/build_executable.py
