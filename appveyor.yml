@@ -7,7 +7,7 @@ environment:
     PACKAGE: "mydevoirs"
     SUBLIME_TEXT_VERSION : "3"
     KIVY_GL_BACKEND: angle_sdl2
-    CODECOV_TOKEN=:b12c1d6f-032c-40bf-ab16-3cc301e48115
+    CODECOV_TOKEN: b12c1d6f-032c-40bf-ab16-3cc301e48115
 
 install:
     - "SET PYTHON=C:\\Python37"
