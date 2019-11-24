@@ -31,10 +31,10 @@ test_script:
 
 
 after_test:
-    - pip install codecov
-    - codecov
     - poetry run coverage run --rcfile=.coveragerc_win -m pytest
     - poetry run coverage report
+    - pip install codecov
+    - codecov
     - poetry run  pyinstaller -y --clean main_win.spec
 
 artifacts:
