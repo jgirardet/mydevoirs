@@ -50,7 +50,6 @@ jobs:
         $ENV:PATH="$ENV:PATH;$ENV:USERPROFILE\.poetry\bin"
         poetry run coverage run --rcfile=.coveragerc_win -m pytest
         poetry run coverage report
-        poetry run  python scripted/build_executable.py
     - name: build
       run: |
         $ENV:PATH="$ENV:PATH;$ENV:USERPROFILE\.poetry\bin"
