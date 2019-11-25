@@ -46,14 +46,18 @@ try:
     proc.wait(timeout=10)
 except subprocess.TimeoutExpired:
     assert proc.poll() is None
-    proc.terminate()
+    if platform.system()== "Windows":
+        subprocess.run(["taskkill", "/IM" ,"BIN_NAME"])
+    else:
+        proc.terminate()
     try:
         proc.wait(timeout=10)
     except subprocess.TimeoutExpired:
         LOG.error("Echec de l'arret, essai kill")
         proc.kill()
+        sys.exit(-1)
     else:
-        # assert proc.poll() == 0
+        assert proc.poll() == 0
         LOG.info('Execution sans erreur !!')
         sys.exit(0)
 
