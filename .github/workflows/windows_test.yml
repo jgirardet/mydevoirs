@@ -44,7 +44,7 @@ jobs:
     # Install-kivy-test-run-pip-deps
     - name: test mydevrois
       run: |
-        poetry run pytest
+        pytest
     - name: cov
       run: |
         poetry run coverage run --rcfile=.coveragerc_win -m pytest
