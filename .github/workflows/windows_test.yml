@@ -31,8 +31,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install -U pip
-        python -m pip install requests
-        python -c "import requests;a = requests.get('https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py');open('get-poetry.py','wt').write(a.content.decode())"
+        python -c "import urllib;a = urllib.request.urlopen('https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py');open('get-poetry.py','wt').write(a.read().decode())"
         python get-poetry.py -y
         $ENV:PATH="$ENV:PATH;$ENV:USERPROFILE\.poetry\bin"
         poetry run python -m pip install -U pip
@@ -51,4 +50,8 @@ jobs:
         $ENV:PATH="$ENV:PATH;$ENV:USERPROFILE\.poetry\bin"
         poetry run coverage run --rcfile=.coveragerc_win -m pytest
         poetry run coverage report
+        poetry run  python scripted/build_executable.py
+    - name: build
+      run: |
+        $ENV:PATH="$ENV:PATH;$ENV:USERPROFILE\.poetry\bin"
         poetry run  python scripted/build_executable.py
