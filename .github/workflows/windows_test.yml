@@ -14,18 +14,20 @@ env:
 jobs:
   unit_test:
     runs-on: windows-latest
-    strategy:
-      matrix:
-        python: [3.7']
-        # python: [3.7', '3.8' ]
+    # strategy:
+    #   matrix:
+    #     python: [3.7']
+    #     # python: [3.7', '3.8' ]
         arch: ['x64', 'x86']
+    with:
+        python-version: 3.7
     steps:
     - uses: actions/checkout@v1
     - name: Set up Python
       uses: actions/setup-python@v1
-      with:
-        python-version: ${{ matrix.python }}
-        architecture: ${{ matrix.arch }}
+      # with:
+      #   python-version: ${{ matrix.python }}
+      #   architecture: ${{ matrix.arch }}
     - name: Install dependencies
       run: |
         python -m pip install -U pip
