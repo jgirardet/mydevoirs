@@ -15,14 +15,13 @@ jobs:
         python-version: 3.7
     - name: Install dependencies
       run: |
-        python -V
         python -m pip install --upgrade pip
         curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
         source $HOME/.poetry/env
         make install
     - name: Test with pytest
       run: |
-        python -m pytest -vvv        
+        make test
     - name: Build 
       run: |
         source $HOME/.poetry/env

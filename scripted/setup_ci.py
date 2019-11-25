@@ -17,7 +17,7 @@ WINDOWS_DEP = [
 
 
 def set_poetry__path():
-    if platform
+    if platfor
     os.environ["PATH"] = os.environ["PATH"] + ";" + str(Path.home() / ".poetry" / "bin")
     os.environ["PATH"] = os.environ["PATH"] + ";" + str(Path.home() / ".poetry" / "bin")
 
