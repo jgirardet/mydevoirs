@@ -7,16 +7,20 @@ import PyInstaller.__main__
 import shutil
 import sys
 import logging
+import os
 
 logging.basicConfig()
 LOG = logging.getLogger(__name__)
 
 WORKING_DIR = Path.cwd()
 LOG.info(" working dir: %s", WORKING_DIR)
-
+LOG.info("%s", os.listdir())
 SPEC_NAME = "main_win.spec" if platform.system() == "Windows" else "main.spec"
+LOG.info(SPEC_NAME)
 SPEC_PATH = WORKING_DIR / SPEC_NAME
-assert SPEC_PATH.is_file()
+LOG.info(SPEC_PATH)
+
+assert SPEC_PATH.is_file(), "spec path does not exists"
 LOG.info("spec_path: %s", str(SPEC_PATH))
 
 
