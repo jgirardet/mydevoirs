@@ -47,7 +47,7 @@ try:
 except subprocess.TimeoutExpired:
     assert proc.poll() is None
     if platform.system()== "Windows":
-        subprocess.run(["taskkill", "/IM" ,"BIN_NAME"])
+        subprocess.run(["taskkill", "/IM" ,BIN_NAME])
     else:
         proc.terminate()
     try:
