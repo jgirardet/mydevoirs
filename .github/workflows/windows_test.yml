@@ -10,7 +10,9 @@ env:
   KIVY_SPLIT_EXAMPLES: 1
   CODECOV_TOKEN: b12c1d6f-032c-40bf-ab16-3cc301e48115
   POETRY_PATH: $ENV:USERPROFILE\.poetry\bin\poetry
-  POETRY_PATHH: %USERPROFILE%\.poetry\bin\poetry
+  POETRY_PATHH: "$ENV:USERPROFILE\.poetry\bin\poetry"
+  POETRY_PATHHH: "$USERPROFILE\.poetry\bin\poetry"
+  POETRY_PATHHHH: "%USERPROFILE%\.poetry\bin\poetry"
 
 
 jobs:
