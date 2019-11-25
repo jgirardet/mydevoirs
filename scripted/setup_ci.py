@@ -49,7 +49,7 @@ def install_poetry():
 
 
 def update_pip():
-    run["python -m pip install -U pip".split()]
+    run("python -m pip install -U pip".split())
 
 
 def pre_install_dep():
