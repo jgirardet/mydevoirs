@@ -57,3 +57,5 @@ def test_setup_start():
 def _reset_locale():
     if platform.system() == "Linux":
         locale.resetlocale()
+
+# xsel libmtdev1 python3-sdl2 mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev
