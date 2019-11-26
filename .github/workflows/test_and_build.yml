@@ -43,11 +43,14 @@ jobs:
         poetry run python -m pip install  docutils pygments pypiwin32 kivy_deps.sdl2==0.1.22 kivy_deps.glew==0.1.12 kivy_deps.gstreamer==0.1.17 kivy_deps.angle==0.1.9 pywin32-ctypes pefile
     - name: Install common dependencies
       run: poetry install
-    - name: setup graphic  env linux
+    - name: setup linux
       if: runner.os == 'Linux'
       run: |
         echo $"${{toJson(runner)}}"
+      # set_up graphic
         /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1280x720x24 -ac +extension GLX
+      # install local
+        sudo apt install language-pack-fr
     - name: Tests
       run: |
         poetry run python -m pytest -vvv -s
