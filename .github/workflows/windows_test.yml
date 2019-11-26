@@ -1,4 +1,4 @@
-name: MyDevoirs CI
+name: MyDevoirs C
 
 on: [push, pull_request]
 
