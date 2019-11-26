@@ -9,6 +9,7 @@ logging.basicConfig()
 LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.INFO)
 
+
 def run(args):
     LOG.info("runnning %s", " ".join(args))
     subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)

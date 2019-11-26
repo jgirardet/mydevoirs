@@ -3,6 +3,7 @@ from unittest.mock import MagicMock, patch
 
 from kivy.config import ConfigParser
 from kivy.uix.dropdown import DropDown
+from kivy.base import EventLoop
 
 from mydevoirs.agenda import (
     Agenda,
@@ -97,6 +98,34 @@ class JourWidgetTestCase(MyDevoirsTestCase):
         assert any(isinstance(x, DropDown) for x in self.Window.children)
         with db_session:
             assert db.Item[jour.jouritem.children[0].entry]
+
+    def test_add_udpate_progression(self):
+        day = f_jour()
+        jour = JourWidget(day.date)
+        self.render(jour)
+        assert jour.progression == "0/0"
+        jour.add_item()
+        assert jour.progression == "0/1"
+
+    def test_remove_item_upate_progression(self):
+        day = f_jour()
+        for i in range(3):
+            f_item(jour=day.date)
+
+        jour = JourWidget(day.date)
+        self.render(jour)
+        assert len(jour.jouritem.children) == 3
+
+        entry = jour.jouritem.children[1]
+        jour.jouritem.children[1].ids.remove_item.trigger_action(0)
+
+        EventLoop.ensure_window()
+        window = EventLoop.window
+        window.children[0].content.ids.oui.trigger_action(0)
+        with db_session:
+            assert not db.Item.get(id=entry.entry)
+        assert entry not in jour.jouritem.children
+        assert jour.progression == "0/2"
 
 
 class TestBaseGrid(MyDevoirsTestCase):

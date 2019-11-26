@@ -40,6 +40,12 @@ class AgendaItemWidget(ItemWidget):
                     self._jour_widget = x
         return self._jour_widget
 
+    def remove_after_confirmation(self):
+        # need to backup JourWidget before del to call update_progression
+        jour = self.jour_widget
+        super().remove_after_confirmation()
+        jour.update_progression()
+
 
 class JourItems(BoxLayout):
     def __init__(self, date):
@@ -83,6 +89,7 @@ class JourWidget(BoxLayout):
             item = db.Item(jour=jour)
             item_widget = AgendaItemWidget(**item.to_dict())
         self.jouritem.add_widget(item_widget)
+        self.update_progression()
         MatiereDropdown().open(item_widget.ids.spinner)
 
 
@@ -155,13 +162,6 @@ class CarouselWidget(Carousel):
 
         self.index = 1
         self.date = self.current_slide.day
-
-    # def load_previous(self, *args):
-    #     print(self.current_slide)
-    #     super().load_previous(*args)
-    #     self.date = self.current_slide.day
-    #     print("après previous", self.current_slide.day)
-    #     print(self.current_slide)
 
 
 class Agenda(Screen):
