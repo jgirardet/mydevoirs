@@ -41,7 +41,7 @@ jobs:
     - name: Install dependencies
       env:
         ENV_CONTEXT: ${{ toJson(env) }}
-      run: 
+      run: |
         echo "$ENV_CONTEXT"
         python .\scripted\setup_ci.py
     - name: test mydevrois
