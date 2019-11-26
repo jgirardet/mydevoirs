@@ -3,9 +3,14 @@ import os
 from pathlib import Path
 import urllib.request
 import platform
+import logging
+
+logging.basicConfig()
+LOG = logging.getLogger(__name__)
 
 
 def run(arg):
+    LOG.info("runnning %s", args)
     subprocess.run(arg, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 
@@ -33,11 +38,13 @@ WIN_DEP = [
 
 
 def set_poetry_path():
+    LOG.info("setting poetry bin  path")
     sep = ";" if WIN else ":"
     os.environ["PATH"] = os.environ["PATH"] + sep + str(Path.home() / ".poetry" / "bin")
 
 
 def install_poetry():
+    LOG.info("installing poetry")
     poetry_stream = urllib.request.urlopen(
         "https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py"
     )
@@ -47,22 +54,25 @@ def install_poetry():
     p.unlink()
 
 
-
 def update_pip():
+    LOG.info("updating pip")
     run("python -m pip install -U pip".split())
 
 
 def pre_install_dep():
+    LOG.info("installing dependencies")
     dep = WIN_DEP if WIN else []
     cmd = ["pip", "install"] + dep
     run(cmd)
 
 
 def install_package():
+    LOG.info("runnning poetry install")
     run(["poetry", "install"])
 
 
 def setup_env():
+    LOG.info("starting setup setup_env")
     update_pip()
     install_poetry()
     set_poetry_path()
