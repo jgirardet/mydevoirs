@@ -19,8 +19,8 @@ jobs:
   unit_test:
     runs-on: windows-latest
     env:
-      POTETRY: ${{env.userprofile}}\.poetry\bin\poetry
-      PATH: ${{env.path}};\.poetry\bin
+      # POTETRY: ${{env.userprofile}}\.poetry\bin\poetry
+      # PATH: ${{env.path}};\.poetry\bin
     # strategy:
     #   matrix:
     #     python: [3.7']
@@ -36,7 +36,10 @@ jobs:
       #   python-version: ${{ matrix.python }}
       #   architecture: ${{ matrix.arch }}
     - name: Install dependencies
-      run: |
+      env:
+        ENV_CONTEXT: ${{ toJson(env) }}
+      run: 
+        echo "$ENV_CONTEXT"
         python -m pip install -U pip
         python -c "import urllib.request;a = urllib.request.urlopen('https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py');open('get-poetry.py','wt').write(a.read().decode())"
         python get-poetry.py -y
