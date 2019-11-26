@@ -18,7 +18,7 @@ env:
 jobs:
   unit_test:
     runs-on: windows-latest
-    env:
+    # env:
       # POTETRY: ${{env.userprofile}}\.poetry\bin\poetry
       # PATH: ${{env.path}};\.poetry\bin
     # strategy:
