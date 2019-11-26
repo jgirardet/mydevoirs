@@ -32,7 +32,7 @@ def test_do_import():
 
 def test_set_locale_fr():
     if platform.system() == "Linux":
-        locale.setlocale(locale.LC_ALL, "en_GB.utf8")
+        locale.setlocale(locale.LC_ALL, "en_US.utf8")
     else:
         locale.setlocale(locale.LC_ALL, "english")
 
