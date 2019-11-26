@@ -43,19 +43,19 @@ jobs:
         ENV_CONTEXT: ${{ toJson(env) }}
       run: 
         echo "$ENV_CONTEXT"
-        python -m pip install -U pip
-        python -c "import urllib.request;a = urllib.request.urlopen('https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py');open('get-poetry.py','wt').write(a.read().decode())"
-        python get-poetry.py -y
-        echo 'komk'
-        echo $ENV:POETRY
-        echo $ENV:PATH
-        echo ${{env.path}}
-        echo ${{env.poetry}}
-        poetry run python -m pip install -U pip
-        poetry run python -m pip install docutils pygments pypiwin32 kivy_deps.sdl2==0.1.22 kivy_deps.glew==0.1.12 kivy_deps.gstreamer==0.1.17 kivy_deps.angle==0.1.9 pywin32-ctypes pefile
-        poetry install
+      #   python -m pip install -U pip
+      #   python -c "import urllib.request;a = urllib.request.urlopen('https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py');open('get-poetry.py','wt').write(a.read().decode())"
+      #   python get-poetry.py -y
+      #   echo 'komk'
+      #   echo $ENV:POETRY
+      #   echo $ENV:PATH
+      #   echo ${{env.path}}
+      #   echo ${{env.poetry}}
+      #   poetry run python -m pip install -U pip
+      #   poetry run python -m pip install docutils pygments pypiwin32 kivy_deps.sdl2==0.1.22 kivy_deps.glew==0.1.12 kivy_deps.gstreamer==0.1.17 kivy_deps.angle==0.1.9 pywin32-ctypes pefile
+      #   poetry install
 
-        python ..\scripted\setup_ci.py
+        python .\scripted\setup_ci.py
 
     #  . .\.ci\windows_ci.ps1
     # Install-kivy-test-run-win-deps
