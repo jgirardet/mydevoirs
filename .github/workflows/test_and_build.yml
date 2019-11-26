@@ -23,6 +23,7 @@ jobs:
         # arch: ['x64', 'x86']
     env:
       DISPLAY: ':99.0'
+      AAA: ${{toJson(runner)}}
     steps:
     - name: get repo
       uses: actions/checkout@v1
@@ -36,6 +37,7 @@ jobs:
     - name: Install poetry
       run: |
         echo $"${{toJson(runner)}}"
+        echo $"${{toJson(env.AAA)}}"
         python -m pip install poetry
         poetry run python -m pip install --upgrade pip
     - name: Install Windows dependencies
