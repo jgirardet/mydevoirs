@@ -45,7 +45,7 @@ jobs:
     - name: Tests
       run: |
         echo $"${{toJson(env)}}"
-        poetry run python -m pytest
+        poetry run python -m pytest -vvv -s
     - name: Coverage
       run: |
         poetry run coverage run --rcfile=.coveragerc_win -m pytest
