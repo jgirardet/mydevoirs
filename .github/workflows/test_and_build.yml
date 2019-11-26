@@ -47,7 +47,7 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         echo $"${{toJson(runner)}}"
-        sudo apt install -y language-pack-fr pulseaudio xsel libmtdev1 python3-sdl2
+        sudo apt install -y language-pack-fr pulseaudio xsel libmtdev1 python3-sdl2 mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev
         /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1280x720x24 -ac +extension GLX
     - name: Tests
       run: |
