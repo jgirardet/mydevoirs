@@ -3,10 +3,10 @@ name: MyDevoirs Test and Build
 on: [push, pull_request]
 
 env:
-  USE_SDL2: 1
+  # USE_SDL2: 1
   USE_GSTREAMER: 1
   GST_REGISTRY: '~/registry.bin'
-  KIVY_GL_BACKEND: 'angle_sdl2'
+  # KIVY_GL_BACKEND: 'angle_sdl2'
   KIVY_SPLIT_EXAMPLES: 1
   CODECOV_TOKEN: b12c1d6f-032c-40bf-ab16-3cc301e48115
 
@@ -16,7 +16,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os : [windows-latest, ubuntu-latest]
+        # os : [windows-latest, ubuntu-latest]
+        os : [ubuntu-latest]
         python: [3.7']
         # python: [3.7', '3.8' ]
         # arch: ['x64', 'x86']
