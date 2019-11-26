@@ -13,9 +13,10 @@ env:
 
 jobs:
   unit_test:
-    runs-on: [windows-latest, linux-latest]
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        os : [windows-latest, ubuntu-latest]
         python: [3.7']
         # python: [3.7', '3.8' ]
         # arch: ['x64', 'x86']
