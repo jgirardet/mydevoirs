@@ -1,4 +1,4 @@
-name: MyDevoirs C
+name: MyDevoirs Test and Build
 
 on: [push, pull_request]
 
@@ -44,6 +44,7 @@ jobs:
       run: poetry install
     - name: Tests
       run: |
+        echo $"${{env}}"
         poetry run python -m pytest
     - name: Coverage
       run: |

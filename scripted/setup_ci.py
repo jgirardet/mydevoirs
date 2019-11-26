@@ -7,7 +7,7 @@ import logging
 
 logging.basicConfig()
 LOG = logging.getLogger(__name__)
-
+LOG.setLevel(logging.INFO)
 
 def run(args):
     LOG.info("runnning %s", " ".join(args))
