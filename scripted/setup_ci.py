@@ -9,9 +9,9 @@ logging.basicConfig()
 LOG = logging.getLogger(__name__)
 
 
-def run(arg):
-    LOG.info("runnning %s", args)
-    subprocess.run(arg, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+def run(args):
+    LOG.info("runnning %s", " ".join(args))
+    subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 
 def get_platform():

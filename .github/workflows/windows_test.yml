@@ -35,12 +35,7 @@ jobs:
         python-version: 3.7
       #   python-version: ${{ matrix.python }}
       #   architecture: ${{ matrix.arch }}
-    - name: Install poetry
-      run:
-        python -m pip install poetry
     - name: Install dependencies
-      env:
-        ENV_CONTEXT: ${{ toJson(env) }}
       run: |
         echo "$ENV_CONTEXT"
         python .\scripted\setup_ci.py
