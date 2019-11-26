@@ -18,8 +18,8 @@ env:
 jobs:
   unit_test:
     runs-on: windows-latest
-    # env:
-      # POTETRY: ${{env.userprofile}}\.poetry\bin\poetry
+    env:
+      POTETRY: ${{env.userprofile}}\.poetry\bin\poetry
       # PATH: ${{env.path}};\.poetry\bin
     # strategy:
     #   matrix:
@@ -35,10 +35,14 @@ jobs:
         python-version: 3.7
       #   python-version: ${{ matrix.python }}
       #   architecture: ${{ matrix.arch }}
-    - name: Install dependencies
+    - name: Install Poetry
       run: |
-        echo "$ENV_CONTEXT"
-        python .\scripted\setup_ci.py
+        echo {{toJson(runner)}}
+        python -m pip install poetry
+    # - name: Install dependencies
+    #   if 
+    #   run: |
+    #     if
     - name: test mydevrois
       run: |
         poetry run pytest
