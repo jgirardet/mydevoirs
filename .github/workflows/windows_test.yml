@@ -1,31 +1,58 @@
+name: Windows Unittests
+
+on: [push, pull_request]
+
+env:
+  USE_SDL2: 1
+  USE_GSTREAMER: 1
+  GST_REGISTRY: '~/registry.bin'
+  KIVY_GL_BACKEND: 'angle_sdl2'
+  KIVY_SPLIT_EXAMPLES: 1
+  CODECOV_TOKEN: b12c1d6f-032c-40bf-ab16-3cc301e48115
+  POETRY_PATH: ${ echo $USERPROFILE}\.poetry\bin\poetry
+  POETRY_PATHH: ${ echo %USERPROFILE%}\.poetry\bin\poetry
+  POETRY_PATHHH: "$USERPROFILE\\.poetry\\bin\\poetry"
+  POETRY_PATHHHH: "%USERPROFILE%\\.poetry\\bin\\poetry"
+
+
 jobs:
   unit_test:
     runs-on: windows-latest
+    # env:
+      # POTETRY: ${{env.userprofile}}\.poetry\bin\poetry
+      # PATH: ${{env.path}};\.poetry\bin
+    # strategy:
+    #   matrix:
+    #     python: [3.7']
+    #     # python: [3.7', '3.8' ]
+        # arch: ['x64', 'x86']
     steps:
-    - {uses: actions/checkout@v1}
+    - uses: actions/checkout@v1
     - name: Set up Python
       uses: actions/setup-python@v1
-      with: {python-version: 3.7}
-    - {name: Install poetry, run: python -m pip install poetry}
-    - env: {ENV_CONTEXT: '${{ toJson(env) }}'}
-      name: Install dependencies
-      run: echo "$ENV_CONTEXT" python .\scripted\setup_ci.py
-    - {name: test mydevrois, run: 'poetry run pytest
-
-        '}
-    - {name: cov, run: '$ENV:PATH="$ENV:PATH;$ENV:USERPROFILE\.poetry\bin"
-
+      # with:
+      with:
+        python-version: 3.7
+      #   python-version: ${{ matrix.python }}
+      #   architecture: ${{ matrix.arch }}
+    - name: Install poetry
+      run:
+        python -m pip install poetry
+    - name: Install dependencies
+      env:
+        ENV_CONTEXT: ${{ toJson(env) }}
+      run: 
+        echo "$ENV_CONTEXT"
+        python .\scripted\setup_ci.py
+    - name: test mydevrois
+      run: |
+        poetry run pytest
+    - name: cov
+      run: |
+        $ENV:PATH="$ENV:PATH;$ENV:USERPROFILE\.poetry\bin"
         poetry run coverage run --rcfile=.coveragerc_win -m pytest
-
         poetry run coverage report
-
-        '}
-    - {name: build, run: '$ENV:PATH="$ENV:PATH;$ENV:USERPROFILE\.poetry\bin"
-
-        poetry run  python scripted/build_executable.py'}
-true: [push, pull_request]
-name: Windows Unittests
-env: {CODECOV_TOKEN: b12c1d6f-032c-40bf-ab16-3cc301e48115, GST_REGISTRY: ~/registry.bin,
-  KIVY_GL_BACKEND: angle_sdl2, KIVY_SPLIT_EXAMPLES: 1, POETRY_PATH: '${ echo $USERPROFILE}\.poetry\bin\poetry',
-  POETRY_PATHH: '${ echo %USERPROFILE%}\.poetry\bin\poetry', POETRY_PATHHH: $USERPROFILE\.poetry\bin\poetry,
-  POETRY_PATHHHH: '%USERPROFILE%\.poetry\bin\poetry', USE_GSTREAMER: 1, USE_SDL2: 1}
+    - name: build
+      run: |
+        $ENV:PATH="$ENV:PATH;$ENV:USERPROFILE\.poetry\bin"
+        poetry run  python scripted/build_executable.py
