@@ -4,10 +4,10 @@ on: [push, pull_request]
 
 env:
   # USE_SDL2: 1
-  USE_GSTREAMER: 1
-  GST_REGISTRY: '~/registry.bin'
-  KIVY_GL_BACKEND: 'angle_sdl2'
-  KIVY_SPLIT_EXAMPLES: 1
+  # USE_GSTREAMER: 1
+  # GST_REGISTRY: '~/registry.bin'
+  # KIVY_GL_BACKEND: 'angle_sdl2'
+  # KIVY_SPLIT_EXAMPLES: 1
   CODECOV_TOKEN: b12c1d6f-032c-40bf-ab16-3cc301e48115
 
 
@@ -23,7 +23,6 @@ jobs:
         # arch: ['x64', 'x86']
     env:
       DISPLAY: ':99.0'
-      AAA: ${{toJson(runner)}}
     steps:
     - name: get repo
       uses: actions/checkout@v1
@@ -50,7 +49,8 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         echo $"${{toJson(runner)}}"
-        sudo apt install -y language-pack-fr pulseaudio xsel libmtdev1 python3-sdl2 mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev
+        sudo apt install -y language-pack-fr pulseaudio 
+      # xsel libmtdev1 python3-sdl2 mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev
         /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1280x720x24 -ac +extension GLX
     - name: Tests
       run: |
