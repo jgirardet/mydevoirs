@@ -33,9 +33,11 @@ jobs:
         python-version: 3.7
       #   python-version: ${{ matrix.python }}
       #   architecture: ${{ matrix.arch }}
-    - name: Install Poetry
+    - name: Install poetry
+      env:
+        runner: {{toJson(runner)}}
       run: |
-        echo {{toJson(runner)}}
+        echo ${runner}
         python -m pip install poetry
     # - name: Install dependencies
     #   if 
