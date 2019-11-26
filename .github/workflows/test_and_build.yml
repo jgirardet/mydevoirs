@@ -74,11 +74,11 @@ jobs:
         asset_path: ./dist/MyDevoirs
         asset_name: MyDevoirs
         asset_content_type: application/x-executable
-  unit_test:
+  Window:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os : windows-latest
+        os : windows
         python: [3.7']
         # python: [3.7', '3.8' ]
         # arch: ['x64', 'x86']
