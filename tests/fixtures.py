@@ -5,6 +5,8 @@ from unittest.mock import patch
 
 from kivy.lang import Builder
 from kivy.tests.common import GraphicUnitTest, UnitTestTouch
+from kivy.base import EventLoop
+
 from mimesis import Generic
 from pony.orm import db_session, delete
 
@@ -79,6 +81,13 @@ class MyDevoirsTestCase(GraphicUnitTest):
             assert m.called
 
             del enfant
+
+    def add_to_window(self, w):
+        EventLoop.ensure_window()
+        window = EventLoop.window
+        window.clear()
+        window.add_widget(w)
+        return window
 
 
 def platform_dispatcher(test, linux, windows):

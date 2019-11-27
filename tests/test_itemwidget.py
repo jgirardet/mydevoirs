@@ -1,6 +1,5 @@
 from unittest.mock import MagicMock, patch
 
-from kivy.base import EventLoop
 from kivy.uix.widget import Widget
 from pony.orm import db_session
 
@@ -128,11 +127,7 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
 
     def test_remove_oui(self):
         b = ItemWidget(**f_item().to_dict())
-
-        EventLoop.ensure_window()
-        window = EventLoop.window
-        window.clear()
-        window.add_widget(b)
+        window = self.add_to_window(b)
 
         b.ids.remove_item.trigger_action(0)
 
@@ -142,12 +137,18 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
     def test_remove_non(self):
         b = ItemWidget(**f_item().to_dict())
 
-        EventLoop.ensure_window()
-        window = EventLoop.window
-        window.clear()
-        window.add_widget(b)
-
+        window = self.add_to_window(b)
         b.ids.remove_item.trigger_action(0)
 
         window.children[0].content.ids.non.trigger_action(0)
         assert b in window.children
+
+    def test_maitere_police_size(self):
+        b = ItemWidget(**f_item(matiere="Mathématiques").to_dict())
+        window = self.add_to_window(b)
+        sp = b.ids.spinner
+        sp.size_hint_x = 0.1
+        self.render(b)
+        assert sp.is_shortened
+
+        assert sp.valign == "middle"

@@ -29,6 +29,7 @@ def set_locale_fr():
 
 def setup_kivy():
     from kivy.config import Config
+
     Config.set("input", "mouse", "mouse,multitouch_on_demand")
     Config.set("kivy", "window_icon", "logo.png")
 

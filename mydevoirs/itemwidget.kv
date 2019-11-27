@@ -23,8 +23,13 @@
         background_normal: '' # pragma: no cover
         color: COLORS["spinner_text_color"]
         size_hint_x: 0.4 # pragma: no cover
+        text_size: (self.width, self.height)
         font_size: sp(14)
         font_name: datas['font_base']
+        valign: 'middle' # pragma: no cover
+        halign: 'center' # pragma: no cover
+        shorten: True
+        shorten_from: "right" # pragma: no cover
 
 
     TextInput:

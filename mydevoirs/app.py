@@ -13,6 +13,7 @@ from mydevoirs.settings import DEFAULT_SETTINGS, SETTING_PANELS
 from mydevoirs.todo import Todo
 from mydevoirs.utils import get_dir, datas
 
+
 class MyDevoirsApp(App):
 
     use_kivy_settings = False
