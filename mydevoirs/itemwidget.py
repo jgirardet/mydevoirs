@@ -7,6 +7,7 @@ from kivy.properties import (
     ListProperty,
     ObjectProperty,
     StringProperty,
+    NumericProperty,
 )
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.popup import Popup
@@ -34,7 +35,8 @@ class ItemWidget(BoxLayout):
         super().__init__(**entry)
 
     def __repr__(self):
-        return f"{self.date} : {self.matiere_nom} --- {self.content[:10]}  {'X' if self.done else 'O'}"
+        return f"{self.date} : {self.matiere_nom} --- \
+            {self.content[:10]}  {'X' if self.done else 'O'}"
 
     def on_kv_post(self, *args):
         self.loaded_flag = True

@@ -52,7 +52,8 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
 
         assert item.matiere_nom == "Divers"
         assert item.ids.textinput.focus
-        assert item.ids.textinput.cursor_col == len(item.ids.textinput.text)
+        print(item.ids.textinput._lines)
+        assert item.ids.textinput.cursor_col == len(item.ids.textinput._lines[-1])
 
         # no change:
         assert item.update_matiere("Divers") is None
@@ -152,3 +153,10 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
         assert sp.is_shortened
 
         assert sp.valign == "middle"
+
+    def test_size_depends_text_input_size(self):
+        b = ItemWidget(**f_item(matiere="Mathématiques").to_dict())
+        b.content = "Une ligne"
+        assert b.height == b.ids.textinput.minimum_height
+        b.content = "Une ligne\n2lignes"
+        assert b.height == b.ids.textinput.minimum_height

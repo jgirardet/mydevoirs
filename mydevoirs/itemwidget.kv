@@ -5,7 +5,7 @@
 
 <ItemWidget>:
     size_hint_y: None
-    height: dp(30)
+    height: self.ids.textinput.minimum_height
     spacing: dp(5)
     canvas:
         Color:
@@ -37,11 +37,12 @@
         text: root.content
         on_text: root.content = self.text
         halign: 'left' # pragma: no cover
-        valign: 'middle' # pragma: no cover
-        multiline: False
+        valign: 'top' # pragma: no cover
+        multiline: True
         write_tab: False
         font_name: datas['font_base']
         font_size: sp(14)
+        # height: root.height * (len(self._lines)+1)
 
 
     ToggleButton:
