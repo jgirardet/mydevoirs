@@ -11,8 +11,7 @@ from kivy.uix.screenmanager import ScreenManager, SlideTransition
 from mydevoirs.agenda import Agenda
 from mydevoirs.settings import DEFAULT_SETTINGS, SETTING_PANELS
 from mydevoirs.todo import Todo
-from mydevoirs.utils import get_dir
-
+from mydevoirs.utils import get_dir, datas
 
 class MyDevoirsApp(App):
 
@@ -20,7 +19,7 @@ class MyDevoirsApp(App):
 
     carousel = ObjectProperty()
 
-    name = "MyDevoirs"
+    title = "MyDevoirs"
 
     def build(self):
         self.sm = ScreenManager(transition=SlideTransition(direction="up"))

@@ -21,6 +21,7 @@ DATAS = {
     "icon_remove": "garbage.png",
     "icon_unchecked": "017-cancel.png",
     "icon_checked": "apply-64.png",
+    "icon_logo": "logo.png",
     "font_base": "Verdana.ttf",
     # "font_base": "OpenDyslexic-Bold.otf",
 }

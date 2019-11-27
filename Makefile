@@ -82,4 +82,7 @@ ipython:
 	.venv/bin/ipython
 
 build:
-	poetry run scripted/build_executable.py
+	poetry run python scripted/build_executable.py
+
+run_binary: build
+	./dist/MyDevoirs
