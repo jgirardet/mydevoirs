@@ -27,8 +27,15 @@ def set_locale_fr():
         locale.setlocale(locale.LC_ALL, "french")  # pragma: no cover_linux
 
 
+def setup_kivy():
+    from kivy.config import Config
+
+    Config.set("input", "mouse", "mouse,multitouch_on_demand")
+
+
 def setup_start():
     set_my_devoirs_base_dir()
+    setup_kivy()
     app, database = do_import()
     set_locale_fr()
     database.db_init()

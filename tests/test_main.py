@@ -53,6 +53,10 @@ def test_setup_start():
     else:
         assert locale.getlocale() == ("fr_FR", "cp1252")
 
+    from kivy.config import Config
+
+    assert Config.get("input", "mouse") == "mouse,multitouch_on_demand"
+
 
 def _reset_locale():
     if platform.system() == "Linux":
