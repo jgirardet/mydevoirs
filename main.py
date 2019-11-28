@@ -30,9 +30,9 @@ def set_locale_fr():
 def setup_kivy():
     from kivy.config import Config
 
+    base_dir = os.environ["MYDEVOIRS_BASE_DIR"]
     Config.set("input", "mouse", "mouse,multitouch_on_demand")
-    Config.set("kivy", "window_icon", "logo.png")
-
+    Config.set("kivy", "window_icon", os.path.join(base_dir, "logo.png"))
 
 def setup_start():
     set_my_devoirs_base_dir()

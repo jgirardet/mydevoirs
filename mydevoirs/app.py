@@ -12,6 +12,7 @@ from mydevoirs.agenda import Agenda
 from mydevoirs.settings import DEFAULT_SETTINGS, SETTING_PANELS
 from mydevoirs.todo import Todo
 from mydevoirs.utils import get_dir, datas
+from kivy.core.window import Window
 
 
 class MyDevoirsApp(App):
@@ -21,6 +22,10 @@ class MyDevoirsApp(App):
     carousel = ObjectProperty()
 
     title = "MyDevoirs"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        Window.maximize()
 
     def build(self):
         self.sm = ScreenManager(transition=SlideTransition(direction="up"))

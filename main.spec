@@ -13,6 +13,7 @@ a = Analysis(
         ("data/icons/*.png", "data/icons"),
         ("data/fonts/*.ttf", "data/fonts"),
         ("data/fonts/*.otf", "data/fonts"),
+        ("logo.png", "."),
 
     ],
     hiddenimports=[],

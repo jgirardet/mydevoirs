@@ -1,16 +1,15 @@
-remove shell at start if pysinstaller
-
 régler les problèmes de databas no cover et config
 
 graphique
 clœavier
-couleur textinput
-miximisé d'emblée
 ci
-compile windows
 
 àapros
 crediter images
 kivy log > info
+utile
+	autocomplete
 
-autocomplete
+secondaire
+	use app.directory plutot que MY_ENV_DIR
+	upx: à voir sur windows, même taille sous linux
