@@ -1,0 +1,139 @@
+name: MyDevoirs Test and Build
+
+on: [push, pull_request]
+
+env:
+  # USE_SDL2: 1
+  # USE_GSTREAMER: 1
+  # GST_REGISTRY: '~/registry.bin'
+  # KIVY_GL_BACKEND: 'angle_sdl2'
+  # KIVY_SPLIT_EXAMPLES: 1
+  CODECOV_TOKEN: b12c1d6f-032c-40bf-ab16-3cc301e48115
+
+
+jobs:
+  Linux:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os : [ubuntu-latest]
+        python: [3.7']
+        # python: [3.7', '3.8' ]
+        # arch: ['x64', 'x86']
+    env:
+      DISPLAY: ':99.0'
+    steps:
+    - name: get repo
+      uses: actions/checkout@v1
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+      #   python-version: ${{ matrix.python }}
+      #   architecture: ${{ matrix.arch }}
+    - name: Install poetry
+      run: |
+        echo $"${{toJson(runner)}}"
+        echo $"${{toJson(env.AAA)}}"
+        python -m pip install poetry
+        poetry run python -m pip install --upgrade pip
+    - name: Install common dependencies
+      run: poetry install
+    - name: setup linux
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt install -y language-pack-fr pulseaudio
+        /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1280x720x24 -ac +extension GLX
+    - name: Tests
+      run: |
+        poetry run python -m pytest -vvv -s
+    - name: Coverage
+      run: |
+        poetry run coverage run --rcfile=.coveragerc -m pytest
+        poetry run coverage report
+    - name: build
+      run: |
+        poetry run  python scripted/build_executable.py
+    # - name: Create Release
+    #   id: create_release
+    #   uses: actions/create-release@v1.0.0
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #     tag_name: ${{ github.ref }}
+    #     release_name: Release Linux ${{ github.ref }}
+    #     draft: false
+    #     prerelease: false
+    # - name: Upload Release Asset
+    #   id: upload-release-asset 
+    #   uses: actions/upload-release-asset@v1.0.1
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #     upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+    #     asset_path: ./dist/MyDevoirs
+    #     asset_name: MyDevoirs
+    #     asset_content_type: application/x-executable
+  Window:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest]
+        python: [3.7']
+        # python: [3.7', '3.8' ]
+        # arch: ['x64', 'x86']
+    env:
+      # USE_SDL2: 1
+      # USE_GSTREAMER: 1
+      # GST_REGISTRY: '~/registry.bin'
+      KIVY_GL_BACKEND: 'angle_sdl2'
+      # KIVY_SPLIT_EXAMPLES: 1'
+    steps:
+    - name: get repo
+      uses: actions/checkout@v1
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      # with:
+      with:
+        python-version: 3.7
+      #   python-version: ${{ matrix.python }}
+      #   architecture: ${{ matrix.arch }}
+    - name: Install poetry
+      run: |
+        python -m pip install poetry
+        poetry run python -m pip install --upgrade pip
+    - name: Install Windows dependencies
+      run: |
+        poetry run python -m pip install  docutils pygments pypiwin32 kivy_deps.sdl2==0.1.22 kivy_deps.glew==0.1.12 kivy_deps.gstreamer==0.1.17 kivy_deps.angle==0.1.9 pywin32-ctypes pefile
+    - name: Install common dependencies
+      run: poetry install
+    - name: Tests
+      run: |
+        poetry run python -m pytest -vvv -s
+    - name: Coverage
+      run: |
+        poetry run coverage run --rcfile=.coveragerc_win -m pytest
+        poetry run coverage report
+    - name: build
+      run: |
+        poetry run  python scripted/build_executable.py
+    # - name: Create Release
+    #   id: create_release
+    #   uses: actions/create-release@v1.0.0
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #     tag_name: ${{ github.ref }}
+    #     release_name: Release Windows ${{ github.ref }}
+    #     draft: false
+    #     prerelease: false
+    # - name: Upload Release Asset
+    #   id: upload-release-asset 
+    #   uses: actions/upload-release-asset@v1.0.1
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #     upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+    #     asset_path: ./dist/MyDevoirs.exe
+    #     asset_name: MyDevoirs.exe
+    #     asset_content_type: application/x-executable
