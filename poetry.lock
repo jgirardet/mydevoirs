@@ -31,12 +31,6 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 version = "19.3.0"
 
-[package.extras]
-azure-pipelines = ["coverage", "hypothesis", "pympler", "pytest (>=4.3.0)", "six", "zope.interface", "pytest-azurepipelines"]
-dev = ["coverage", "hypothesis", "pympler", "pytest (>=4.3.0)", "six", "zope.interface", "sphinx", "pre-commit"]
-docs = ["sphinx", "zope.interface"]
-tests = ["coverage", "hypothesis", "pympler", "pytest (>=4.3.0)", "six", "zope.interface"]
-
 [[package]]
 category = "dev"
 description = "The uncompromising code formatter."
@@ -53,9 +47,6 @@ pathspec = ">=0.6,<1"
 regex = "*"
 toml = ">=0.9.4"
 typed-ast = ">=1.4.0"
-
-[package.extras]
-d = ["aiohttp (>=3.3.2)", "aiohttp-cors"]
 
 [[package]]
 category = "dev"
@@ -102,10 +93,6 @@ version = "0.23"
 [package.dependencies]
 zipp = ">=0.5"
 
-[package.extras]
-docs = ["sphinx", "rst.linker"]
-testing = ["packaging", "importlib-resources"]
-
 [[package]]
 category = "dev"
 description = "A Python utility / library to sort Python imports."
@@ -113,12 +100,6 @@ name = "isort"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 version = "4.3.21"
-
-[package.extras]
-pipfile = ["pipreqs", "requirementslib"]
-pyproject = ["toml"]
-requirements = ["pipreqs", "pip-api"]
-xdg_home = ["appdirs (>=1.4.0)"]
 
 [[package]]
 category = "main"
@@ -132,9 +113,6 @@ version = "1.11.1"
 Kivy-Garden = ">=0.1.4"
 docutils = "*"
 pygments = "*"
-
-[package.extras]
-tuio = ["oscpy"]
 
 [[package]]
 category = "main"
@@ -193,9 +171,6 @@ version = "0.13.1"
 python = "<3.8"
 version = ">=0.12"
 
-[package.extras]
-dev = ["pre-commit", "tox"]
-
 [[package]]
 category = "main"
 description = "Pony Object-Relational Mapper"
@@ -211,6 +186,14 @@ name = "py"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 version = "1.8.0"
+
+[[package]]
+category = "main"
+description = "Python bindings for the Enchant spellchecking system"
+name = "pyenchant"
+optional = false
+python-versions = "*"
+version = "2.0.0"
 
 [[package]]
 category = "main"
@@ -261,9 +244,6 @@ wcwidth = "*"
 [package.dependencies.importlib-metadata]
 python = "<3.8"
 version = ">=0.12"
-
-[package.extras]
-testing = ["argcomplete", "hypothesis (>=3.56)", "mock", "nose", "requests", "xmlschema"]
 
 [[package]]
 category = "dev"
@@ -328,12 +308,8 @@ version = "0.6.0"
 [package.dependencies]
 more-itertools = "*"
 
-[package.extras]
-docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
-testing = ["pathlib2", "contextlib2", "unittest2"]
-
 [metadata]
-content-hash = "8027498653c0cc15fdffe06d26716e7db72cb149ea7f560c2fc7a62be853e942"
+content-hash = "e2bdc4d6467df278e285336409fbe114431bdd9f0178fea8c8df3c84879b26c4"
 python-versions = "^3.7.5"
 
 [metadata.hashes]
@@ -357,6 +333,7 @@ pathspec = ["e285ccc8b0785beadd4c18e5708b12bb8fcf529a1e61215b3feff1d1e559ea5c"]
 pluggy = ["15b2acde666561e1298d71b523007ed7364de07029219b604cf808bfa1c765b0", "966c145cd83c96502c3c3868f50408687b38434af77734af1e9ca461a4081d2d"]
 pony = ["d1008d465d3c5db435fe2636f4c9e1a4a04a24f27c5d7cb4943ba5c596de7e17"]
 py = ["64f65755aee5b381cea27766a3a147c3f15b9b6b9ac88676de66ba2ae36793fa", "dc639b046a6e2cff5bbe40194ad65936d6ba360b52b3c3fe1d08a82dd50b5e53"]
+pyenchant = ["9a66aa441535e27d228baca320f7feed1b08d0c5e6167d5e5cf455b545b7c2cd", "b9526fc2c5f1ba0637e50200b645a7c20fb6644dbc6f6322027e7d2fbf1084a5", "e8000144e61551fcab9cd1b6fdccdded20e577e8d6d0985533f0b2b9c38fd952", "fc31cda72ace001da8fe5d42f11c26e514a91fa8c70468739216ddd8de64e2a0"]
 pygments = ["71e430bc85c88a430f000ac1d9b331d2407f681d6f6aec95e8bcfbc3df5b0127", "881c4c157e45f30af185c1ffe8d549d48ac9127433f2c380c24b84572ad66297"]
 pyinstaller = ["ee7504022d1332a3324250faf2135ea56ac71fdb6309cff8cd235de26b1d0a96"]
 pyparsing = ["20f995ecd72f2a1f4bf6b072b63b22e2eb457836601e76d6e5dfcd75436acc1f", "4ca62001be367f01bd3e92ecbb79070272a9d4964dce6a48a82ff0b8bc7e683a"]
