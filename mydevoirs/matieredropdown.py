@@ -7,7 +7,8 @@ from kivy.uix.behaviors import FocusBehavior
 from mydevoirs.constants import MATIERES_TREE
 
 
-class MatiereDropdown(FocusBehavior, DropDown):
+class MatiereDropdown( DropDown):
+# class MatiereDropdown(FocusBehavior, DropDown):
     def on_select(self, button):
         if button.has_sub:
             a = MatiereDropdown(init=False)
@@ -26,23 +27,37 @@ class MatiereDropdown(FocusBehavior, DropDown):
         self.tree = tree
         if init:
             self._create_options(self, None)
-        self.children[0].children[-1].focus = True
-        print(self, self.focus, self.keyboard_mode)
 
-    def keyboard_on_key_down(self, window, keycode, text, modifiers):
-        print(window, keycode, text, modifiers)
+    @property
+    def options(self):
+        return self.children[0].children
 
-class MatiereOption(FocusBehavior, Button):
+    # def keyboard_on_key_down(self, window, keycode, text, modifiers):
+    #     print(window, keycode, text, modifiers)
+
+    def set_option_focus(self, index):
+        option = self.options[index]
+        # self.dismiss()
+        option.text = option.text.upper()
+        but = self.attach_to
+        print(but)
+        self.open(but)
+        # text, has_sub = option.text, option.has_sub
+        # self.remove_widget(option)
+        # self.add_widget(MatiereOption(text=text, has_sub=has_sub, focus=True))
+
+
+class MatiereOption(Button):
+# class MatiereOption(FocusBehavior, Button):
     color = ColorProperty(None)
     has_sub = BooleanProperty(False)
     dropdown = ObjectProperty()
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        print(self.focus)
-        direction_keys = {276:'left', 273: 'up', 274:'down', 275:  'up'}
-        if self.focus:
-            self.border = [50,50,50,50]
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     # if self.focus:
+    #     # self.text=self.text.upper()
+    #     direction_keys = {276: "left", 273: "up", 274: "down", 275: "up"}
 
     def on_release(self):
         self.dropdown.select(self)
@@ -50,8 +65,7 @@ class MatiereOption(FocusBehavior, Button):
     def __repr__(self):
         return f"MatiereOption: {self.text}, has_sub={self.has_sub}"
 
-    def keyboard_on_key_down(self, window, keycode, text, modifiers):
-        print('dans option', self.text)
-        print(window, keycode, text, modifiers)
-        self.focus = True
-
+    # def keyboard_on_key_down(self, window, keycode, text, modifiers):
+    #     print("dans option", self.text)
+    #     print(window, keycode, text, modifiers)
+    #     self.focus = True
