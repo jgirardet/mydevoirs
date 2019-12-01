@@ -16,6 +16,9 @@ class MatiereDropdown( DropDown):
             a.open(self.attach_to)
             self.attach_to.parent.update_matiere(button.text)
 
+        else:
+            self.attach_to.parent.update_matiere(button.text)
+
     def _create_options(self, widget, key):
         collection = self.tree[key] if key else self.tree
         for k, v in collection.items():
@@ -60,7 +63,8 @@ class MatiereOption(Button):
     #     direction_keys = {276: "left", 273: "up", 274: "down", 275: "up"}
 
     def on_release(self):
-        self.dropdown.select(self)
+        self.border = (30,30,30,30)
+        # self.dropdown.select(self)
 
     def __repr__(self):
         return f"MatiereOption: {self.text}, has_sub={self.has_sub}"
