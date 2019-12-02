@@ -86,20 +86,26 @@
     width: dp(200)
 
 
+<ValidationButton@ToggleButton>:
+    bold: True
+    group: "delete"
+
 <ValidationPopup>:
     orientation: 'horizontal' # pragma: no cover
-    Button:
+    ValidationButton:
         text: "oui" # pragma: no cover
         id: oui
         on_press:
             root.item.remove_after_confirmation()
             root.parent.parent.parent.dismiss()
+        state: "down"
 
-    Button:
+    ValidationButton:
         id: non
         text: "non" # pragma: no cover
         on_press:
             root.parent.parent.parent.dismiss()
+            root.item.ids.textinput.focus = True
 
 <EffacerPopup>:
     title: f"Effacer  {self.content.item.matiere_nom}: {self.content.item.content} ?"

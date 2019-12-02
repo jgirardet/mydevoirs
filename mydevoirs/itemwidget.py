@@ -17,6 +17,7 @@ from kivy.base import EventLoop
 
 from mydevoirs.database.database import db
 from mydevoirs.utils import get_base_dir
+from kivy.uix.behaviors import FocusBehavior
 
 Builder.load_file(str(get_base_dir() / "mydevoirs" / "itemwidget.kv"))
 
@@ -50,9 +51,9 @@ class ItemWidget(BoxLayout):
                 a.matiere = text
                 self.matiere_color = a.matiere.color
                 self.matiere_nom = text
-            content = self.ids.textinput
-            content.focus = True
-            content.do_cursor_movement("cursor_end")
+        content = self.ids.textinput
+        content.focus = True
+        content.do_cursor_movement("cursor_end")
 
     def on_content(self, _, text):
         if self.loaded_flag:
@@ -84,11 +85,18 @@ class ContentTextInput(TextInput):
     def keyboard_on_key_down(self, window, keycode, text, modifiers):
         super().keyboard_on_key_down(window, keycode, text, modifiers)
 
-        if keycode[1] == "n" and "ctrl" in modifiers:
+        if keycode[0] == 110 and "ctrl" in modifiers:
             self.parent.jour_widget.add_item()
             dropdown = EventLoop.window.children[0]
-            print(dropdown)
 
+        elif keycode[0] == 111 and "ctrl" in modifiers:
+            self.parent.ids.spinner.trigger_action(0)
+
+        elif keycode[0] == 100 and "ctrl" in modifiers:
+            self.parent.remove()
+        else:
+            return False
+        return True
         # self.parent.jour_widget.items[0].ids.textinput.focus = True
 
 
@@ -96,9 +104,28 @@ class EffacerPopup(Popup):
     pass
 
 
-class EffacerPopup(Popup):
-    pass
-
-
-class ValidationPopup(BoxLayout):
+class ValidationPopup(FocusBehavior, BoxLayout):
     item = ObjectProperty()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.focus = True
+        self.button_focused = "oui"
+
+    def keyboard_on_key_down(self, window, keycode, text, modifier):
+        if keycode[0] in [275, 276]:
+            backup = self.ids.oui.state
+            self.ids.oui.state = self.ids.non.state
+            self.ids.non.state = backup
+
+
+        elif keycode[0] == 13:
+            if self.ids.oui.state == "down":
+                self.ids.oui.trigger_action(0)
+            else:
+                self.ids.non.trigger_action(0)
+        else:
+            return False
+        return True
+
+
