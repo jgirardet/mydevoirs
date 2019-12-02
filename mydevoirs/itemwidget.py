@@ -12,6 +12,8 @@ from kivy.properties import (
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.popup import Popup
 from pony.orm import db_session
+from kivy.uix.textinput import TextInput
+from kivy.base import EventLoop
 
 from mydevoirs.database.database import db
 from mydevoirs.utils import get_base_dir
@@ -76,6 +78,21 @@ class ItemWidget(BoxLayout):
         with db_session:
             db.Item[self.entry].delete()
         self.parent.remove_widget(self)
+
+
+class ContentTextInput(TextInput):
+    def keyboard_on_key_down(self, window, keycode, text, modifiers):
+        super().keyboard_on_key_down(window, keycode, text, modifiers)
+
+        # if keycode[1] == "n" and "ctrl" in modifiers:
+        #     self.parent.jour_widget.add_item()
+        # dropdown = EventLoop.window.children[0]
+
+        # self.parent.jour_widget.items[0].ids.textinput.focus = True
+
+
+class EffacerPopup(Popup):
+    pass
 
 
 class EffacerPopup(Popup):

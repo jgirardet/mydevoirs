@@ -92,6 +92,10 @@ class JourWidget(BoxLayout):
         self.update_progression()
         MatiereDropdown().open(item_widget.ids.spinner)
 
+    @property
+    def items(self):
+        return self.jouritem.children
+
 
 class BaseGrid(GridLayout):
 
