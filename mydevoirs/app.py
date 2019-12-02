@@ -25,7 +25,7 @@ class MyDevoirsApp(App):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        Window.maximize()
+        # Window.maximize()
 
     def build(self):
         self.sm = ScreenManager(transition=SlideTransition(direction="up"))
