@@ -84,9 +84,10 @@ class ContentTextInput(TextInput):
     def keyboard_on_key_down(self, window, keycode, text, modifiers):
         super().keyboard_on_key_down(window, keycode, text, modifiers)
 
-        # if keycode[1] == "n" and "ctrl" in modifiers:
-        #     self.parent.jour_widget.add_item()
-        # dropdown = EventLoop.window.children[0]
+        if keycode[1] == "n" and "ctrl" in modifiers:
+            self.parent.jour_widget.add_item()
+            dropdown = EventLoop.window.children[0]
+            print(dropdown)
 
         # self.parent.jour_widget.items[0].ids.textinput.focus = True
 
