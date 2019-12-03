@@ -7,7 +7,7 @@ from kivy.uix.settings import Settings
 
 from mydevoirs.app import MyDevoirsApp
 from mydevoirs.settings import DEFAULT_SETTINGS, SETTING_PANELS
-from kivy.base import EventLoop
+
 from .fixtures import *
 
 

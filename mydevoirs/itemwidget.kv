@@ -88,7 +88,6 @@
 
 <ValidationButton@ToggleButton>:
     bold: True
-    group: "delete"
 
 <ValidationPopup>:
     orientation: 'horizontal' # pragma: no cover
@@ -98,7 +97,7 @@
         on_press:
             root.item.remove_after_confirmation()
             root.parent.parent.parent.dismiss()
-        state: "down"
+        state: "down" # pragma: no cover
 
     ValidationButton:
         id: non

@@ -1,23 +1,24 @@
 from functools import partial
 
+from kivy.app import App
+from kivy.base import EventLoop
 from kivy.clock import Clock
 from kivy.lang import Builder
 from kivy.properties import (
     BooleanProperty,
     ListProperty,
+    NumericProperty,
     ObjectProperty,
     StringProperty,
-    NumericProperty,
 )
+from kivy.uix.behaviors import FocusBehavior
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.popup import Popup
-from pony.orm import db_session
 from kivy.uix.textinput import TextInput
-from kivy.base import EventLoop
+from pony.orm import db_session
 
 from mydevoirs.database.database import db
 from mydevoirs.utils import get_base_dir
-from kivy.uix.behaviors import FocusBehavior
 
 Builder.load_file(str(get_base_dir() / "mydevoirs" / "itemwidget.kv"))
 
@@ -84,20 +85,30 @@ class ItemWidget(BoxLayout):
 class ContentTextInput(TextInput):
     def keyboard_on_key_down(self, window, keycode, text, modifiers):
         super().keyboard_on_key_down(window, keycode, text, modifiers)
+        is_agenda = App.get_running_app().sm.current == "agenda"
 
-        if keycode[0] == 110 and "ctrl" in modifiers:
+        # ctrl + n == nouveau
+        if is_agenda and keycode[0] == 110 and "ctrl" in modifiers:
             self.parent.jour_widget.add_item()
             dropdown = EventLoop.window.children[0]
 
-        elif keycode[0] == 111 and "ctrl" in modifiers:
+        # ctrl + d == duplicate
+        elif is_agenda and keycode[0] == 100 and "ctrl" in modifiers:
+            self.parent.jour_widget.ids.add_button.trigger_action(0)
+            dropdown = EventLoop.window.children[0]
+            dropdown.dismiss()
+            self.parent.jour_widget.items[0].update_matiere(self.parent.matiere_nom)
+
+        # ctrl + m = matiere ?
+        elif keycode[0] == 109 and "ctrl" in modifiers:
             self.parent.ids.spinner.trigger_action(0)
 
-        elif keycode[0] == 100 and "ctrl" in modifiers:
+        # ctrl + e == effacer
+        elif keycode[0] == 101 and "ctrl" in modifiers:
             self.parent.remove()
         else:
             return False
         return True
-        # self.parent.jour_widget.items[0].ids.textinput.focus = True
 
 
 class EffacerPopup(Popup):
@@ -118,7 +129,6 @@ class ValidationPopup(FocusBehavior, BoxLayout):
             self.ids.oui.state = self.ids.non.state
             self.ids.non.state = backup
 
-
         elif keycode[0] == 13:
             if self.ids.oui.state == "down":
                 self.ids.oui.trigger_action(0)
@@ -127,5 +137,3 @@ class ValidationPopup(FocusBehavior, BoxLayout):
         else:
             return False
         return True
-
-

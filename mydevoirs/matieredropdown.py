@@ -1,14 +1,14 @@
 from kivy.properties import (
     BooleanProperty,
     ColorProperty,
-    ObjectProperty,
     NumericProperty,
+    ObjectProperty,
 )
+from kivy.uix.behaviors import FocusBehavior
 from kivy.uix.button import Button
 from kivy.uix.dropdown import DropDown
-from kivy.uix.behaviors import FocusBehavior
 
-from mydevoirs.constants import MATIERES_TREE, DIRECTION_KEYS
+from mydevoirs.constants import MATIERES_TREE
 
 
 class MatiereDropdown(FocusBehavior, DropDown):
@@ -47,8 +47,6 @@ class MatiereDropdown(FocusBehavior, DropDown):
     def options(self):
         return self.children[0].children
 
-
-
     def keyboard_on_key_down(self, window, keycode, text, modifier):
         if keycode[0] == 274:  # down
             self.last_focused = self.focused_index
@@ -69,7 +67,6 @@ class MatiereDropdown(FocusBehavior, DropDown):
         else:
             return False
         return True
-
 
 
 class MatiereOption(Button):

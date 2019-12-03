@@ -1,7 +1,6 @@
 régler les problèmes de databas no cover et config
 
 graphique
-clœavier
 ci
 
 àapros
@@ -9,7 +8,8 @@ crediter images
 kivy log > info
 utile
 	autocomplete
-
+utf8 dans python
+clœavier : entre jours
 secondaire
 	use app.directory plutot que MY_ENV_DIR
 	upx: à voir sur windows, même taille sous linux

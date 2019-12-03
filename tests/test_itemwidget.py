@@ -132,6 +132,8 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
 
         b.ids.remove_item.trigger_action(0)
 
+        assert window.children[0].content.ids.oui.state == "down"
+
         window.children[0].content.ids.oui.trigger_action(0)
         assert b not in window.children
 

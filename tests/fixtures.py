@@ -3,10 +3,9 @@ import random
 import time
 from unittest.mock import patch
 
+from kivy.base import EventLoop
 from kivy.lang import Builder
 from kivy.tests.common import GraphicUnitTest, UnitTestTouch
-from kivy.base import EventLoop
-
 from mimesis import Generic
 from pony.orm import db_session, delete
 

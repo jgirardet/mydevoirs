@@ -1,9 +1,9 @@
 import datetime
 from unittest.mock import MagicMock, patch
 
+from kivy.base import EventLoop
 from kivy.config import ConfigParser
 from kivy.uix.dropdown import DropDown
-from kivy.base import EventLoop
 
 from mydevoirs.agenda import (
     Agenda,
@@ -126,6 +126,14 @@ class JourWidgetTestCase(MyDevoirsTestCase):
             assert not db.Item.get(id=entry.entry)
         assert entry not in jour.jouritem.children
         assert jour.progression == "0/2"
+
+    def test_jour_item(self):
+        day = f_jour()
+        for i in range(3):
+            f_item(jour=day.date)
+
+        jour = JourWidget(day.date)
+        assert len(jour.items) == 3
 
 
 class TestBaseGrid(MyDevoirsTestCase):

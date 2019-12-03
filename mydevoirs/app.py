@@ -11,8 +11,7 @@ from kivy.uix.screenmanager import ScreenManager, SlideTransition
 from mydevoirs.agenda import Agenda
 from mydevoirs.settings import DEFAULT_SETTINGS, SETTING_PANELS
 from mydevoirs.todo import Todo
-from mydevoirs.utils import get_dir, datas
-from kivy.core.window import Window
+from mydevoirs.utils import get_dir
 
 
 class MyDevoirsApp(App):

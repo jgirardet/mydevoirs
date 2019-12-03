@@ -34,6 +34,7 @@ def setup_kivy():
     Config.set("input", "mouse", "mouse,multitouch_on_demand")
     Config.set("kivy", "window_icon", os.path.join(base_dir, "logo.png"))
 
+
 def setup_start():
     set_my_devoirs_base_dir()
     setup_kivy()
