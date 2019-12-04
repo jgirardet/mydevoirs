@@ -54,26 +54,6 @@ jobs:
     - name: build
       run: |
         poetry run  python scripted/build_executable.py
-    - name: deploy_linux
-      uses: xresloader/upload-to-github-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        file: "dist/MyDevoirs"
-        tags: true
-        release_name: MyDevoirs Linux v{{github.ref}}
-        tag_name: v${{github.ref}}
-
-    - name: deploy_linux_latest
-      uses: xresloader/upload-to-github-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        file: "dist/MyDevoirs"
-        tags: true
-        release_name: MyDevoirs latest linux
-        overwrite: true
-        tag_name: latest
 
   Window:
     runs-on: ${{ matrix.os }}
@@ -119,26 +99,27 @@ jobs:
       run: |
         poetry run  python scripted/build_executable.py
 
-    - name: deploy_windows
-      uses: xresloader/upload-to-github-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        file: "dist/MyDevoirs.exe"
-        tags: true
-        release_name: MyDevoirs Win v{{github.ref}}
-        tag_name: v${{github.ref}}
 
-
-    - name: deploy_windows_latest
-      uses: xresloader/upload-to-github-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        file: "dist/MyDevoirs.exe"
-        tags: true
-        release_name: MyDevoirs latest windows
-        overwrite: true
-        tag_name: latest
-
-
+  Deploy release:
+    name: release github
+    needs: [Linux, Windows]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download windows binary
+        uses: actions/download-artifact@v1
+        with:
+          name: MyDevoirs.exe
+      - name: Download Linux binary
+        uses: actions/download-artifact@v1
+        with:
+          name: MyDevoirs
+      - name: release git_hub
+        uses: xresloader/upload-to-github-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          file: "MyDevoirs*"
+          tags: true
+          draft: False
+          release_name: MyDevoirs v${{github.ref}}
+          tag_name: v${{github.ref}}
