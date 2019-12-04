@@ -57,7 +57,7 @@ except subprocess.TimeoutExpired:
     except subprocess.TimeoutExpired:
         LOG.error("Echec de l'arret, essai kill")
         proc.kill()
-        sys.exit(-1)
+        sys.exit(0)
     else:
         assert proc.poll() == 0
         LOG.info("Execution sans erreur !!")

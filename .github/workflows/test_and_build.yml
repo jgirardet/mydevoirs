@@ -1,4 +1,4 @@
-name: MyDevoirs Test and Build
+name: ${{github.ref}}
 
 on: [push, pull_request]
 
@@ -62,7 +62,7 @@ jobs:
         file: "dist/MyDevoirs"
         tags: true
         release_name: MyDevoirs Linux v{{github.ref}}
-        tag_name: v{{github.ref}}
+        tag_name: v${{github.ref}}
 
     - name: deploy_linux_latest
       uses: xresloader/upload-to-github-release@v1
@@ -127,7 +127,7 @@ jobs:
         file: "dist/MyDevoirs.exe"
         tags: true
         release_name: MyDevoirs Win v{{github.ref}}
-        tag_name: v{{github.ref}}
+        tag_name: v${{github.ref}}
 
 
     - name: deploy_windows_latest
