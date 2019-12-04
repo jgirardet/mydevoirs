@@ -56,9 +56,9 @@ jobs:
         poetry run  python scripted/build_executable.py
     - name: Dupload linux binary in artifact
       uses: actions/upload-artifact@v1
-        with:
-          path: dist/Mydevoirs
-          name: MyDevoirs
+      with:
+        path: dist/Mydevoirs
+        name: MyDevoirs
 
   Windows:
     runs-on: ${{ matrix.os }}
@@ -105,9 +105,9 @@ jobs:
         poetry run  python scripted/build_executable.py
     - name: upload Window binary in artifact
       uses: actions/upload-artifact@v1
-        with:
-          path: dist/Mydevoirs.exe
-          name: MyDevoirs.exe
+      with:
+        path: dist/Mydevoirs.exe
+        name: MyDevoirs.exe
 
   Deploy:
     name: release github
