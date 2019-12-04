@@ -1,7 +1,6 @@
 from functools import partial
 
 from kivy.app import App
-from kivy.base import EventLoop
 from kivy.clock import Clock
 from kivy.lang import Builder
 from kivy.properties import (
@@ -17,7 +16,7 @@ from kivy.uix.popup import Popup
 from kivy.uix.textinput import TextInput
 from pony.orm import db_session
 
-from mydevoirs.database.database import db
+from mydevoirs.database import db
 from mydevoirs.utils import get_base_dir
 
 Builder.load_file(str(get_base_dir() / "mydevoirs" / "itemwidget.kv"))

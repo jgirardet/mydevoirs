@@ -51,7 +51,7 @@ class MatiereDropdown(FocusBehavior, DropDown):
         if keycode[1] == "down":  # down
             self.last_focused = self.focused_index
             if self.focused_index == -len(self.options):
-                self.focused_index = -1 
+                self.focused_index = -1
             else:
                 self.focused_index = self.focused_index - 1
 
@@ -62,7 +62,7 @@ class MatiereDropdown(FocusBehavior, DropDown):
             else:
                 self.focused_index = self.focused_index + 1
 
-        elif keycode[1] in ["enter", "right"]:  # right, Enter 
+        elif keycode[1] in ["enter", "right"]:  # right, Enter
             self.select(self.options[self.focused_index])
         else:
             return False

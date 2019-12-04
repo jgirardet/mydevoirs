@@ -4,8 +4,10 @@ import platform
 from pathlib import Path
 
 import mydevoirs.app as m_app
-import mydevoirs.database.database as m_database
-from main import do_import, set_locale_fr, set_my_devoirs_base_dir, setup_start
+from main import *
+from mydevoirs.constants import DDB_FILENAME
+from mydevoirs.database import init_database as m_init_database
+from mydevoirs.utils import get_dir
 
 
 def test_set_base_dir():
@@ -27,7 +29,7 @@ def test_set_base_dir():
 
 
 def test_do_import():
-    assert do_import() == (m_app, m_database)
+    assert do_import() == (m_app, m_init_database)
 
 
 def test_set_locale_fr():
@@ -43,24 +45,10 @@ def test_set_locale_fr():
     _reset_locale()
 
 
-def test_setup_start():
-    a = setup_start()
-    assert "MYDEVOIRS_BASE_DIR" in os.environ
-    assert a == m_app
-
-    if platform.system() == "Linux":
-        assert locale.getlocale() == ("fr_FR", "UTF-8")
-    else:
-        assert locale.getlocale() == ("fr_FR", "cp1252")
-
-    from kivy.config import Config
-
-    assert Config.get("input", "mouse") == "mouse,multitouch_on_demand"
+def test_get_database_location():
+    assert get_database_location() == get_dir("cache") / DDB_FILENAME
 
 
 def _reset_locale():
     if platform.system() == "Linux":
         locale.resetlocale()
-
-
-# xsel libmtdev1 python3-sdl2 mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev

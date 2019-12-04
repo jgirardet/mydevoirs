@@ -4,18 +4,15 @@ import time
 from unittest.mock import patch
 
 from kivy.base import EventLoop
+from kivy.core.window import Keyboard
 from kivy.tests.common import GraphicUnitTest, UnitTestTouch
 from mimesis import Generic
 from pony.orm import db_session, delete
-from kivy.core.window import Keyboard
 
 from mydevoirs.constants import APP_NAME, MATIERES
-from mydevoirs.database.database import db
+from mydevoirs.database import db
 
 gen = Generic("fr")
-
-
-
 
 
 class Touche(UnitTestTouch):
@@ -84,8 +81,7 @@ class MyDevoirsTestCase(GraphicUnitTest):
             self.window.clear()
         self.window.add_widget(w)
 
-    def press_key(self, key, scancode=None, codepoint=None,
-                    modifier=None, **kwargs):
+    def press_key(self, key, scancode=None, codepoint=None, modifier=None, **kwargs):
         if isinstance(key, str):
             key = Keyboard.keycodes[key]
         self.window.dispatch(
@@ -95,6 +91,7 @@ class MyDevoirsTestCase(GraphicUnitTest):
     def click(self, widget):
         t = get_touch(widget)
         t.click()
+
 
 def platform_dispatcher(test, linux, windows):
     if platform.system() == "Linux":  # pragma: no cover_win

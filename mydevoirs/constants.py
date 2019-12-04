@@ -7,7 +7,7 @@
 # }
 
 APP_NAME = "MyDevoirs"
-
+DDB_FILENAME = "ddb_hard.sqlite"
 
 SEMAINE = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"]
 
@@ -86,7 +86,3 @@ THEMES = {
 }
 
 COLORS = THEMES["gris"]
-
-
-
-

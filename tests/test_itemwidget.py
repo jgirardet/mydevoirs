@@ -3,15 +3,15 @@ from unittest.mock import MagicMock, patch
 from kivy.uix.widget import Widget
 from pony.orm import db_session
 
-from mydevoirs.itemwidget import (
-    ItemWidget,
-    ContentTextInput,
-    ValidationPopup,
-    EffacerPopup,
-)
-from mydevoirs.matieredropdown import MatiereOption, MatiereDropdown
-from mydevoirs.utils import datas
 from mydevoirs.agenda import JourWidget
+from mydevoirs.itemwidget import (
+    ContentTextInput,
+    EffacerPopup,
+    ItemWidget,
+    ValidationPopup,
+)
+from mydevoirs.matieredropdown import MatiereDropdown, MatiereOption
+from mydevoirs.utils import datas
 
 from .fixtures import *
 

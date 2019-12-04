@@ -14,7 +14,7 @@ from kivy.uix.scrollview import ScrollView
 from pony.orm import db_session
 
 from mydevoirs.agenda import ItemWidget
-from mydevoirs.database.database import db
+from mydevoirs.database import db
 
 
 class TodoItemWidget(ItemWidget):

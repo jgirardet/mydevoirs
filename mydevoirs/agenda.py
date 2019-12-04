@@ -17,7 +17,7 @@ from kivy.uix.screenmanager import Screen
 from pony.orm import db_session
 
 from mydevoirs.constants import SEMAINE
-from mydevoirs.database.database import db
+from mydevoirs.database import db
 from mydevoirs.itemwidget import ItemWidget
 from mydevoirs.matieredropdown import MatiereDropdown
 
