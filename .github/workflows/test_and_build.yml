@@ -1,4 +1,4 @@
-name: ${{github.ref}}
+name: test et build
 
 on: [push, pull_request]
 
