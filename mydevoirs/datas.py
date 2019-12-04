@@ -15,13 +15,15 @@ Permet :
 DATAS = {
     "icon_precedant": "chevron-left.png",
     "icon_suivant": "chevron-right.png",
-    "icon_agenda": "calendar.png",
+    "icon_agenda": "014-calendar.png",
     "icon_todo": "010-test.png",
     "icon_new": "012-add.png",
     "icon_remove": "garbage.png",
     "icon_unchecked": "017-cancel.png",
     "icon_checked": "apply-64.png",
     "icon_logo": "logo.png",
+    "icon_settings": "params.png",
+    "icon_aide": "qmark.png",
     "font_base": "Verdana.ttf",
     # "font_base": "OpenDyslexic-Bold.otf",
 }
