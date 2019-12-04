@@ -55,7 +55,7 @@ jobs:
       run: |
         poetry run  python scripted/build_executable.py
 
-  Window:
+  Windows:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
