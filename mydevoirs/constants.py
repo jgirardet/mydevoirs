@@ -88,4 +88,5 @@ THEMES = {
 COLORS = THEMES["gris"]
 
 
-DIRECTION_KEYS = {"left": 276, "up": 273, "down": 274, "right": 275}
+
+

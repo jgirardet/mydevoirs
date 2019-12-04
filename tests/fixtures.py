@@ -4,24 +4,18 @@ import time
 from unittest.mock import patch
 
 from kivy.base import EventLoop
-from kivy.lang import Builder
 from kivy.tests.common import GraphicUnitTest, UnitTestTouch
 from mimesis import Generic
 from pony.orm import db_session, delete
+from kivy.core.window import Keyboard
 
-from main import setup_start
 from mydevoirs.constants import APP_NAME, MATIERES
 from mydevoirs.database.database import db
 
 gen = Generic("fr")
 
 
-def setup_test():
-    Builder.load_file("mydevoirs/mydevoirs.kv")
-    setup_start()
 
-
-setup_test()
 
 
 class Touche(UnitTestTouch):
@@ -65,6 +59,10 @@ class MyDevoirsTestCase(GraphicUnitTest):
                 if entity.__name__ != "Matiere":
                     delete(e for e in entity)
 
+        EventLoop.ensure_window()
+        self.window = EventLoop.window
+        [self.window.remove_widget(x) for x in self.window.children]
+
     def tearDown(self):
         super().tearDown()
         print(f"durée: {(time.time()-self.debut_time)*1000}")
@@ -81,13 +79,22 @@ class MyDevoirsTestCase(GraphicUnitTest):
 
             del enfant
 
-    def add_to_window(self, w):
-        EventLoop.ensure_window()
-        window = EventLoop.window
-        window.clear()
-        window.add_widget(w)
-        return window
+    def add_to_window(self, w, clear=False):
+        if clear:
+            self.window.clear()
+        self.window.add_widget(w)
 
+    def press_key(self, key, scancode=None, codepoint=None,
+                    modifier=None, **kwargs):
+        if isinstance(key, str):
+            key = Keyboard.keycodes[key]
+        self.window.dispatch(
+            "on_key_down", key, scancode, codepoint, modifier, **kwargs
+        )
+
+    def click(self, widget):
+        t = get_touch(widget)
+        t.click()
 
 def platform_dispatcher(test, linux, windows):
     if platform.system() == "Linux":  # pragma: no cover_win

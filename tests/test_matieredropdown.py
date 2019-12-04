@@ -77,7 +77,9 @@ class MatiereDropdownTestCase(MyDevoirsTestCase):
         assert not m.options[0].bold
 
     def test_on_keyboard_keydown(self):
-        """ test haut, bas, dépassement des limites, touche entrée"""
+        """test haut, bas, dépassement des limites, 
+        touche entrée, le tout sur le key general"""
+
         m = MatiereDropdown(tree=MATIERES_TREE)
 
         # Point de départ
@@ -85,33 +87,33 @@ class MatiereDropdownTestCase(MyDevoirsTestCase):
         assert m.options[3].bold
 
         # 1 coup en bas
-        m.keyboard_on_key_down("window", (274, ""), "omk", "modifier")
+        self.press_key("down")
         assert m.focused_index == -2
         assert m.options[2].bold
         assert not m.options[3].bold
 
         # puis 2 coup en bas (donc dernier)
-        m.keyboard_on_key_down("window", (274, ""), "omk", "modifier")
-        m.keyboard_on_key_down("window", (274, ""), "omk", "modifier")
+        self.press_key(274)
+        self.press_key(274)
         assert m.focused_index == -4
         assert m.options[0].bold
         assert not all(x.bold for x in m.options[1:])
 
         # puis 1 coup en bas (donc dépasse doit repasser premier)
-        m.keyboard_on_key_down("window", (274, ""), "omk", "modifier")
+        self.press_key(274)
         assert m.focused_index == -1
         assert m.options[3].bold
         assert not all(x.bold for x in m.options[-4:-1])
 
         # puis 1 coup en haut : dépasse revient en position précédente
-        m.keyboard_on_key_down("window", (273, ""), "omk", "modifier")
+        self.press_key(273)
         assert m.focused_index == -4
         assert m.options[0].bold
         assert not all(x.bold for x in m.options[1:])
 
         # puis 2 coup en haut
-        m.keyboard_on_key_down("window", (273, ""), "omk", "modifier")
-        m.keyboard_on_key_down("window", (273, ""), "omk", "modifier")
+        self.press_key(273)
+        self.press_key(273)
         assert m.focused_index == -2
         assert m.options[2].bold
         assert not m.options[0].bold
@@ -120,21 +122,22 @@ class MatiereDropdownTestCase(MyDevoirsTestCase):
 
         # appuyer sur entrée
         m.on_select = MagicMock()
-        m.keyboard_on_key_down("window", (13, ""), "omk", "modifier")
+        self.press_key(13)
         assert m.on_select.called
         assert m.on_select.call_args[0][0].text == "Sciences"
 
     def test_on_keyboard_keydown_2(self):
-        """ test touche droite qui fait comme entrée
+        """test touche droite qui fait comme entrée
         et focus sur nouvel catégorie, 
         touche traité renvoie True
         et rien de trouver renvoi false"""
+
         EventLoop.ensure_window()
         window = EventLoop.window
         base = Widget()
         window.add_widget(base)
         m = MatiereDropdown(tree=MATIERES_TREE, attach_to=base)
-        assert m.keyboard_on_key_down("window", (275, ""), "omk", "modifier")
+        assert m.keyboard_on_key_down("window", (275, "right"), "omk", "modifier")
         d2 = window.children[0]
         assert d2.options[-1].text == "Orthographe"
 
@@ -160,8 +163,8 @@ class TestMatiereOption(MyDevoirsTestCase):
 
     def test_toggle_focus(self):
         a = MatiereOption()
-        assert a.bold == False
+        assert not a.bold
         a.toggle_focus()
-        assert a.bold == True
+        assert a.bold
         a.toggle_focus()
-        assert a.bold == False
+        assert not a.bold

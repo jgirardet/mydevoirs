@@ -48,21 +48,21 @@ class MatiereDropdown(FocusBehavior, DropDown):
         return self.children[0].children
 
     def keyboard_on_key_down(self, window, keycode, text, modifier):
-        if keycode[0] == 274:  # down
+        if keycode[1] == "down":  # down
             self.last_focused = self.focused_index
             if self.focused_index == -len(self.options):
-                self.focused_index = -1
+                self.focused_index = -1 
             else:
                 self.focused_index = self.focused_index - 1
 
-        elif keycode[0] == 273:  # up
+        elif keycode[1] == "up":  # up
             self.last_focused = self.focused_index
             if self.focused_index == -1:
                 self.focused_index = -len(self.options)
             else:
                 self.focused_index = self.focused_index + 1
 
-        elif keycode[0] in [13, 275]:  # right, Enter
+        elif keycode[1] in ["enter", "right"]:  # right, Enter 
             self.select(self.options[self.focused_index])
         else:
             return False

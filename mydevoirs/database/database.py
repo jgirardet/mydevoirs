@@ -67,15 +67,20 @@ class Item(db.Entity):
 ###################################################################
 
 
-if os.environ.get("MYDEVOIRS_TESTING", False):
-    db.bind(provider="sqlite", filename=":memory:")
-else:
-    hard_db = get_dir("cache") / "ddb_hard.sqlite"
-    db.bind(provider="sqlite", filename=str(hard_db.absolute()), create_db=True)
+def setup_database_connection(db):
+
+    if os.environ.get("MYDEVOIRS_TESTING", False):
+        db.bind(provider="sqlite", filename=":memory:")
+    else:
+        hard_db = get_dir("cache") / "ddb_hard.sqlite"
+        db.bind(provider="sqlite", filename=str(hard_db.absolute()), create_db=True)
+
+
+setup_database_connection(db)  # pragma: no cover
 db.generate_mapping(create_tables=True)
 
 
-def db_init(matieres=MATIERES):
+def db_init(matieres=MATIERES, db = db):
     with db_session():
         for k, v in matieres.items():
             if db.Matiere.exists(nom=k):

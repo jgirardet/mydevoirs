@@ -88,23 +88,23 @@ class ContentTextInput(TextInput):
         is_agenda = App.get_running_app().sm.current == "agenda"
 
         # ctrl + n == nouveau
-        if is_agenda and keycode[0] == 110 and "ctrl" in modifiers:
+        if is_agenda and keycode[1] == "n" and "ctrl" in modifiers:
             self.parent.jour_widget.add_item()
-            dropdown = EventLoop.window.children[0]
 
         # ctrl + d == duplicate
-        elif is_agenda and keycode[0] == 100 and "ctrl" in modifiers:
+        elif is_agenda and keycode[1] == "d" and "ctrl" in modifiers:
             self.parent.jour_widget.ids.add_button.trigger_action(0)
-            dropdown = EventLoop.window.children[0]
-            dropdown.dismiss()
+            dropdown = window.window.children[0]
+            window.window.remove_widget(dropdown)
             self.parent.jour_widget.items[0].update_matiere(self.parent.matiere_nom)
+            print(window.window.children)
 
         # ctrl + m = matiere ?
-        elif keycode[0] == 109 and "ctrl" in modifiers:
+        elif keycode[1] == "m" and "ctrl" in modifiers:
             self.parent.ids.spinner.trigger_action(0)
 
         # ctrl + e == effacer
-        elif keycode[0] == 101 and "ctrl" in modifiers:
+        elif keycode[1] == "e" and "ctrl" in modifiers:
             self.parent.remove()
         else:
             return False
@@ -121,19 +121,26 @@ class ValidationPopup(FocusBehavior, BoxLayout):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.focus = True
-        self.button_focused = "oui"
+
+    def oui(self):
+        self.item.remove_after_confirmation()
+        self.parent.parent.parent.dismiss()
+
+    def non(self):
+        self.parent.parent.parent.dismiss()
+        self.item.ids.textinput.focus = True
 
     def keyboard_on_key_down(self, window, keycode, text, modifier):
-        if keycode[0] in [275, 276]:
+        if keycode[1] in ["left", "right"]:
             backup = self.ids.oui.state
             self.ids.oui.state = self.ids.non.state
             self.ids.non.state = backup
 
-        elif keycode[0] == 13:
+        elif keycode[1] == "enter":
             if self.ids.oui.state == "down":
-                self.ids.oui.trigger_action(0)
+                self.oui()
             else:
-                self.ids.non.trigger_action(0)
+                self.non()
         else:
             return False
         return True
