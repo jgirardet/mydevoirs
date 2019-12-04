@@ -117,6 +117,16 @@ jobs:
     - name: build
       run: |
         poetry run  python scripted/build_executable.py
+
+    - name: deploy_windows
+      uses: xresloader/upload-to-github-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        file: "dist/MyDevoirs.exe"
+        tags: true
+        draft: true
+        release_name: MyDevoirs Win v{{github.ref}}
     # - name: Create Release
     #   id: create_release
     #   uses: actions/create-release@v1.0.0
