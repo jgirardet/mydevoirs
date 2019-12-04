@@ -100,7 +100,7 @@ jobs:
         poetry run  python scripted/build_executable.py
 
 
-  Deploy release:
+  Deploy:
     name: release github
     needs: [Linux, Windows]
     runs-on: ubuntu-latest
