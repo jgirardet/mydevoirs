@@ -12,14 +12,18 @@ from pathlib import Path
 from appdirs import user_cache_dir
 
 logging.basicConfig()
-LOG = logging.getLogger(__name__)
+LOG = logging.getLogger("testexec")
 # test if  ddblocation removed
 
 DDB = Path(user_cache_dir(), "MyDevoirs", "ddb_hard.sqlite")
 
 
 def check_is_fresh_install():
-    assert not DDB.exists()
+    try:
+        assert not DDB.exists()
+    except AssertionError as e:
+        LOG.error('not fress install')
+        raise e 
 
 
 EXT = ".exe" if platform.system() == "Windows" else ""
@@ -65,10 +69,12 @@ def run_mydevoirs():
         )
         sys.exit(-1)
 
-
 if __name__ == "__main__":
     LOG.info("execution fresh")
     check_is_fresh_install()
     run_mydevoirs()
     LOG.info("execution non fresh")
     run_mydevoirs()
+
+
+# https://github.com/jgirardet/mydevoirs/releases/latest
