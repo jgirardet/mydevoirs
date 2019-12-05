@@ -133,9 +133,8 @@ jobs:
           pip install -U  appdirs
           chmod +x MyDevoirs
           ls -l
-          ./MyDevoirs &
+          unzip MyDevoirs
           wget https://raw.githubusercontent.com/jgirardet/mydevoirs/master/scripted/check_executable.py
-          killall MyDevoirs
           python check_executable.py
 
   Test_windows:
@@ -154,6 +153,7 @@ jobs:
       - name: run_script
         run: |
           pip install -U appdirs
+          unzip MyDevoirs.exe
           (New-Object System.Net.WebClient).DownloadFile("https://raw.githubusercontent.com/jgirardet/mydevoirs/master/scripted/check_executable.py", "check_executable.py")
           python check_executable.py
 

@@ -28,7 +28,7 @@ def check_is_fresh_install():
 
 EXT = ".exe" if platform.system() == "Windows" else ""
 BIN_NAME = "MyDevoirs" + EXT
-BIN_PATH = Path(BIN_NAME).absolute()
+BIN_PATH = Path(BIN_NAME).absolute() / BIN_NAME  #artifact does zip
 
 
 def run_mydevoirs():
