@@ -133,15 +133,16 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: MyDevoirs
-      - name: Download test_executable
-        uses: actions/download-artifact@v1
-        with:
-          name: test_executable.py
+      # - name: Download test_executable
+      #   uses: actions/download-artifact@v1
+      #   with:
+      #     name: test_executable.py
       - name: run_script
         run: |
           ls
           pip install -U  appdirs
           chmod +x MyDevoirs
+          wget https://github.com/jgirardet/mydevoirs/blob/master/scripted/test_executable.py
           python test_executable.py
 
   Test_windows:
