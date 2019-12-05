@@ -28,12 +28,12 @@ def check_is_fresh_install():
 
 EXT = ".exe" if platform.system() == "Windows" else ""
 BIN_NAME = "MyDevoirs" + EXT
-
+BIN_PATH = Path(BIN_NAME).absolute()
 
 def run_mydevoirs():
 
     proc = subprocess.Popen(
-        [str(BIN_NAME)], stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+        [str(BIN_PATH)], stdout=subprocess.PIPE, stderr=subprocess.STDOUT
     )
 
     try:
@@ -41,7 +41,7 @@ def run_mydevoirs():
     except subprocess.TimeoutExpired:
         assert proc.poll() is None
         if platform.system() == "Windows":
-            subprocess.run(["taskkill", "/IM", BIN_NAME])
+            subprocess.run(["taskkill", "/IM", str(BIN_PATH]))
         else:
             proc.terminate()
         try:
