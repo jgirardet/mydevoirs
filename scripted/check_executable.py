@@ -73,7 +73,7 @@ def run_mydevoirs():
 
 if __name__ == "__main__":
     LOG.info("execution fresh")
-    check_is_fresh_install()
+    # check_is_fresh_install()
     run_mydevoirs()
     LOG.info("execution non fresh")
     run_mydevoirs()

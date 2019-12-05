@@ -132,6 +132,7 @@ jobs:
           ls
           pip install -U  appdirs
           chmod +x MyDevoirs
+          ls -l
           wget https://raw.githubusercontent.com/jgirardet/mydevoirs/master/scripted/check_executable.py
           python check_executable.py
 
