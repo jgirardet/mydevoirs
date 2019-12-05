@@ -127,7 +127,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          file: "MyDevoirs*"
+          file: "MyDevoirs;MyDevoirs.exe"
           tags: true
           draft: False
           release_name: MyDevoirs v${{github.ref}}
