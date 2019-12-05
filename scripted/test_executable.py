@@ -29,7 +29,7 @@ BIN_NAME = "MyDevoirs" + EXT
 def run_mydevoirs():
 
     proc = subprocess.Popen(
-        str(BIN_NAME), stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+        [str(BIN_NAME)], stdout=subprocess.PIPE, stderr=subprocess.STDOUT
     )
 
     try:
