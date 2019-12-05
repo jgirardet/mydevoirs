@@ -110,10 +110,11 @@ jobs:
         name: MyDevoirs.exe
 
   Test_linux:
-    name: release github
     needs: [Linux]
     runs-on: ubuntu-latest
     steps:
+      - name: get repo
+        uses: actions/checkout@v1
       - name: Set up Python
         uses: actions/setup-python@v1
         with:
@@ -127,12 +128,11 @@ jobs:
           python scripted/test_executable.py
 
   Test_windows:
-    name: release github
     needs: [Windows]
     runs-on: windows-latest
     steps:
       - name: get repo
-        uses: actions/checkout@v
+        uses: actions/checkout@v1
       - name: Set up Python
         uses: actions/setup-python@v1
         with:
