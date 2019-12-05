@@ -54,7 +54,7 @@ jobs:
     - name: build
       run: |
         poetry run  python scripted/build_executable.py
-    - name: Dupload linux binary in artifact
+    - name: upload linux binary in artifact
       uses: actions/upload-artifact@v1
       with:
         path: dist/MyDevoirs
@@ -109,12 +109,22 @@ jobs:
         path: dist/MyDevoirs.exe
         name: MyDevoirs.exe
 
-  Test_linux:
-    needs: [Linux]
+  UploadTestExecutable:
     runs-on: ubuntu-latest
     steps:
       - name: get repo
         uses: actions/checkout@v1
+      - name: upload  test_executable
+        uses: actions/upload-artifact@v1
+        with:
+          path: scripted/test_executable.py
+          name: test_executable.py
+
+
+  Test_linux:
+    needs: [Linux, UploadTestExecutable]
+    runs-on: ubuntu-latest
+    steps:
       - name: Set up Python
         uses: actions/setup-python@v1
         with:
@@ -123,32 +133,38 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: MyDevoirs
+      - name: Download test_executable
+        uses: actions/download-artifact@v1
+        with:
+          name: test_executable.py
       - name: run_script
         run: |
           ls
           pip install -U  appdirs
-          python scripted/test_executable.py
+          chmod +x MyDevoirs
+          python test_executable.py
 
   Test_windows:
 
-    needs: [Windows]
+    needs: [UploadTestExecutable, Windows]
     runs-on: windows-latest
     steps:
-      - name: get repo
-        uses: actions/checkout@v1
       - name: Set up Python
         uses: actions/setup-python@v1
         with:
           python-version: 3.7
-      - name: Download Linux binary
+      - name: Download Windows binary
         uses: actions/download-artifact@v1
         with:
           name: MyDevoirs.exe
+      - name: Download test_executable
+        uses: actions/download-artifact@v1
+        with:
+          name: test_executable.py
       - name: run_script
         run: |
           pip install -U appdirs
-          chmod +x MyDevoirs
-          python scripted/test_executable.py
+          python test_executable.py
 
   Deploy:
     name: release github
