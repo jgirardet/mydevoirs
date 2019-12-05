@@ -41,7 +41,7 @@ def run_mydevoirs():
     except subprocess.TimeoutExpired:
         assert proc.poll() is None
         if platform.system() == "Windows":
-            subprocess.run(["taskkill", "/IM", str(BIN_PATH]))
+            subprocess.run(["taskkill", "/IM", str(BIN_PATH))
         else:
             proc.terminate()
         try:
