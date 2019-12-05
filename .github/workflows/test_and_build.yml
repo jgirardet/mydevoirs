@@ -142,7 +142,7 @@ jobs:
           ls
           pip install -U  appdirs
           chmod +x MyDevoirs
-          wget https://github.com/jgirardet/mydevoirs/blob/master/scripted/test_executable.py
+          wget https://raw.githubusercontent.com/jgirardet/mydevoirs/master/scripted/test_executable.py
           python test_executable.py
 
   Test_windows:
