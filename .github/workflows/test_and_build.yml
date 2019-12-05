@@ -109,16 +109,6 @@ jobs:
         path: dist/MyDevoirs.exe
         name: MyDevoirs.exe
 
-  UploadTestExecutable:
-    runs-on: ubuntu-latest
-    steps:
-      - name: get repo
-        uses: actions/checkout@v1
-      - name: upload  test_executable
-        uses: actions/upload-artifact@v1
-        with:
-          path: scripted/test_executable.py
-          name: test_executable.py
 
 
   Test_linux:
@@ -158,13 +148,10 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: MyDevoirs.exe
-      - name: Download test_executable
-        uses: actions/download-artifact@v1
-        with:
-          name: test_executable.py
       - name: run_script
         run: |
           pip install -U appdirs
+          (New-Object System.Net.WebClient).DownloadFile("https://raw.githubusercontent.com/jgirardet/mydevoirs/master/scripted/test_executable.py", "test_executable.py")
           python test_executable.py
 
   Deploy:
