@@ -125,6 +125,7 @@ jobs:
           name: MyDevoirs
       - name: run_script
         run: |
+          ls
           pip install -U  appdirs
           python scripted/test_executable.py
 
