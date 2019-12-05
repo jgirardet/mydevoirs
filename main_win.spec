@@ -42,4 +42,5 @@ exe = EXE(
     upx_exclude=[],
     runtime_tmpdir=None,
     console=True,
+    icon='cryptully/images/icon.ico'
 )
