@@ -5,31 +5,31 @@ il faut les utiliser qu'en intégration continue
 """
 
 import subprocess
-from build_executable import BIN_PATH, BIN_NAME
 import platform
 import logging
 import sys
 from pathlib import Path
+from appdirs import user_cache_dir
 
 logging.basicConfig()
 LOG = logging.getLogger(__name__)
 # test if  ddblocation removed
 
-
-def test_is_fresh_install():
-    # remove user disr
-    from main import get_database_location
-
-    assert not Path(get_database_location()).exists()
+DDB = Path(user_cache_dir(), "MyDevoirs", "ddb_hard.sqlite")
 
 
-# test exec
+def check_is_fresh_install():
+    assert not DDB.exists()
+
+
+EXT = ".exe" if platform.system() == "Windows" else ""
+BIN_NAME = "MyDevoirs" + EXT
 
 
 def run_mydevoirs():
 
     proc = subprocess.Popen(
-        str(BIN_PATH), stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+        str(BIN_NAME), stdout=subprocess.PIPE, stderr=subprocess.STDOUT
     )
 
     try:
@@ -68,7 +68,7 @@ def run_mydevoirs():
 
 if __name__ == "__main__":
     LOG.info("execution fresh")
-    test_is_fresh_install()
+    check_is_fresh_install()
     run_mydevoirs()
-    LOG.info('execution non fresh')
+    LOG.info("execution non fresh")
     run_mydevoirs()

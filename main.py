@@ -9,6 +9,9 @@ from pathlib import Path
 from appdirs import user_cache_dir
 
 
+APPNAME = "MyDevoirs"
+DDB_NAME = "ddb_hard.sqlite"
+
 def set_my_devoirs_base_dir():
     os.environ["MYDEVOIRS_BASE_DIR"] = getattr(
         sys, "_MEIPASS", str(Path(__file__).absolute().parent)
@@ -38,7 +41,7 @@ def setup_kivy():
 
 
 def get_database_location():
-    return Path(user_cache_dir(), "MyDevoirs", "ddb_hard.sqlite").absolute()
+    return Path(user_cache_dir(), APPNAME, DDB_NAME).absolute()
 
 
 def setup_start(**kwargs):
