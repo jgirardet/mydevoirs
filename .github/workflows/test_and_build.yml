@@ -125,6 +125,7 @@ jobs:
           name: MyDevoirs
       - name: run_script
         run: |
+          pip install -U pyinstaller appdirs
           python scripted/test_executable.py
 
   Test_windows:
@@ -143,6 +144,7 @@ jobs:
           name: MyDevoirs.exe
       - name: run_script
         run: |
+          pip install -U pyinstaller appdirs
           python scripted/test_executable.py
 
   Deploy:

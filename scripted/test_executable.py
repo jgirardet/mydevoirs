@@ -67,8 +67,6 @@ def run_mydevoirs():
 
 
 if __name__ == "__main__":
-    LOG.info('init test')
-    subprocess.run("pip install -U pyinstaller appdirs", capture_output=True)
     LOG.info("execution fresh")
     test_is_fresh_install()
     run_mydevoirs()
