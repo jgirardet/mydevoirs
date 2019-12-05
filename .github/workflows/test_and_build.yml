@@ -131,6 +131,8 @@ jobs:
     needs: [Windows]
     runs-on: windows-latest
     steps:
+      - name: get repo
+        uses: actions/checkout@v
       - name: Set up Python
         uses: actions/setup-python@v1
         with:
@@ -148,6 +150,8 @@ jobs:
     needs: [Test_linux, Test_windows]
     runs-on: ubuntu-latest
     steps:
+      - name: get repo
+        uses: actions/checkout@v
       - name: Download windows binary
         uses: actions/download-artifact@v1
         with:
