@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mydevoirs"
-version = "0.3.5"
+version = "0.3.6"
 description = ""
 authors = ["jgirardet <ijkl@netc.fr>"]
 
