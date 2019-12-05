@@ -57,7 +57,7 @@ jobs:
     - name: Dupload linux binary in artifact
       uses: actions/upload-artifact@v1
       with:
-        path: dist/Mydevoirs
+        path: dist/MyDevoirs
         name: MyDevoirs
 
   Windows:
@@ -106,7 +106,7 @@ jobs:
     - name: upload Window binary in artifact
       uses: actions/upload-artifact@v1
       with:
-        path: dist/Mydevoirs.exe
+        path: dist/MyDevoirs.exe
         name: MyDevoirs.exe
 
   Deploy:
