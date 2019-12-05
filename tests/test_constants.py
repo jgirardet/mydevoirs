@@ -2,7 +2,7 @@ from mydevoirs.constants import build_matiere, APP_NAME
 from mydevoirs.utils import get_dir
 from main import DDB_NAME, get_database_location, DDB_NAME
 from main import APPNAME as MAIN_APPNAME
-from scripted.test_executable import DDB
+from scripted.check_executable import DDB
 from pathlib import Path
 
 

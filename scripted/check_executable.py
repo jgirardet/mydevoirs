@@ -22,13 +22,14 @@ def check_is_fresh_install():
     try:
         assert not DDB.exists()
     except AssertionError as e:
-        LOG.error('not fress install')
-        raise e 
+        LOG.error("not fress install")
+        raise e
 
 
 EXT = ".exe" if platform.system() == "Windows" else ""
 BIN_NAME = "MyDevoirs" + EXT
 BIN_PATH = Path(BIN_NAME).absolute()
+
 
 def run_mydevoirs():
 
@@ -41,7 +42,7 @@ def run_mydevoirs():
     except subprocess.TimeoutExpired:
         assert proc.poll() is None
         if platform.system() == "Windows":
-            subprocess.run(["taskkill", "/IM", str(BIN_PATH))
+            subprocess.run(["taskkill", "/IM", str(BIN_PATH)])
         else:
             proc.terminate()
         try:
@@ -68,6 +69,7 @@ def run_mydevoirs():
             proc.stdout.read().decode(),
         )
         sys.exit(-1)
+
 
 if __name__ == "__main__":
     LOG.info("execution fresh")
