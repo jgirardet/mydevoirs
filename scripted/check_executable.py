@@ -58,8 +58,12 @@ def run_mydevoirs():
             LOG.info("Execution sans erreur !!")
             sys.exit(0)
 
-    except Exception as e:
+    else:
         LOG.error("log error %s", e)
+        ret =    proc.returncode
+        stdout = proc.stdout.read()
+        print(stdout)
+        print(ret)
         LOG.error(
             """
             ###################################################################
@@ -70,8 +74,8 @@ def run_mydevoirs():
 
             Message d'erreur:
             %s""",
-            proc.returncode,
-            proc.stdout.read().decode(),
+            ret,
+            stdout.decode(),
         )
         sys.exit(-1)
 
