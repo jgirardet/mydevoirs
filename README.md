@@ -11,13 +11,12 @@ Pour l'instant disponible sous Windows et Linux (Mac possible si quelqu'un le de
 - Version Windows : [MyDevoirs.exe](https://github.com/jgirardet/mydevoirs/releases/download/0.4.1-alpha.0/MyDevoirs.exe) 
 - Vesion Linux : [MyDevoirs](https://github.com/jgirardet/mydevoirs/releases/download/0.4.1-alpha.0/MyDevoirs)
 
-### puis sous Windows :
-- windows va vous mettre en garde car l'application n'est pas certifiée mais pas d'inquiétude, il suffit de cliquer sur `informations complémentaires` puis  `exécuter quand même`:
+	- puis sous Windows :
+	- windows va vous mettre en garde car l'application n'est pas certifiée mais pas d'inquiétude, il suffit de cliquer sur `informations complémentaires` puis  `exécuter quand même`:
 
-	![GitHub Logo](docs/avertissement1.jpeg)
-	![GitHub Logo](docs/avertissement2.jpeg)
-	
-- Ensuite il suffit d'éxécuter le fichier est c'est parti.
+		![Avertissement 1](docs/avertissement1.jpeg)![Avertissement 2](docs/avertissement2.jpeg)
+
+	- Ensuite il suffit d'éxécuter le fichier est c'est parti.
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
