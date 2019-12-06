@@ -26,11 +26,10 @@ def check_is_fresh_install():
         LOG.error("not fress install %s already exists", str(DDB))
         sys.exit(-1)
 
+
 EXT = ".exe" if platform.system() == "Windows" else ""
 BIN_NAME = "MyDevoirs" + EXT
-BIN_PATH = Path(BIN_NAME).absolute() / BIN_NAME  #artifact does zip
-
-
+BIN_PATH = Path(BIN_NAME).absolute() / BIN_NAME  # artifact does zip
 
 
 def run_mydevoirs():
@@ -43,44 +42,33 @@ def run_mydevoirs():
     try:
         proc.wait(timeout=10)
     except subprocess.TimeoutExpired:
-        LOG.info('execution sans problème après 10 secondes')
+        LOG.info("execution sans problème après 10 secondes")
         assert proc.poll() is None
         out, err = proc.communicate(timeout=5)
         LOG.INFO(out.read.decode())
         LOG.INFO(err.read.decode())
 
-
-        if platform.system() == "Windows":
-            subprocess.run(["taskkill", "/IM", str(BIN_PATH)])
-        else:
-            proc.terminate()
-        try:
-            proc.wait(timeout=10)
-        except subprocess.TimeoutExpired:
-            LOG.error("Echec de l'arret, essai kill")
-            proc.kill()
-        else:
-            LOG.info("Execution sans erreur !!")
-            sys.exit(0)
+        sys.exit(0)
 
     else:
-        ret =    proc.returncode
-        stdout = proc.stdout.read()
-        print(stdout)
-        print(ret)
-        LOG.error(
-            """
-            ###################################################################
+        out, err = proc.communicate(timeout=5)
+        LOG.INFO(out.read.decode())
+        LOG.INFO(err.read.decode())
+        ret = proc.returncode
+        # stdout = proc.stdout.read()
+        # LOG.error(
+        #     """
+        #     ###################################################################
 
-                            Il y a eu un problème
+        #                     Il y a eu un problème
             
-            code de retour = %s
+        #     code de retour = %s
 
-            Message d'erreur:
-            %s""",
-            ret,
-            stdout.decode(),
-        )
+        #     Message d'erreur:
+        #     %s""",
+        #     ret,
+        #     stdout.decode(),
+        # )
         sys.exit(-1)
 
 
