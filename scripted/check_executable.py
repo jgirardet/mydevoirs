@@ -37,7 +37,7 @@ def run_mydevoirs():
 
     LOG.info("runnung my devoirs")
     proc = subprocess.Popen(
-        [str(BIN_PATH)], stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+        str(BIN_PATH), stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True
     )
 
     try:
