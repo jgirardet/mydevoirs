@@ -12,7 +12,8 @@ from pathlib import Path
 from appdirs import user_cache_dir
 
 logging.basicConfig()
-LOG = logging.getLogger("testexec")
+LOG = logging.getLogger(__name__)
+LOG.setLevel(logging.DEBUG)
 # test if  ddblocation removed
 
 DDB = Path(user_cache_dir(), "MyDevoirs", "ddb_hard.sqlite")
@@ -28,6 +29,8 @@ def check_is_fresh_install():
 EXT = ".exe" if platform.system() == "Windows" else ""
 BIN_NAME = "MyDevoirs" + EXT
 BIN_PATH = Path(BIN_NAME).absolute() / BIN_NAME  #artifact does zip
+
+
 
 
 def run_mydevoirs():
@@ -70,6 +73,9 @@ def run_mydevoirs():
 
 
 if __name__ == "__main__":
+    LOG.info("ddb exists %s", DDB.exists())
+    LOG.info("ddb parent (Mydevoirs) exists %s", DDB.parent.exists())
+    LOG.info("ddb parent (Mydevoirs.parent) exists %s", DDB.parents[1].exists())
     LOG.info("execution fresh")
     check_is_fresh_install()
     run_mydevoirs()
