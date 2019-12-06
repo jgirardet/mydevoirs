@@ -53,6 +53,7 @@ def run_mydevoirs():
         LOG.info("execution sans problème après 10 secondes")
         assert proc.poll() is None
         # out, err = proc.communicate(timeout=5)
+        proc.kill()
         LOG.info(proc.stdout.read().decode())
         LOG.info(proc.stderr.read().decode())
         sys.exit(0)
