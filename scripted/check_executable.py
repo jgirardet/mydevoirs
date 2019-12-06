@@ -59,7 +59,6 @@ def run_mydevoirs():
             sys.exit(0)
 
     else:
-        LOG.error("log error %s", e)
         ret =    proc.returncode
         stdout = proc.stdout.read()
         print(stdout)
