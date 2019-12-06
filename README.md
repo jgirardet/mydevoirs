@@ -1,8 +1,23 @@
-## La prise de devoirs sur ordinateur enfin simple !!!
+# La prise de devoirs sur ordinateur enfin simple !!!
 
 ## Pourquoi MyDevoirs ?
 
-You can use the [editor on GitHub](https://github.com/jgirardet/mydevoirs/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+Mon fils a un ordinateur à l'école depuis le CM1. Nous avons essayé beaucoup de solution (rainlendat, onenote, agenda windows...), malheureusement rien de spécialement adapté pour parfaitement coller aux besoins d'un enfant. MyDevoirs a donc été développé spécialement pour lui, en accord avec ses besoins et ses exigences.
+
+## Comment l'installer ?
+
+Pour l'instant disponible sous Windows et Linux (Mac possible si quelqu'un le demande).
+
+- Version Windows : [MyDevoirs.exe](https://github.com/jgirardet/mydevoirs/releases/download/0.4.1-alpha.0/MyDevoirs.exe) 
+- Vesion Linux : [MyDevoirs](https://github.com/jgirardet/mydevoirs/releases/download/0.4.1-alpha.0/MyDevoirs)
+
+### puis sous Windows :
+- windows va vous mettre en garde car l'application n'est pas certifiée mais pas d'inquiétude, il suffit de cliquer sur `informations complémentaires` puis  `exécuter quand même`:
+
+	![GitHub Logo](docs/avertissement1.jpeg)
+	![GitHub Logo](docs/avertissement2.jpeg)
+	
+- Ensuite il suffit d'éxécuter le fichier est c'est parti.
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
