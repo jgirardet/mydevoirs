@@ -45,16 +45,20 @@ def run_mydevoirs():
         LOG.info("execution sans problème après 10 secondes")
         assert proc.poll() is None
         # out, err = proc.communicate(timeout=5)
-        LOG.info(proc.stdout.read.decode())
-        LOG.info(proc.stderr.read.decode())
-        #on quite
+        LOG.info(proc.stdout.read().decode())
+        LOG.info(proc.stderr.read().decode())
         sys.exit(0)
 
     else:
-        out, err = proc.communicate(timeout=5)
-        LOG.info(out.read.decode())
-        LOG.info(err.read.decode())
-        ret = proc.returncode
+        try:
+            out, err = proc.communicate(timeout=5)
+        except subprocess.TimeoutExpired:
+            LOG.info(proc.stdout.read().decode())
+            LOG.info(proc.stderr.read().decode())
+            #on quite
+        else:   
+            LOG.info(out.read().decode())
+            LOG.info(err.read().decode())
         # stdout = proc.stdout.read()
         # LOG.error(
         #     """
