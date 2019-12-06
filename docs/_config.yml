@@ -1,1 +1,22 @@
-theme: jekyll-theme-cayman
+# Site settings
+title: "Typewriter"
+description: "So I was feeling nostalgic."
+baseurl: ""
+url: "http://alixedi.github.io"
+
+# Build settings
+markdown: kramdown
+permalink: pretty
+highlighter: pygments
+paginate: 3
+
+# Links
+links:
+  - title: "abt"
+    url: /about
+  - title: "twt"
+    url: http://twitter.com/alixedi
+  - title: "git"
+    url: http://github.com/alixedi
+  - title: "rss"
+    url: /feed.xml
