@@ -45,15 +45,15 @@ def run_mydevoirs():
         LOG.info("execution sans problème après 10 secondes")
         assert proc.poll() is None
         # out, err = proc.communicate(timeout=5)
-        LOG.INFO(proc.stdout.read.decode())
-        LOG.INFO(proc.stderr.read.decode())
+        LOG.info(proc.stdout.read.decode())
+        LOG.info(proc.stderr.read.decode())
         #on quite
         sys.exit(0)
 
     else:
         out, err = proc.communicate(timeout=5)
-        LOG.INFO(out.read.decode())
-        LOG.INFO(err.read.decode())
+        LOG.info(out.read.decode())
+        LOG.info(err.read.decode())
         ret = proc.returncode
         # stdout = proc.stdout.read()
         # LOG.error(
