@@ -56,8 +56,10 @@ def run_mydevoirs():
             proc.kill()
         else:
             LOG.info("Execution sans erreur !!")
+            sys.exit(0)
 
-    else:
+    except Exception as e:
+        LOG.error("log error %s", e)
         LOG.error(
             """
             ###################################################################
@@ -75,6 +77,8 @@ def run_mydevoirs():
 
 
 if __name__ == "__main__":
+    LOG.info(platform.system())
+    LOG.info("ddb %s", str(DDB))
     LOG.info("ddb exists %s", DDB.exists())
     LOG.info("ddb parent (Mydevoirs) exists %s", DDB.parent.exists())
     LOG.info("ddb parent (Mydevoirs.parent) exists %s", DDB.parents[1].exists())
