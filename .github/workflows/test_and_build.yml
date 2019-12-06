@@ -53,7 +53,10 @@ jobs:
         poetry run coverage report
     - name: build
       run: |
+        sudo apt install libmtdev1 -y
         poetry run  python scripted/build_executable.py
+        chmod +x dist/MyDevoirs
+        dist/MyDevoirs &
     - name: upload linux binary in artifact
       uses: actions/upload-artifact@v1
       with:
@@ -103,6 +106,7 @@ jobs:
     - name: build
       run: |
         poetry run  python scripted/build_executable.py
+
     - name: upload Window binary in artifact
       uses: actions/upload-artifact@v1
       with:
@@ -114,6 +118,8 @@ jobs:
   Test_linux:
     needs: [Linux]
     runs-on: ubuntu-latest
+    env:
+      DISPLAY: ':99.0'
     steps:
       - name: Set up Python
         uses: actions/setup-python@v1
@@ -129,11 +135,9 @@ jobs:
       #     name: test_executable.py
       - name: run_script
         run: |
-          ls
           pip install -U  appdirs
           /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1280x720x24 -ac +extension GLX
           chmod +x MyDevoirs/MyDevoirs
-          ls -l
           wget https://raw.githubusercontent.com/jgirardet/mydevoirs/master/scripted/check_executable.py
           python check_executable.py
 
