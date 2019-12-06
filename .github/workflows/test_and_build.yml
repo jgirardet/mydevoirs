@@ -129,10 +129,9 @@ jobs:
       #     name: test_executable.py
       - name: run_script
         run: |
-          ls
           pip install -U  appdirs
           chmod +x MyDevoirs/MyDevoirs
-          ls -l
+          sudo apt install libmtdev1
           wget https://raw.githubusercontent.com/jgirardet/mydevoirs/master/scripted/check_executable.py
           python check_executable.py
 
