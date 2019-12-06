@@ -45,6 +45,11 @@ def run_mydevoirs():
     except subprocess.TimeoutExpired:
         LOG.info('execution sans problème après 10 secondes')
         assert proc.poll() is None
+        out, err = proc.communicate(timeout=5)
+        LOG.INFO(out.read.decode())
+        LOG.INFO(err.read.decode())
+
+
         if platform.system() == "Windows":
             subprocess.run(["taskkill", "/IM", str(BIN_PATH)])
         else:
