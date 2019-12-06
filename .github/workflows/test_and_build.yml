@@ -56,7 +56,7 @@ jobs:
         sudo apt install libmtdev1 -y
         poetry run  python scripted/build_executable.py
         chmod +x dist/MyDevoirs
-        dist/MyDevoirs
+        dist/MyDevoirs &
     - name: upload linux binary in artifact
       uses: actions/upload-artifact@v1
       with:
