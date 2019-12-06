@@ -35,13 +35,16 @@ BIN_PATH = Path(BIN_NAME).absolute() / BIN_NAME  # artifact does zip
 def run_mydevoirs():
 
     LOG.info("runnung my devoirs")
-    STARTUPINFO = NONE
+    STARTUPINFO = None
     if platform.system == "Windows":
         STARTUPINFO = subprocess.STARTUPINFO()
         STARTUPINFO.dwFlags |= subprocess.STARTF_USESHOWWINDOW
         STARTUPINFO.wShowWindow = subprocess.SW_HIDE
     proc = subprocess.Popen(
-        [str(BIN_PATH)], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, startupinfo=STARTUPINFO
+        [str(BIN_PATH)],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        startupinfo=STARTUPINFO,
     )
 
     try:
@@ -60,8 +63,8 @@ def run_mydevoirs():
         except subprocess.TimeoutExpired:
             LOG.info(proc.stdout.read().decode())
             LOG.info(proc.stderr.read().decode())
-            #on quite
-        else:   
+            # on quite
+        else:
             LOG.info(out.decode())
             LOG.info(err.decode())
         # stdout = proc.stdout.read()
@@ -70,7 +73,7 @@ def run_mydevoirs():
         #     ###################################################################
 
         #                     Il y a eu un problème
-            
+
         #     code de retour = %s
 
         #     Message d'erreur:
