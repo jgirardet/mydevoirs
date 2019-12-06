@@ -53,6 +53,7 @@ jobs:
         poetry run coverage report
     - name: build
       run: |
+        sudo apt install libmtdev1 -y
         poetry run  python scripted/build_executable.py
     - name: upload linux binary in artifact
       uses: actions/upload-artifact@v1
@@ -131,7 +132,6 @@ jobs:
         run: |
           pip install -U  appdirs
           chmod +x MyDevoirs/MyDevoirs
-          sudo apt install libmtdev1
           wget https://raw.githubusercontent.com/jgirardet/mydevoirs/master/scripted/check_executable.py
           python check_executable.py
 
