@@ -131,6 +131,7 @@ jobs:
         run: |
           ls
           pip install -U  appdirs
+          /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1280x720x24 -ac +extension GLX
           chmod +x MyDevoirs/MyDevoirs
           ls -l
           wget https://raw.githubusercontent.com/jgirardet/mydevoirs/master/scripted/check_executable.py
