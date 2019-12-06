@@ -22,9 +22,8 @@ def check_is_fresh_install():
     try:
         assert not DDB.exists()
     except AssertionError as e:
-        LOG.error("not fress install")
-        raise e
-
+        LOG.error("not fress install %s already exists", str(DDB))
+        sys.exit(-1)
 
 EXT = ".exe" if platform.system() == "Windows" else ""
 BIN_NAME = "MyDevoirs" + EXT
