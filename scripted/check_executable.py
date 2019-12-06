@@ -35,8 +35,13 @@ BIN_PATH = Path(BIN_NAME).absolute() / BIN_NAME  # artifact does zip
 def run_mydevoirs():
 
     LOG.info("runnung my devoirs")
+    STARTUPINFO = NONE
+    if platform.system == "Windows":
+        STARTUPINFO = subprocess.STARTUPINFO()
+        STARTUPINFO.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+        STARTUPINFO.wShowWindow = subprocess.SW_HIDE
     proc = subprocess.Popen(
-        str(BIN_PATH), stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True
+        [str(BIN_PATH)], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, startupinfo=STARTUPINFO
     )
 
     try:
