@@ -1,4 +1,6 @@
-## Welcome to GitHub Pages
+## La prise de devoirs sur ordinateur enfin simple !!!
+
+## Pourquoi MyDevoirs ?
 
 You can use the [editor on GitHub](https://github.com/jgirardet/mydevoirs/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
 

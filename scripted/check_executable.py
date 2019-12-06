@@ -57,8 +57,8 @@ def run_mydevoirs():
             LOG.info(proc.stderr.read().decode())
             #on quite
         else:   
-            LOG.info(out.read().decode())
-            LOG.info(err.read().decode())
+            LOG.info(out.decode())
+            LOG.info(err.decode())
         # stdout = proc.stdout.read()
         # LOG.error(
         #     """
