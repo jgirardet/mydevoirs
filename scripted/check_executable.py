@@ -35,6 +35,7 @@ BIN_PATH = Path(BIN_NAME).absolute() / BIN_NAME  #artifact does zip
 
 def run_mydevoirs():
 
+    LOG.info("runnung my devoirs")
     proc = subprocess.Popen(
         [str(BIN_PATH)], stdout=subprocess.PIPE, stderr=subprocess.STDOUT
     )
@@ -42,6 +43,7 @@ def run_mydevoirs():
     try:
         proc.wait(timeout=10)
     except subprocess.TimeoutExpired:
+        LOG.info('execution sans problème après 10 secondes')
         assert proc.poll() is None
         if platform.system() == "Windows":
             subprocess.run(["taskkill", "/IM", str(BIN_PATH)])
