@@ -127,16 +127,19 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: MyDevoirs
+      - name: setup_env
+        run: |
+          sudo apt install -y language-pack-fr pulseaudio
+          /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1280x720x24 -ac +extension GLX
+          pip install -U  appdirs
+          chmod +x MyDevoirs/MyDevoirs
+          
       # - name: Download test_executable
       #   uses: actions/download-artifact@v1
       #   with:
       #     name: test_executable.py
       - name: run_script
         run: |
-          sudo apt install -y language-pack-fr pulseaudio
-          /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1280x720x24 -ac +extension GLX
-          pip install -U  appdirs
-          chmod +x MyDevoirs/MyDevoirs
           wget https://raw.githubusercontent.com/jgirardet/mydevoirs/master/scripted/check_executable.py
           python check_executable.py
 
