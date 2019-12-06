@@ -51,7 +51,6 @@ def run_mydevoirs():
             LOG.error("Echec de l'arret, essai kill")
             proc.kill()
         else:
-            assert proc.poll() == 0
             LOG.info("Execution sans erreur !!")
 
     else:
