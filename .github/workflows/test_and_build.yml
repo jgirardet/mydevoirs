@@ -161,7 +161,7 @@ jobs:
           pip install -U appdirs
           (New-Object System.Net.WebClient).DownloadFile("https://raw.githubusercontent.com/jgirardet/mydevoirs/master/scripted/check_executable.py", "check_executable.py")
           ls -r
-          .\MyDevoirs\MyDevoirs.exe
+          .\MyDevoirs.exe
         # python check_executable.py
 
   Deploy:
