@@ -41,7 +41,11 @@ def setup_kivy():
 
 
 def get_database_location():
-    return Path(user_cache_dir(), APPNAME, DDB_NAME).absolute()
+    loc =  Path(user_cache_dir(), APPNAME, DDB_NAME).absolute()
+    if not loc.parent.exists():
+        loc.parent.mkdir(parents=True)
+    return loc
+
 
 
 def setup_start(**kwargs):
