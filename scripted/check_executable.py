@@ -50,24 +50,24 @@ def run_mydevoirs():
     try:
         proc.wait(timeout=10)
     except subprocess.TimeoutExpired:
-        LOG.info("execution sans problème après 10 secondes")
         assert proc.poll() is None
-        # out, err = proc.communicate(timeout=5)
+        LOG.info("execution sans problème après 10 secondes")
         proc.kill()
-        # LOG.info(proc.stdout.read().decode())
-        # LOG.info(proc.stderr.read().decode())
         sys.exit(0)
 
     else:
+        LOG.error("Le programme s'est intéromput plus tôt")
         try:
             out, err = proc.communicate(timeout=5)
         except subprocess.TimeoutExpired:
-            LOG.info(proc.stdout.read().decode())
-            LOG.info(proc.stderr.read().decode())
+            LOG.error("Le programme est bloqué")
+            LOG.error(proc.stdout.read().decode())
+            LOG.error(proc.stderr.read().decode())
             # on quite
         else:
-            LOG.info(out.decode())
-            LOG.info(err.decode())
+            LOG.error("Message d'erreur")
+            LOG.error(out.decode())
+            LOG.error(err.decode())
         # stdout = proc.stdout.read()
         # LOG.error(
         #     """
