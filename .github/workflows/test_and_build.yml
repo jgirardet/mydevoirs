@@ -147,6 +147,8 @@ jobs:
 
     needs: [Windows]
     runs-on: windows-latest
+    env:
+      KIVY_GL_BACKEND: 'angle_sdl2'
     steps:
       - name: Set up Python
         uses: actions/setup-python@v1
