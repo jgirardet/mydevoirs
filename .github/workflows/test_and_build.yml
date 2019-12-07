@@ -42,7 +42,7 @@ jobs:
     - name: setup linux
       if: runner.os == 'Linux'
       run: |
-        sudo apt install -y language-pack-fr pulseaudio
+        sudo apt install -y language-pack-fr pulseaudio libmtdev1
         /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1280x720x24 -ac +extension GLX
     - name: Tests
       run: |
@@ -53,7 +53,6 @@ jobs:
         poetry run coverage report
     - name: build
       run: |
-        sudo apt install libmtdev1 -y
         poetry run  python scripted/build_executable.py
     - name: upload linux binary in artifact
       uses: actions/upload-artifact@v1
@@ -133,11 +132,6 @@ jobs:
           /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1280x720x24 -ac +extension GLX
           pip install -U  appdirs
           chmod +x MyDevoirs/MyDevoirs
-          
-      # - name: Download test_executable
-      #   uses: actions/download-artifact@v1
-      #   with:
-      #     name: test_executable.py
       - name: run_script
         run: |
           wget https://raw.githubusercontent.com/jgirardet/mydevoirs/master/scripted/check_executable.py

@@ -67,7 +67,7 @@ def run_mydevoirs():
         else:
             LOG.error("Message d'erreur")
             LOG.error(out.decode())
-            LOG.error(err.decode())
+            # LOG.error(err.decode())
         # stdout = proc.stdout.read()
         # LOG.error(
         #     """
