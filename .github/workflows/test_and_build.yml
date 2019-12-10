@@ -163,26 +163,26 @@ jobs:
           (New-Object System.Net.WebClient).DownloadFile("https://raw.githubusercontent.com/jgirardet/mydevoirs/master/scripted/check_executable.py", "check_executable.py")
           python check_executable.py
 
-  Deploy:
-    name: release github
-    needs: [Test_linux, Test_windows]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download windows binary
-        uses: actions/download-artifact@v1
-        with:
-          name: MyDevoirs.exe
-      - name: Download Linux binary
-        uses: actions/download-artifact@v1
-        with:
-          name: MyDevoirs
-      - name: release git_hub
-        uses: xresloader/upload-to-github-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          file: "MyDevoirs;MyDevoirs.exe"
-          tags: true
-          draft: False
-          release_name: MyDevoirs v${{github.ref}}
-          tag_name: v${{github.ref}}
+  # Deploy:
+  #   name: release github
+  #   needs: [Test_linux, Test_windows]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Download windows binary
+  #       uses: actions/download-artifact@v1
+  #       with:
+  #         name: MyDevoirs.exe
+  #     - name: Download Linux binary
+  #       uses: actions/download-artifact@v1
+  #       with:
+  #         name: MyDevoirs
+  #     - name: release git_hub
+  #       uses: xresloader/upload-to-github-release@v1
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       with:
+  #         file: "MyDevoirs;MyDevoirs.exe"
+  #         tags: true
+  #         draft: False
+  #         release_name: MyDevoirs v${{github.ref}}
+  #         tag_name: v${{github.ref}}
