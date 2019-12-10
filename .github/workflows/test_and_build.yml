@@ -142,7 +142,7 @@ jobs:
     needs: [Windows]
     runs-on: windows-latest
     env:
-      USE_SDL2: 1
+      # USE_SDL2: 1
       # USE_GSTREAMER: 1
       # GST_REGISTRY: '~/registry.bin'
       KIVY_GL_BACKEND: 'angle_sdl2'
