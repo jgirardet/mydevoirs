@@ -71,7 +71,7 @@ def run_mydevoirs():
 
 
 if __name__ == "__main__":
-    LOG.info(platform.system())
+    # LOG.info(platform.system())
     LOG.info("avant logDD")
     # LOG.info("ddb %s", str(DDB))
     # LOG.info("ddb exists %s", DDB.exists())
