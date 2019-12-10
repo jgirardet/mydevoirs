@@ -72,7 +72,7 @@ def run_mydevoirs():
 
 if __name__ == "__main__":
     LOG.info(platform.system())
-    print("avant logDD")
+    LOG.info("avant logDD")
     LOG.info("ddb %s", str(DDB))
     print("après log")
     LOG.info("ddb exists %s", DDB.exists())
