@@ -73,15 +73,15 @@ def run_mydevoirs():
 if __name__ == "__main__":
     # LOG.info(platform.system())
     LOG.info("avant logDD")
-    # LOG.info("ddb %s", str(DDB))
-    # LOG.info("ddb exists %s", DDB.exists())
-    # LOG.info("ddb parent (Mydevoirs) exists %s", DDB.parent.exists())
-    # LOG.info("ddb parent (Mydevoirs.parent) exists %s", DDB.parents[1].exists())
+    LOG.info("ddb %s", str(DDB))
+    LOG.info("ddb exists %s", DDB.exists())
+    LOG.info("ddb parent (Mydevoirs) exists %s", DDB.parent.exists())
+    LOG.info("ddb parent (Mydevoirs.parent) exists %s", DDB.parents[1].exists())
     # LOG.info("execution fresh")
     # check_is_fresh_install()
     # run_mydevoirs()
     # LOG.info("execution non fresh")
     # run_mydevoirs()
-
+    sys.exit(0)
 
 # https://github.com/jgirardet/mydevoirs/releases/latest
