@@ -141,7 +141,7 @@ jobs:
 
     needs: [Windows]
     runs-on: windows-latest
-    env:
+    # env:
       # USE_SDL2: 1
       # USE_GSTREAMER: 1
       # GST_REGISTRY: '~/registry.bin'
