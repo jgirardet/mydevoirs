@@ -3,8 +3,9 @@ name: test et build
 on: [push, pull_request]
 
 env:
-  KIVY_GL_BACKEND: 'angle_sdl2'
   CODECOV_TOKEN: b12c1d6f-032c-40bf-ab16-3cc301e48115
+  USE_SDL2: 1
+
 
 
 jobs:
@@ -66,6 +67,7 @@ jobs:
         # arch: ['x64', 'x86']
     env:
       KIVY_GL_BACKEND: 'angle_sdl2'
+
     steps:
     - name: get repo
       uses: actions/checkout@v1
@@ -133,12 +135,8 @@ jobs:
 
     needs: [Windows]
     runs-on: windows-latest
-    # env:
-      # USE_SDL2: 1
-      # USE_GSTREAMER: 1
-      # GST_REGISTRY: '~/registry.bin'
-      # KIVY_GL_BACKEND: 'angle_sdl2'
-      # KIVY_SPLIT_EXAMPLES: 1
+    env:
+      KIVY_GL_BACKEND: 'angle_sdl2'
     steps:
       - name: Set up Python
         uses: actions/setup-python@v1
