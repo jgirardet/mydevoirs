@@ -1,5 +1,6 @@
 # -*- mode: python ; coding: utf-8 -*-
-from kivy_deps import sdl2, glew
+# from kivy_deps import sdl2, glew
+from kivy_deps import angle
 block_cipher = None
 
 
@@ -33,7 +34,8 @@ exe = EXE(
     a.binaries,
     a.zipfiles,
     a.datas,
-    *[Tree(p) for p in (sdl2.dep_bins+ glew.dep_bins)],
+    *[Tree(p) for p in angle.dep_bins],
+    # *[Tree(p) for p in (sdl2.dep_bins+ glew.dep_bins)],
     name="MyDevoirs",
     debug=False,
     bootloader_ignore_signals=False,
