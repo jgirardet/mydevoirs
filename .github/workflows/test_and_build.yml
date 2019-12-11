@@ -12,53 +12,53 @@ env:
 
 
 jobs:
-  # Linux:
-  #   runs-on: ${{ matrix.os }}
-  #   strategy:
-  #     matrix:
-  #       os : [ubuntu-latest]
-  #       python: [3.7']
-  #       # python: [3.7', '3.8' ]
-  #       # arch: ['x64', 'x86']
-  #   env:
-  #     DISPLAY: ':99.0'
-  #   steps:
-  #   - name: get repo
-  #     uses: actions/checkout@v1
-  #   - name: Set up Python
-  #     uses: actions/setup-python@v1
-  #     with:
-  #       python-version: 3.7
-  #     #   python-version: ${{ matrix.python }}
-  #     #   architecture: ${{ matrix.arch }}
-  #   - name: Install poetry
-  #     run: |
-  #       echo $"${{toJson(runner)}}"
-  #       echo $"${{toJson(env.AAA)}}"
-  #       python -m pip install poetry
-  #       poetry run python -m pip install --upgrade pip
-  #   - name: Install common dependencies
-  #     run: poetry install
-  #   - name: setup linux
-  #     if: runner.os == 'Linux'
-  #     run: |
-  #       sudo apt install -y language-pack-fr pulseaudio libmtdev1
-  #       /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1280x720x24 -ac +extension GLX
-  #   - name: Tests
-  #     run: |
-  #       poetry run python -m pytest -vvv -s
-  #   - name: Coverage
-  #     run: |
-  #       poetry run coverage run --rcfile=.coveragerc -m pytest
-  #       poetry run coverage report
-  #   - name: build
-  #     run: |
-  #       poetry run  python scripted/build_executable.py
-  #   - name: upload linux binary in artifact
-  #     uses: actions/upload-artifact@v1
-  #     with:
-  #       path: dist/MyDevoirs
-  #       name: MyDevoirs
+  Linux:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os : [ubuntu-latest]
+        python: [3.7']
+        # python: [3.7', '3.8' ]
+        # arch: ['x64', 'x86']
+    env:
+      DISPLAY: ':99.0'
+    steps:
+    - name: get repo
+      uses: actions/checkout@v1
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+      #   python-version: ${{ matrix.python }}
+      #   architecture: ${{ matrix.arch }}
+    - name: Install poetry
+      run: |
+        echo $"${{toJson(runner)}}"
+        echo $"${{toJson(env.AAA)}}"
+        python -m pip install poetry
+        poetry run python -m pip install --upgrade pip
+    - name: Install common dependencies
+      run: poetry install
+    - name: setup linux
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt install -y language-pack-fr pulseaudio libmtdev1
+        /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1280x720x24 -ac +extension GLX
+    - name: Tests
+      run: |
+        poetry run python -m pytest -vvv -s
+    - name: Coverage
+      run: |
+        poetry run coverage run --rcfile=.coveragerc -m pytest
+        poetry run coverage report
+    - name: build
+      run: |
+        poetry run  python scripted/build_executable.py
+    - name: upload linux binary in artifact
+      uses: actions/upload-artifact@v1
+      with:
+        path: dist/MyDevoirs
+        name: MyDevoirs
 
   Windows:
     runs-on: ${{ matrix.os }}
@@ -90,8 +90,7 @@ jobs:
         poetry run python -m pip install --upgrade pip
     - name: Install Windows dependencies
       run: |
-        poetry run python -m pip install  docutils pygments pypiwin32  kivy_deps.angle==0.1.9 pywin32-ctypes pefile
-        # poetry run python -m pip install  docutils pygments pypiwin32 kivy_deps.sdl2==0.1.22 kivy_deps.glew==0.1.12 kivy_deps.gstreamer==0.1.17 kivy_deps.angle==0.1.9 pywin32-ctypes pefile
+        poetry run python -m pip install  docutils pygments pypiwin32 kivy_deps.sdl2==0.1.22 kivy_deps.glew==0.1.12 kivy_deps.gstreamer==0.1.17 kivy_deps.angle==0.1.9 pywin32-ctypes pefile
     - name: Install common dependencies
       run: poetry install
     - name: Tests
@@ -113,30 +112,30 @@ jobs:
 
 
 
-  # Test_linux:
-  #   needs: [Linux]
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     DISPLAY: ':99.0'
-  #   steps:
-  #     - name: Set up Python
-  #       uses: actions/setup-python@v1
-  #       with:
-  #         python-version: 3.7
-  #     - name: Download Linux binary
-  #       uses: actions/download-artifact@v1
-  #       with:
-  #         name: MyDevoirs
-  #     - name: setup_env
-  #       run: |
-  #         sudo apt install -y language-pack-fr pulseaudio
-  #         /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1280x720x24 -ac +extension GLX
-  #         pip install -U  appdirs
-  #         chmod +x MyDevoirs/MyDevoirs
-  #     - name: run_script
-  #       run: |
-  #         wget https://raw.githubusercontent.com/jgirardet/mydevoirs/master/scripted/check_executable.py
-  #         python check_executable.py
+  Test_linux:
+    needs: [Linux]
+    runs-on: ubuntu-latest
+    env:
+      DISPLAY: ':99.0'
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Download Linux binary
+        uses: actions/download-artifact@v1
+        with:
+          name: MyDevoirs
+      - name: setup_env
+        run: |
+          sudo apt install -y language-pack-fr pulseaudio
+          /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1280x720x24 -ac +extension GLX
+          pip install -U  appdirs
+          chmod +x MyDevoirs/MyDevoirs
+      - name: run_script
+        run: |
+          wget https://raw.githubusercontent.com/jgirardet/mydevoirs/master/scripted/check_executable.py
+          python check_executable.py
 
   Test_windows:
 
@@ -159,7 +158,6 @@ jobs:
           name: MyDevoirs.exe
       - name: run_script
         run: |
-          # python -m pip install  docutils pygments pypiwin32 kivy_deps.sdl2==0.1.22 kivy_deps.glew==0.1.12 kivy_deps.gstreamer==0.1.17 kivy_deps.angle==0.1.9 pywin32-ctypes pefile
           pip install -U appdirs
           (New-Object System.Net.WebClient).DownloadFile("https://raw.githubusercontent.com/jgirardet/mydevoirs/master/scripted/check_executable.py", "check_executable.py")
           python check_executable.py

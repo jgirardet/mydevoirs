@@ -1,6 +1,6 @@
 # -*- mode: python ; coding: utf-8 -*-
-# from kivy_deps import sdl2, glew
-from kivy_deps import angle
+from kivy_deps import sdl2, glew, angle
+
 block_cipher = None
 
 
@@ -15,7 +15,6 @@ a = Analysis(
         ("data/fonts/*.ttf", "data/fonts"),
         ("data/fonts/*.otf", "data/fonts"),
         ("logo.png", "."),
-
     ],
     hiddenimports=[],
     hookspath=[],
@@ -34,8 +33,7 @@ exe = EXE(
     a.binaries,
     a.zipfiles,
     a.datas,
-    *[Tree(p) for p in angle.dep_bins],
-    # *[Tree(p) for p in (sdl2.dep_bins+ glew.dep_bins)],
+    *[Tree(p) for p in (sdl2.dep_bins + glew.dep_bins + angle.dep_bins)],
     name="MyDevoirs",
     debug=False,
     bootloader_ignore_signals=False,
@@ -44,5 +42,5 @@ exe = EXE(
     upx_exclude=[],
     runtime_tmpdir=None,
     console=True,
-    icon='logo.ico'
+    icon="logo.ico"
 )
