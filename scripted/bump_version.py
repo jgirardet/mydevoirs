@@ -36,6 +36,7 @@ if __name__ == "__main__":
         raise KeyError(f"argument {sys.argv[-1]} doit être un de {MODE}")
 
     new_version  = subprocess.check_output(f"poetry version {mode}", shell=True).strip().split()[-1].decode()
+    subprocess.check_output(f"git add -a ", shell=True)
     subprocess.check_output(f"git tag {new_version}", shell=True)
 
     assert get_tag() == get_poestry_version()
