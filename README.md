@@ -1,8 +1,13 @@
 # La prise de devoirs sur ordinateur enfin simple !!!
 
+![agenda](docs/agenda800.png)
+
+![todo](docs/todo800.png)
+
+
 ## Pourquoi MyDevoirs ?
 
-Mon fils a un ordinateur à l'école depuis le CM1. Nous avons essayé beaucoup de solution (rainlendat, onenote, agenda windows...), malheureusement rien de spécialement adapté pour parfaitement coller aux besoins d'un enfant. MyDevoirs a donc été développé spécialement pour lui, en accord avec ses besoins et ses exigences.
+Mon fils a un ordinateur à l'école depuis le CM1. Nous avons essayé beaucoup de solution (rainlendar, onenote, agenda windows...), malheureusement rien de spécialement adapté pour parfaitement coller aux besoins d'un enfant. MyDevoirs a donc été développé spécialement pour lui, en accord avec ses besoins et ses exigences.
 
 ## Comment l'installer ?
 
@@ -18,36 +23,45 @@ Pour l'instant disponible sous Windows et Linux (Mac possible si quelqu'un le de
 
 		- Ensuite il suffit d'éxécuter le fichier est c'est parti.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+	- puis sous Linux :
+		- Il faut rendre le fichier executable sous en monde teminale:
+		```bash
+		chmod +x MyDevoirs
+		```
+		ou en mode graphique, par exemple sous Mint :  click droit => propiétés => permissions => Autoriser l'exécution du fichier comme un programme.
 
-### Markdown
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+## Comment l'utiliser ?
 
-```markdown
-Syntax highlighted code block
+Il y a 2 interfaces possible : Une interface  type `agenda` ![agenda](data/icons/014-calendar.png) qui affiche chaque jour de la semaine avec les devoirs de chaque jour, une autre type `todo list` (liste des tâches) ![todo list](data/icons/010-test.png). Il semble plus simple de noter ses devoirs dans le mode `agenda` mais plus simple de faire ses devoirs en mode `todo list`. La `todolist` n'affiche que les devoirs non encore effectués alors que l'`agenda` affiche l'intégralité des devoirs.
 
-# Header 1
-## Header 2
-### Header 3
+Il est possible de modifier les jours affichés dans `Paramètres` ![parametres](docs/params.png).
 
-- Bulleted
-- List
+En mode `agenda` on change de semaine en cliquant sur ![suivant](data/icons/chevron-right.png) pour semaine suivante ou pour semaine précédante. ![precedant](data/icons/chevron-left.png)
 
-1. Numbered
-2. List
+### Pour ajouter un devoir:
 
-**Bold** and _Italic_ and `Code` text
+On clique sur ![nouveau](data/icons/012-add.png) et on choisit sa matière en cliquant dessus ou avec `entrée`.
 
-[Link](url) and ![Image](src)
-```
+La zone de texte est directement sélectionnée, pour entrer le texte correspondant.
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+### Pour marquer un devoir comme terminé:
 
-### Jekyll Themes
+On clique sur ![non fait](data/icons/017-cancel.png) qui devient ![fait](data/icons/apply-64.png). En mode `todo list` la ligne disparaît de l'affichage.
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/jgirardet/mydevoirs/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+### Pour supprimer un devoir:
 
-### Support or Contact
+On clique sur ![non fait](docs/garbage.png), il faut ensuite confirmer.
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+## C'est un peu long de reprendre la souris à chaque fois, des raccourcis claviers se serait bien...
+
+Les raccourcis claviers sont à utliser quand le curseur est dans une zone de texte.
+
+ - `Ctrl+D` : (D = dupliquer) Pour créer une nouvelle ligne avec la matière en cours. Pratique quand on veut noter plusieurs choses de la même matière (par exemple leçons, exercices...).
+
+ - `Ctrl+M` : (M = Matière) Pour changer la matière en cours. on peut se déplacer avec les `flêches` et valider son choix avec `entrée` ou la `flêche droite`.
+
+ - `Ctrl+N` : (N = Nouveau) Pour créer une nouvel ligne, le choix des matières s'affiche, on choisit avec les `flêches` et on valide par `entrée`.
+
+ - `Ctrl+E`: (E = effacer) Pour effacer une ligne.
+
