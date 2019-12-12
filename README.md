@@ -1,4 +1,6 @@
-# La prise de devoirs sur ordinateur enfin simple !!!
+
+
+# MyDevoirs :  La prise de devoirs sur ordinateur enfin simple !!!
 
 ![agenda](docs/agenda800.png)
 
