@@ -15,8 +15,6 @@ jobs:
       matrix:
         os : [ubuntu-latest]
         python: [3.7']
-        # python: [3.7', '3.8' ]
-        # arch: ['x64', 'x86']
     env:
       DISPLAY: ':99.0'
     steps:
@@ -26,8 +24,6 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: 3.7
-      #   python-version: ${{ matrix.python }}
-      #   architecture: ${{ matrix.arch }}
     - name: Install poetry
       run: |
         echo $"${{toJson(runner)}}"
@@ -63,8 +59,6 @@ jobs:
       matrix:
         os: [windows-latest]
         python: [3.7']
-        # python: [3.7', '3.8' ]
-        # arch: ['x64', 'x86']
     env:
       KIVY_GL_BACKEND: 'angle_sdl2'
 
@@ -73,11 +67,8 @@ jobs:
       uses: actions/checkout@v1
     - name: Set up Python
       uses: actions/setup-python@v1
-      # with:
       with:
         python-version: 3.7
-      #   python-version: ${{ matrix.python }}
-      #   architecture: ${{ matrix.arch }}
     - name: Install poetry
       run: |
         python -m pip install poetry
@@ -152,26 +143,26 @@ jobs:
           (New-Object System.Net.WebClient).DownloadFile("https://raw.githubusercontent.com/jgirardet/mydevoirs/master/scripted/check_executable.py", "check_executable.py")
           python check_executable.py
 
-  # Deploy:
-  #   name: release github
-  #   needs: [Test_linux, Test_windows]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Download windows binary
-  #       uses: actions/download-artifact@v1
-  #       with:
-  #         name: MyDevoirs.exe
-  #     - name: Download Linux binary
-  #       uses: actions/download-artifact@v1
-  #       with:
-  #         name: MyDevoirs
-  #     - name: release git_hub
-  #       uses: xresloader/upload-to-github-release@v1
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       with:
-  #         file: "MyDevoirs;MyDevoirs.exe"
-  #         tags: true
-  #         draft: False
-  #         release_name: MyDevoirs v${{github.ref}}
-  #         tag_name: v${{github.ref}}
+  Deploy:
+    name: release github
+    needs: [Test_linux, Test_windows]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download windows binary
+        uses: actions/download-artifact@v1
+        with:
+          name: MyDevoirs.exe
+      - name: Download Linux binary
+        uses: actions/download-artifact@v1
+        with:
+          name: MyDevoirs
+      - name: release git_hub
+        uses: xresloader/upload-to-github-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          file: "MyDevoirs;MyDevoirs.exe"
+          tags: true
+          draft: False
+          release_name: MyDevoirs v${{github.ref}}
+          tag_name: v${{github.ref}}
