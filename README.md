@@ -8,8 +8,8 @@ Mon fils a un ordinateur à l'école depuis le CM1. Nous avons essayé beaucoup 
 
 Pour l'instant disponible sous Windows et Linux (Mac possible si quelqu'un le demande).
 
-- Version Windows : [MyDevoirs.exe](https://github.com/jgirardet/mydevoirs/releases/download/0.4.1-alpha.0/MyDevoirs.exe) 
-- Vesion Linux : [MyDevoirs](https://github.com/jgirardet/mydevoirs/releases/download/0.4.1-alpha.0/MyDevoirs)
+- Version Windows : [MyDevoirs.exe](https://github.com/jgirardet/mydevoirs/releases/download/0.4.1/MyDevoirs.exe) 
+- Vesion Linux : [MyDevoirs](https://github.com/jgirardet/mydevoirs/releases/download/0.4.1/MyDevoirs)
 
 	- puis sous Windows :
 		- windows va vous mettre en garde car l'application n'est pas certifiée mais pas d'inquiétude, il suffit de cliquer sur `informations complémentaires` puis  `exécuter quand même`:

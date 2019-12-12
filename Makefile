@@ -10,7 +10,7 @@ install:
 	poetry install
 
 devtools:
-	.venv/bin/pip install -U ipython pdbpp autoflake
+	.venv/bin/pip install -U ipython pdbpp autoflake toml markdown
 
 dev:  install devtools 
 
@@ -86,3 +86,13 @@ build:
 
 run_binary: build
 	./dist/MyDevoirs
+
+
+version_patch:
+	poetry run python scripted/bump_version.py patch
+
+version_minor:
+	poetry run python scripted/bump_version.py minor
+
+version_major:
+	poetry run python scripted/bump_version.py major
