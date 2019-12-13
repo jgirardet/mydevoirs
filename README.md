@@ -11,6 +11,10 @@
 
 Mon fils a un ordinateur à l'école depuis le CM1. Nous avons essayé beaucoup de solution (rainlendar, onenote, agenda windows...), malheureusement rien de spécialement adapté pour parfaitement coller aux besoins d'un enfant. MyDevoirs a donc été développé spécialement pour lui, en accord avec ses besoins et ses exigences.
 
+## MyDevoirs c'est pour qui ?
+
+A priori les enfants qui ont beson d'un ordiateur à l'école donc les Dys en général.
+
 ## Comment l'installer ?
 
 Pour l'instant disponible sous Windows et Linux (Mac possible si quelqu'un le demande).
@@ -67,3 +71,15 @@ Les raccourcis claviers sont à utliser quand le curseur est dans une zone de te
 
  - `Ctrl+E`: (E = effacer) Pour effacer une ligne.
 
+
+## Au secours j'ai un problème/ il manque une fonctionnalité
+
+Il suffit de laisser un message/issue sur [Github issue](https://github.com/jgirardet/mydevoirs/issues). Il faut créer un compte github gratuit pour pouvoir laisser un message.
+
+## MyDevoirs c'est gratuit ?
+
+MyDevoirs est un logiciel libre (la code source est disponible) sous licence GPL3.
+
+## Remeciements
+
+Je remercie tous les gens impliqués dans la réalisation des technologies utlisés et plus particuliérement l'équipe de dévelopeurs de [Kivy](https://www.kivy.org) et [Ponyorm](https://ponyorm.org) pour disponibilité à repondre aux questions.
