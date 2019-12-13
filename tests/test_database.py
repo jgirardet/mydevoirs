@@ -4,11 +4,10 @@ from pony.orm import db_session, select
 
 from mydevoirs.constants import MATIERES
 from mydevoirs.database import (
-    db,
     init_bind,
     init_database,
-    init_import_models,
     init_update_matiere,
+    db
 )
 
 from .fixtures import f_item
@@ -24,13 +23,13 @@ def test_init_update_matiere():
 
     MATIERES["Nouvelle"] = (91, 193, 242)
 
-    init_update_matiere(matieres=MATIERES)
+    init_update_matiere(db,matieres=MATIERES)
     with db_session:
         keys = set(select(b.nom for b in db.Matiere))
     assert set(MATIERES) == keys
 
     MATIERES["Nouvelle"] = (0, 0, 0)
-    init_update_matiere(matieres=MATIERES)
+    init_update_matiere(db,matieres=MATIERES)
     with db_session:
         keys = set(select(b.nom for b in db.Matiere))
     assert set(MATIERES) == keys

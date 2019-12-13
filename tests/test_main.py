@@ -45,10 +45,6 @@ def test_set_locale_fr():
     _reset_locale()
 
 
-def test_get_database_location():
-    assert get_database_location() == get_dir("cache") / DDB_FILENAME
-
-
 def _reset_locale():
     if platform.system() == "Linux":
         locale.resetlocale()

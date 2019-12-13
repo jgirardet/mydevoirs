@@ -5,12 +5,8 @@ import os
 import platform
 import sys
 from pathlib import Path
+import sys
 
-from appdirs import user_cache_dir
-
-
-APPNAME = "MyDevoirs"
-DDB_NAME = "ddb_hard.sqlite"
 
 def set_my_devoirs_base_dir():
     os.environ["MYDEVOIRS_BASE_DIR"] = getattr(
@@ -40,25 +36,16 @@ def setup_kivy():
     Config.set("kivy", "window_icon", os.path.join(base_dir, "logo.png"))
 
 
-def get_database_location():
-    loc =  Path(user_cache_dir(), APPNAME, DDB_NAME).absolute()
-    if not loc.parent.exists():
-        loc.parent.mkdir(parents=True)
-    return loc
-
-
-
-def setup_start(**kwargs):
+def setup_start():
     set_my_devoirs_base_dir()
     setup_kivy()
     app, init_database = do_import()
     set_locale_fr()
-    init_database(**kwargs)
     return app
 
 
 if __name__ == "__main__":
 
-    setup_start(
-        provider="sqlite", filename=str(get_database_location()), create_db=True
-    ).MyDevoirsApp().run()  # pragma: no cover_all
+    app = setup_start().MyDevoirsApp()
+    app.init_database()
+    app.run()  # pragma: no cover_all

@@ -91,6 +91,8 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
             for k, v in values.items():
                 if isinstance(v, bool):
                     assert config.getboolean(section, k) == v
+                elif isinstance(v, str):
+                    assert config.get(section, k) == v
                 else:
                     assert False, "un cas est manquant"
 

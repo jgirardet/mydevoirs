@@ -8,10 +8,17 @@ from kivy.uix.actionbar import ActionBar
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager, SlideTransition
 
-from mydevoirs.agenda import Agenda
+
+from mydevoirs.database import init_database
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label
+from kivy.uix.button import Button
 from mydevoirs.settings import DEFAULT_SETTINGS, SETTING_PANELS
-from mydevoirs.todo import Todo
 from mydevoirs.utils import get_dir
+import sys
+import subprocess
+import mydevoirs.database
+import os
 
 
 class MyDevoirsApp(App):
@@ -26,7 +33,14 @@ class MyDevoirsApp(App):
         super().__init__(*args, **kwargs)
         # Window.maximize()
 
+    def init_database(self):
+        path = self.load_config()["ddb"]["path"]
+        mydevoirs.database.db = init_database(filename=path, create_db=True)
+
     def build(self):
+        from mydevoirs.agenda import Agenda
+        from mydevoirs.todo import Todo
+
         self.sm = ScreenManager(transition=SlideTransition(direction="up"))
         self.agenda = Agenda(name="agenda")
         self.todo = Todo(name="todo")
@@ -65,7 +79,20 @@ class MyDevoirsApp(App):
     def on_config_change_agenda(self, config, *args):
         self.go_agenda()
 
+    def on_config_change_ddb(self, config, section, key, value):
+        exec_app = [sys.executable]
+        if not hasattr(sys, "frozen") or not hasattr(sys, "_MEIPASS"):
+            main_path = Path(os.environ["MYDEVOIRS_BASE_DIR"], sys.argv[0])
+            exec_app.append(str(main_path))
+
+        subprocess.Popen(exec_app)
+        self.stop()
+
     def get_application_config(self):
         return super().get_application_config(
             str(Path(get_dir("config"), "settings.ini").absolute())
         )
+
+    # def on_stop(self):
+    #     super().on_stop()
+    #     print("on_stop")

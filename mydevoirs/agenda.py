@@ -17,11 +17,12 @@ from kivy.uix.screenmanager import Screen
 from pony.orm import db_session
 
 from mydevoirs.constants import SEMAINE
-from mydevoirs.database import db
 from mydevoirs.itemwidget import ItemWidget
 from mydevoirs.matieredropdown import MatiereDropdown
 
-
+# import mydevoirs.database
+# db = mydevoirs.database.db
+from mydevoirs.database import db
 class AgendaItemWidget(ItemWidget):
     def __init__(self, **kwargs):
         self._jour_widget = None

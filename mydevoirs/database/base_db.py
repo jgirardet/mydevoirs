@@ -1,22 +1,11 @@
 from pony.orm import Database, db_session
 
 from mydevoirs.constants import MATIERES
-
-db = Database()
-
-
-class GetOrCreateMixin:
-    @classmethod
-    def get_or_create(cls, **kwargs):
-        if not cls.exists(**kwargs):
-            res = cls(**kwargs)
-            db.flush()
-        else:
-            res = cls.get(**kwargs)
-        return res
+from pathlib import Path
+from .models import init_models
 
 
-def init_update_matiere(matieres=MATIERES):
+def init_update_matiere(db, matieres=MATIERES):
     with db_session():
         for k, v in matieres.items():
             if db.Matiere.exists(nom=k):
@@ -26,17 +15,23 @@ def init_update_matiere(matieres=MATIERES):
                 db.Matiere(nom=k, color=v)
 
 
-def init_bind(provider="sqlite", filename=":memory:", create_db=False, **kwargs):
-    db.bind(provider=provider, filename=filename, create_db=create_db)
+def ensure_database_directory(loc):
+
+    if not loc.parent.exists():
+        loc.parent.mkdir(parents=True)
+
+
+def init_bind(db, provider="sqlite", filename=":memory:", create_db=False, **kwargs):
+    if filename != ":memory:":
+        filename = Path(filename)
+        ensure_database_directory(filename)
+    db.bind(provider=provider, filename=str(filename), create_db=create_db)
     db.generate_mapping(create_tables=True)
 
 
-def init_import_models():
-
-    from .models import Jour, Matiere, Item  # flake8: noqa
-
-
 def init_database(**kwargs):
-    init_import_models()
-    init_bind(**kwargs)
-    init_update_matiere()
+    ddb = Database()
+    init_models(ddb)
+    init_bind(ddb, **kwargs)
+    init_update_matiere(ddb)
+    return ddb

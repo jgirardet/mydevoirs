@@ -1,6 +1,13 @@
 import json
+from mydevoirs.utils import get_dir
+from mydevoirs.constants import DDB_FILENAME
+from pathlib import Path
 
 AGENDA_PANEL = [
+{
+        "type": "title",
+        "title": "Jours à afficher"
+    },
     {
         "type": "bool",
         "title": "Afficher le lundi",
@@ -50,6 +57,17 @@ AGENDA_PANEL = [
         "section": "agenda",
         "key": "dimanche",
     },
+    {
+        "type": "title",
+        "title": "Choix du fichier base de donnée"
+    },
+    {
+        "type": "path",
+        "title": "chemin de la base de donné",
+        "desc": "",
+        "section": "ddb",
+        "key": "path",
+    },
     # {
     #     "type": "numeric",
     #     "title": "Nombre de jour à afficher",
@@ -94,13 +112,6 @@ AGENDA_PANEL = [
     #     "section": "example",
     #     "key": "stringexample",
     # },
-    # {
-    #     "type": "path",
-    #     "title": "A path setting",
-    #     "desc": "Path description text",
-    #     "section": "example",
-    #     "key": "pathexample",
-    # },
 ]
 
 
@@ -113,8 +124,12 @@ DEFAULT_SETTINGS = {
         "vendredi": True,
         "samedi": False,
         "dimanche": False,
+    },
+    "ddb": {
+    "path": str(Path(get_dir("cache"), DDB_FILENAME))
     }
 }
+
 
 
 SETTING_PANELS = [("Agenda", json.dumps(AGENDA_PANEL))]

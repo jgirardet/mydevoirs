@@ -1,8 +1,10 @@
 from .base_db import (
-    GetOrCreateMixin,
-    db,
+    # db,
     init_bind,
     init_database,
-    init_import_models,
+    # init_import_models,
     init_update_matiere,
 )
+
+
+db = None
