@@ -19,6 +19,8 @@ import sys
 import subprocess
 import mydevoirs.database
 import os
+import platform
+from mydevoirs.filepath_setting import SettingFilePath
 
 
 class MyDevoirsApp(App):
@@ -70,6 +72,7 @@ class MyDevoirsApp(App):
             config.setdefaults(section, values)
 
     def build_settings(self, settings):
+        settings.register_type('filepath', SettingFilePath)
         for pan in SETTING_PANELS:
             settings.add_json_panel(pan[0], self.config, data=pan[1])
 
@@ -80,18 +83,27 @@ class MyDevoirsApp(App):
         self.go_agenda()
 
     def on_config_change_ddb(self, config, section, key, value):
-        exec_app = [sys.executable]
-        if not hasattr(sys, "frozen") or not hasattr(sys, "_MEIPASS"):
-            main_path = Path(os.environ["MYDEVOIRS_BASE_DIR"], sys.argv[0])
-            exec_app.append(str(main_path))
-
-        subprocess.Popen(exec_app)
-        self.stop()
+        print(value)
+        self._reload_app()
 
     def get_application_config(self):
         return super().get_application_config(
             str(Path(get_dir("config"), "settings.ini").absolute())
         )
+
+    def _reload_app(self):
+        exec_app = [sys.executable]
+        if not hasattr(sys, "frozen") or not hasattr(sys, "_MEIPASS"):
+            main_path = Path(os.environ["MYDEVOIRS_BASE_DIR"], sys.argv[0])
+            exec_app.append(str(main_path))
+
+        startupinfo = None
+        if platform.system() == "Windows":
+            startupinfo = subprocess.STARTUPINFO()
+            startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+
+        subprocess.Popen(exec_app, startupinfo=startupinfo)
+        self.stop()
 
     # def on_stop(self):
     #     super().on_stop()

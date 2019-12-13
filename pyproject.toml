@@ -5,10 +5,11 @@ description = ""
 authors = ["jgirardet <ijkl@netc.fr>"]
 
 [tool.poetry.dependencies]
-python = "^3.7.5"
+python = "^3.7"
 pony = "^0.7.11"
 appdirs = "^1.4.3"
 kivy = "1.11.1"
+"kivy-garden.filebrowser" = "^1.1.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.0"

@@ -62,7 +62,7 @@ AGENDA_PANEL = [
         "title": "Choix du fichier base de donnée"
     },
     {
-        "type": "path",
+        "type": "filepath",
         "title": "chemin de la base de donné",
         "desc": "",
         "section": "ddb",
