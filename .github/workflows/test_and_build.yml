@@ -35,7 +35,8 @@ jobs:
     - name: setup linux
       if: runner.os == 'Linux'
       run: |
-        # sudo apt update
+        sudo rm -f /etc/apt/sources.list.d/dotnetdev.list /etc/apt/sources.list.d/microsoft-prod.list
+        sudo apt update
         sudo apt install -y language-pack-fr pulseaudio libmtdev1
         /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1280x720x24 -ac +extension GLX
     - name: Tests
@@ -114,6 +115,7 @@ jobs:
           name: MyDevoirs
       - name: setup_env
         run: |
+          sudo rm -f /etc/apt/sources.list.d/dotnetdev.list /etc/apt/sources.list.d/microsoft-prod.list
           sudo apt update
           sudo apt install -y language-pack-fr pulseaudio
           /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1280x720x24 -ac +extension GLX
