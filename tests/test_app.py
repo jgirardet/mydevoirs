@@ -89,7 +89,7 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
 
         for section, values in DEFAULT_SETTINGS.items():
             for k, v in values.items():
-                if isinstance(v, bool):
+                if isinstance(v, int):
                     assert config.getboolean(section, k) == v
                 elif isinstance(v, str):
                     assert config.get(section, k) == v

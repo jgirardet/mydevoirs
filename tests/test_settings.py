@@ -20,9 +20,13 @@ def test_each_default_has_good_type():
         if x["type"] == "title":
             continue
         elif x["type"] == "bool":
-            assert isinstance(DEFAULT_SETTINGS[x["section"]][x["key"]], bool)
+            assert isinstance(DEFAULT_SETTINGS[x["section"]][x["key"]], int)
+            assert DEFAULT_SETTINGS[x["section"]][x["key"]] in (0,1)
 
         elif x["type"] == "path":
+            assert isinstance(DEFAULT_SETTINGS[x["section"]][x["key"]], str)
+
+        elif x["type"] == "filepath":
             assert isinstance(DEFAULT_SETTINGS[x["section"]][x["key"]], str)
 
         else:

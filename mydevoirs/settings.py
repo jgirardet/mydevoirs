@@ -117,13 +117,13 @@ AGENDA_PANEL = [
 
 DEFAULT_SETTINGS = {
     "agenda": {
-        "lundi": True,
-        "mardi": True,
-        "mercredi": False,
-        "jeudi": True,
-        "vendredi": True,
-        "samedi": False,
-        "dimanche": False,
+        "lundi": 1,
+        "mardi": 1,
+        "mercredi": 0,
+        "jeudi": 1,
+        "vendredi": 1,
+        "samedi": 0,
+        "dimanche": 0,
     },
     "ddb": {
     "path": str(Path(get_dir("cache"), DDB_FILENAME))

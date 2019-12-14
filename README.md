@@ -76,6 +76,16 @@ Les raccourcis claviers sont à utliser quand le curseur est dans une zone de te
 
 Il suffit de laisser un message/issue sur [Github issue](https://github.com/jgirardet/mydevoirs/issues). Il faut créer un compte github gratuit pour pouvoir laisser un message.
 
+
+## Comment synchroniser MyDevoirs sur plusieurs ordinateur ?
+
+Il est parfois bien pratique d'avoir un double des devoirs de son enfant sur son propre ordinateur.
+L'idée va être de synchoniser le fichier de base de donnée entre les 2 ordinateurs. Pour cela il faut avoir recours a une service tiers type DropBox, sugarsync, Seafile, Box...
+Ensuite il vous suffit de mettre choisir un fichier  dans un dossier qui sera synchronisé.
+JE PRECISE BIEN QUE CELA PERMET  DE SYNCHRONISER/SAUVEGARDER LA BASE DE DONNÉE MAIS EN AUCUN CAS DE TRAVAILLER EN MEME TEMPS. IL EST DONC IMPORTANT, POUR UN MÊME FICHIER SYNCHRONISER, DE N'OUVRIR MYDEVOIRS QUE SUR UNE MACHINE À LA FOIS SINON UN RISQUE DE PERTE DE DONNÉES EST POSSIBLE.
+
+
+
 ## MyDevoirs c'est gratuit ?
 
 MyDevoirs est un logiciel libre (la code source est disponible) sous licence GPL3.

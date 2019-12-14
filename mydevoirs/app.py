@@ -86,6 +86,7 @@ class MyDevoirsApp(App):
         getattr(self, "on_config_change_" + args[0])(config, *args)
 
     def on_config_change_agenda(self, config, *args):
+        print(args)
         self.go_agenda()
 
     def on_config_change_ddb(self, config, section, key, value):
