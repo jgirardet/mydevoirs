@@ -32,7 +32,10 @@ class MyDevoirsApp(App):
     title = "MyDevoirs"
 
     def __init__(self, *args, **kwargs):
+        
         super().__init__(*args, **kwargs)
+
+
         # Window.maximize()
 
     def init_database(self):
@@ -72,6 +75,9 @@ class MyDevoirsApp(App):
             config.setdefaults(section, values)
 
     def build_settings(self, settings):
+        # from kivy.uix.settings import Settings
+        # setting = Settings()
+        # settings.register_type('path', SettingFilePath)
         settings.register_type('filepath', SettingFilePath)
         for pan in SETTING_PANELS:
             settings.add_json_panel(pan[0], self.config, data=pan[1])

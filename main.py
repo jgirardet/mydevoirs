@@ -45,7 +45,7 @@ def setup_start():
 
 
 if __name__ == "__main__":
-
+    
     app = setup_start().MyDevoirsApp()
     app.init_database()
     app.run()  # pragma: no cover_all
