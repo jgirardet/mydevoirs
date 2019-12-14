@@ -35,9 +35,8 @@ class MyDevoirsApp(App):
     title = "MyDevoirs"
 
     def __init__(self, *args, **kwargs):
-        
-        super().__init__(*args, **kwargs)
 
+        super().__init__(*args, **kwargs)
 
         # Window.maximize()
 
@@ -56,13 +55,12 @@ class MyDevoirsApp(App):
             cp = ConfigParser()
             config_file = self.get_application_config()
             cp.read(config_file)
-            default = DEFAULT_SETTINGS['ddb']['path']
-            cp["ddb"]['path'] = default
+            default = DEFAULT_SETTINGS["ddb"]["path"]
+            cp["ddb"]["path"] = default
             with open(config_file, "wt") as f:
                 cp.write(f)
-            self.config['ddb']['path'] = filename=default
+            self.config["ddb"]["path"] = filename = default
             mydevoirs.database.db = init_database(filename=default, create_db=True)
-
 
     def build(self):
         from mydevoirs.agenda import Agenda
@@ -97,7 +95,7 @@ class MyDevoirsApp(App):
             config.setdefaults(section, values)
 
     def build_settings(self, settings):
-        settings.register_type('filepath', SettingFilePath)
+        settings.register_type("filepath", SettingFilePath)
         for pan in SETTING_PANELS:
             settings.add_json_panel(pan[0], self.config, data=pan[1])
 
