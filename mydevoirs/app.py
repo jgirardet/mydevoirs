@@ -76,9 +76,6 @@ class MyDevoirsApp(App):
             config.setdefaults(section, values)
 
     def build_settings(self, settings):
-        # from kivy.uix.settings import Settings
-        # setting = Settings()
-        # settings.register_type('path', SettingFilePath)
         settings.register_type('filepath', SettingFilePath)
         for pan in SETTING_PANELS:
             settings.add_json_panel(pan[0], self.config, data=pan[1])
@@ -87,13 +84,10 @@ class MyDevoirsApp(App):
         getattr(self, "on_config_change_" + args[0])(config, *args)
 
     def on_config_change_agenda(self, config, *args):
-        print(args)
         self.go_agenda()
 
     def on_config_change_ddb(self, config, section, key, value):
-        print(value)
-        OuiNonPopup(title= "voulez vous copier l'ancienne vers la nouvelle ?")
-        # self._reload_app()
+        self._reload_app()
 
     def get_application_config(self):
         return super().get_application_config(

@@ -35,3 +35,5 @@ def init_database(**kwargs):
     init_bind(ddb, **kwargs)
     init_update_matiere(ddb)
     return ddb
+
+

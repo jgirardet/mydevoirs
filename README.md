@@ -81,8 +81,30 @@ Il suffit de laisser un message/issue sur [Github issue](https://github.com/jgir
 
 Il est parfois bien pratique d'avoir un double des devoirs de son enfant sur son propre ordinateur.
 L'idée va être de synchoniser le fichier de base de donnée entre les 2 ordinateurs. Pour cela il faut avoir recours a une service tiers type DropBox, sugarsync, Seafile, Box...
-Ensuite il vous suffit de mettre choisir un fichier  dans un dossier qui sera synchronisé.
-JE PRECISE BIEN QUE CELA PERMET  DE SYNCHRONISER/SAUVEGARDER LA BASE DE DONNÉE MAIS EN AUCUN CAS DE TRAVAILLER EN MEME TEMPS. IL EST DONC IMPORTANT, POUR UN MÊME FICHIER SYNCHRONISER, DE N'OUVRIR MYDEVOIRS QUE SUR UNE MACHINE À LA FOIS SINON UN RISQUE DE PERTE DE DONNÉES EST POSSIBLE.
+Ensuite il vous suffit de mettre/choisir un fichier  dans un dossier qui sera synchronisé.
+
+JE PRECISE BIEN QUE CELA PERMET  DE SYNCHRONISER/SAUVEGARDER LA BASE DE DONNÉE MAIS EN AUCUN CAS DE TRAVAILLER EN MEME TEMPS.
+
+IL EST DONC IMPORTANT, POUR UN MÊME FICHIER SYNCHRONISER, DE N'OUVRIR MYDEVOIRS QUE SUR UNE MACHINE À LA FOIS SINON UN RISQUE DE PERTE DE DONNÉES EST POSSIBLE.
+
+ - tout d'abord cliquer sur le chemin actuel dans les paramêtres :
+
+ ![clickmenu](docs/ddb/clickmenu.png)
+
+ - ensuite sélectionner le répertoire voulu et rentrer un nouveau nom de fichier ou en selectionner un. Il est important que le chemin complet du fichier voulu apparaissent dans le zone de nom :
+
+ ![browser](docs/ddb/browser.png)
+
+ - On vous demande ensuite si vous souhaitez ou non recopier le contenu de la base actuelle dans le nouveau fichier :
+
+ ![copier](docs/ddb/copier.png)
+
+- Enfin une ultime confirmation si le fichier selectionné existait déjà :
+
+ ![copier](docs/ddb/ecraser.png)
+
+ - et voilà MyDevoirs va redémarrer depuis bouvelle base de donnée.
+
 
 
 
