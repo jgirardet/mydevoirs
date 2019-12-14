@@ -77,21 +77,21 @@ Les raccourcis claviers sont à utliser quand le curseur est dans une zone de te
 Il suffit de laisser un message/issue sur [Github issue](https://github.com/jgirardet/mydevoirs/issues). Il faut créer un compte github gratuit pour pouvoir laisser un message.
 
 
-## Comment synchroniser MyDevoirs sur plusieurs ordinateur ?
+## Comment synchroniser MyDevoirs sur plusieurs ordinateurs ?
 
 Il est parfois bien pratique d'avoir un double des devoirs de son enfant sur son propre ordinateur.
-L'idée va être de synchoniser le fichier de base de donnée entre les 2 ordinateurs. Pour cela il faut avoir recours a une service tiers type DropBox, sugarsync, Seafile, Box...
-Ensuite il vous suffit de mettre/choisir un fichier  dans un dossier qui sera synchronisé.
+L'idée va être de synchoniser le fichier de base de données entre les 2 ordinateurs. Pour cela il faut avoir recours a une service tiers type DropBox, sugarsync, Seafile, Box...
+Ensuite il vous suffit de mettre/choisir un fichier  dans un dossier qui sera synchronisé entre les différents ordinateurs.
 
-JE PRECISE BIEN QUE CELA PERMET  DE SYNCHRONISER/SAUVEGARDER LA BASE DE DONNÉE MAIS EN AUCUN CAS DE TRAVAILLER EN MEME TEMPS.
+JE PRECISE BIEN QUE CELA PERMET  DE SYNCHRONISER/SAUVEGARDER LA BASE DE DONNÉES MAIS EN AUCUN CAS DE TRAVAILLER EN MEME TEMPS.
 
-IL EST DONC IMPORTANT, POUR UN MÊME FICHIER SYNCHRONISER, DE N'OUVRIR MYDEVOIRS QUE SUR UNE MACHINE À LA FOIS SINON UN RISQUE DE PERTE DE DONNÉES EST POSSIBLE.
+IL EST DONC IMPORTANT, POUR UN MÊME FICHIER SYNCHRONISÉ, DE N'OUVRIR MYDEVOIRS QUE SUR UNE MACHINE À LA FOIS SINON UN RISQUE DE PERTE DE DONNÉES EST POSSIBLE.
 
  - tout d'abord cliquer sur le chemin actuel dans les paramêtres :
 
  ![clickmenu](docs/ddb/clickmenu.png)
 
- - ensuite sélectionner le répertoire voulu et rentrer un nouveau nom de fichier ou en selectionner un. Il est important que le chemin complet du fichier voulu apparaissent dans le zone de nom :
+ - ensuite sélectionner le répertoire voulu et entrer un nouveau nom de fichier ou en selectionner un. Il est important que le chemin complet du fichier voulu apparaissent dans le zone de nom :
 
  ![browser](docs/ddb/browser.png)
 
@@ -103,7 +103,7 @@ IL EST DONC IMPORTANT, POUR UN MÊME FICHIER SYNCHRONISER, DE N'OUVRIR MYDEVOIRS
 
  ![copier](docs/ddb/ecraser.png)
 
- - et voilà MyDevoirs va redémarrer depuis bouvelle base de donnée.
+ - et voilà MyDevoirs va redémarrer depuis nouvelle base de donnée.
 
 
 

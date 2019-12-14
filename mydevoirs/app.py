@@ -7,6 +7,7 @@ from kivy.properties import ObjectProperty
 from kivy.uix.actionbar import ActionBar
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager, SlideTransition
+from configparser import ConfigParser
 
 
 from mydevoirs.database import init_database
@@ -22,6 +23,7 @@ import os
 import platform
 from mydevoirs.filepath_setting import SettingFilePath
 from mydevoirs.ouinonpopup import OuiNonPopup
+from pony.orm import OperationalError
 
 
 class MyDevoirsApp(App):
@@ -41,7 +43,26 @@ class MyDevoirsApp(App):
 
     def init_database(self):
         path = self.load_config()["ddb"]["path"]
-        mydevoirs.database.db = init_database(filename=path, create_db=True)
+        try:
+            mydevoirs.database.db = init_database(filename=path, create_db=True)
+        except OperationalError:
+            # class RescueApp(App):
+            #     def build(self):
+            #         b = BoxLayout(orientation="vertical")
+            #         b.add_widget(Label(text = "Il y eu une erreur de base de donnée l'application redémarre avec le fichier par défaut"))
+            #         b.add_widget(Button(on_release=self.stop, text="Ok"))
+            #         return b
+            # RescueApp().run()
+            cp = ConfigParser()
+            config_file = self.get_application_config()
+            cp.read(config_file)
+            default = DEFAULT_SETTINGS['ddb']['path']
+            cp["ddb"]['path'] = default
+            with open(config_file, "wt") as f:
+                cp.write(f)
+            self.config['ddb']['path'] = filename=default
+            mydevoirs.database.db = init_database(filename=default, create_db=True)
+
 
     def build(self):
         from mydevoirs.agenda import Agenda
