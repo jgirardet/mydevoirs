@@ -21,6 +21,7 @@ import mydevoirs.database
 import os
 import platform
 from mydevoirs.filepath_setting import SettingFilePath
+from mydevoirs.ouinonpopup import OuiNonPopup
 
 
 class MyDevoirsApp(App):
@@ -91,7 +92,8 @@ class MyDevoirsApp(App):
 
     def on_config_change_ddb(self, config, section, key, value):
         print(value)
-        self._reload_app()
+        OuiNonPopup(title= "voulez vous copier l'ancienne vers la nouvelle ?")
+        # self._reload_app()
 
     def get_application_config(self):
         return super().get_application_config(
@@ -111,7 +113,3 @@ class MyDevoirsApp(App):
 
         subprocess.Popen(exec_app, startupinfo=startupinfo)
         self.stop()
-
-    # def on_stop(self):
-    #     super().on_stop()
-    #     print("on_stop")
