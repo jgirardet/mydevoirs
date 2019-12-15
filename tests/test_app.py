@@ -146,6 +146,7 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
     def test_reset_database(self):
         app = MyDevoirsApp()
         with tempfile.NamedTemporaryFile() as t:
+            t.close() # windows need it
             app.get_application_config = lambda: t.name
             text = """[agenda]
     lundi = 0
