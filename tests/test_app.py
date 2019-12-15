@@ -215,18 +215,22 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
 
         app_sys.frozen = True
         app_sys._MEIPASS = True
-        app = MyDevoirsApp()
-        app.stop = MagicMock()
-        app._reload_app()
-        args = popen.call_args_list[0]
-        assert app.stop.called
-        print(args)
-        assert args[0][0][0].endswith("python")
-        assert len(args[0][0]) == 1
-        assert args[1]["startupinfo"] is None
 
-        del app_sys.frozen
-        del app_sys._MEIPASS
+        try:
+            app = MyDevoirsApp()
+            app.stop = MagicMock()
+            app._reload_app()
+            args = popen.call_args_list[0]
+            assert app.stop.called
+            assert args[0][0][0].endswith("python")
+            assert len(args[0][0]) == 1
+            assert args[1]["startupinfo"] is None
+        except Exception as e:
+            raise e
+        finally:
+
+            del app_sys.frozen
+            del app_sys._MEIPASS
 
     @pytest.mark.skipif(platform.system() != "Windows", reason="windows test")
     @patch("mydevoirs.app.subprocess.Popen")
@@ -235,15 +239,18 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
 
         app_sys.frozen = True
         app_sys._MEIPASS = True
-        app = MyDevoirsApp()
-        app.stop = MagicMock()
-        app._reload_app()
-        args = popen.call_args_list[0]
-        assert app.stop.called
-        print(args)
-        assert args[0][0][0].endswith("python.exe")
-        assert len(args[0][0]) == 1
-        assert args[1]["startupinfo"] is None
-
-        del app_sys.frozen
-        del app_sys._MEIPASS
+        try:
+            app = MyDevoirsApp()
+            app.stop = MagicMock()
+            app._reload_app()
+            args = popen.call_args_list[0]
+            assert app.stop.called
+            assert args[0][0][0].endswith("python.exe")
+            assert len(args[0][0]) == 1
+            assert args[1]["startupinfo"] is not None
+        except Exception as e:
+            raise e
+        finally:
+            
+            del app_sys.frozen
+            del app_sys._MEIPASS
