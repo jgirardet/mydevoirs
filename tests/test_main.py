@@ -48,3 +48,5 @@ def test_set_locale_fr():
 def _reset_locale():
     if platform.system() == "Linux":
         locale.resetlocale()
+
+

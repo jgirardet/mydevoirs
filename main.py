@@ -44,8 +44,9 @@ def setup_start():
     return app
 
 
-if __name__ == "__main__":
+if __name__ == "__main__": # pragma: no cover_all
+    # covered in check_executable.py
     
     app = setup_start().MyDevoirsApp()
     app.init_database()
-    app.run()  # pragma: no cover_all
+    app.run()  

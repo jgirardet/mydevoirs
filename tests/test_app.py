@@ -9,6 +9,9 @@ from mydevoirs.app import MyDevoirsApp
 from mydevoirs.settings import DEFAULT_SETTINGS, SETTING_PANELS
 
 from .fixtures import *
+import tempfile
+import pytest
+import platform
 
 
 class TestMyDevoirsApp(MyDevoirsTestCase):
@@ -125,9 +128,122 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
         assert self.app.go_agenda.called
         self.app.go_agenda = backup
 
+    def test_on_config_change_ddb(self):
+        backup = self.app._reload_app
+        self.app._reload_app = MagicMock()
+        self.app.on_config_change_ddb(*[1, 2, 3, 4])
+        print(self.app._reload_app.call_args_list)
+        assert self.app._reload_app.called
+        self.app._reload_app = backup
+
     def test_get_application_config(self):
         platform_dispatcher(
             self.app.get_application_config(),
             str(Path.home() / ".config" / "MyDevoirs" / "settings.ini"),
             str(Path.home() / "AppData" / "Local" / "MyDevoirs" / "settings.ini"),
         )
+
+    def test_reset_database(self):
+        app = MyDevoirsApp()
+        with tempfile.NamedTemporaryFile() as t:
+            app.get_application_config = lambda: t.name
+            text = """[agenda]
+    lundi = 0
+    mardi = 1
+    mercredi = 0
+    jeudi = 1
+    vendredi = 1
+    samedi = 0
+    dimanche = 1
+
+    [ddb]
+    path = /mauvais/repo
+
+    """
+            Path(t.name).write_text(text)
+            cp = ConfigParser()
+            cp.read(t.name)
+            assert cp.sections() == ["agenda", "ddb"]
+            assert cp["ddb"]["path"] == "/mauvais/repo"
+            app._reset_database()
+            cp = ConfigParser()
+            cp.read(t.name)
+            assert cp["ddb"]["path"] == DEFAULT_SETTINGS["ddb"]["path"]
+            assert app.config["ddb"]["path"] == DEFAULT_SETTINGS["ddb"]["path"]
+            assert cp["agenda"]["lundi"] == app.config["agenda"]["lundi"]
+
+    def test_init_database(self):
+        app = MyDevoirsApp()
+        app.load_config = lambda: {"ddb": {"path": str(Path.home())}}
+        app._reset_database = MagicMock()
+
+        app.init_database()
+        assert app._reset_database.call_args_list == (call())
+
+    @pytest.mark.skipif(platform.system() != "Linux", reason="Linux test")
+    @patch("mydevoirs.app.subprocess.Popen")
+    def test_reload_app_script_linux(self, popen):
+        app = MyDevoirsApp()
+        app.stop = MagicMock()
+        app._reload_app()
+        args = popen.call_args_list[0]
+        assert app.stop.called
+        assert args[0][0][0].endswith("python")
+        assert len(args[0][0]) == 2
+        assert args[1]["startupinfo"] is None
+
+    @pytest.mark.skipif(platform.system() != "Windows", reason="windows test")
+    @patch("mydevoirs.app.subprocess.Popen")
+    def test_reload_app_script_windows(self, popen):
+        from mydevoirs.app import subprocess as sb
+
+        sb.STARTUPINFO = MagicMock()
+        app = MyDevoirsApp()
+        app.stop = MagicMock()
+        app._reload_app()
+        args = popen.call_args_list[0]
+        print(args)
+        assert app.stop.called
+        assert args[0][0][0].endswith("python")
+        assert len(args[0][0]) == 2
+        assert args[1]["startupinfo"] is not None
+
+    @pytest.mark.skipif(platform.system() != "Linux", reason="Linux test")
+    @patch("mydevoirs.app.subprocess.Popen")
+    def test_reload_app_non_script_linux(self, popen):
+        from mydevoirs.app import sys as app_sys
+
+        app_sys.frozen = True
+        app_sys._MEIPASS = True
+        app = MyDevoirsApp()
+        app.stop = MagicMock()
+        app._reload_app()
+        args = popen.call_args_list[0]
+        assert app.stop.called
+        print(args)
+        assert args[0][0][0].endswith("python")
+        assert len(args[0][0]) == 1
+        assert args[1]["startupinfo"] is None
+
+        del app_sys.frozen
+        del app_sys._MEIPASS
+
+    @pytest.mark.skipif(platform.system() != "Windows", reason="windows test")
+    @patch("mydevoirs.app.subprocess.Popen")
+    def test_reload_app_non_script_windows(self, popen):
+        from mydevoirs.app import sys as app_sys
+
+        app_sys.frozen = True
+        app_sys._MEIPASS = True
+        app = MyDevoirsApp()
+        app.stop = MagicMock()
+        app._reload_app()
+        args = popen.call_args_list[0]
+        assert app.stop.called
+        print(args)
+        assert args[0][0][0].endswith("python")
+        assert len(args[0][0]) == 1
+        assert args[1]["startupinfo"] is None
+
+        del app_sys.frozen
+        del app_sys._MEIPASS

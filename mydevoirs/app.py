@@ -45,22 +45,7 @@ class MyDevoirsApp(App):
         try:
             mydevoirs.database.db = init_database(filename=path, create_db=True)
         except OperationalError:
-            # class RescueApp(App):
-            #     def build(self):
-            #         b = BoxLayout(orientation="vertical")
-            #         b.add_widget(Label(text = "Il y eu une erreur de base de donnée l'application redémarre avec le fichier par défaut"))
-            #         b.add_widget(Button(on_release=self.stop, text="Ok"))
-            #         return b
-            # RescueApp().run()
-            cp = ConfigParser()
-            config_file = self.get_application_config()
-            cp.read(config_file)
-            default = DEFAULT_SETTINGS["ddb"]["path"]
-            cp["ddb"]["path"] = default
-            with open(config_file, "wt") as f:
-                cp.write(f)
-            self.config["ddb"]["path"] = filename = default
-            mydevoirs.database.db = init_database(filename=default, create_db=True)
+            self._reset_database()
 
     def build(self):
         from mydevoirs.agenda import Agenda
@@ -120,9 +105,24 @@ class MyDevoirsApp(App):
             exec_app.append(str(main_path))
 
         startupinfo = None
-        if platform.system() == "Windows":
+        if platform.system() == "Windows": # pragma: no cover_linux
             startupinfo = subprocess.STARTUPINFO()
             startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
 
         subprocess.Popen(exec_app, startupinfo=startupinfo)
         self.stop()
+
+    def _reset_database(self):
+        """ when something wrong with database"""
+        cp = ConfigParser()
+        config_file = self.get_application_config()
+        cp.read(config_file)
+        default = DEFAULT_SETTINGS["ddb"]["path"]
+        cp.update({"ddb": {"path" : default}})
+        # cp["ddb"]["path"] = default
+        with open(config_file, "wt") as f:
+            cp.write(f)
+        self.config = None
+        self.load_config()
+        self.config.update({"ddb": {"path" : default}})
+        mydevoirs.database.db = init_database(filename=default, create_db=True)
