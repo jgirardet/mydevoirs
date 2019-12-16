@@ -48,13 +48,14 @@ def f_item(content=None, matiere=None, jour=None, done=None):
 
 
 class MyDevoirsTestCase(GraphicUnitTest):
-    def setUp(self):
-        self.debut_time = time.time()
+    def setUp(self,no_db=False):
         super().setUp()
-        with db_session:
-            for entity in db.entities.values():
-                if entity.__name__ != "Matiere":
-                    delete(e for e in entity)
+        self.debut_time = time.time()
+        if not no_db:
+            with db_session:
+                for entity in db.entities.values():
+                    if entity.__name__ != "Matiere":
+                        delete(e for e in entity)
 
         EventLoop.ensure_window()
         self.window = EventLoop.window
@@ -91,6 +92,11 @@ class MyDevoirsTestCase(GraphicUnitTest):
     def click(self, widget):
         t = get_touch(widget)
         t.click()
+
+    def popup_click(self, choix):
+        popup = self.window.children[0]
+        print(popup.title, choix)
+        popup.content.ids[choix].trigger_action(0)
 
 
 def platform_dispatcher(test, linux, windows):

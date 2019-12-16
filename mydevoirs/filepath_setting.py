@@ -1,13 +1,9 @@
-from kivy.uix.settings import SettingItem, SettingSpacer, SettingPath
-from kivy.properties import ObjectProperty, BooleanProperty
+from kivy.uix.settings import SettingPath
 from kivy.uix.boxlayout import BoxLayout
 from kivy_garden.filebrowser import FileBrowser
 import os
-from kivy.core.window import Window
 
-from kivy.metrics import dp
 from kivy.uix.popup import Popup
-from kivy_garden.filebrowser import FileBrowser
 from mydevoirs.ouinonpopup import OuiNonPopup
 from pathlib import Path
 
@@ -22,9 +18,7 @@ class SettingFilePath(SettingPath):
         value = self.textinput.filename
         if not value:
             return
-
         self.new_value = os.path.realpath(value)
-
         if self.new_value == self.value:
             return
 
@@ -45,9 +39,13 @@ class SettingFilePath(SettingPath):
             OuiNonPopup(
                 title=f"Confirmez le remplacement du contenu de {str(new)} par {str(old)}",
                 on_oui=write,
+                on_non=self._dismiss,
             )
+        else:
+            self._update_value()
 
     def _update_value(self, *args):
+        print("call")
         self.value = self.new_value
 
     def _create_popup(self, instance):

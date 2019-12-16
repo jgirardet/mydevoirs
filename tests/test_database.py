@@ -76,7 +76,7 @@ def test_init_bind():
 
     # file does not exists,  create_db:
     ddb = Database()
-    with  tempfile.TemporaryDirectory() as t:
+    with tempfile.TemporaryDirectory() as t:
         init_bind(ddb, filename=Path(t, "unexistentfile"), create_db=True)
 
     # file  et prents dir does not exists
@@ -87,9 +87,10 @@ def test_init_bind():
 
 
 def test_init_database():
-    d = init_database()
-    assert d.Matiere['Sciences'].exists()
-    
+    with tempfile.TemporaryDirectory() as t:
+        d = init_database(filename=Path(t, "unexistentfile"), create_db=True)
+        with db_session:
+            assert d.Matiere.exists(nom="Sciences")
 
 
 class TestItem:
