@@ -7,10 +7,15 @@ from mydevoirs.database import (
     init_bind,
     init_database,
     init_update_matiere,
-    db
+    db,
+    ensure_database_directory,
 )
 
 from .fixtures import f_item
+import tempfile
+from pathlib import Path
+from pony.orm import Database, OperationalError
+import pytest
 
 
 def test_init_update_matiere():
@@ -23,13 +28,13 @@ def test_init_update_matiere():
 
     MATIERES["Nouvelle"] = (91, 193, 242)
 
-    init_update_matiere(db,matieres=MATIERES)
+    init_update_matiere(db, matieres=MATIERES)
     with db_session:
         keys = set(select(b.nom for b in db.Matiere))
     assert set(MATIERES) == keys
 
     MATIERES["Nouvelle"] = (0, 0, 0)
-    init_update_matiere(db,matieres=MATIERES)
+    init_update_matiere(db, matieres=MATIERES)
     with db_session:
         keys = set(select(b.nom for b in db.Matiere))
     assert set(MATIERES) == keys
@@ -38,6 +43,53 @@ def test_init_update_matiere():
     with db_session:
         db.Matiere["Nouvelle"].delete()
     MATIERES.pop("Nouvelle")
+
+
+def test_ensure_update_matiere():
+    with tempfile.TemporaryDirectory() as t:
+        file = Path(t, "rien", "nouveau", "bla", "lieu", "base.ddb")
+        loc = ensure_database_directory(str(file))
+        assert file.parent.is_dir()
+        assert loc == file
+
+
+def test_init_bind():
+    # memorry
+    ddb = Database()
+    init_bind(ddb)
+
+    # file existe:
+    ddb = Database()
+    with tempfile.NamedTemporaryFile() as t:
+        init_bind(ddb, filename=t.name)
+
+    # file does not exists, no create_db:
+    ddb = Database()
+    with tempfile.TemporaryDirectory() as t:
+        with pytest.raises(OSError):
+            init_bind(ddb, filename=Path(t, "mokmokmok"))
+
+    # file exists, no create_db:
+    ddb = Database()
+    with tempfile.NamedTemporaryFile() as t:
+        init_bind(ddb, filename=str(t.name))
+
+    # file does not exists,  create_db:
+    ddb = Database()
+    with  tempfile.TemporaryDirectory() as t:
+        init_bind(ddb, filename=Path(t, "unexistentfile"), create_db=True)
+
+    # file  et prents dir does not exists
+    ddb = Database()
+    with tempfile.TemporaryDirectory() as t:
+        file = Path(t, "rien", "nouveau", "bla", "lieu", "base.ddb")
+        init_bind(ddb, filename=str(file), create_db=True)
+
+
+def test_init_database():
+    d = init_database()
+    assert d.Matiere['Sciences'].exists()
+    
 
 
 class TestItem:

@@ -16,16 +16,16 @@ def init_update_matiere(db, matieres=MATIERES):
 
 
 def ensure_database_directory(loc):
-
+    loc = Path(loc)
     if not loc.parent.exists():
         loc.parent.mkdir(parents=True)
+    return loc
 
 
 def init_bind(db, provider="sqlite", filename=":memory:", create_db=False, **kwargs):
     if filename != ":memory:":
-        filename = Path(filename)
-        ensure_database_directory(filename)
-    db.bind(provider=provider, filename=str(filename), create_db=create_db)
+        filename = ensure_database_directory(filename)
+    db.bind(provider=provider, filename=str(filename), create_db=create_db, **kwargs)
     db.generate_mapping(create_tables=True)
 
 
