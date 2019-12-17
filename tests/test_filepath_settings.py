@@ -12,14 +12,17 @@ from kivy.uix.settings import SettingsPanel
 
 class TestSettingFilePath(MyDevoirsTestCase):
     def setUp(self):
-        super().setUp(no_db=True)
+        super().setUp()
+        # super().setUp(no_db=True)
         panel = SettingsPanel()
         self.fp = SettingFilePath(panel=panel)
         self.t = tempfile.NamedTemporaryFile()
+        self.bla = tempfile.NamedTemporaryFile()
 
     def tearDown(self):
         super().tearDown()
         self.t.close()
+        self.bla.close()
         self.window.clear()
 
     def boiler_plate(self, value=None, filename=None):
@@ -46,14 +49,14 @@ class TestSettingFilePath(MyDevoirsTestCase):
         del fp_popup
 
     def test_nouveau_nom_pas_copier(self):
-        self.boiler_plate(value="/bla/bla")
+        self.boiler_plate(value=self.bla.name)
         self.fp.textinput.dispatch("on_success")
         self.popup_click("non")
         assert self.fp.value == self.t.name
 
     def test_nouveau_nom_copier(self):
 
-        self.boiler_plate(value="/bla/bla", filename="/some/improbable/name")
+        self.boiler_plate(value=self.bla.name, filename="/some/improbable/name")
         self.fp.textinput.dispatch("on_success")
         self.popup_click("oui")
         assert self.fp.value == "/some/improbable/name"
@@ -70,22 +73,22 @@ class TestSettingFilePath(MyDevoirsTestCase):
             assert Path(self.t.name).read_bytes() == b"coucou"
 
     def test_nouveau_nom_copier_fichier_existe_pas_ecraser(self):
-        self.boiler_plate(value="/bla/bla")
+        self.boiler_plate(value=self.bla.name)
         self.fp.textinput.dispatch("on_success")
         self.popup_click("oui")  # copier le contenu
         self.popup_click("non")  # ecraser fichier
-        assert self.fp.value == "/bla/bla"
+        assert self.fp.value == self.bla.name
 
     def test_dispatch_submit(self):
-        self.boiler_plate(value="/bla/bla")
+        self.boiler_plate(value=self.bla.name)
         self.fp.textinput.dispatch("on_submit")
         self.popup_click("non")
         assert self.fp.value == self.t.name
 
     def test_dispatch_canceled(self):
-        self.boiler_plate(value="/bla/bla")
+        self.boiler_plate(value=self.bla.name)
         self.fp.textinput.dispatch("on_canceled")
-        assert self.fp.value == "/bla/bla"
+        assert self.fp.value == self.bla.name
 
     def test_input_property(self):
         self.boiler_plate()

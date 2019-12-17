@@ -53,6 +53,7 @@ class TestTodoList(MyDevoirsTestCase):
         self._gen_ddb()
 
         t = TodoList()
+        print(t.box.children)
         assert len(t.box.children) == 18  # 6 label + 18 item - 6 done
 
         temoin = 1
