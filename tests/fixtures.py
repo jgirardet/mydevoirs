@@ -12,6 +12,8 @@ from pony.orm import db_session, delete
 from mydevoirs.constants import APP_NAME, MATIERES
 from mydevoirs.database import db, init_database
 import mydevoirs.database
+from kivy.clock import Clock
+from mydevoirs.itemwidget import ItemWidget
 
 gen = Generic("fr")
 
@@ -50,13 +52,28 @@ def f_item(content=None, matiere=None, jour=None, done=None):
 
 class MyDevoirsTestCase(GraphicUnitTest):
 
-    @classmethod
-    def setUpClass(cls):
-        mydevoirs.database.db = init_database()
+    # @classmethod
+    # def setUpClass(cls):
+    #     print(mydevoirs.database)
+        
+    #     # mydevoirs.database.db = init_database()
+
+    ASYNC_TO_CLEAN = [str(ItemWidget._set_content).split()[1]]
+
+    def clean_async_calls(self):
+        for e in Clock.get_events():
+            for a in self.ASYNC_TO_CLEAN:
+                if a  in str(e.callback):
+                    e.cancel()
 
     def setUp(self,no_db=False):
         super().setUp()
         self.debut_time = time.time()
+        if not no_db:
+            with db_session:
+                for entity in db.entities.values():
+                    if entity.__name__ != "Matiere":
+                        delete(e for e in entity)
 
         EventLoop.ensure_window()
         self.window = EventLoop.window
@@ -64,7 +81,12 @@ class MyDevoirsTestCase(GraphicUnitTest):
 
     def tearDown(self):
         super().tearDown()
+        self.window.clear()
+
+        
+
         print(f"durée: {(time.time()-self.debut_time)*1000}")
+
 
     def check_super_init(self, parent, enfant, *args, fn="__init__", **kwargs):
         module = self.__module__.split("_")[-1]

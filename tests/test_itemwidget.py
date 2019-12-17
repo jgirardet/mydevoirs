@@ -17,6 +17,12 @@ from .fixtures import *
 
 
 class ItemWidgetTestCase(MyDevoirsTestCase):
+
+    
+    def tearDown(self):
+        super().tearDown()
+        self.clean_async_calls()
+        
     def test_init(self):
         self.check_super_init("BoxLayout", ItemWidget, **f_item().to_dict())
 
@@ -58,7 +64,6 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
 
         assert item.matiere_nom == "Divers"
         assert item.ids.textinput.focus
-        print(item.ids.textinput._lines)
         assert item.ids.textinput.cursor_col == len(item.ids.textinput._lines[-1])
 
         # no change:
@@ -83,6 +88,10 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
                 else:
                     assert item.ids.image_done.source == datas["icon_unchecked"]
                 assert db.Item[n.id].done != d["done"]
+
+
+# class TestItemWidgetoncontent(self):
+#     def setUp():
 
     def test_on_content(self):
         first = f_item()
@@ -115,6 +124,9 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
         with db_session:
             assert db.Item[first.id].content == item.ids.textinput.text
         assert item.ids.textinput.text == item.content
+
+
+
 
     def test_remove_after_confirmation(self):
         a = Widget()
@@ -177,12 +189,12 @@ app_agenda.sm.current = "agenda"
 class TestContentTextIput(MyDevoirsTestCase):
     @patch("mydevoirs.itemwidget.App.get_running_app", return_value=app_agenda)
     def test_keyboard_key_down(self, rapp):
-
         rapp.sm.current.return_value = "agenda"
         d = f_jour()
         f_item(jour=d.date)
         j = JourWidget(d.date)
         inp = j.items[0]
+        # print(Clock.get_events())
         self.render(j)
 
         # nouveau
