@@ -5,7 +5,6 @@ import os
 import platform
 import sys
 from pathlib import Path
-import sys
 
 
 def set_my_devoirs_base_dir():
@@ -44,9 +43,9 @@ def setup_start():
     return app
 
 
-if __name__ == "__main__": # pragma: no cover_all
+if __name__ == "__main__":  # pragma: no cover_all
     # covered in check_executable.py
-    
+
     app = setup_start().MyDevoirsApp()
     app.init_database()
-    app.run()  
+    app.run()

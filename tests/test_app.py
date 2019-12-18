@@ -1,7 +1,10 @@
 import datetime
+import platform
+import tempfile
 from pathlib import Path
 from unittest.mock import MagicMock, call
 
+import pytest
 from kivy.config import ConfigParser
 from kivy.uix.settings import Settings
 
@@ -9,9 +12,6 @@ from mydevoirs.app import MyDevoirsApp
 from mydevoirs.settings import DEFAULT_SETTINGS, SETTING_PANELS
 
 from .fixtures import *
-import tempfile
-import pytest
-import platform
 
 
 class TestMyDevoirsApp(MyDevoirsTestCase):
@@ -144,7 +144,7 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
     def test_reset_database(self):
         app = MyDevoirsApp()
         with tempfile.NamedTemporaryFile() as t:
-            t.close() # windows need it**********************
+            t.close()  # windows need it**********************
             app.get_application_config = lambda: t.name
             text = """[agenda]
     lundi = 0
@@ -250,6 +250,6 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
         except Exception as e:
             raise e
         finally:
-            
+
             del app_sys.frozen
             del app_sys._MEIPASS

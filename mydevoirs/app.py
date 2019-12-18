@@ -1,3 +1,8 @@
+import os
+import platform
+import subprocess
+import sys
+from configparser import ConfigParser
 from pathlib import Path
 
 from kivy.app import App
@@ -7,23 +12,13 @@ from kivy.properties import ObjectProperty
 from kivy.uix.actionbar import ActionBar
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager, SlideTransition
-from configparser import ConfigParser
+from pony.orm import OperationalError
 
-
+import mydevoirs.database
 from mydevoirs.database import init_database
-from kivy.uix.popup import Popup
-from kivy.uix.label import Label
-from kivy.uix.button import Button
+from mydevoirs.filepath_setting import SettingFilePath
 from mydevoirs.settings import DEFAULT_SETTINGS, SETTING_PANELS
 from mydevoirs.utils import get_dir
-import sys
-import subprocess
-import mydevoirs.database
-import os
-import platform
-from mydevoirs.filepath_setting import SettingFilePath
-from mydevoirs.ouinonpopup import OuiNonPopup
-from pony.orm import OperationalError
 
 
 class MyDevoirsApp(App):
@@ -105,7 +100,7 @@ class MyDevoirsApp(App):
             exec_app.append(str(main_path))
 
         startupinfo = None
-        if platform.system() == "Windows": # pragma: no cover_linux
+        if platform.system() == "Windows":  # pragma: no cover_linux
             startupinfo = subprocess.STARTUPINFO()
             startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
 
@@ -118,11 +113,11 @@ class MyDevoirsApp(App):
         config_file = self.get_application_config()
         cp.read(config_file)
         default = DEFAULT_SETTINGS["ddb"]["path"]
-        cp.update({"ddb": {"path" : default}})
+        cp.update({"ddb": {"path": default}})
         # cp["ddb"]["path"] = default
         with open(config_file, "wt") as f:
             cp.write(f)
         self.config = None
         self.load_config()
-        self.config.update({"ddb": {"path" : default}})
+        self.config.update({"ddb": {"path": default}})
         mydevoirs.database.db = init_database(filename=default, create_db=True)

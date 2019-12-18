@@ -1,11 +1,13 @@
-from kivy.uix.settings import SettingPath
-from kivy.uix.boxlayout import BoxLayout
-from kivy_garden.filebrowser import FileBrowser
 import os
-
-from kivy.uix.popup import Popup
-from mydevoirs.ouinonpopup import OuiNonPopup
 from pathlib import Path
+
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.popup import Popup
+from kivy.uix.settings import SettingPath
+from kivy_garden.filebrowser import FileBrowser
+
+from mydevoirs.ouinonpopup import OuiNonPopup
+
 
 """
 SettingsPath using  Filebrowser instead Filechooser

@@ -1,7 +1,7 @@
 import datetime
 
 import pony.orm.dbproviders.sqlite  # noqa: W291
-from pony.orm import Optional, PrimaryKey, Required, Set, count, select, flush
+from pony.orm import Optional, PrimaryKey, Required, Set, count, flush, select
 from pony.orm.ormtypes import FloatArray
 
 
@@ -14,6 +14,7 @@ class GetOrCreateMixin:
         else:
             res = cls.get(**kwargs)
         return res
+
 
 def init_models(db):
     class Jour(db.Entity, GetOrCreateMixin):

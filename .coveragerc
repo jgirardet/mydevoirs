@@ -9,7 +9,6 @@ source =
 omit =
   */__init__.py,
   mydevoirs/reserve
-  if __name__ == "__main__": 
 
 [report]
 ignore_errors = True
@@ -17,4 +16,6 @@ exclude_lines =
     pragma: no cover_all
     pragma: no cover_linux
     def __repr__
+    size_hint_x=
+    if __name__ == "__main__"
 

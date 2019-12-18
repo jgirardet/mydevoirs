@@ -9,10 +9,12 @@ from mydevoirs.datas import get_datas
 
 datas = get_datas()
 
+
 class Path(type(PythonPath())):
     @property
     def aname(self):
         return str(self.absolute())
+
 
 def get_dir(key):
 
@@ -38,5 +40,3 @@ BASE_DIR = os.environ["MYDEVOIRS_BASE_DIR"]
 
 def get_base_dir():
     return Path(BASE_DIR)
-
-

@@ -1,20 +1,19 @@
 import platform
 import random
+import tempfile
 import time
 from unittest.mock import patch
 
 from kivy.base import EventLoop
+from kivy.clock import Clock
 from kivy.core.window import Keyboard
 from kivy.tests.common import GraphicUnitTest, UnitTestTouch
 from mimesis import Generic
 from pony.orm import db_session, delete
 
 from mydevoirs.constants import APP_NAME, MATIERES
-from mydevoirs.database import db, init_database
-import mydevoirs.database
-from kivy.clock import Clock
+from mydevoirs.database import db
 from mydevoirs.itemwidget import ItemWidget
-import tempfile
 from mydevoirs.utils import Path
 
 gen = Generic("fr")
@@ -137,7 +136,6 @@ class TempFile:
         self.file = self.tmpfile()
         self.filename = self.tmpfilename()
         assert not self.filename.exists()
-
 
     def tmpfile(self):
         file = self.dir / gen.file.file_name()

@@ -5,9 +5,7 @@ from pathlib import Path
 
 import mydevoirs.app as m_app
 from main import *
-from mydevoirs.constants import DDB_FILENAME
 from mydevoirs.database import init_database as m_init_database
-from mydevoirs.utils import get_dir
 
 
 def test_set_base_dir():
@@ -48,5 +46,3 @@ def test_set_locale_fr():
 def _reset_locale():
     if platform.system() == "Linux":
         locale.resetlocale()
-
-

@@ -1,18 +1,25 @@
-from mydevoirs.settings import *
+from pathlib import Path
 
-from .fixtures import *
-from mydevoirs.constants import build_matiere, APP_NAME, DDB_FILENAME
+from mydevoirs.constants import DDB_FILENAME
+from mydevoirs.settings import *
 from mydevoirs.utils import get_dir
 from scripted.check_executable import DDB
-from pathlib import Path
+
+from .fixtures import *
 
 
 def test_settings_item_section_exists():
-    assert all(x["section"] in DEFAULT_SETTINGS for x in AGENDA_PANEL if x['type'] != "title")
+    assert all(
+        x["section"] in DEFAULT_SETTINGS for x in AGENDA_PANEL if x["type"] != "title"
+    )
 
 
 def test_each_key_has_default():
-    assert all(x["key"] in DEFAULT_SETTINGS[x["section"]] for x in AGENDA_PANEL if x['type'] != "title")
+    assert all(
+        x["key"] in DEFAULT_SETTINGS[x["section"]]
+        for x in AGENDA_PANEL
+        if x["type"] != "title"
+    )
 
 
 def test_each_default_has_good_type():
@@ -21,7 +28,7 @@ def test_each_default_has_good_type():
             continue
         elif x["type"] == "bool":
             assert isinstance(DEFAULT_SETTINGS[x["section"]][x["key"]], int)
-            assert DEFAULT_SETTINGS[x["section"]][x["key"]] in (0,1)
+            assert DEFAULT_SETTINGS[x["section"]][x["key"]] in (0, 1)
 
         elif x["type"] == "path":
             assert isinstance(DEFAULT_SETTINGS[x["section"]][x["key"]], str)

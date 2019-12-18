@@ -1,8 +1,8 @@
-from kivy.uix.popup import Popup
+from kivy.lang import Builder
+from kivy.properties import BooleanProperty, ObjectProperty
 from kivy.uix.behaviors import FocusBehavior
 from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import BooleanProperty, ObjectProperty
-from kivy.lang import Builder
+from kivy.uix.popup import Popup
 
 KV = """
 <OuiNonButton@Button>:
@@ -42,7 +42,7 @@ class OuiNonPopup(Popup):
     def on_oui(self, *args, **kwargs):
         self.dismiss()
 
-    def on_non(self, *args,**kwargs):
+    def on_non(self, *args, **kwargs):
         self.dismiss()
 
 
@@ -92,8 +92,7 @@ if __name__ == "__main__":
         def build(self):
             s = Widget()
             s.bind(on_close=self.stop)
-            p = OuiNonPopup(title="mokfzmofkfzemok pkm", on_oui=self.stop)
+            OuiNonPopup(title="mokfzmofkfzemok pkm", on_oui=self.stop)
             return s
-
 
     SettingsApp().run()

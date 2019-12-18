@@ -1,7 +1,9 @@
+from pathlib import Path
+
 from pony.orm import Database, db_session
 
 from mydevoirs.constants import MATIERES
-from pathlib import Path
+
 from .models import init_models
 
 
@@ -35,5 +37,3 @@ def init_database(**kwargs):
     init_bind(ddb, **kwargs)
     init_update_matiere(ddb)
     return ddb
-
-

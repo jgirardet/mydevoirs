@@ -1,11 +1,10 @@
-from mydevoirs.filepath_setting import *
+from kivy.uix.settings import SettingsPanel
 
+from mydevoirs.filepath_setting import *
 
 from .fixtures import *
 
 # import tempfile
-
-from kivy.uix.settings import SettingsPanel
 
 
 class TestSettingFilePath(MyDevoirsTestCase):
@@ -18,8 +17,9 @@ class TestSettingFilePath(MyDevoirsTestCase):
         self.fp.textinput.filename = self.T.filename.aname
 
     def test_old_eq_new(self):
+        self.fp.textinput.filename = self.T.file.aname
         self.fp.textinput.dispatch("on_success")
-        assert self.fp.new_value == self.T.filename.aname
+        assert self.fp.new_value == self.T.file.aname
 
     def test_new_is_empty(self):
         self.fp.textinput.filename = ""

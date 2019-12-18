@@ -21,7 +21,6 @@ class TodoItemWidgetTestCas(MyDevoirsTestCase):
 
 
 class TestTodoScreen(MyDevoirsTestCase):
-
     def test_init(self):
         self.check_super_init("Screen", Todo)
         t = Todo()

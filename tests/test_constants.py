@@ -1,7 +1,4 @@
-from mydevoirs.constants import build_matiere, APP_NAME
-from mydevoirs.utils import get_dir
-from scripted.check_executable import DDB
-from pathlib import Path
+from mydevoirs.constants import build_matiere
 
 
 def test_buildmatiere():
@@ -42,5 +39,3 @@ def test_buildmatiere():
     }
 
     assert res == build_matiere(tree)
-
-

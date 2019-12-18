@@ -17,12 +17,10 @@ from .fixtures import *
 
 
 class ItemWidgetTestCase(MyDevoirsTestCase):
-
-    
     def tearDown(self):
         super().tearDown()
         self.clean_async_calls()
-        
+
     def test_init(self):
         self.check_super_init("BoxLayout", ItemWidget, **f_item().to_dict())
 
@@ -89,9 +87,8 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
                     assert item.ids.image_done.source == datas["icon_unchecked"]
                 assert db.Item[n.id].done != d["done"]
 
-
-# class TestItemWidgetoncontent(self):
-#     def setUp():
+    # class TestItemWidgetoncontent(self):
+    #     def setUp():
 
     def test_on_content(self):
         first = f_item()
@@ -124,9 +121,6 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
         with db_session:
             assert db.Item[first.id].content == item.ids.textinput.text
         assert item.ids.textinput.text == item.content
-
-
-
 
     def test_remove_after_confirmation(self):
         a = Widget()

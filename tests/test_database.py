@@ -1,21 +1,20 @@
 import datetime
+import tempfile
+from pathlib import Path
 
-from pony.orm import db_session, select
+import pytest
+from pony.orm import Database, db_session, select
 
 from mydevoirs.constants import MATIERES
 from mydevoirs.database import (
+    db,
+    ensure_database_directory,
     init_bind,
     init_database,
     init_update_matiere,
-    db,
-    ensure_database_directory,
 )
 
 from .fixtures import f_item
-import tempfile
-from pathlib import Path
-from pony.orm import Database, OperationalError
-import pytest
 
 
 def test_init_update_matiere():
@@ -55,6 +54,7 @@ def test_ensure_update_matiere():
 def test_init_bind_memory():
     ddb = Database()
     init_bind(ddb)
+
 
 def test_init_bind_file_exists(tmpfile):
     ddb = Database()
