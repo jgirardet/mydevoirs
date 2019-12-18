@@ -56,4 +56,5 @@ if __name__ == "__main__":
 
     assert get_tag() == get_poestry_version()
     print(f"Nouvelle Version {get_poestry_version()} !!!\n pushing")
-    print(subprocess.check_output(f"git push --follow-tags", shell=True))
+    print(subprocess.check_output(f"git push", shell=True))
+    print(subprocess.check_output(f"git push --tags", shell=True))
