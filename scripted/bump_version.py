@@ -54,3 +54,4 @@ if __name__ == "__main__":
     subprocess.check_output(f"git tag {new_version}", shell=True)
 
     assert get_tag() == get_poestry_version()
+    print(f"Nouvelle Version {get_poestry_version()} créée, pensez à pusher !!!")
