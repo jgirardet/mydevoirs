@@ -14,7 +14,8 @@ from mydevoirs.database import db, init_database
 import mydevoirs.database
 from kivy.clock import Clock
 from mydevoirs.itemwidget import ItemWidget
-
+import tempfile
+from mydevoirs.utils import Path
 gen = Generic("fr")
 
 
@@ -68,6 +69,7 @@ class MyDevoirsTestCase(GraphicUnitTest):
 
     def setUp(self,no_db=False):
         super().setUp()
+        self.T = TempFile()
         self.debut_time = time.time()
         if not no_db:
             with db_session:
@@ -81,7 +83,8 @@ class MyDevoirsTestCase(GraphicUnitTest):
 
     def tearDown(self):
         super().tearDown()
-        self.window.clear()
+        # self.window.clear()
+        self.T.cleanup()
 
         
 
@@ -126,3 +129,25 @@ def platform_dispatcher(test, linux, windows):
         assert test == linux
     elif platform.system() == "Windows":  # pragma: no cover_linux
         assert test == windows
+
+class TempFile:
+    def __init__(self):
+        self._tmpdir = tempfile.TemporaryDirectory()
+        self.dir = Path(self._tmpdir.name)
+        self.file  = self.tmpfile()      
+        self.filename  = self.tmpfile()      
+
+
+    
+    def tmpfile(self):
+        file = self.dir / gen.file.file_name()
+        file.touch()
+        return file
+
+    def tmpfilename(self):
+        return self.dir / gen.file.file_name()
+
+    def cleanup(self):
+        self._tmpdir.cleanup()
+
+

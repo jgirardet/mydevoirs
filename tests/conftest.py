@@ -6,7 +6,10 @@ import pytest
 import mydevoirs.database
 from mimesis import Generic
 
+
 generic_mimesis = Generic("fr")
+
+
 
 @pytest.fixture(scope='function')
 def gen(request):
