@@ -42,10 +42,10 @@ class SettingFilePath(SettingPath):
                 on_non=self._dismiss,
             )
         else:
+            write()
             self._update_value()
 
     def _update_value(self, *args):
-        print("call")
         self.value = self.new_value
 
     def _create_popup(self, instance):

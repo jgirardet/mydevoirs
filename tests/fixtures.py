@@ -16,6 +16,7 @@ from kivy.clock import Clock
 from mydevoirs.itemwidget import ItemWidget
 import tempfile
 from mydevoirs.utils import Path
+
 gen = Generic("fr")
 
 
@@ -56,7 +57,7 @@ class MyDevoirsTestCase(GraphicUnitTest):
     # @classmethod
     # def setUpClass(cls):
     #     print(mydevoirs.database)
-        
+
     #     # mydevoirs.database.db = init_database()
 
     ASYNC_TO_CLEAN = [str(ItemWidget._set_content).split()[1]]
@@ -64,12 +65,13 @@ class MyDevoirsTestCase(GraphicUnitTest):
     def clean_async_calls(self):
         for e in Clock.get_events():
             for a in self.ASYNC_TO_CLEAN:
-                if a  in str(e.callback):
+                if a in str(e.callback):
                     e.cancel()
 
-    def setUp(self,no_db=False):
+    def setUp(self, no_db=False):
         super().setUp()
         self.T = TempFile()
+
         self.debut_time = time.time()
         if not no_db:
             with db_session:
@@ -86,10 +88,7 @@ class MyDevoirsTestCase(GraphicUnitTest):
         # self.window.clear()
         self.T.cleanup()
 
-        
-
         # print(f"durée: {(time.time()-self.debut_time)*1000}")
-
 
     def check_super_init(self, parent, enfant, *args, fn="__init__", **kwargs):
         module = self.__module__.split("_")[-1]
@@ -130,15 +129,16 @@ def platform_dispatcher(test, linux, windows):
     elif platform.system() == "Windows":  # pragma: no cover_linux
         assert test == windows
 
+
 class TempFile:
     def __init__(self):
         self._tmpdir = tempfile.TemporaryDirectory()
         self.dir = Path(self._tmpdir.name)
-        self.file  = self.tmpfile()      
-        self.filename  = self.tmpfile()      
+        self.file = self.tmpfile()
+        self.filename = self.tmpfilename()
+        assert not self.filename.exists()
 
 
-    
     def tmpfile(self):
         file = self.dir / gen.file.file_name()
         file.touch()
@@ -149,5 +149,3 @@ class TempFile:
 
     def cleanup(self):
         self._tmpdir.cleanup()
-
-
