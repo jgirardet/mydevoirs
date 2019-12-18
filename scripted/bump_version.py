@@ -48,10 +48,12 @@ if __name__ == "__main__":
         .decode()
     )
 
+    print(f"updating doc with version {get_poestry_version()}")
     update_doc_link(version, new_version)
 
-    subprocess.check_output(f"git commit -a -m {new_version}", shell=True)
-    subprocess.check_output(f"git tag {new_version}", shell=True)
+    print(subprocess.check_output(f"git commit -a -m {new_version}", shell=True))
+    print(subprocess.check_output(f"git tag {new_version}", shell=True))
 
     assert get_tag() == get_poestry_version()
-    print(f"Nouvelle Version {get_poestry_version()} créée, pensez à pusher !!!")
+    print(f"Nouvelle Version {get_poestry_version()} !!!\n pushing")
+    print(subprocess.check_output(f"git push --follow-tags", shell=True))
