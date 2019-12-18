@@ -52,63 +52,29 @@ def test_ensure_update_matiere():
         assert loc == file
 
 
-def test_init_bind():
-    # memorry
+def test_init_bind_memory():
     ddb = Database()
     init_bind(ddb)
 
-    # file existe:
+def test_init_bind_file_exists(tmpfile):
     ddb = Database()
-    with tempfile.NamedTemporaryFile() as t:
-        init_bind(ddb, filename=t.name)
+    init_bind(ddb, filename=tmpfile)
 
-    # file does not exists, no create_db:
+
+def test_init_bind_file_exists_with_string(tmpfile):
     ddb = Database()
-    with tempfile.TemporaryDirectory() as t:
-        with pytest.raises(OSError):
-            init_bind(ddb, filename=Path(t, "mokmokmok"))
-
-    # file exists, no create_db:
-    ddb = Database()
-    with tempfile.NamedTemporaryFile() as t:
-        init_bind(ddb, filename=str(t.name))
-
-    # file does not exists,  create_db:
-    ddb = Database()
-    with tempfile.TemporaryDirectory() as t:
-        init_bind(ddb, filename=Path(t, "unexistentfile"), create_db=True)
-
-    # file  et prents dir does not exists
-    ddb = Database()
-    with tempfile.TemporaryDirectory() as t:
-        file = Path(t, "rien", "nouveau", "bla", "lieu", "base.ddb")
-        init_bind(ddb, filename=str(file), create_db=True)
+    init_bind(ddb, filename=str(tmpfile))
 
 
-def test_init_bind_file_exists(tmp_path):
-    ddb = Database()
-    file = tmp_path / "some_file"
-    file.touch()
-    init_bind(ddb, filename=file)
-
-
-def test_init_bind_file_exists_with_string(tmp_path):
-    ddb = Database()
-    file = tmp_path / "some_file"
-    file.touch()
-    init_bind(ddb, filename=str(file))
-
-
-def test_init_bind_file_no_exists_no_createdb(tmp_path):
+def test_init_bind_file_no_exists_no_createdb(tmpfilename):
     ddb = Database()
     with pytest.raises(OSError):
-        init_bind(ddb, filename=tmp_path / "unexistentfile")
+        init_bind(ddb, filename=tmpfilename)
 
 
-def test_init_bind_file_not_exists_create_db(tmp_path):
+def test_init_bind_file_not_exists_create_db(tmpfilename):
     ddb = Database()
-    file = tmp_path / "some_file"
-    init_bind(ddb, filename=file, create_db=True)
+    init_bind(ddb, filename=tmpfilename, create_db=True)
 
 
 def test_init_bind_file_and_parent_dir_does_not_exists(tmp_path):
@@ -117,11 +83,10 @@ def test_init_bind_file_and_parent_dir_does_not_exists(tmp_path):
     init_bind(ddb, filename=file, create_db=True)
 
 
-def test_init_database():
-    with tempfile.TemporaryDirectory() as t:
-        d = init_database(filename=Path(t, "unexistentfile"), create_db=True)
-        with db_session:
-            assert d.Matiere.exists(nom="Sciences")
+def test_init_database(tmpfilename):
+    d = init_database(filename=tmpfilename, create_db=True)
+    with db_session:
+        assert d.Matiere.exists(nom="Sciences")
 
 
 class TestItem:
