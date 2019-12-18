@@ -48,7 +48,7 @@ if __name__ == "__main__":
         .decode()
     )
 
-    print(f"updating doc with version {get_poestry_version()}")
+    print(f"updating doc with version {new_version}")
     update_doc_link(version, new_version)
 
     print(
@@ -58,6 +58,6 @@ if __name__ == "__main__":
 
     assert get_tag() == get_poestry_version()
 
-    print(f"Nouvelle Version {get_poestry_version()} !!!\n pushing")
+    print(f"Nouvelle Version {new_version} !!!\n pushing")
     print(subprocess.check_output(f"git push", shell=True).decode())
     print(subprocess.check_output(f"git push --tags", shell=True).decode())
