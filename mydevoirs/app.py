@@ -16,7 +16,7 @@ from pony.orm import OperationalError
 
 import mydevoirs.database
 from mydevoirs.database import init_database
-from mydevoirs.filepath_setting import SettingFilePath
+from mydevoirs.filepath_setting import SettingFilePath, SettingLabel
 from mydevoirs.settings import DEFAULT_SETTINGS, SETTING_PANELS
 from mydevoirs.utils import get_dir
 
@@ -76,6 +76,7 @@ class MyDevoirsApp(App):
 
     def build_settings(self, settings):
         settings.register_type("filepath", SettingFilePath)
+        settings.register_type("label", SettingLabel)
         for pan in SETTING_PANELS:
             settings.add_json_panel(pan[0], self.config, data=pan[1])
 
@@ -87,6 +88,9 @@ class MyDevoirsApp(App):
 
     def on_config_change_ddb(self, config, section, key, value):
         self._reload_app()
+
+    def on_config_change_aide(self, config, section, key, value):
+        pass  # pragma: no cover_all
 
     def get_application_config(self):
         return super().get_application_config(

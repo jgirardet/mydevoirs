@@ -15,6 +15,8 @@ a = Analysis(
         ("data/fonts/*.ttf", "data/fonts"),
         ("data/fonts/*.otf", "data/fonts"),
         ("logo.png", "."),
+        ("pyproject.toml", "."),
+        
     ],
     hiddenimports=[],
     hookspath=[],

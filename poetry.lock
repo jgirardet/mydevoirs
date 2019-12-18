@@ -284,7 +284,7 @@ python-versions = ">=2.6, !=3.0.*, !=3.1.*"
 version = "1.13.0"
 
 [[package]]
-category = "dev"
+category = "main"
 description = "Python Library for Tom's Obvious, Minimal Language"
 name = "toml"
 optional = false
@@ -320,7 +320,7 @@ version = "0.6.0"
 more-itertools = "*"
 
 [metadata]
-content-hash = "491a815b856a38e2b56e7e560ea73e5511cb8e06979d6a2d4988f3108da9412d"
+content-hash = "b6a27af17e335adff472fd6faca3a91d5ba7ae044512e39d0fa7caf6b76b4d78"
 python-versions = "^3.6"
 
 [metadata.hashes]

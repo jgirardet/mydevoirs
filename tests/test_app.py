@@ -141,6 +141,11 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
             str(Path.home() / "AppData" / "Local" / "MyDevoirs" / "settings.ini"),
         )
 
+    def test_homepage_as_url(self):
+        a = ConfigParser()
+        self.app.build_config(a)
+        assert a.get("aide", "aide") == "https://jgirardet.github.io/mydevoirs"
+
     def test_reset_database(self):
         app = MyDevoirsApp()
         with tempfile.NamedTemporaryFile() as t:

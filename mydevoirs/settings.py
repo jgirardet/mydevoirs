@@ -2,9 +2,21 @@ import json
 from pathlib import Path
 
 from mydevoirs.constants import DDB_FILENAME
-from mydevoirs.utils import get_dir
+from mydevoirs.utils import get_dir, get_base_dir
+import toml
+
+homepage = toml.load((get_base_dir() / "pyproject.toml").aname)["tool"]["poetry"][
+    "homepage"
+]
 
 AGENDA_PANEL = [
+    {"type": "title", "title": "Aide/À propos de MyDevoirs"},
+    {
+        "type": "label",
+        "title": f"\nDes questions ? Besoin d'aide ? Cliquez sur le lien :             ",
+        "section": "aide",
+        "key": "aide",
+    },
     {"type": "title", "title": "Jours à afficher"},
     {
         "type": "bool",
@@ -100,13 +112,6 @@ AGENDA_PANEL = [
     #     "key": "optionsexample",
     #     "options": ["option1", "option2", "option3"],
     # },
-    # {
-    #     "type": "string",
-    #     "title": "A string setting",
-    #     "desc": "String description text",
-    #     "section": "example",
-    #     "key": "stringexample",
-    # },
 ]
 
 
@@ -121,6 +126,7 @@ DEFAULT_SETTINGS = {
         "dimanche": 0,
     },
     "ddb": {"path": str(Path(get_dir("cache"), DDB_FILENAME))},
+    "aide": {"aide": homepage},
 }
 
 

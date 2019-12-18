@@ -3,10 +3,11 @@ from pathlib import Path
 
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.popup import Popup
-from kivy.uix.settings import SettingPath
+from kivy.uix.settings import SettingPath, SettingString, SettingItem
 from kivy_garden.filebrowser import FileBrowser
 
 from mydevoirs.ouinonpopup import OuiNonPopup
+import webbrowser
 
 
 """
@@ -70,3 +71,22 @@ class SettingFilePath(SettingPath):
         # construct the content
         content.add_widget(textinput)
         popup.open()
+
+
+class SettingLabel(SettingString):
+
+
+    def on_panel(self, instance, value):
+        self.fbind('on_release', self.open_url)
+
+    def open_url(self, *args):
+        webbrowser.open_new(self.value)
+
+    def _dismiss(self, *largs): # pragma: no cover_all
+        pass
+
+    def _validate(self, instance): # pragma: no cover_all
+        pass
+
+    def _create_popup(self, instance): # pragma: no cover_all
+        pass

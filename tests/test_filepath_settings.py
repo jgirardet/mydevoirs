@@ -3,8 +3,7 @@ from kivy.uix.settings import SettingsPanel
 from mydevoirs.filepath_setting import *
 
 from .fixtures import *
-
-# import tempfile
+from unittest.mock import patch, call
 
 
 class TestSettingFilePath(MyDevoirsTestCase):
@@ -75,3 +74,14 @@ class TestSettingFilePath(MyDevoirsTestCase):
         assert self.fp.textinput.path == self.T.file.aname
         assert not self.fp.textinput.dirselect
         assert self.fp.textinput.show_hidden
+
+
+class TestSettingLabel(MyDevoirsTestCase):
+    def test_base(self):
+        panel = SettingsPanel()
+        self.fp = SettingLabel(panel=panel)
+        self.fp.value = "some url"
+        with patch("mydevoirs.filepath_setting.webbrowser.open_new") as m:
+            self.fp.dispatch("on_release")
+            assert m.called
+            assert m.call_args_list == [call("some url")]

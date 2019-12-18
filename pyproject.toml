@@ -3,6 +3,9 @@ name = "mydevoirs"
 version = "0.6.3"
 description = ""
 authors = ["jgirardet <ijkl@netc.fr>"]
+readme = "README.md"
+homepage = "https://jgirardet.github.io/mydevoirs"
+repository = "https://github.com/jgirardet/mydevoirs"
 
 [tool.poetry.dependencies]
 python = "^3.6"
@@ -10,6 +13,7 @@ pony = "^0.7.11"
 appdirs = "^1.4.3"
 kivy = "1.11.1"
 "kivy-garden.filebrowser" = "^1.1.2"
+toml = "^0.10.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.0"
