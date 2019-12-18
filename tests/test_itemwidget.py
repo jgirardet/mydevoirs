@@ -194,7 +194,6 @@ class TestContentTextIput(MyDevoirsTestCase):
         f_item(jour=d.date)
         j = JourWidget(d.date)
         inp = j.items[0]
-        # print(Clock.get_events())
         self.render(j)
 
         # nouveau

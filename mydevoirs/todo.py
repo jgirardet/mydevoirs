@@ -23,7 +23,6 @@ class TodoItemWidget(ItemWidget):
         if self.loaded_flag:
             app = App.get_running_app()
             app.todo.reload()
-            print("ok", app)
 
 
 class Todo(Screen):

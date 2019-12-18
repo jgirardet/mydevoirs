@@ -118,7 +118,6 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
         option = ["bla", "cle", "value"]
         self.app.on_config_change(c, *option)
         assert self.app.on_config_change_bla.called
-        print(self.app.on_config_change_bla.call_arg)
         assert self.app.on_config_change_bla.call_args == call(c, *option)
 
     def test_on_config_change_agenda(self):
@@ -132,7 +131,6 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
         backup = self.app._reload_app
         self.app._reload_app = MagicMock()
         self.app.on_config_change_ddb(*[1, 2, 3, 4])
-        print(self.app._reload_app.call_args_list)
         assert self.app._reload_app.called
         self.app._reload_app = backup
 

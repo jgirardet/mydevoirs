@@ -85,7 +85,7 @@ class MyDevoirsTestCase(GraphicUnitTest):
 
         
 
-        print(f"durée: {(time.time()-self.debut_time)*1000}")
+        # print(f"durée: {(time.time()-self.debut_time)*1000}")
 
 
     def check_super_init(self, parent, enfant, *args, fn="__init__", **kwargs):
@@ -118,7 +118,6 @@ class MyDevoirsTestCase(GraphicUnitTest):
 
     def popup_click(self, choix):
         popup = self.window.children[0]
-        print(popup.title, choix)
         popup.content.ids[choix].trigger_action(0)
 
 

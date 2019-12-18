@@ -21,7 +21,6 @@ import pytest
 def test_init_update_matiere():
     """ in tests init_update_matiere already run
     so we check the result first"""
-    print(MATIERES.keys())
     with db_session:
         keys = set(select(b.nom for b in db.Matiere))
     assert set(MATIERES) == keys
@@ -84,6 +83,38 @@ def test_init_bind():
     with tempfile.TemporaryDirectory() as t:
         file = Path(t, "rien", "nouveau", "bla", "lieu", "base.ddb")
         init_bind(ddb, filename=str(file), create_db=True)
+
+
+def test_init_bind_file_exists(tmp_path):
+    ddb = Database()
+    file = tmp_path / "some_file"
+    file.touch()
+    init_bind(ddb, filename=file)
+
+
+def test_init_bind_file_exists_with_string(tmp_path):
+    ddb = Database()
+    file = tmp_path / "some_file"
+    file.touch()
+    init_bind(ddb, filename=str(file))
+
+
+def test_init_bind_file_no_exists_no_createdb(tmp_path):
+    ddb = Database()
+    with pytest.raises(OSError):
+        init_bind(ddb, filename=tmp_path / "unexistentfile")
+
+
+def test_init_bind_file_not_exists_create_db(tmp_path):
+    ddb = Database()
+    file = tmp_path / "some_file"
+    init_bind(ddb, filename=file, create_db=True)
+
+
+def test_init_bind_file_and_parent_dir_does_not_exists(tmp_path):
+    ddb = Database()
+    file = tmp_path / "some" / "sub" / "sub" / "dir" / "some_file"
+    init_bind(ddb, filename=file, create_db=True)
 
 
 def test_init_database():
