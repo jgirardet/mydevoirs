@@ -1,9 +1,10 @@
+from unittest.mock import call, patch
+
 from kivy.uix.settings import SettingsPanel
 
-from mydevoirs.filepath_setting import *
+from mydevoirs.custom_setting import *
 
 from .fixtures import *
-from unittest.mock import patch, call
 
 
 class TestSettingFilePath(MyDevoirsTestCase):
@@ -81,7 +82,7 @@ class TestSettingLabel(MyDevoirsTestCase):
         panel = SettingsPanel()
         self.fp = SettingLabel(panel=panel)
         self.fp.value = "some url"
-        with patch("mydevoirs.filepath_setting.webbrowser.open_new") as m:
+        with patch("mydevoirs.custom_setting.webbrowser.open_new") as m:
             self.fp.dispatch("on_release")
             assert m.called
             assert m.call_args_list == [call("some url")]

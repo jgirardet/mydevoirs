@@ -15,8 +15,8 @@ from kivy.uix.screenmanager import ScreenManager, SlideTransition
 from pony.orm import OperationalError
 
 import mydevoirs.database
+from mydevoirs.custom_setting import SettingFilePath, SettingLabel
 from mydevoirs.database import init_database
-from mydevoirs.filepath_setting import SettingFilePath, SettingLabel
 from mydevoirs.settings import DEFAULT_SETTINGS, SETTING_PANELS
 from mydevoirs.utils import get_dir
 

@@ -1,9 +1,10 @@
 import json
 from pathlib import Path
 
-from mydevoirs.constants import DDB_FILENAME
-from mydevoirs.utils import get_dir, get_base_dir
 import toml
+
+from mydevoirs.constants import DDB_FILENAME
+from mydevoirs.utils import get_base_dir, get_dir
 
 homepage = toml.load((get_base_dir() / "pyproject.toml").aname)["tool"]["poetry"][
     "homepage"
