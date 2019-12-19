@@ -96,7 +96,6 @@ class ContentTextInput(TextInput):
             dropdown = window.window.children[0]
             window.window.remove_widget(dropdown)
             self.parent.jour_widget.items[0].update_matiere(self.parent.matiere_nom)
-            print(window.window.children)
 
         # ctrl + m = matiere ?
         elif keycode[1] == "m" and "ctrl" in modifiers:

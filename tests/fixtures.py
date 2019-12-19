@@ -13,7 +13,6 @@ from pony.orm import db_session, delete
 
 from mydevoirs.constants import APP_NAME, MATIERES
 from mydevoirs.database import db
-from mydevoirs.itemwidget import ItemWidget
 from mydevoirs.utils import Path
 
 gen = Generic("fr")
@@ -53,41 +52,40 @@ def f_item(content=None, matiere=None, jour=None, done=None):
 
 class MyDevoirsTestCase(GraphicUnitTest):
 
-    # @classmethod
-    # def setUpClass(cls):
-    #     print(mydevoirs.database)
-
-    #     # mydevoirs.database.db = init_database()
-
-    ASYNC_TO_CLEAN = [str(ItemWidget._set_content).split()[1]]
-
-    def clean_async_calls(self):
-        for e in Clock.get_events():
-            for a in self.ASYNC_TO_CLEAN:
-                if a in str(e.callback):
-                    e.cancel()
+    TIMER = False
 
     def setUp(self, no_db=False):
         super().setUp()
-        self.T = TempFile()
 
-        self.debut_time = time.time()
         if not no_db:
             with db_session:
                 for entity in db.entities.values():
                     if entity.__name__ != "Matiere":
                         delete(e for e in entity)
 
+        self.T = TempFile()
+
         EventLoop.ensure_window()
         self.window = EventLoop.window
-        [self.window.remove_widget(x) for x in self.window.children]
+
+        if self.TIMER:
+            self.debut_time = time.time()
 
     def tearDown(self):
         super().tearDown()
-        # self.window.clear()
         self.T.cleanup()
+        self.unschedule_all()
+        self.clear_window()
+        if self.TIMER:
+            print(f"durée: {(time.time()-self.debut_time)*1000}")
 
-        # print(f"durée: {(time.time()-self.debut_time)*1000}")
+    def unschedule_all(self):
+        for e in Clock.get_events():
+            Clock.unschedule(e)
+
+    def clear_window(self):
+        self.window.clear()
+        [self.window.remove_widget(x) for x in self.window.children]
 
     def check_super_init(self, parent, enfant, *args, fn="__init__", **kwargs):
         module = self.__module__.split("_")[-1]
@@ -127,6 +125,28 @@ def platform_dispatcher(test, linux, windows):
         assert test == linux
     elif platform.system() == "Windows":  # pragma: no cover_linux
         assert test == windows
+
+
+# class NoGraphicTestCase(TestCase):
+
+#     def setUp(self):
+#         self.debut_time = time.time()
+
+#         EventLoop.ensure_window()
+#         self.window = EventLoop.window
+#         self.T = TempFile()
+
+#     def tearDown(self):
+#         self.T.cleanup()
+#         print(f"durée: {(time.time()-self.debut_time)*1000}")
+
+#     def click(self, widget):
+#         t = get_touch(widget)
+#         t.click()
+
+#     def popup_click(self, choix):
+#         popup = self.window.children[0]
+#         popup.content.ids[choix].trigger_action(0)
 
 
 class TempFile:

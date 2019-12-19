@@ -17,10 +17,6 @@ from .fixtures import *
 
 
 class ItemWidgetTestCase(MyDevoirsTestCase):
-    def tearDown(self):
-        super().tearDown()
-        self.clean_async_calls()
-
     def test_init(self):
         self.check_super_init("BoxLayout", ItemWidget, **f_item().to_dict())
 
@@ -44,13 +40,11 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
             item = ItemWidget(**dico)
             assert not item.update_matiere.called
 
-    def test_aaa_updatematiere(self):
-        # don't chage test name, I don't know why...
+    def test_updatematiere(self):
         a = f_item(matiere="Grammaire")
         item = ItemWidget(**a.to_dict())
 
         self.render(item)
-
         spin = item.ids.spinner
         spin.trigger_action(0)
 

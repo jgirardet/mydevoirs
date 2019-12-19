@@ -25,7 +25,6 @@ DATAS = {
     "icon_settings": "params.png",
     "icon_aide": "qmark.png",
     "font_base": "Verdana.ttf",
-    # "font_base": "OpenDyslexic-Bold.otf",
 }
 
 

@@ -1,5 +1,6 @@
 import pytest
 from kivy.lang import Builder
+from kivy.logger import LOG_LEVELS, Logger
 from mimesis import Generic
 
 import mydevoirs.database
@@ -12,6 +13,10 @@ generic_mimesis = Generic("fr")
 @pytest.fixture(scope="function")
 def gen(request):
     return generic_mimesis
+
+
+def pytest_configure(config):
+    Logger.setLevel(LOG_LEVELS["error"])
 
 
 def pytest_sessionstart():

@@ -93,7 +93,6 @@ class JourWidgetTestCase(MyDevoirsTestCase):
         assert len(jour.jouritem.children) == 3
         jour.ids.add_button.trigger_action(0)
 
-        print(jour.jouritem.children)
         assert len(jour.jouritem.children) == 4
         assert any(isinstance(x, DropDown) for x in self.Window.children)
         with db_session:
