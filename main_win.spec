@@ -13,7 +13,6 @@ a = Analysis(
         ("mydevoirs/*.kv", "mydevoirs"),
         ("data/icons/*.png", "data/icons"),
         ("data/fonts/*.ttf", "data/fonts"),
-        ("data/fonts/*.otf", "data/fonts"),
         ("logo.png", "."),
         ("pyproject.toml", "."),
         
