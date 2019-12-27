@@ -13,7 +13,7 @@ Mon fils a un ordinateur à l'école depuis le CM1. Nous avons essayé beaucoup 
 
 ## MyDevoirs c'est pour qui ?
 
-A priori les enfants qui ont beson d'un ordiateur à l'école donc les Dys en général.
+A priori les enfants qui ont besoin d'un ordiateur à l'école donc les Dys en général.
 
 ## Comment l'installer ?
 
