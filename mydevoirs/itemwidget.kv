@@ -1,7 +1,4 @@
-#: import gmc mydevoirs.utils.gmc
 #: import COLORS mydevoirs.constants.COLORS
-#: import MATIERES_TREE mydevoirs.constants.MATIERES_TREE
-#: import MATIERES mydevoirs.constants.MATIERES
 
 <ItemWidget>:
     size_hint_y: None
@@ -19,7 +16,7 @@
         text: root.matiere_nom
         on_release:
             MatiereDropdown().open(self)
-        background_color: gmc(self.text)
+        background_color: app.gmc(self.text)
         background_normal: '' # pragma: no cover
         color: COLORS["spinner_text_color"]
         size_hint_x: 0.4 # pragma: no cover
@@ -76,7 +73,7 @@
 <MatiereOption>:
     size_hint_y: None
     height: dp(20)
-    background_color: gmc(self.text)
+    background_color: app.gmc(self.text)
     background_normal: '' # pragma: no cover
     color: (0,0,0) # pragma: no cover
 

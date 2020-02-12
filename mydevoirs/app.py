@@ -12,13 +12,16 @@ from kivy.properties import ObjectProperty
 from kivy.uix.actionbar import ActionBar
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager, SlideTransition
+from kivy.utils import rgba
+
+from mydevoirs.constants import MATIERES_TREE
 from pony.orm import OperationalError
 
 import mydevoirs.database
 from mydevoirs.custom_setting import SettingFilePath, SettingLabel
 from mydevoirs.database import init_database
 from mydevoirs.settings import DEFAULT_SETTINGS, SETTING_PANELS
-from mydevoirs.utils import get_dir
+from mydevoirs.utils import get_dir, get_matiere_color, build_matieres
 
 
 class MyDevoirsApp(App):
@@ -32,13 +35,21 @@ class MyDevoirsApp(App):
     def __init__(self, *args, **kwargs):
 
         super().__init__(*args, **kwargs)
-
+        self.get_matieres()
         # Window.maximize()
+
+    def get_matieres(self):
+        """read settings for alternate matiere"""
+        res = None
+        self.MATIERES_TREE = res or MATIERES_TREE
+        self.MATIERES = build_matieres(self.MATIERES_TREE)
+
+
 
     def init_database(self):
         path = self.load_config()["ddb"]["path"]
         try:
-            mydevoirs.database.db = init_database(filename=path, create_db=True)
+            mydevoirs.database.db = init_database(self.MATIERES, filename=path, create_db=True)
         except OperationalError:
             self._reset_database()
 
@@ -125,3 +136,10 @@ class MyDevoirsApp(App):
         self.load_config()
         self.config.update({"ddb": {"path": default}})
         mydevoirs.database.db = init_database(filename=default, create_db=True)
+
+
+    def get_matiere_color(self, nom):
+        return get_matiere_color(nom, self.MATIERES)
+
+
+    gmc = get_matiere_color

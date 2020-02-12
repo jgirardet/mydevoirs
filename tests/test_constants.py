@@ -1,4 +1,4 @@
-from mydevoirs.constants import build_matiere
+from mydevoirs.matieres import build_matiere
 
 
 def test_buildmatiere():

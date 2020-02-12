@@ -5,7 +5,6 @@ from pathlib import Path
 import pytest
 from pony.orm import Database, db_session, select
 
-from mydevoirs.constants import MATIERES
 from mydevoirs.database import (
     db,
     ensure_database_directory,
@@ -17,9 +16,10 @@ from mydevoirs.database import (
 from .fixtures import f_item
 
 
-def test_init_update_matiere():
+def test_init_update_matiere( matieres_config):
     """ in tests init_update_matiere already run
     so we check the result first"""
+    MATIERES = matieres_config
     with db_session:
         keys = set(select(b.nom for b in db.Matiere))
     assert set(MATIERES) == keys
