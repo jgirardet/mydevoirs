@@ -11,9 +11,9 @@ from kivy.tests.common import GraphicUnitTest, UnitTestTouch
 from mimesis import Generic
 from pony.orm import db_session, delete
 
-from mydevoirs.constants import APP_NAME, MATIERES
+from mydevoirs.constants import APP_NAME,  MATIERES_TREE
 from mydevoirs.database import db
-from mydevoirs.utils import Path
+from mydevoirs.utils import Path, build_matieres
 
 gen = Generic("fr")
 
@@ -29,7 +29,7 @@ def get_touch(item):
 
 
 def f_matiere(matiere=None):
-    matiere = matiere or random.choice(list(MATIERES))
+    matiere = matiere or random.choice(list(build_matieres(MATIERES_TREE)))
     with db_session:
         return db.Matiere[matiere]
 

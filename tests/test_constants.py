@@ -1,6 +1,6 @@
+from mydevoirs.matieres import build_matiere
 from pathlib import Path
-
-from mydevoirs.constants import BASE_DIR, build_matiere
+from mydevoirs.constants import BASE_DIR
 
 
 def test_buildmatiere():

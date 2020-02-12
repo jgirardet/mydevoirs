@@ -2,12 +2,10 @@ from pathlib import Path
 
 from pony.orm import Database, db_session
 
-from mydevoirs.constants import MATIERES
-
 from .models import init_models
 
 
-def init_update_matiere(db, matieres=MATIERES):
+def init_update_matiere(db, matieres):
     with db_session():
         for k, v in matieres.items():
             if db.Matiere.exists(nom=k):
@@ -31,9 +29,9 @@ def init_bind(db, provider="sqlite", filename=":memory:", create_db=False, **kwa
     db.generate_mapping(create_tables=True)
 
 
-def init_database(**kwargs):
+def init_database(matieres, **kwargs):
     ddb = Database()
     init_models(ddb)
     init_bind(ddb, **kwargs)
-    init_update_matiere(ddb)
+    init_update_matiere(ddb, matieres)
     return ddb
