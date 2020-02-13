@@ -151,6 +151,7 @@ jobs:
     name: release github
     needs: [Test_linux, Test_windows]
     runs-on: ubuntu-latest
+    if: ! contains(github.ref, "vrefs")
     steps:
       - name: Download windows binary
         uses: actions/download-artifact@v1
