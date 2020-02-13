@@ -19,10 +19,14 @@ from pony.orm import db_session
 from mydevoirs.database import db
 from mydevoirs.utils import get_base_dir
 
+
 Builder.load_file(str(get_base_dir() / "mydevoirs" / "itemwidget.kv"))
 
 
+
 class ItemWidget(BoxLayout):
+
+
     content = StringProperty()
     done = BooleanProperty()
     matiere_nom = StringProperty()
@@ -79,7 +83,6 @@ class ItemWidget(BoxLayout):
         with db_session:
             db.Item[self.entry].delete()
         self.parent.remove_widget(self)
-
 
 class ContentTextInput(TextInput):
     def keyboard_on_key_down(self, window, keycode, text, modifiers):

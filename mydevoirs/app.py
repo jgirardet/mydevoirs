@@ -135,7 +135,7 @@ class MyDevoirsApp(App):
         self.config = None
         self.load_config()
         self.config.update({"ddb": {"path": default}})
-        mydevoirs.database.db = init_database(filename=default, create_db=True)
+        mydevoirs.database.db = init_database(self.MATIERES, filename=default, create_db=True)
 
 
     def get_matiere_color(self, nom):

@@ -9,7 +9,6 @@ from mydevoirs.datas import get_datas
 
 datas = get_datas()
 
-
 class Path(type(PythonPath())):
     @property
     def aname(self):
@@ -50,5 +49,7 @@ def get_matiere_color(nom, matiere):
 
 
 def get_base_dir():
+    print("dans get base dir")
     BASE_DIR = os.environ["MYDEVOIRS_BASE_DIR"]
+    print(BASE_DIR)
     return Path(BASE_DIR)

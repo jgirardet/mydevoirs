@@ -13,7 +13,7 @@ generic_mimesis = Generic("fr")
 
 @pytest.fixture()
 def matieres_config():
-    build_matieres(MATIERES_TREE)
+    return build_matieres(MATIERES_TREE)
 
 @pytest.fixture(scope="function")
 def gen(request):
@@ -26,7 +26,6 @@ def pytest_configure(config):
 
 def pytest_sessionstart():
     Builder.load_file("mydevoirs/mydevoirs.kv")
-   
     setup_start()
     mydevoirs.database.db = init_database(build_matieres(MATIERES_TREE))
 
