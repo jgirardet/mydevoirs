@@ -83,8 +83,8 @@ def test_init_bind_file_and_parent_dir_does_not_exists(tmp_path):
     init_bind(ddb, filename=file, create_db=True)
 
 
-def test_init_database(tmpfilename):
-    d = init_database(filename=tmpfilename, create_db=True)
+def test_init_database(tmpfilename, matieres_config):
+    d = init_database(matieres_config, filename=tmpfilename, create_db=True)
     with db_session:
         assert d.Matiere.exists(nom="Sciences")
 

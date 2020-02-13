@@ -21,11 +21,14 @@ from mydevoirs.database import db
 from mydevoirs.itemwidget import ItemWidget
 from mydevoirs.matieredropdown import MatiereDropdown
 
+print(ItemWidget, "dabs item widget")
 
 class AgendaItemWidget(ItemWidget):
     def __init__(self, **kwargs):
         self._jour_widget = None
+        print("vant super")
         super().__init__(**kwargs)
+        print("apres super")
 
     def on_done(self, *args):
         super().on_done(*args)

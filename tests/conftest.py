@@ -13,7 +13,7 @@ generic_mimesis = Generic("fr")
 
 @pytest.fixture()
 def matieres_config():
-    build_matieres(MATIERES_TREE)
+    return build_matieres(MATIERES_TREE)
 
 @pytest.fixture(scope="function")
 def gen(request):

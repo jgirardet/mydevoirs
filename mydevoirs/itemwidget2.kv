@@ -1,8 +1,9 @@
 #: import COLORS mydevoirs.constants.COLORS
+#: import MatiereDropdown mydevoirs.matieredropdown.MatiereDropdown
+#: import MatiereOption mydevoirs.matieredropdown.MatiereOption
 
 <ItemWidget>:
     size_hint_y: None
-    # height: dp(30)
     height: self.ids.textinput.minimum_height
     spacing: dp(5)
     canvas:
@@ -29,6 +30,7 @@
         shorten: True
         shorten_from: "right" # pragma: no cover
 
+
     ContentTextInput:
         id : textinput
         text: root.content
@@ -40,6 +42,7 @@
         font_name: datas['font_base']
         font_size: sp(14)
         # height: root.height * (len(self._lines)+1)
+
 
     ToggleButton:
         id: done
@@ -55,8 +58,9 @@
                 id: image_done
                 source: datas['icon_checked'] if root.done else datas['icon_unchecked']
 
+
     Button:
-        id: remove_item
+        id: remove_item 
         size_hint_x: 0.1 # pragma: no cover
         on_release: root.remove()
         background_color: (1, 1, 1, 0) # pragma: no cover
@@ -65,6 +69,8 @@
             size: self.parent.width*0.7, self.parent.height*0.7
             Image:
                 source: datas['icon_remove']
+
+
 
 <MatiereOption>:
     size_hint_y: None
