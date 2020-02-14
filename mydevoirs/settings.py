@@ -76,6 +76,14 @@ AGENDA_PANEL = [
         "section": "ddb",
         "key": "path",
     },
+    {"type": "title", "title": "Importer un fichier de configuration"},
+    {
+        "type": "filepath",
+        "title": "chemin du fichier",
+        "desc": "",
+        "section": "ddb",
+        "key": "file_config_path",
+    },
     # {
     #     "type": "numeric",
     #     "title": "Nombre de jour à afficher",
@@ -126,7 +134,8 @@ DEFAULT_SETTINGS = {
         "samedi": 0,
         "dimanche": 0,
     },
-    "ddb": {"path": str(Path(get_dir("cache"), DDB_FILENAME))},
+    "ddb": {"path": str(Path(get_dir("cache"), DDB_FILENAME))
+            ,"file_config_path": ""},
     "aide": {"aide": homepage},
 }
 
