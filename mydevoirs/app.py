@@ -6,13 +6,10 @@ from configparser import ConfigParser
 from pathlib import Path
 
 from kivy.app import App
-from kivy.core.window import Window
-from kivy.modules import inspector
 from kivy.properties import ObjectProperty
 from kivy.uix.actionbar import ActionBar
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager, SlideTransition
-from kivy.utils import rgba
 
 from mydevoirs.constants import MATIERES_TREE
 from pony.orm import OperationalError
@@ -37,7 +34,6 @@ class MyDevoirsApp(App):
 
         super().__init__(*args, **kwargs)
         self.get_matieres()
-        # Window.maximize()
 
     def get_matieres(self):
         """read settings for alternate matiere"""
@@ -68,7 +64,7 @@ class MyDevoirsApp(App):
         self.box = BoxLayout(orientation="vertical")
         self.box.add_widget(ActionBar())
         self.box.add_widget(self.sm)
-        inspector.create_inspector(Window, self.sm)
+        # inspector.create_inspector(Window, self.sm)
 
         return self.box
 
