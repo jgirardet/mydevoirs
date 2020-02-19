@@ -161,12 +161,13 @@ jobs:
         with:
           name: MyDevoirs
       - name: release git_hub
+        if: runner.os == 'Linux'
         uses: xresloader/upload-to-github-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           file: "MyDevoirs;MyDevoirs.exe"
           tags: true
-          draft: False
+          draft: true
           release_name: MyDevoirs v${{github.ref}}
-          tag_name: v${{github.ref}}
+          ##tag_name: v${{github.ref}}
