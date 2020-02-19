@@ -25,7 +25,7 @@ jobs:
       with:
         python-version: ${{matrix.python}}
     - name: Install common dependencies
-      run: python run.py install
+      run: poetry install
     - name: setup linux
       if: runner.os == 'Linux'
       run: |
