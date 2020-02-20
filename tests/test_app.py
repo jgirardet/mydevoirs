@@ -89,6 +89,7 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
     def test_build_config(self):
         config = ConfigParser()
         self.app.build_config(config)
+
         for section, values in DEFAULT_SETTINGS.items():
             for k, v in values.items():
                 if isinstance(v, int):
