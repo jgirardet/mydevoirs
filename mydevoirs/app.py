@@ -35,10 +35,11 @@ class MyDevoirsApp(App):
 
         super().__init__(*args, **kwargs)
         self.get_matieres()
+        print(self.get_application_config())
 
     def get_matieres(self):
         """read settings for alternate matiere"""
-        res = None
+        res = self._parse_matiere()
         self.MATIERES_TREE = res or MATIERES_TREE
         self.MATIERES = build_matieres(self.MATIERES_TREE)
 
@@ -47,8 +48,10 @@ class MyDevoirsApp(App):
         cp = ConfigParser()
         config_file = self.get_application_config()
         cp.read(config_file)
-        default = DEFAULT_SETTINGS["ddb"]["path"]
-        cp.update({"ddb": {"path": default}})
+        try:
+            print(cp.get('ddb').get('file_config_path'), "okmkmokmokmok")
+        except:
+            pass
 
 
     def init_database(self):
@@ -104,6 +107,7 @@ class MyDevoirsApp(App):
         self.go_agenda()
 
     def on_config_change_ddb(self, config, section, key, value):
+        print(config, section, key, value)
         self._reload_app()
 
     def on_config_change_aide(self, config, section, key, value):

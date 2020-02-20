@@ -85,7 +85,7 @@ class SettingCustomConfigFilePath(SettingPath):
         OuiNonPopup(
             title="Confirmer l'ajout du fichier de configuration  ?",
             on_oui=self._do_yes,
-            on_non=self._do_no,
+            on_non=self._dismiss,
         )
 
     def _do_yes(self, *args):
@@ -119,6 +119,7 @@ class SettingCustomConfigFilePath(SettingPath):
             on_oui=do_yes,
             on_non=do_no,
         )
+        self._dismiss()
 
     def _create_popup(self, instance):
         # create popup layout
@@ -135,7 +136,7 @@ class SettingCustomConfigFilePath(SettingPath):
         )
         textinput.bind(on_success=self._validate)
         textinput.bind(on_submit=self._validate)
-        textinput.bind(on_canceled=self._dismiss)
+        textinput.bind(on_canceled=self._do_no)
 
         # construct the content
         content.add_widget(textinput)

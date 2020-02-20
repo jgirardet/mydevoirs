@@ -100,15 +100,13 @@ class TestSettingCustomConfigFilePath(MyDevoirsTestCase):
         del fp_popup
     #
     def test_ne_rien_changeer(self):
-        self.fp.textinput.dispatch("on_success")
-        self.popup_click("non")
+        self.fp.textinput.dispatch("on_canceled")
         self.popup_click("non")
         # assert self.fp.value == ""
         assert self.fp.value == self.T.file.aname
 
     def test_effacer_fichier_config(self):
-        self.fp.textinput.dispatch("on_success")
-        self.popup_click("non")
+        self.fp.textinput.dispatch("on_canceled")
         self.popup_click("oui")
         assert self.fp.value == ""
 
