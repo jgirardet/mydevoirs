@@ -1,3 +1,4 @@
+import json
 import os
 import platform
 import subprocess
@@ -38,17 +39,22 @@ class MyDevoirsApp(App):
         """read settings for alternate matiere"""
         res = self._parse_matiere()
         self.MATIERES_TREE = res or MATIERES_TREE
+        print(self.MATIERES_TREE)
         self.MATIERES = build_matieres(self.MATIERES_TREE)
-        print("din get matiere")
 
     def _parse_matiere(self):
         cp = ConfigParser()
         config_file = self.get_application_config()
         cp.read(config_file)
-        try:
-            print(cp.get('ddb').get('file_config_path'), "okmkmokmokmok")
-        except:
-            pass
+        filename = cp.get('ddb', 'file_config_path')
+        if filename:
+            print(filename)
+            with open(filename) as fd:
+                res = json.load(fd)
+                print(res)
+                return res
+        return None
+
 
 
     def init_database(self):
