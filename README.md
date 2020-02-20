@@ -105,8 +105,32 @@ IL EST DONC IMPORTANT, POUR UN MÊME FICHIER SYNCHRONISÉ, DE N'OUVRIR MYDEVOIRS
 
  - et voilà MyDevoirs va redémarrer depuis nouvelle base de donnée.
 
+## Comment définir des couleurs personnalisées ?
 
+Pensez bien à sauvegarder vos données ailleurs. Le changement de configuration peut rendre l'ancienne base inutilisable.
+En cas de problème, il faut effacer la base existante ou choisir un nouveau fichier de configuration (cf synchro).
 
+ - tout d'abord cliquer dans la zone `importer un fichier de configuration` dans les paramètres :
+
+ ![clickmenu](docs/import_file_config/0.png)
+ 
+ - puis sélectionner le fichier et confirmer.
+ 
+ ![clickmenu](docs/import_file_config/2.png)
+
+ 
+ 
+Pour annuler la sélection du  fichier de configuration :
+
+ - tout d'abord cliquer dans la zone `importer un fichier de configuration` dans les paramètres :
+ 
+ ![clickmenu](docs/import_file_config/1.png)
+ 
+ - puis cliquer sur `Cancel` et confirmer son choix.
+ 
+ ![clickmenu](docs/import_file_config/3.png)
+
+ 
 
 ## MyDevoirs c'est gratuit ?
 
