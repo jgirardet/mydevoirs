@@ -1,4 +1,6 @@
 import os
+import sys
+import tempfile
 from pathlib import Path as PythonPath
 
 import appdirs
@@ -14,11 +16,17 @@ class Path(type(PythonPath())):
     def aname(self):
         return str(self.absolute())
 
+_temppath=None
 
-def get_dir(key):
-
+def get_dir(key, disable_debug=False):
     # test config dir
-    dire = Path(getattr(appdirs, "user_" + key + "_dir")(), APP_NAME)
+    global _temppath
+    if DEBUG and not disable_debug:
+        temppath = _temppath or Path(tempfile.TemporaryDirectory().name)
+        _temppath = temppath
+        dire = temppath / key /APP_NAME
+    else:
+        dire = Path(getattr(appdirs, "user_" + key + "_dir")(), APP_NAME)
     if not dire.is_dir():
         dire.mkdir(parents=True)
     return dire
@@ -49,7 +57,13 @@ def get_matiere_color(nom, matiere):
 
 
 def get_base_dir():
-    print("dans get base dir")
     BASE_DIR = os.environ["MYDEVOIRS_BASE_DIR"]
-    print(BASE_DIR)
     return Path(BASE_DIR)
+
+
+def is_debug():
+    print("syshastrfroszen",hasattr(sys, 'frozen' ))
+    return not (hasattr(sys, 'frozen') and hasattr(sys, '_MEIPASS'))
+
+DEBUG = is_debug()
+print("DEBUG MODE : ", DEBUG)

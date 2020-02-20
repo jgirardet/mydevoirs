@@ -78,7 +78,7 @@ AGENDA_PANEL = [
     },
     {"type": "title", "title": "Importer un fichier de configuration"},
     {
-        "type": "filepath",
+        "type": "configfilepath",
         "title": "chemin du fichier",
         "desc": "",
         "section": "ddb",
@@ -124,6 +124,10 @@ AGENDA_PANEL = [
 ]
 
 
+import mydevoirs.utils
+
+print("DEBUG dans seetings", mydevoirs.utils.DEBUG)
+
 DEFAULT_SETTINGS = {
     "agenda": {
         "lundi": 1,
@@ -134,7 +138,7 @@ DEFAULT_SETTINGS = {
         "samedi": 0,
         "dimanche": 0,
     },
-    "ddb": {"path": str(Path(get_dir("cache"), DDB_FILENAME))
+    "ddb": {"path": str(get_dir("cache") / DDB_FILENAME)
             ,"file_config_path": ""},
     "aide": {"aide": homepage},
 }

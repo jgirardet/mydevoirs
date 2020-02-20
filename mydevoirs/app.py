@@ -15,10 +15,10 @@ from mydevoirs.constants import MATIERES_TREE
 from pony.orm import OperationalError
 
 import mydevoirs.database
-from mydevoirs.custom_setting import SettingFilePath, SettingLabel
+from mydevoirs.custom_setting import SettingFilePath, SettingLabel, SettingCustomConfigFilePath
 from mydevoirs.database import init_database
 from mydevoirs.settings import DEFAULT_SETTINGS, SETTING_PANELS
-from mydevoirs.utils import get_dir, get_matiere_color, build_matieres
+from mydevoirs.utils import get_dir, get_matiere_color, build_matieres, DEBUG
 
 
 class MyDevoirsApp(App):
@@ -33,13 +33,21 @@ class MyDevoirsApp(App):
 
         super().__init__(*args, **kwargs)
         self.get_matieres()
+        print(self.get_application_config())
 
     def get_matieres(self):
         """read settings for alternate matiere"""
-        res = None
+        res = self._parse_matiere()
         self.MATIERES_TREE = res or MATIERES_TREE
         self.MATIERES = build_matieres(self.MATIERES_TREE)
 
+    def _parse_matiere(self):
+        print(self.config, "dans parser matier")
+        cp = ConfigParser()
+        config_file = self.get_application_config()
+        cp.read(config_file)
+        default = DEFAULT_SETTINGS["ddb"]["path"]
+        cp.update({"ddb": {"path": default}})
 
 
     def init_database(self):
@@ -83,6 +91,7 @@ class MyDevoirsApp(App):
 
     def build_settings(self, settings):
         settings.register_type("filepath", SettingFilePath)
+        settings.register_type("configfilepath", SettingCustomConfigFilePath)
         settings.register_type("label", SettingLabel)
         for pan in SETTING_PANELS:
             settings.add_json_panel(pan[0], self.config, data=pan[1])
@@ -99,9 +108,9 @@ class MyDevoirsApp(App):
     def on_config_change_aide(self, config, section, key, value):
         pass  # pragma: no cover_all
 
-    def get_application_config(self):
+    def get_application_config(self, disable_debug=None):
         return super().get_application_config(
-            str(Path(get_dir("config"), "settings.ini").absolute())
+            str(Path(get_dir("config", disable_debug=disable_debug), "settings.ini").absolute())
         )
 
     def _reload_app(self):
