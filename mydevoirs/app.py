@@ -42,22 +42,19 @@ class MyDevoirsApp(App):
         """read settings for alternate matiere"""
         res = self._parse_matiere()
         self.MATIERES_TREE = res or MATIERES_TREE
-        print(self.MATIERES_TREE)
         self.MATIERES = build_matieres(self.MATIERES_TREE)
 
     def _parse_matiere(self):
         print(self.config, "dans parser matier")
         cp = ConfigParser()
         config_file = self.get_application_config()
+        print(config_file)
         cp.read(config_file)
         filename = cp.get('ddb', 'file_config_path')
         if filename:
-            print(filename)
             with open(filename) as fd:
                 res = json.load(fd)
-                print(res)
                 return res
-        return None
 
 
 
