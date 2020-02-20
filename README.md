@@ -148,3 +148,10 @@ MyDevoirs est un logiciel libre (la code source est disponible) sous licence GPL
 ## Remeciements
 
 Je remercie tous les gens impliqués dans la réalisation des technologies utlisées et plus particuliérement l'équipe de dévelopeurs de [Kivy](https://www.kivy.org) et [Ponyorm](https://ponyorm.org) pour leur disponibilité pour repondre aux questions.
+
+## ChangeLog
+
+- 0.7.0 :
+    - ajout du lien d'aide
+    - ajout de de la personalisation des couleurs et des matières.
+    -  dev : ajout d'un mode debug et test pour ne pas mélanger les fichiers de configuration et la ddb.

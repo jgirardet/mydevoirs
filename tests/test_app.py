@@ -1,4 +1,5 @@
 import datetime
+import json
 import platform
 import tempfile
 from pathlib import Path
@@ -179,35 +180,20 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
             assert app.config["ddb"]["path"] == DEFAULT_SETTINGS["ddb"]["path"]
             assert cp["agenda"]["lundi"] == app.config["agenda"]["lundi"]
 
-    # def test_parse_matiere(self):
-    #         app = MyDevoirsApp()
-    #         with tempfile.NamedTemporaryFile() as t:
-    #             t.close()  # windows need it**********************
-    #             app.get_application_config = lambda: t.name
-    #             text = """[agenda]
-    #     lundi = 0
-    #     mardi = 1
-    #     mercredi = 0
-    #     jeudi = 1
-    #     vendredi = 1
-    #     samedi = 0
-    #     dimanche = 1
-    #
-    #     [ddb]
-    #     path = /mauvais/repo
-    #
-    #     """
-    #             Path(t.name).write_text(text)
-    #             cp = ConfigParser()
-    #             cp.read(t.name)
-    #             assert cp.sections() == ["agenda", "ddb"]
-    #             assert cp["ddb"]["path"] == "/mauvais/repo"
-    #             app._reset_database()
-    #             cp = ConfigParser()
-    #             cp.read(t.name)
-    #             assert cp["ddb"]["path"] == DEFAULT_SETTINGS["ddb"]["path"]
-    #             assert app.config["ddb"]["path"] == DEFAULT_SETTINGS["ddb"]["path"]
-    #             assert cp["agenda"]["lundi"] == app.config["agenda"]["lundi"]
+    def test_parse_matiere(self):
+            class MyDevoirsAppMock(MyDevoirsApp):
+                pass
+
+            with tempfile.NamedTemporaryFile() as t:
+                MyDevoirsAppMock.get_application_config = lambda x: t.name
+                app = MyDevoirsAppMock()
+                t.close()  # windows need it**********************
+                text = f"""[ddb]
+                    file_config_path = {str(Path(__file__).parent / "matieres.json")}"""
+                Path(t.name).write_text(text)
+
+                assert self.MATIERES_TREE == json.loads(t.name)
+
 
     def test_init_database(self):
         app = MyDevoirsApp()
