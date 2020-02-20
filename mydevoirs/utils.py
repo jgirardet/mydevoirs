@@ -47,14 +47,14 @@ def get_dir(key, disable_debug=False):
 def build_matieres(tree):
         mat = {}
         for k, v in tree.items():
-            if isinstance(v, tuple):
-                mat[k] = v
+            if isinstance(v, (tuple, list)):
+                mat[k] = tuple(v)
             else:
                 # base = None
                 for x, y in v.items():
                     if not mat.get(k, None):
-                        mat[k] = y
-                    mat[x] = y
+                        mat[k] = tuple(y)
+                    mat[x] = tuple(y)
         return mat
 
 def get_matiere_color(nom, matiere):

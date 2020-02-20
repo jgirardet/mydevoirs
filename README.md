@@ -110,7 +110,16 @@ IL EST DONC IMPORTANT, POUR UN MÊME FICHIER SYNCHRONISÉ, DE N'OUVRIR MYDEVOIRS
 Pensez bien à sauvegarder vos données ailleurs. Le changement de configuration peut rendre l'ancienne base inutilisable.
 En cas de problème, il faut effacer la base existante ou choisir un nouveau fichier de configuration (cf synchro).
 
- - tout d'abord cliquer dans la zone `importer un fichier de configuration` dans les paramètres :
+ - tout d'abord, il faut créer un fichier de configuration au format `json`. C'est assez simple il suffit de partir du model et de changer,
+  les sections, les matières et les couleurs.
+    - pour les couleurs : elle sont au format RGB et peuvent être obtenues ici : [W3 School color](https://www.w3schools.com/colors/colors_picker.asp).
+    - attention en json chaque dernier élément d'une liste ne doit pas avoir de virgule (
+    dans l'exemple c visible pour vocabulaire, géometrie, divers). C'est une erreur classique.
+    - pour vérifier que le fichier est bien valide : le tester sur [jsonChecker](https://jsonchecker.com/) afin d'être sûr
+    que tout est bon. 
+    - sauvergarder votre fichier dans une endroit qui ne changera pas.
+
+ - puis dans la zone `importer un fichier de configuration` dans les paramètres :
 
  ![clickmenu](docs/import_file_config/0.png)
  
