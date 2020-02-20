@@ -33,21 +33,22 @@ class MyDevoirsApp(App):
 
         super().__init__(*args, **kwargs)
         self.get_matieres()
-        print(self.get_application_config())
 
     def get_matieres(self):
         """read settings for alternate matiere"""
         res = self._parse_matiere()
         self.MATIERES_TREE = res or MATIERES_TREE
         self.MATIERES = build_matieres(self.MATIERES_TREE)
+        print("din get matiere")
 
     def _parse_matiere(self):
-        print(self.config, "dans parser matier")
         cp = ConfigParser()
         config_file = self.get_application_config()
         cp.read(config_file)
-        default = DEFAULT_SETTINGS["ddb"]["path"]
-        cp.update({"ddb": {"path": default}})
+        try:
+            print(cp.get('ddb').get('file_config_path'), "okmkmokmokmok")
+        except:
+            pass
 
 
     def init_database(self):
@@ -103,6 +104,7 @@ class MyDevoirsApp(App):
         self.go_agenda()
 
     def on_config_change_ddb(self, config, section, key, value):
+        print(config, section, key, value)
         self._reload_app()
 
     def on_config_change_aide(self, config, section, key, value):
@@ -115,16 +117,16 @@ class MyDevoirsApp(App):
 
     def _reload_app(self):
         exec_app = [sys.executable]
-        if not hasattr(sys, "frozen") or not hasattr(sys, "_MEIPASS"):
+        if DEBUG:
             main_path = Path(os.environ["MYDEVOIRS_BASE_DIR"], sys.argv[0])
             exec_app.append(str(main_path))
 
-        startupinfo = None
-        if platform.system() == "Windows":  # pragma: no cover_linux
-            startupinfo = subprocess.STARTUPINFO()
-            startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-
-        subprocess.Popen(exec_app, startupinfo=startupinfo)
+        # startupinfo = None
+        # if platform.system() == "Windows":  # pragma: no cover_linux
+        #     startupinfo = subprocess.STARTUPINFO()
+        #     startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+        subprocess.run(exec_app)
+        # subprocess.Popen(exec_app, startupinfo=startupinfo)
         self.stop()
 
     def _reset_database(self):

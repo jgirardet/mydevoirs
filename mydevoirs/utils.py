@@ -19,14 +19,27 @@ class Path(type(PythonPath())):
 _temppath=None
 
 def get_dir(key, disable_debug=False):
-    # test config dir
+
     global _temppath
-    if DEBUG and not disable_debug:
+
+    def default():
+        return Path(getattr(appdirs, "user_" + key + "_dir")(), APP_NAME)
+
+    if disable_debug:
+        dire = default()
+    elif os.environ.get("PYTEST_CURRENT_TEST", None):
+        # if DEBUG and not disable_debug:
         temppath = _temppath or Path(tempfile.TemporaryDirectory().name)
         _temppath = temppath
         dire = temppath / key /APP_NAME
+    elif DEBUG:
+        _temppath = Path(Path(tempfile.gettempdir()) / "mydevoirs_debug")
+        if not _temppath.exists():
+            _temppath.mkdir()
+        dire = _temppath / key /APP_NAME
     else:
-        dire = Path(getattr(appdirs, "user_" + key + "_dir")(), APP_NAME)
+        dire = default()
+
     if not dire.is_dir():
         dire.mkdir(parents=True)
     return dire
@@ -62,7 +75,6 @@ def get_base_dir():
 
 
 def is_debug():
-    print("syshastrfroszen",hasattr(sys, 'frozen' ))
     return not (hasattr(sys, 'frozen') and hasattr(sys, '_MEIPASS'))
 
 DEBUG = is_debug()

@@ -126,7 +126,6 @@ AGENDA_PANEL = [
 
 import mydevoirs.utils
 
-print("DEBUG dans seetings", mydevoirs.utils.DEBUG)
 
 DEFAULT_SETTINGS = {
     "agenda": {
