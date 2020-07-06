@@ -52,11 +52,11 @@ jobs:
         briefcase create
         briefcase build
     - name: upload  on ${{ matrix.os }} binary in artifact
-        if: runner.os == 'Linux'
-        uses: actions/upload-artifact@v1
-        with:
-          path: linux
-          name: MyDevoirs-${{runner.os}}64
+      if: runner.os == 'Linux'
+      uses: actions/upload-artifact@v1
+      with:
+        path: linux
+        name: MyDevoirs-${{runner.os}}64
 #
 #  Windows:
 #    runs-on: ${{ matrix.os }}
