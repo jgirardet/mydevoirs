@@ -6,7 +6,6 @@ from kivy.config import ConfigParser
 from kivy.lang import Builder
 from kivy.uix.dropdown import DropDown
 
-from mydevoirs.utils import get_base_dir
 
 from mydevoirs.agenda import (
     Agenda,

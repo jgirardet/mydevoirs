@@ -32,15 +32,6 @@ def test_get_dir():
 
 def test_DEBUG():
     assert  DEBUG
-    import mydevoirs.utils
-    with patch.object(mydevoirs.utils, "sys") as m:
-        sys.frozen = True
-        assert not mydevoirs.utils.is_debug()
-        sys._MEIPASS = True
-        assert not mydevoirs.utils.is_debug()
-        del sys.frozen
-        assert not mydevoirs.utils.is_debug()
-
 
 
 def test_buildmatiere():

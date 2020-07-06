@@ -1,3 +1,4 @@
+import configparser
 import json
 import os
 import platform
@@ -50,11 +51,13 @@ class MyDevoirsApp(App):
         config_file = self.get_application_config()
         print(config_file)
         cp.read(config_file)
-        filename = cp.get('ddb', 'file_config_path')
-        if filename:
+
+        if filename := cp.get('ddb', 'file_config_path', fallback=None):
             with open(filename) as fd:
                 res = json.load(fd)
                 return res
+        else:
+            return {}
 
 
 

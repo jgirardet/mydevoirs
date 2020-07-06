@@ -188,10 +188,10 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
                 MyDevoirsAppMock.get_application_config = lambda x: t.name
                 app = MyDevoirsAppMock()
                 t.close()  # windows need it**********************
-                text = f'[ddb]\nfile_config_path = {str(Path(__file__).parent / "matieres.json")}'
+                json_file = str(Path(__file__).parent / "matieres.json")
+                text = f'[ddb]\nfile_config_path = {json_file}'
                 Path(t.name).write_text(text)
-
-                assert self.MATIERES_TREE == json.loads(t.name)
+                assert app._parse_matiere() == json.load(open(json_file))
 
 
     def test_init_database(self):

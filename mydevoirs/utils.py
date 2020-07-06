@@ -67,3 +67,4 @@ def get_matiere_color(nom, matiere):
 # 
 # gmc = get_matiere_color
 
+DEBUG= True

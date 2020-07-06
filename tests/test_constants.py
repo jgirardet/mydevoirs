@@ -1,4 +1,4 @@
-from mydevoirs.matieres import build_matiere
+from mydevoirs.utils import build_matieres
 from pathlib import Path
 from mydevoirs.constants import BASE_DIR
 
@@ -40,7 +40,7 @@ def test_buildmatiere():
         "Divers": (232, 120, 221),
     }
 
-    assert res == build_matiere(tree)
+    assert res == build_matieres(tree)
 
 
 def test_base_dir():

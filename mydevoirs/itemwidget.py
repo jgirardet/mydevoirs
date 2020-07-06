@@ -18,7 +18,6 @@ from pony.orm import db_session
 
 from mydevoirs.constants import BASE_DIR
 from mydevoirs.database import db
-from mydevoirs.utils import get_base_dir
 
 Builder.load_file(str(BASE_DIR / "itemwidget.kv"))
 
