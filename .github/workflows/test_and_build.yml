@@ -1,6 +1,6 @@
 name: test et build
 
-on: [push, pull_request]
+on: [pull_request]
 
 env:
   CODECOV_TOKEN: b12c1d6f-032c-40bf-ab16-3cc301e48115
