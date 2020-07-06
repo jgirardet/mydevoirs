@@ -190,7 +190,7 @@ class TestCaroussel(MyDevoirsTestCase):
         assert c.slides[1].day == datetime.date(2015, 12, 11)
         assert c.slides[2].day == datetime.date(2015, 12, 18)
 
-    def test_on_index(self):
+    def test_on_index_1(self):
         """Carousel slides values:
             0: gauche
             1: centre
@@ -199,40 +199,37 @@ class TestCaroussel(MyDevoirsTestCase):
 
         d = datetime.date(2015, 12, 11)
         c = CarouselWidget(day=d)
-
         un, deux, trois = c.slides
+        print()
+        print(c.slides)
         # in the middle, no move
         c.on_index(None, 1)
+        assert c.index == 1
         assert c.slides == [un, deux, trois]
-        assert len(c.slides) == 3
 
-        # go right/previous
+    def test_on_index_0(self):
+
+        d = datetime.date(2015, 12, 11)
+        c = CarouselWidget(day=d)
+        un, deux, trois = c.slides
+
         c.on_index(None, 0)
-        assert c.slides[1:3] == [un, deux]
-        assert len(c.slides) == 3
 
         quatre = c.slides[0]
+        assert c.slides == [quatre, un, deux]
+        assert len(c.slides) == 3
 
-        # then left/after
+    def test_on_index_2(self):
+        # d = datetime.date(2015, 12, 11)
+        d = datetime.date(2020, 7, 6)
+        c = CarouselWidget(day=d)
+        un, deux, trois = c.slides
+
         c.on_index(None, 2)
-        assert c.slides[0:2] == [un, deux]
-        cinq = c.slides[2]
-        assert trois.day == cinq.day
-        assert len(c.slides) == 3
 
-        # then left/after
-        c.on_index(None, 2)
-        assert c.slides[0:2] == [deux, cinq]
+        quatre = c.slides[2]
+        assert c.slides == [deux, trois, quatre]
         assert len(c.slides) == 3
-
-        # two times right previous
-        c.on_index(None, 0)
-        c.on_index(None, 0)
-        assert c.slides[2] == deux
-        assert len(c.slides) == 3
-        for i, j in zip(range(3), [quatre, un, deux]):
-            assert c.slides[i].day == j.day
-
 
 class TestAgendaScreen(MyDevoirsTestCase):
     def test_init(self):

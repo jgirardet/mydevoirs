@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from mydevoirs.constants import build_matiere, BASE_DIR
+from mydevoirs.constants import BASE_DIR, build_matiere
 
 
 def test_buildmatiere():
@@ -44,4 +44,4 @@ def test_buildmatiere():
 
 
 def test_base_dir():
-        assert BASE_DIR == Path(__file__).parents[1] / "mydevoirs"
+    assert BASE_DIR == Path(__file__).parents[1] / "mydevoirs"

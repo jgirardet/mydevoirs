@@ -9,7 +9,6 @@ from kivy_garden.filebrowser import FileBrowser
 
 from mydevoirs.ouinonpopup import OuiNonPopup
 
-
 """
 SettingsPath using  Filebrowser instead Filechooser
 """

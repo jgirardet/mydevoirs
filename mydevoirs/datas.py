@@ -3,7 +3,6 @@ from pathlib import Path
 
 from mydevoirs.constants import BASE_DIR
 
-
 """
 On dispatch les datas sous la forme :
     type_nom : "nom_du_fichier"
@@ -36,5 +35,5 @@ def get_datas():
 
         genre, nom = k.split("_")
         res[k] = os.path.join(BASE_DIR, "data", genre + "s", v)
-        res[k] = str(BASE_DIR/"data"/(genre +  "s")/ v)
+        res[k] = str(BASE_DIR / "data" / (genre + "s") / v)
     return res

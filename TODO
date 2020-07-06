@@ -6,5 +6,3 @@ utile
 	autocomplete
 secondaire
 	clœavier : entre jours
-	use app.directory plutot que MY_ENV_DIR
-	upx: à voir sur windows, même taille sous linux

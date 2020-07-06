@@ -3,12 +3,12 @@ Ceci correspond à des tests sur l'exécutable final.
 Puisqu'ils peuvent modifier le fichiers utilsateurs
 il faut les utiliser qu'en intégration continue
 """
-
-import subprocess
-import platform
 import logging
+import platform
+import subprocess
 import sys
 from pathlib import Path
+
 from appdirs import user_cache_dir
 
 logging.basicConfig()

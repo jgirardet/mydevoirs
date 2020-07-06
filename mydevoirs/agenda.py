@@ -98,8 +98,15 @@ class JourWidget(BoxLayout):
 
 
 class BaseGrid(GridLayout):
-
     number_to_show = NumericProperty()
+
+    def __init__(self, day=None):
+        self.day = day or datetime.date.today()
+        super().__init__(cols=2)
+        self.build_grid(self.get_days_to_show())
+
+    def __repr__(self):
+        return f"BaseGrid : {self.day}"
 
     def get_week_days(self, jours):
         days = [
@@ -120,17 +127,12 @@ class BaseGrid(GridLayout):
         for d in self.get_week_days(jours):
             self.add_widget(JourWidget(d))
 
-    def __init__(self, day=None):
-        super().__init__(cols=2)
-        self.day = day or datetime.date.today()
-        self.build_grid(self.get_days_to_show())
-
 
 class CarouselWidget(Carousel):
     def __init__(self, day=None):
         self.date = day or datetime.date.today()
+        self._removing = False
         super().__init__()
-
         self.add_widget(BaseGrid(self.date - datetime.timedelta(weeks=1)))
         self.add_widget(BaseGrid(self.date))
         self.add_widget(BaseGrid(self.date + datetime.timedelta(weeks=1)))
@@ -138,6 +140,8 @@ class CarouselWidget(Carousel):
         self.index = 1
 
     def on_index(self, *args):
+        if self._removing:
+            return
 
         super().on_index(*args)
 
@@ -146,26 +150,28 @@ class CarouselWidget(Carousel):
         if index == 1:
             return
 
+            # else:
+        sens = 0 if index else -1
+
+        # can't remove the if statement/don't why.
+        if index:
+            # build right
+            self.add_widget(
+                BaseGrid(self.slides[index].day + datetime.timedelta(weeks=1)), sens
+            )
+            self._removing = True
+            self.remove_widget(self.slides[sens])
+
         else:
-            sens = 0 if index else -1
-
-            # can't remove the if statement/don't why.
-            if index:
-                # build right
-                self.add_widget(
-                    BaseGrid(self.slides[index].day + datetime.timedelta(weeks=1)), sens
-                )
-                self.remove_widget(self.slides[sens])
-
-            else:
-                # build left
-                self.add_widget(
-                    BaseGrid(self.slides[index].day - datetime.timedelta(weeks=1)), sens
-                )
-                self.remove_widget(self.slides[sens])
+            # build left
+            self.add_widget(
+                BaseGrid(self.slides[index].day - datetime.timedelta(weeks=1)), sens
+            )
+            self.remove_widget(self.slides[sens])
 
         self.index = 1
         self.date = self.current_slide.day
+        self._removing = False
 
 
 class Agenda(Screen):

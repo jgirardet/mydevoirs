@@ -1,7 +1,6 @@
-import mydevoirs.app as m_app
-from mydevoirs.main import *
+from mydevoirs import app as m_app
 from mydevoirs.database import init_database as m_init_database
-
+from mydevoirs.main import *
 
 
 def test_do_import():

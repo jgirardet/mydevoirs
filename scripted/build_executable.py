@@ -1,9 +1,10 @@
-import platform
-from pathlib import Path
-import PyInstaller.__main__
-import shutil
 import logging
 import os
+import platform
+import shutil
+from pathlib import Path
+
+import PyInstaller.__main__
 
 logging.basicConfig()
 LOG = logging.getLogger(__name__)

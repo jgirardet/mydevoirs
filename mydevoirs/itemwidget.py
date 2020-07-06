@@ -19,7 +19,7 @@ from pony.orm import db_session
 from mydevoirs.constants import BASE_DIR
 from mydevoirs.database import db
 
-Builder.load_file(str(BASE_DIR/"itemwidget.kv"))
+Builder.load_file(str(BASE_DIR / "itemwidget.kv"))
 
 
 class ItemWidget(BoxLayout):

@@ -89,7 +89,6 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
     def test_build_config(self):
         config = ConfigParser()
         self.app.build_config(config)
-
         for section, values in DEFAULT_SETTINGS.items():
             for k, v in values.items():
                 if isinstance(v, int):
@@ -211,4 +210,3 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
         assert args[0][0][0].endswith("python.exe")
         assert len(args[0][0]) == 2
         assert args[1]["startupinfo"] is not None
-

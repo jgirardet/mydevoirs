@@ -1,11 +1,10 @@
 import json
+import sys
 from pathlib import Path
 
-
 from mydevoirs.constants import DDB_FILENAME
-from mydevoirs.utils import  get_dir
+from mydevoirs.utils import get_dir
 
-import sys
 try:
     from importlib import metadata as importlib_metadata
 except ImportError:
@@ -13,9 +12,10 @@ except ImportError:
     import importlib_metadata
 
 # Find the name of the module that was used to start the app
-app_module = sys.modules['__main__'].__package__
+# app_module = sys.modules["__main__"].__package__
+# app_module = sys.modules["__main__"].__package__
 # Retrieve the app's metadata
-metadata = importlib_metadata.metadata(app_module)
+metadata = importlib_metadata.metadata("mydevoirs")
 homepage = metadata["Home-page"]
 
 

@@ -89,4 +89,3 @@ THEMES = {
 }
 
 COLORS = THEMES["gris"]
-

@@ -1,9 +1,9 @@
-import subprocess
-import os
-from pathlib import Path
-import urllib.request
-import platform
 import logging
+import os
+import platform
+import subprocess
+import urllib.request
+from pathlib import Path
 
 logging.basicConfig()
 LOG = logging.getLogger(__name__)

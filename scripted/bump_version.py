@@ -1,7 +1,8 @@
 import subprocess
-import toml
 import sys
 from pathlib import Path
+
+import toml
 
 GET_TAG = "git describe --tags $(git rev-list --tags --max-count=1)"
 MODE = ["patch", "minor", "major", "prepatch", "preminor", "premajor", "prerelease"]
