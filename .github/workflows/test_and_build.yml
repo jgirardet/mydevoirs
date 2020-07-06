@@ -23,7 +23,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v1
       with:
-        python-version: {{matrix.python}}
+        python-version: ${{matrix.python}}
     - name: Install common dependencies
       run: python run.py install
     - name: setup linux
