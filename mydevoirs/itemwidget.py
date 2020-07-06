@@ -16,10 +16,10 @@ from kivy.uix.popup import Popup
 from kivy.uix.textinput import TextInput
 from pony.orm import db_session
 
+from mydevoirs.constants import BASE_DIR
 from mydevoirs.database import db
-from mydevoirs.utils import get_base_dir
 
-Builder.load_file(str(get_base_dir() / "mydevoirs" / "itemwidget.kv"))
+Builder.load_file(str(BASE_DIR/"itemwidget.kv"))
 
 
 class ItemWidget(BoxLayout):

@@ -1,4 +1,6 @@
-from mydevoirs.constants import build_matiere
+from pathlib import Path
+
+from mydevoirs.constants import build_matiere, BASE_DIR
 
 
 def test_buildmatiere():
@@ -39,3 +41,7 @@ def test_buildmatiere():
     }
 
     assert res == build_matiere(tree)
+
+
+def test_base_dir():
+        assert BASE_DIR == Path(__file__).parents[1] / "mydevoirs"

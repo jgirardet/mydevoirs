@@ -39,21 +39,21 @@ Pour l'instant disponible sous Windows et Linux (Mac possible si quelqu'un le de
 
 ## Comment l'utiliser ?
 
-Il y a 2 interfaces possibles : Une interface  type `agenda` ![agenda](data/icons/014-calendar.png) qui affiche chaque jour de la semaine avec les devoirs de chaque jour, une autre type `todo list` (liste des tâches) ![todo list](data/icons/010-test.png). Il semble plus facile de noter ses devoirs dans le mode `agenda`, mais plus simple de faire ses devoirs en mode `todo list`. La `todolist` n'affiche que les devoirs non encore effectués alors que l'`agenda` affiche l'intégralité des devoirs.
+Il y a 2 interfaces possibles : Une interface  type `agenda` ![agenda](mydevoirs/data/icons/014-calendar.png) qui affiche chaque jour de la semaine avec les devoirs de chaque jour, une autre type `todo list` (liste des tâches) ![todo list](mydevoirs/data/icons/010-test.png). Il semble plus facile de noter ses devoirs dans le mode `agenda`, mais plus simple de faire ses devoirs en mode `todo list`. La `todolist` n'affiche que les devoirs non encore effectués alors que l'`agenda` affiche l'intégralité des devoirs.
 
 Il est possible de modifier les jours affichés dans `Paramètres` ![parametres](docs/params.png).
 
-En mode `agenda`, on change de semaine en cliquant sur ![suivant](data/icons/chevron-right.png) pour semaine suivante ou pour semaine précédente. ![precedant](data/icons/chevron-left.png)
+En mode `agenda`, on change de semaine en cliquant sur ![suivant](mydevoirs/data/icons/chevron-right.png) pour semaine suivante ou pour semaine précédente. ![precedant](mydevoirs/data/icons/chevron-left.png)
 
 ### Pour ajouter un devoir:
 
-On clique sur ![nouveau](data/icons/012-add.png) et on choisit sa matière en cliquant dessus ou avec `entrée`.
+On clique sur ![nouveau](mydevoirs/data/icons/012-add.png) et on choisit sa matière en cliquant dessus ou avec `entrée`.
 
 La zone de texte est directement sélectionnée, pour entrer le texte correspondant.
 
 ### Pour marquer un devoir comme terminé:
 
-On clique sur ![non fait](data/icons/017-cancel.png) qui devient ![fait](data/icons/apply-64.png). En mode `todo list`, la ligne disparaît de l'affichage.
+On clique sur ![non fait](mydevoirs/data/icons/017-cancel.png) qui devient ![fait](mydevoirs/data/icons/apply-64.png). En mode `todo list`, la ligne disparaît de l'affichage.
 
 ### Pour supprimer un devoir:
 

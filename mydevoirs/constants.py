@@ -5,9 +5,12 @@
 #     "Géographie": (0, 1, 1),
 #     "Poésie": (1, 1, 0),
 # }
+from pathlib import Path
 
 APP_NAME = "MyDevoirs"
 DDB_FILENAME = "ddb_hard.sqlite"
+BASE_DIR = Path(__file__).parent
+
 
 SEMAINE = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"]
 
@@ -86,3 +89,4 @@ THEMES = {
 }
 
 COLORS = THEMES["gris"]
+

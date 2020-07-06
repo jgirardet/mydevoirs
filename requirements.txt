@@ -1,0 +1,8 @@
+pytest
+black
+coverage
+briefcase
+pytest-env
+mimesis
+isort
+pytest-asyncio

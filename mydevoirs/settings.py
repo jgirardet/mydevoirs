@@ -1,14 +1,23 @@
 import json
 from pathlib import Path
 
-import toml
 
 from mydevoirs.constants import DDB_FILENAME
-from mydevoirs.utils import get_base_dir, get_dir
+from mydevoirs.utils import  get_dir
 
-homepage = toml.load((get_base_dir() / "pyproject.toml").aname)["tool"]["poetry"][
-    "homepage"
-]
+import sys
+try:
+    from importlib import metadata as importlib_metadata
+except ImportError:
+    # Backwards compatibility - importlib.metadata was added in Python 3.8
+    import importlib_metadata
+
+# Find the name of the module that was used to start the app
+app_module = sys.modules['__main__'].__package__
+# Retrieve the app's metadata
+metadata = importlib_metadata.metadata(app_module)
+homepage = metadata["Home-page"]
+
 
 AGENDA_PANEL = [
     {"type": "title", "title": "Aide/À propos de MyDevoirs"},

@@ -6,11 +6,7 @@ import platform
 import sys
 from pathlib import Path
 
-
-def set_my_devoirs_base_dir():
-    os.environ["MYDEVOIRS_BASE_DIR"] = getattr(
-        sys, "_MEIPASS", str(Path(__file__).absolute().parent)
-    )
+from mydevoirs.constants import BASE_DIR
 
 
 def do_import():
@@ -30,22 +26,13 @@ def set_locale_fr():
 def setup_kivy():
     from kivy.config import Config
 
-    base_dir = os.environ["MYDEVOIRS_BASE_DIR"]
+    # base_dir = str(BASE_DIR)
     Config.set("input", "mouse", "mouse,multitouch_on_demand")
-    Config.set("kivy", "window_icon", os.path.join(base_dir, "logo.png"))
+    Config.set("kivy", "window_icon", os.path.join("data","icons",  "logo.png"))
 
 
 def setup_start():
-    set_my_devoirs_base_dir()
     setup_kivy()
     app, init_database = do_import()
     set_locale_fr()
     return app
-
-
-if __name__ == "__main__":  # pragma: no cover_all
-    # covered in check_executable.py
-
-    app = setup_start().MyDevoirsApp()
-    app.init_database()
-    app.run()

@@ -15,6 +15,7 @@ from kivy.uix.screenmanager import ScreenManager, SlideTransition
 from pony.orm import OperationalError
 
 import mydevoirs.database
+from mydevoirs.constants import BASE_DIR
 from mydevoirs.custom_setting import SettingFilePath, SettingLabel
 from mydevoirs.database import init_database
 from mydevoirs.settings import DEFAULT_SETTINGS, SETTING_PANELS
@@ -98,11 +99,7 @@ class MyDevoirsApp(App):
         )
 
     def _reload_app(self):
-        exec_app = [sys.executable]
-        if not hasattr(sys, "frozen") or not hasattr(sys, "_MEIPASS"):
-            main_path = Path(os.environ["MYDEVOIRS_BASE_DIR"], sys.argv[0])
-            exec_app.append(str(main_path))
-
+        exec_app = [sys.executable, BASE_DIR]
         startupinfo = None
         if platform.system() == "Windows":  # pragma: no cover_linux
             startupinfo = subprocess.STARTUPINFO()

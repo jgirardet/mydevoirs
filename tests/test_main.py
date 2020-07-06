@@ -1,29 +1,7 @@
-import locale
-import os
-import platform
-from pathlib import Path
-
 import mydevoirs.app as m_app
-from main import *
+from mydevoirs.main import *
 from mydevoirs.database import init_database as m_init_database
 
-
-def test_set_base_dir():
-    import sys
-
-    assert not hasattr(sys, "_MEIPASS")
-
-    set_my_devoirs_base_dir()
-    assert os.environ["MYDEVOIRS_BASE_DIR"] == str(Path(__file__).parents[1])
-
-    os.environ.pop("MYDEVOIRS_BASE_DIR")
-
-    sys._MEIPASS = "/home/bla"
-
-    set_my_devoirs_base_dir()
-    assert os.environ["MYDEVOIRS_BASE_DIR"] == "/home/bla"
-    del sys._MEIPASS
-    assert not hasattr(sys, "_MEIPASS")
 
 
 def test_do_import():

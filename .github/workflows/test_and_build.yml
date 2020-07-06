@@ -24,12 +24,6 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: 3.7
-    - name: Install poetry
-      run: |
-        echo $"${{toJson(runner)}}"
-        echo $"${{toJson(env.AAA)}}"
-        python -m pip install poetry
-        poetry run python -m pip install --upgrade pip
     - name: Install common dependencies
       run: poetry install
     - name: setup linux
