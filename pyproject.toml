@@ -25,7 +25,7 @@ requires = []
 
 [tool.briefcase.app.mydevoirs.linux]
 requires = []
-system_requires = []
+system_requires = ["xclip"]
 
 [tool.briefcase.app.mydevoirs.windows]
 requires = []
