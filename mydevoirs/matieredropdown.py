@@ -7,36 +7,42 @@ from kivy.properties import (
 from kivy.uix.behaviors import FocusBehavior
 from kivy.uix.button import Button
 from kivy.uix.dropdown import DropDown
+from pony.orm import db_session
 
-from mydevoirs.constants import MATIERES_TREE
+from mydevoirs.database import db
 
 
 class MatiereDropdown(FocusBehavior, DropDown):
 
     focused_index = NumericProperty()
 
-    def on_select(self, button):
-        if button.has_sub:
-            a = MatiereDropdown(tree=self.tree[button.text])
-            a.open(self.attach_to)
-        else:
-            self.attach_to.parent.update_matiere(button.text)
-
-    def _create_options(self, widget, key):
-
-        collection = self.tree if key is None else self.tree[key]
-        for k, v in collection.items():
-            has_sub = not isinstance(v, tuple)
-            widget.add_widget(MatiereOption(text=k, has_sub=has_sub, dropdown=widget))
-
-    def __init__(self, tree=MATIERES_TREE, **kwargs):
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self.tree = tree
         self._create_options(self, None)
         self.last_focused = None
         self.focused_index = -1
         self.focus = True
+
+    def on_select(self, button):
+        self.attach_to.parent.update_matiere(button.matiere_id)
+
+    @db_session
+    def _create_options(self, widget, key):
+
+        # collection = self.tree if key is None else self.tree[key]
+        # for k, v in collection.items():
+        #     has_sub = not isinstance(v, tuple)
+        #     widget.add_widget(MatiereOption(text=k, has_sub=has_sub, dropdown=widget))
+        for item in db.Matiere.select():
+            widget.add_widget(
+                MatiereOption(
+                    text=item.nom,
+                    dropdown=widget,
+                    background_color=item.color,
+                    matiere_id=item.id,
+                )
+            )
 
     def on_focused_index(self, instance, value):
         if self.last_focused:
@@ -70,15 +76,14 @@ class MatiereDropdown(FocusBehavior, DropDown):
 
 
 class MatiereOption(Button):
-    color = ColorProperty(None)
-    has_sub = BooleanProperty(False)
     dropdown = ObjectProperty()
+    matiere_id = NumericProperty()
 
     def on_release(self):
         self.dropdown.select(self)
 
     def __repr__(self):
-        return f"MatiereOption: {self.text}, has_sub={self.has_sub}"
+        return f"MatiereOption: {self.text}"
 
     def toggle_focus(self, *args):
         self.bold = not self.bold

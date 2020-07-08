@@ -13,13 +13,16 @@ from kivy.uix.actionbar import ActionBar
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager, SlideTransition
 
-from mydevoirs.constants import MATIERES_TREE
 from pony.orm import OperationalError
 
 import mydevoirs.database
 
 from mydevoirs.constants import BASE_DIR
-from mydevoirs.custom_setting import SettingFilePath, SettingLabel, SettingCustomConfigFilePath
+from mydevoirs.custom_setting import (
+    SettingFilePath,
+    SettingLabel,
+    SettingCustomConfigFilePath,
+)
 from mydevoirs.database import init_database
 from mydevoirs.settings import DEFAULT_SETTINGS, SETTING_PANELS
 from mydevoirs.utils import get_dir, get_matiere_color, build_matieres
@@ -36,47 +39,49 @@ class MyDevoirsApp(App):
     def __init__(self, *args, **kwargs):
 
         super().__init__(*args, **kwargs)
-        self.get_matieres()
+        # self.get_matieres()
         print(self.get_application_config())
 
-    def get_matieres(self):
-        """read settings for alternate matiere"""
-        res = self._parse_matiere()
-        self.MATIERES_TREE = res or MATIERES_TREE
-        self.MATIERES = build_matieres(self.MATIERES_TREE)
-
-    def _parse_matiere(self):
-        print(self.config, "dans parser matier")
-        cp = ConfigParser()
-        config_file = self.get_application_config()
-        print(config_file)
-        cp.read(config_file)
-
-        if filename := cp.get('ddb', 'file_config_path', fallback=None):
-            with open(filename) as fd:
-                res = json.load(fd)
-                return res
-        else:
-            return {}
-
-
+    #
+    # def get_matieres(self):
+    #     """read settings for alternate matiere"""
+    #     res = self._parse_matiere()
+    #     self.MATIERES_TREE = res or MATIERES_TREE
+    #     self.MATIERES = build_matieres(self.MATIERES_TREE)
+    #
+    # def _parse_matiere(self):
+    #     print(self.config, "dans parser matier")
+    #     cp = ConfigParser()
+    #     config_file = self.get_application_config()
+    #     print(config_file)
+    #     cp.read(config_file)
+    #
+    #     if filename := cp.get('ddb', 'file_config_path', fallback=None):
+    #         with open(filename) as fd:
+    #             res = json.load(fd)
+    #             return res
+    #     else:
+    #         return {}
 
     def init_database(self):
         path = self.load_config()["ddb"]["path"]
         try:
-            mydevoirs.database.db = init_database(self.MATIERES, filename=path, create_db=True)
+            mydevoirs.database.db = init_database(filename=path, create_db=True)
         except OperationalError:
             self._reset_database()
 
     def build(self):
         from mydevoirs.agenda import Agenda
         from mydevoirs.todo import Todo
+        from mydevoirs.colorchooser import ColorChooser
 
         self.sm = ScreenManager(transition=SlideTransition(direction="up"))
         self.agenda = Agenda(name="agenda")
         self.todo = Todo(name="todo")
+        self.colorchooser = ColorChooser(name="colorchooser")
         self.sm.add_widget(self.agenda)
         self.sm.add_widget(self.todo)
+        self.sm.add_widget(self.colorchooser)
         self.sm.current = "agenda"
 
         self.box = BoxLayout(orientation="vertical")
@@ -89,6 +94,11 @@ class MyDevoirsApp(App):
     def go_todo(self):
         self.sm.transition.direction = "down"
         self.sm.current = "todo"
+        self.sm.current_screen.reload()
+
+    def go_colorchooser(self):
+        self.sm.transition.direction = "right"
+        self.sm.current = "colorchooser"
         self.sm.current_screen.reload()
 
     def go_agenda(self):
@@ -122,7 +132,11 @@ class MyDevoirsApp(App):
 
     def get_application_config(self, disable_debug=None):
         return super().get_application_config(
-            str(Path(get_dir("config", disable_debug=disable_debug), "settings.ini").absolute())
+            str(
+                Path(
+                    get_dir("config", disable_debug=disable_debug), "settings.ini"
+                ).absolute()
+            )
         )
 
     def _reload_app(self):
@@ -148,11 +162,11 @@ class MyDevoirsApp(App):
         self.config = None
         self.load_config()
         self.config.update({"ddb": {"path": default}})
-        mydevoirs.database.db = init_database(self.MATIERES, filename=default, create_db=True)
-
+        mydevoirs.database.db = init_database(
+            self.MATIERES, filename=default, create_db=True
+        )
 
     def get_matiere_color(self, nom):
         return get_matiere_color(nom, self.MATIERES)
-
 
     gmc = get_matiere_color

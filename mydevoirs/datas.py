@@ -25,6 +25,7 @@ DATAS = {
     "icon_logo": "logo.png",
     "icon_settings": "params.png",
     "icon_aide": "qmark.png",
+    "icon_colorchooser": "colorchooser.png",
     "font_base": "Verdana.ttf",
 }
 

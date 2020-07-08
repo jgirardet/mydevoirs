@@ -6,7 +6,7 @@
     spacing: dp(5)
     canvas:
         Color:
-            rgb: rgba(root.matiere_color)
+            rgb: root.matiere_color
         Rectangle:
             pos: self.pos
             size: self.size
@@ -16,7 +16,8 @@
         text: root.matiere_nom
         on_release:
             MatiereDropdown().open(self)
-        background_color: app.gmc(self.text)
+        background_color: root.matiere_color
+        #background_color: app.gmc(self.text)
         background_normal: '' # pragma: no cover
         color: COLORS["spinner_text_color"]
         size_hint_x: 0.4 # pragma: no cover
@@ -68,7 +69,8 @@
 <MatiereOption>:
     size_hint_y: None
     height: dp(20)
-    background_color: app.gmc(self.text)
+    #background_color: (255,0,0)
+    #background_color: root.color
     background_normal: '' # pragma: no cover
     color: (0,0,0) # pragma: no cover
 

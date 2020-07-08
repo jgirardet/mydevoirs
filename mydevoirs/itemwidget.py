@@ -9,6 +9,7 @@ from kivy.properties import (
     NumericProperty,
     ObjectProperty,
     StringProperty,
+    ColorProperty,
 )
 from kivy.uix.behaviors import FocusBehavior
 from kivy.uix.boxlayout import BoxLayout
@@ -26,7 +27,8 @@ class ItemWidget(BoxLayout):
     content = StringProperty()
     done = BooleanProperty()
     matiere_nom = StringProperty()
-    matiere_color = ListProperty()
+    matiere_color = ColorProperty()
+    matiere_id = NumericProperty()
 
     def __init__(self, **entry):
         self.loaded_flag = False
@@ -35,6 +37,7 @@ class ItemWidget(BoxLayout):
         self.entry = entry.pop("id")
         self.date = entry.pop("date")
         entry.pop("jour")
+        # breakpoint()
         super().__init__(**entry)
 
     def __repr__(self):
@@ -44,13 +47,15 @@ class ItemWidget(BoxLayout):
     def on_kv_post(self, *args):
         self.loaded_flag = True
 
-    def update_matiere(self, text):
-        if text != self.matiere_nom:
+    def update_matiere(self, matiere_id):
+        if matiere_id != self.matiere_id:
             with db_session:
-                a = db.Item[self.entry]
-                a.matiere = text
-                self.matiere_color = a.matiere.color
-                self.matiere_nom = text
+                item = db.Item[self.entry]
+                matiere = db.Matiere[matiere_id]
+                item.matiere = matiere
+                self.matiere_id = matiere_id
+                self.matiere_color = matiere.color
+                self.matiere_nom = matiere.nom
         content = self.ids.textinput
         content.focus = True
         content.do_cursor_movement("cursor_end")

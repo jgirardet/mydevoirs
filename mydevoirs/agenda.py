@@ -86,7 +86,9 @@ class JourWidget(BoxLayout):
     def add_item(self):
         with db_session:
             jour = db.Jour.get_or_create(date=self.date)
-            item = db.Item(jour=jour)
+            matiere = db.Matiere.select().first()
+            item = db.Item(jour=jour, matiere=matiere)
+
             item_widget = AgendaItemWidget(**item.to_dict())
         self.jouritem.add_widget(item_widget)
         self.update_progression()

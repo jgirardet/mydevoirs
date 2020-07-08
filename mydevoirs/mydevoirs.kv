@@ -32,6 +32,11 @@
 		    background_disabled_normal: self.background_normal
 		    on_release: app.sm.current_screen.carousel.load_next()
 
+        ActionButton:
+        	id: go_colorchooser
+		    icon: datas['icon_colorchooser']
+            on_release: app.go_colorchooser()
+
 		ActionButton:
 			id: params
 		    icon: datas['icon_settings']
@@ -118,3 +123,4 @@
         Rectangle:
         	pos: self.pos
         	size: self.size
+

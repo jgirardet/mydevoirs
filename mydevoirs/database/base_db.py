@@ -1,18 +1,20 @@
 from pathlib import Path
 
-from pony.orm import Database, db_session
+from pony.orm import Database, db_session, flush
 
 from .models import init_models
+from mydevoirs.constants import MATIERES_TREE_INIT
 
 
-def init_update_matiere(db, matieres):
-    with db_session():
-        for k, v in matieres.items():
-            if db.Matiere.exists(nom=k):
-                db.Matiere[k].color = v
-
-            else:
-                db.Matiere(nom=k, color=v)
+@db_session
+def init_update_matiere(db, reset=False):
+    if not db.Matiere.select().count() or reset:
+        if reset:
+            for it in db.Matiere.select():
+                it.delete()
+        flush()
+        for m in MATIERES_TREE_INIT:
+            db.Matiere(nom=m[0], color=m[1])
 
 
 def ensure_database_directory(loc):
@@ -29,9 +31,10 @@ def init_bind(db, provider="sqlite", filename=":memory:", create_db=False, **kwa
     db.generate_mapping(create_tables=True)
 
 
-def init_database(matieres, **kwargs):
+def init_database(**kwargs):
+    print(kwargs)
     ddb = Database()
     init_models(ddb)
     init_bind(ddb, **kwargs)
-    init_update_matiere(ddb, matieres)
+    init_update_matiere(ddb)
     return ddb
