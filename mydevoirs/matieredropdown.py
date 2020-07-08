@@ -34,13 +34,13 @@ class MatiereDropdown(FocusBehavior, DropDown):
         # for k, v in collection.items():
         #     has_sub = not isinstance(v, tuple)
         #     widget.add_widget(MatiereOption(text=k, has_sub=has_sub, dropdown=widget))
-        for item in db.Matiere.select():
+        for item in db.Matiere.get_ordered():
             widget.add_widget(
                 MatiereOption(
-                    text=item.nom,
+                    text=item["nom"],
                     dropdown=widget,
-                    background_color=item.color,
-                    matiere_id=item.id,
+                    background_color=item["color"],
+                    matiere_id=item["id"],
                 )
             )
 

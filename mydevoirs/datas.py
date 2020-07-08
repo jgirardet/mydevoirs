@@ -26,6 +26,7 @@ DATAS = {
     "icon_settings": "params.png",
     "icon_aide": "qmark.png",
     "icon_colorchooser": "colorchooser.png",
+    "icon_arrowmove": "arrowmove.png",
     "font_base": "Verdana.ttf",
 }
 

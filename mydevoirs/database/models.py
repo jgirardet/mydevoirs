@@ -37,13 +37,9 @@ def init_models(db):
         @classmethod
         def get_ordered(cls):
             tout = cls.select()[:]
-
-            print(tout)
             ordre = Ordre.get_or_create(nom="Matiere").ordre
-            print(ordre)
             if ordre:
                 tout_sorted = sorted(tout, key=lambda item: ordre.index(item.id))
-                print(tout_sorted)
             else:
                 tout_sorted = tout
             return [x.to_dict() for x in tout_sorted]
