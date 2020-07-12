@@ -1,12 +1,8 @@
 # flake8: noqa
 
 import locale
-import os
 import platform
-import sys
 from pathlib import Path
-
-from mydevoirs.constants import BASE_DIR
 
 
 def do_import():
@@ -26,9 +22,10 @@ def set_locale_fr():
 def setup_kivy():
     from kivy.config import Config
 
-    # base_dir = str(BASE_DIR)
     Config.set("input", "mouse", "mouse,multitouch_on_demand")
-    Config.set("kivy", "window_icon", os.path.join("data", "icons", "logo-512.png"))
+    Config.set(
+        "kivy", "window_icon", Path(__file__).parent / "data" / "icons" / "logo.png"
+    )
 
 
 def setup_start():

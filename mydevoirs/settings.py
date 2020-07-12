@@ -1,11 +1,11 @@
 import json
-from importlib import metadata as importlib_metadata
+from importlib.metadata import metadata
 
 from mydevoirs.constants import DDB_FILENAME
 from mydevoirs.utils import get_dir
 
-metadata = importlib_metadata.metadata("mydevoirs")
-homepage = metadata["Home-page"]
+meta = metadata("mydevoirs")
+homepage = meta["Home-page"]
 
 
 AGENDA_PANEL = [

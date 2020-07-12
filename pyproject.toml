@@ -12,12 +12,10 @@ formal_name = "mydevoirs"
 description = "La prise de devoirs enfin simple !"
 icon = "mydevoirs/data/icons/logo"
 sources = ['mydevoirs']
-#sources = ['main.py']
 requires = ['kivy==2.0.0rc3',
             'pony>=0.7.11,<0.8',
             'appdirs>=1.4,<1.5',
-            'kivy-garden.filebrowser==1.1.2',
-            'importlib_metadata']
+            'kivy-garden.filebrowser==1.1.2']
 
 
 [tool.briefcase.app.mydevoirs.macOS]

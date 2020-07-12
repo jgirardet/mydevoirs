@@ -75,7 +75,6 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
         self.app.sm.current = "agenda"
         self.app.sm.current = "agenda"
         self.app.agenda.carousel = CarouselWidget(day=datetime.datetime(2020, 7, 10))
-        # assert self.app.agenda.carousel.date == today
 
         def go(
             self, *args, mode=None
