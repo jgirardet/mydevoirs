@@ -23,7 +23,7 @@ requires = []
 
 [tool.briefcase.app.mydevoirs.linux]
 requires = []
-system_requires = ["xclip"]
+system_requires = ["language-pack-fr", "pulseaudio", "libmtdev1","xclip"]
 
 [tool.briefcase.app.mydevoirs.windows]
 requires = []
