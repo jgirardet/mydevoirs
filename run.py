@@ -6,6 +6,8 @@ import sys
 import time
 from pathlib import Path
 
+import toml
+
 ROOT = Path(__file__).parent.resolve()
 VIRTUAL_ENV = ROOT / ".venv"
 PACKAGE_NAME = "mydevoirs"
@@ -152,6 +154,15 @@ def cmd_install_from_require(*args, **kwargs):
 def cmd_setup(*args, **kwargs):
     cmd_create_env(*args, *kwargs)
     cmd_install()
+
+
+def cmd_version(*args, **kwargs):
+    from briefcase.config import parse_config
+
+    with open("pyproject.toml") as ff:
+        _, appconfig = parse_config(ff, sys.platform, "")
+    version = appconfig[PACKAGE_NAME]["version"]
+    return version
 
 
 def cmd_test(*args, **kwargs):

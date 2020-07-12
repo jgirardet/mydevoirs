@@ -1,7 +1,7 @@
 [tool.briefcase]
 project_name = "mydevoirs"
 bundle = "coding.cacahuete"
-version = "1.0.0"
+version = "0.6.4"
 url = "https://jgirardet.github.io/mydevoirs"
 license = "GNU General Public License v3 (GPLv3)"
 author = 'Jimmy Girardet'

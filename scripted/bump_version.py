@@ -16,8 +16,8 @@ def get_tag():
     return tag.decode()
 
 
-def get_poestry_version():
-    version = toml.loads(open("pyproject.toml").read())["tool"]["poetry"]["version"]
+def get_briefcase_version():
+    version = toml.loads(open("pyproject.toml").read())["tool"]["briefcase"]["version"]
     return version
 
 
@@ -31,7 +31,7 @@ def update_doc_link(previous, new_version):
 
 
 if __name__ == "__main__":
-    version = get_poestry_version()
+    version = get_briefcase_version()
     tag = get_tag()
     if tag != version:
         raise EnvironmentError(
@@ -57,7 +57,7 @@ if __name__ == "__main__":
     )
     print(subprocess.check_output(f"git tag {new_version}", shell=True).decode())
 
-    assert get_tag() == get_poestry_version()
+    assert get_tag() == get_briefcase_version()
 
     print(f"Nouvelle Version {new_version} !!!\n pushing")
     print(subprocess.check_output(f"git push", shell=True).decode())
