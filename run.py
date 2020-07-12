@@ -158,15 +158,29 @@ def cmd_setup(*args, **kwargs):
 
 def cmd_version(*args, **kwargs):
     from briefcase.config import parse_config
+    from git import Repo
+
+    vcs = Repo(".")
+    if vcs.is_dirty():
+        raise EnvironmentError("Il reste des changements non validés")
+
+    if vcs.active_branch.name != "master":
+        raise EnvironmentError("Le changement de version doit s'effectuer sur master")
 
     with open("pyproject.toml") as ff:
         _, appconfig = parse_config(ff, sys.platform, "")
     version = appconfig[PACKAGE_NAME]["version"]
-    return version
+    vcs.create_tag(version)
+    print(f"tag {version} créé")
 
 
 def cmd_test(*args, **kwargs):
     runCommand(f"pytest -s -vvv tests", sleep_time=0.001)
+
+
+def cmd_test_executable(*args, **kwargs):
+    path = ROOT / "scripted" / "check_executable.py"
+    runCommand(f"python {path}")
 
 
 def build_commands(*args, **kwargs):

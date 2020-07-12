@@ -13,10 +13,11 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os : [ubuntu-20.04]
+        os : [ubuntu-20.04, windows-2019]
         python: [3.8]
     env:
       DISPLAY: ':99.0'
+      KIVY_GL_BACKEND: 'angle_sdl2'
     steps:
     - name: get repo
       uses: actions/checkout@v1
@@ -32,30 +33,41 @@ jobs:
         sudo apt update
         sudo apt install -y language-pack-fr pulseaudio libmtdev1 xclip
         /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1280x720x24 -ac +extension GLX
-#        sudo rm -f /etc/apt/sources.list.d/dotnetdev.list /etc/apt/sources.list.d/microsoft-prod.list
-
-    - name: setup windows
-      if: runner.os == 'Windows'
-      run: |
-        sudo apt update
-        sudo apt install -y language-pack-fr pulseaudio libmtdev1 xclip
-        /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1280x720x24 -ac +extension GLX
+#    - name: setup windows
+#      if: runner.os == 'Windows'
+#      run: |
+#        sudo apt update
+#        sudo apt install -y language-pack-fr pulseaudio libmtdev1 xclip
+#        /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1280x720x24 -ac +extension GLX
 #        sudo rm -f /etc/apt/sources.list.d/dotnetdev.list /etc/apt/sources.list.d/microsoft-prod.list
     - name: Tests
       run: |
         python run.py test
     - name: Coverage
+      if: runner.os == 'Linux'
       run: |
         python run.py cov
     - name: build
       run: |
         briefcase create
         briefcase build
+    - name: Coverage
+        if: runner.os == 'Windows'
+        run: briefcase package
+    - name: check executable
+      run: |
+        python test_executable
     - name: upload  on ${{ matrix.os }} binary in artifact
       if: runner.os == 'Linux'
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v2
       with:
         path: linux
+        name: MyDevoirs-${{runner.os}}64
+    - name: upload  on ${{ matrix.os }} binary in artifact
+      if: runner.os == 'Windows'
+      uses: actions/upload-artifact@v2
+      with:
+        path: windows
         name: MyDevoirs-${{runner.os}}64
 #
 #  Windows:
