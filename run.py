@@ -6,8 +6,6 @@ import sys
 import time
 from pathlib import Path
 
-import toml
-
 ROOT = Path(__file__).parent.resolve()
 VIRTUAL_ENV = ROOT / ".venv"
 PACKAGE_NAME = "mydevoirs"

@@ -7,4 +7,3 @@ mimesis
 isort
 freezegun
 gitpython
-toml
