@@ -3,11 +3,9 @@ from kivy.lang import Builder
 from kivy.logger import LOG_LEVELS, Logger
 from mimesis import Generic
 
+import mydevoirs.database
 from mydevoirs.database import init_database
 from mydevoirs.main import setup_start
-import mydevoirs.database
-
-# from mydevoirs.utils import build_matieres
 
 generic_mimesis = Generic("fr")
 

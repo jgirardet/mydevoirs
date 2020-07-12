@@ -1,9 +1,10 @@
 import os
-import sys
 import tempfile
 from pathlib import Path as PythonPath
 
 import appdirs
+from kivy.app import App
+from kivy.config import Config, ConfigParser
 from kivy.utils import rgba
 
 from mydevoirs.constants import APP_NAME
@@ -57,3 +58,28 @@ def get_matiere_color(nom, matiere):
 
 
 DEBUG = True
+
+
+def get_config(section, key, cls=str, default=""):
+    """
+    Récupère une valeur dans la configuration de l'application.
+
+    :param section: str
+    :param key: str
+    :param cls: type du retour souhaité, default = str
+    :param default: fallback. default = ""
+    :return: Any or None si la clé n'est pas présente
+    """
+    if app := App.get_running_app():
+        config: ConfigParser = app.config
+        # trick pour les tests, ne pas tester
+        if not config:  # pragma: no branch
+            config = ConfigParser()
+            app.build_config(config)
+        value = config.getdefault(section, key, default)
+        if cls == bool:
+            return bool(int(value))
+        elif cls == int:
+            return int(value)
+        else:
+            return value  # as string

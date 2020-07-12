@@ -146,7 +146,6 @@ class MatiereDropdownTestCase(MyDevoirsTestCase):
         assert not m.keyboard_on_key_down("window", (2000, ""), "omk", "modifier")
 
 
-
 class TestMatiereOption(MyDevoirsTestCase):
     def test_init(self):
         a = MatiereOption()

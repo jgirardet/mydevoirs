@@ -1,7 +1,4 @@
 import datetime
-import json
-import platform
-import tempfile
 from pathlib import Path
 from unittest.mock import MagicMock, call
 
@@ -9,6 +6,7 @@ import pytest
 from kivy.config import ConfigParser
 from kivy.uix.settings import Settings
 
+from mydevoirs.agenda import CarouselWidget
 from mydevoirs.app import MyDevoirsApp
 from mydevoirs.settings import DEFAULT_SETTINGS, SETTING_PANELS
 
@@ -63,21 +61,21 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
 
     def test_go_previous(self):
         self.app.sm.current = "agenda"
-        today = datetime.date.today()
-        assert self.app.agenda.carousel.date == today
+        self.app.agenda.carousel = CarouselWidget(day=datetime.datetime(2020, 7, 10))
 
         def go(self, *args):  # workaround because test can't wait transition duration
             self.index = 0
 
         with patch("mydevoirs.agenda.Carousel.load_previous", go):
             self.actionbar.ids.previous.trigger_action(0)
-        assert self.app.agenda.carousel.date == today - datetime.timedelta(days=7)
+        assert self.app.agenda.carousel.date == datetime.datetime(2020, 7, 3)
         self.app.go_agenda()  # reset
 
     def test_go_next(self):
         self.app.sm.current = "agenda"
-        today = datetime.date.today()
-        assert self.app.agenda.carousel.date == today
+        self.app.sm.current = "agenda"
+        self.app.agenda.carousel = CarouselWidget(day=datetime.datetime(2020, 7, 10))
+        # assert self.app.agenda.carousel.date == today
 
         def go(
             self, *args, mode=None
@@ -86,7 +84,7 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
 
         with patch("mydevoirs.agenda.Carousel.load_next", go):
             self.actionbar.ids.next.trigger_action(0)
-        assert self.app.agenda.carousel.date == today + datetime.timedelta(days=7)
+        assert self.app.agenda.carousel.date == datetime.datetime(2020, 7, 17)
         self.app.go_agenda()  # reset
 
     def test_go_settings(self):

@@ -1,13 +1,14 @@
-import sys
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
+import pytest
 from appdirs import user_cache_dir, user_config_dir, user_data_dir
+from kivy.config import ConfigParser
 from kivy.utils import rgba
 
 from mydevoirs.constants import APP_NAME
-from mydevoirs.utils import DEBUG, get_dir, get_matiere_color
+from mydevoirs.utils import DEBUG, get_config, get_dir, get_matiere_color
 
 res = {"Français": (0, 0, 255), "Anglais": (255, 120, 0), "Divers": (232, 120, 221)}
 
@@ -28,6 +29,62 @@ def test_get_dir():
             assert not Path(n, APP_NAME).exists()
             get_dir("cache", disable_debug=True)
             assert Path(n, APP_NAME).is_dir()
+
+
+@pytest.fixture(scope="module")
+def cfp():
+    c = ConfigParser()
+    c.read_string(
+        """[agenda]
+lundi = 1
+mardi = 1
+mercredi = 0
+jeudi = 1
+vendredi = 1
+samedi = 0
+dimanche = 0
+auto_next_week = 1
+
+[ddb]
+path = /tmp/mydevoirs_debug/cache/MyDevoirs/ddb_hard.sqlite
+file_config_path = 
+
+[aide]
+aide = https://jgirardet.github.io/mydevoirs
+"""
+    )
+    return c
+
+
+@pytest.mark.parametrize(
+    "section, key,  cls, default, res",
+    [
+        ("agenda", "lundi", None, None, "1"),
+        ("agenda", "fauxjour", None, None, ""),
+        ("agenda", "lundi", int, None, 1),
+        ("agenda", "samedi", None, "bla", "0"),
+        ("agenda", "fauxjour", None, "bla", "bla"),
+        ("agenda", "lundi", bool, None, True),
+        ("agenda", "samedi", bool, None, False),
+    ],
+)
+def test_get_config(
+    cfp, section, key, cls, default, res,
+):
+    class Fapp:
+        config = cfp
+
+    args = {}
+    if cls is not None:
+        args["cls"] = cls
+    else:
+        cls = str
+    if default is not None:
+        args["default"] = default
+    with patch("mydevoirs.utils.App.get_running_app", side_effect=Fapp):
+        value = get_config(section, key, **args)
+        assert value == res
+        assert isinstance(value, cls)
 
 
 def test_DEBUG():

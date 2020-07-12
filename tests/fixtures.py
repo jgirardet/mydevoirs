@@ -123,7 +123,6 @@ class MyDevoirsTestCase(GraphicUnitTest):
         t = get_touch(widget)
         t.click()
 
-
     # def move(self, widget, dx, dy):
     #     t = get_touch(widget)
     #     t.touch_down()

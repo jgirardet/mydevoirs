@@ -1,8 +1,5 @@
 from kivy.clock import Clock
-from kivy.properties import (
-    ColorProperty,
-    ObjectProperty,
-)
+from kivy.properties import ColorProperty, ObjectProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.colorpicker import ColorPicker
@@ -16,7 +13,6 @@ from mydevoirs.database import db
 from mydevoirs.imagebutton import ImageButton
 from mydevoirs.ouinonpopup import OuiNonPopup
 from mydevoirs.utils import datas
-
 
 MATIERE_ITEM_HEIGHT = 30
 OPACITY_UNSELECTED = 0.5

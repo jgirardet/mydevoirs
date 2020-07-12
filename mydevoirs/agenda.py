@@ -2,14 +2,7 @@ import datetime
 import itertools
 
 from kivy.config import ConfigParser
-from kivy.properties import (
-    BooleanProperty,
-    DictProperty,
-    ListProperty,
-    NumericProperty,
-    ObjectProperty,
-    StringProperty,
-)
+from kivy.properties import NumericProperty, StringProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.carousel import Carousel
 from kivy.uix.gridlayout import GridLayout
@@ -20,6 +13,7 @@ from mydevoirs.constants import SEMAINE
 from mydevoirs.database import db
 from mydevoirs.itemwidget import ItemWidget
 from mydevoirs.matieredropdown import MatiereDropdown
+from mydevoirs.utils import get_config
 
 
 class AgendaItemWidget(ItemWidget):
@@ -132,8 +126,17 @@ class BaseGrid(GridLayout):
 
 class CarouselWidget(Carousel):
     def __init__(self, day=None):
-        self.date = day or datetime.date.today()
         self._removing = False
+        self.date = day or datetime.date.today()
+
+        # adjust the week
+        if (
+            not day
+            and self.date.weekday() in (5, 6)
+            and get_config("agenda", "auto_next_week", bool, False)
+        ):
+            self.date = self.date + datetime.timedelta(days=3)
+
         super().__init__()
         self.add_widget(BaseGrid(self.date - datetime.timedelta(weeks=1)))
         self.add_widget(BaseGrid(self.date))

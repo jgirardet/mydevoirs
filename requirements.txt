@@ -5,3 +5,4 @@ coverage
 briefcase
 mimesis
 isort
+freezegun

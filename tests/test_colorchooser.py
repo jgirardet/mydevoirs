@@ -1,20 +1,13 @@
-from time import sleep
-from unittest.mock import MagicMock, patch
-
-from kivy.app import App
-from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
-from pony.orm import db_session
 
 from mydevoirs.colorchooser import (
-    ColorChooser,
-    MatiereItem,
-    AddButton,
-    RemoveButton,
-    MoveButton,
     MATIERE_ITEM_HEIGHT,
     OPACITY_UNSELECTED,
+    AddButton,
+    ColorChooser,
     ColorPopup,
+    MoveButton,
+    RemoveButton,
 )
 
 from .fixtures import *
@@ -170,22 +163,6 @@ class TestSomeBehaviors(MyDevoirsTestCase):
         assert all(i.opacity == 1 for i in self.cl.children)
         assert self.cl.grabbed is None
         assert self.cl.last_hovered is None
-
-        # breakpoint()
-        # ab.on_touch_up(get_touch(ab))
-        # ab.trigger_action(0)
-        # self.popup_click("oui")
-        # assert len(self.cl.children) == 13
-        #
-        # assert self.poesie not in self.cl.children
-        #
-        # # on verifie la ddb
-        # with db_session:
-        #     assert not db.Matiere.get(id=self.poesie.data["id"])
-        #     # on verifie l'ordre
-        #     db_ordre = db.Ordre["Matiere"]
-        #     self.ordre.pop(-4)
-        #     assert db_ordre.ordre == self.ordre
 
 
 class TestMatiereInputAndColorPopup(MyDevoirsTestCase):

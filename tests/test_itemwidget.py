@@ -226,7 +226,6 @@ class TestContentTextIput(MyDevoirsTestCase):
         assert not inp.ids.textinput.keyboard_on_key_down("w", (0, "zzz"), "test", [])
 
 
-
 class TestEffacerPopup(MyDevoirsTestCase):
     def setUp(self):
         super().setUp()

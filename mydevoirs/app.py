@@ -1,6 +1,3 @@
-import configparser
-import json
-import os
 import platform
 import subprocess
 import sys
@@ -37,7 +34,6 @@ class MyDevoirsApp(App):
     def __init__(self, *args, **kwargs):
 
         super().__init__(*args, **kwargs)
-        # self.get_matieres()
         print(self.get_application_config())
 
     def init_database(self):
@@ -64,7 +60,6 @@ class MyDevoirsApp(App):
         self.box = BoxLayout(orientation="vertical")
         self.box.add_widget(ActionBar())
         self.box.add_widget(self.sm)
-        # inspector.create_inspector(Window, self.sm)
 
         return self.box
 
@@ -101,7 +96,6 @@ class MyDevoirsApp(App):
         self.go_agenda()
 
     def on_config_change_ddb(self, config, section, key, value):
-        print(config, section, key, value)
         self._reload_app()
 
     def on_config_change_aide(self, config, section, key, value):
