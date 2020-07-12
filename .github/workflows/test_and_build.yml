@@ -17,7 +17,7 @@ jobs:
         python: [3.8]
     env:
       DISPLAY: ':99.0'
-      KIVY_GL_BACKEND: 'angle_sdl2'
+#      KIVY_GL_BACKEND: 'angle_sdl2'
     steps:
     - name: get repo
       uses: actions/checkout@v1
