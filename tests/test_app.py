@@ -30,7 +30,7 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
     def test_sm(self):
 
         assert self.app.sm.current == "agenda"
-        assert self.app.sm.screen_names == ["agenda", "todo"]
+        assert self.app.sm.screen_names == ["agenda", "todo", "colorchooser"]
 
     def test_change(self):
         assert self.app.sm.current == "agenda"
@@ -44,6 +44,14 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
         assert self.app.sm.current == "todo"
         assert self.app.sm.transition.direction == "down"
         assert id(todolist) != id(self.app.sm.current_screen.todolist)  # widget rebuild
+
+    def test_go_colorchooser(self):
+        self.app.sm.current = "agenda"
+        assert not hasattr(self.app.sm.get_screen("colorchooser"), "colorlist")
+        self.actionbar.ids.go_colorchooser.trigger_action(0)
+        assert self.app.sm.current == "colorchooser"
+        assert self.app.sm.transition.direction == "right"
+        assert self.app.sm.current_screen.colorlist  # reload called
 
     def test_go_agenda(self):
         self.app.sm.current = "todo"
@@ -137,8 +145,6 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
 
     def test_get_application_config(self):
 
-
-
         platform_dispatcher(
             self.app.get_application_config(disable_debug=True),
             str(Path.home() / ".config" / "MyDevoirs" / "settings.ini"),
@@ -179,20 +185,6 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
             assert cp["ddb"]["path"] == DEFAULT_SETTINGS["ddb"]["path"]
             assert app.config["ddb"]["path"] == DEFAULT_SETTINGS["ddb"]["path"]
             assert cp["agenda"]["lundi"] == app.config["agenda"]["lundi"]
-
-    def test_parse_matiere(self):
-            class MyDevoirsAppMock(MyDevoirsApp):
-                pass
-
-            with tempfile.NamedTemporaryFile() as t:
-                MyDevoirsAppMock.get_application_config = lambda x: t.name
-                app = MyDevoirsAppMock()
-                t.close()  # windows need it**********************
-                json_file = str(Path(__file__).parent / "matieres.json")
-                text = f'[ddb]\nfile_config_path = {json_file}'
-                Path(t.name).write_text(text)
-                assert app._parse_matiere() == json.load(open(json_file))
-
 
     def test_init_database(self):
         app = MyDevoirsApp()

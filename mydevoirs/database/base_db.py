@@ -2,8 +2,9 @@ from pathlib import Path
 
 from pony.orm import Database, db_session, flush
 
-from .models import init_models
 from mydevoirs.constants import MATIERES_TREE_INIT
+
+from .models import init_models
 
 
 @db_session

@@ -6,7 +6,6 @@ from kivy.config import ConfigParser
 from kivy.lang import Builder
 from kivy.uix.dropdown import DropDown
 
-
 from mydevoirs.agenda import (
     Agenda,
     AgendaItemWidget,
@@ -16,17 +15,17 @@ from mydevoirs.agenda import (
     JourWidget,
 )
 from mydevoirs.constants import SEMAINE
+from mydevoirs.matieredropdown import MatiereDropdown
 
 from .fixtures import *
 
 
-
 class AgendaItemWidgetTestCase(MyDevoirsTestCase):
-
     def setUp(self, no_db=False):
         super().setUp(no_db)
         # nexecessaire pour utiliser app dans kv independant
         from mydevoirs.app import MyDevoirsApp
+
         self.myapp = MyDevoirsApp()
 
     def tearDown(self):
@@ -35,6 +34,7 @@ class AgendaItemWidgetTestCase(MyDevoirsTestCase):
 
     def test_rine(self):
         assert True
+
     def test_widget_init(self):
 
         self.check_super_init("ItemWidget", AgendaItemWidget, **f_item().to_dict())
@@ -45,61 +45,61 @@ class AgendaItemWidgetTestCase(MyDevoirsTestCase):
 
     def test_on_done(self):
 
-         # check super call
-         with patch("mydevoirs.agenda.ItemWidget.on_done") as e:
-             item = AgendaItemWidget(**f_item().to_dict())
-             item.loaded_flag = False
-             item.on_done()
-             assert e.called
+        # check super call
+        with patch("mydevoirs.agenda.ItemWidget.on_done") as e:
+            item = AgendaItemWidget(**f_item().to_dict())
+            item.loaded_flag = False
+            item.on_done()
+            assert e.called
 
-         # reste
-         item = AgendaItemWidget(**f_item().to_dict())
-         item._jour_widget = MagicMock()
-         item.on_done()
-         assert item.jour_widget.update_progression.called
+        # reste
+        item = AgendaItemWidget(**f_item().to_dict())
+        item._jour_widget = MagicMock()
+        item.on_done()
+        assert item.jour_widget.update_progression.called
 
     def test_jour_widget(self):
-         f = f_item()
-         jw = JourWidget(f.jour.date)
-         item = jw.jouritem.children[0]
+        f = f_item()
+        jw = JourWidget(f.jour.date)
+        item = jw.jouritem.children[0]
 
-         # base behaviour
-         assert item.jour_widget == jw
+        # base behaviour
+        assert item.jour_widget == jw
 
-         # test cache
-         with patch.object(item, "walk_reverse") as m:
-             assert item.jour_widget == jw
-             assert not m.called
+        # test cache
+        with patch.object(item, "walk_reverse") as m:
+            assert item.jour_widget == jw
+            assert not m.called
 
 
 class JourItemsTestCase(MyDevoirsTestCase):
-
-     def setUp(self, no_db=False):
+    def setUp(self, no_db=False):
         super().setUp(no_db)
         # nexecessaire pour utiliser app dans kv independant
         from mydevoirs.app import MyDevoirsApp
+
         self.myapp = MyDevoirsApp()
 
-     def tearDown(self):
+    def tearDown(self):
         super().tearDown()
         self.myapp.stop()
 
-     def test_init(self):
-         self.check_super_init("BoxLayout", JourItems, datetime.date.today())
+    def test_init(self):
+        self.check_super_init("BoxLayout", JourItems, datetime.date.today())
 
-     def test_load(self):
+    def test_load(self):
 
-         day = f_jour().date
-         f_item(jour=day)
-         f_item(jour=day)
-         c = f_item(jour=day)
+        day = f_jour().date
+        f_item(jour=day)
+        f_item(jour=day)
+        c = f_item(jour=day)
 
-         jouritems = JourItems(day)
+        jouritems = JourItems(day)
 
-         self.render(jouritems)
+        self.render(jouritems)
 
-         assert len(jouritems.children) == 3
-         assert jouritems.children[0].entry == c.id
+        assert len(jouritems.children) == 3
+        assert jouritems.children[0].entry == c.id
 
 
 class JourWidgetTestCase(MyDevoirsTestCase):
@@ -107,6 +107,7 @@ class JourWidgetTestCase(MyDevoirsTestCase):
         super().setUp(no_db)
         # nexecessaire pour utiliser app dans kv independant
         from mydevoirs.app import MyDevoirsApp
+
         self.myapp = MyDevoirsApp()
 
     def tearDown(self):
@@ -134,6 +135,16 @@ class JourWidgetTestCase(MyDevoirsTestCase):
         assert any(isinstance(x, DropDown) for x in self.Window.children)
         with db_session:
             assert db.Item[jour.jouritem.children[0].entry]
+
+    def test_add_matiere_dropdown_correctly_called(self):
+        day = f_jour()
+        jour = JourWidget(day.date)
+        self.render(jour)
+        jour.ids.add_button.trigger_action(0)
+
+        dd = [x for x in self.Window.children if isinstance(x, MatiereDropdown)][0]
+        dd.select(dd.options[0])
+        # should simply not failed
 
     def test_add_udpate_progression(self):
         day = f_jour()
@@ -267,6 +278,7 @@ class TestCaroussel(MyDevoirsTestCase):
         quatre = c.slides[2]
         assert c.slides == [deux, trois, quatre]
         assert len(c.slides) == 3
+
 
 class TestAgendaScreen(MyDevoirsTestCase):
     def test_init(self):

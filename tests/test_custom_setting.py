@@ -98,6 +98,7 @@ class TestSettingCustomConfigFilePath(MyDevoirsTestCase):
         assert self.window.children[0] == fp_popup
         assert self.fp.value == self.T.file.aname
         del fp_popup
+
     #
     def test_ne_rien_changeer(self):
         self.fp.textinput.dispatch("on_canceled")
@@ -116,6 +117,7 @@ class TestSettingCustomConfigFilePath(MyDevoirsTestCase):
         self.fp.textinput.dispatch("on_success")
         self.popup_click("oui")
         assert self.fp.value == self.T.filename.aname
+
     #
     # def test_nouveau_nom_copier_fichier_existe_ecrase(self):
     #

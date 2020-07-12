@@ -25,15 +25,10 @@ class MatiereDropdown(FocusBehavior, DropDown):
         self.focus = True
 
     def on_select(self, button):
-        self.attach_to.parent.update_matiere(button.matiere_id)
+        self.attach_to.update_matiere(button.matiere_id)
 
     @db_session
     def _create_options(self, widget, key):
-
-        # collection = self.tree if key is None else self.tree[key]
-        # for k, v in collection.items():
-        #     has_sub = not isinstance(v, tuple)
-        #     widget.add_widget(MatiereOption(text=k, has_sub=has_sub, dropdown=widget))
         for item in db.Matiere.get_ordered():
             widget.add_widget(
                 MatiereOption(

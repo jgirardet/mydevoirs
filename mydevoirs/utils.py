@@ -11,12 +11,15 @@ from mydevoirs.datas import get_datas
 
 datas = get_datas()
 
+
 class Path(type(PythonPath())):
     @property
     def aname(self):
         return str(self.absolute())
 
-_temppath=None
+
+_temppath = None
+
 
 def get_dir(key, disable_debug=False):
 
@@ -31,40 +34,26 @@ def get_dir(key, disable_debug=False):
         # if DEBUG and not disable_debug:
         temppath = _temppath or Path(tempfile.TemporaryDirectory().name)
         _temppath = temppath
-        dire = temppath / key /APP_NAME
-    elif DEBUG:
+        dire = temppath / key / APP_NAME
+    elif DEBUG:  # pragma: no cover_all
         _temppath = Path(Path(tempfile.gettempdir()) / "mydevoirs_debug")
         if not _temppath.exists():
             _temppath.mkdir()
-        dire = _temppath / key /APP_NAME
-    else:
+        dire = _temppath / key / APP_NAME
+    else:  # pragma: no cover_all
         dire = default()
 
     if not dire.is_dir():
         dire.mkdir(parents=True)
     return dire
 
-def build_matieres(tree):
-        mat = {}
-        for k, v in tree.items():
-            if isinstance(v, (tuple, list)):
-                mat[k] = tuple(v)
-            else:
-                # base = None
-                for x, y in v.items():
-                    if not mat.get(k, None):
-                        mat[k] = tuple(y)
-                    mat[x] = tuple(y)
-        return mat
 
 def get_matiere_color(nom, matiere):
     try:
 
         return rgba(matiere[nom])
     except KeyError:
-        return rgba((0,0,0))
-# 
-# 
-# gmc = get_matiere_color
+        return rgba((0, 0, 0))
 
-DEBUG= True
+
+DEBUG = True

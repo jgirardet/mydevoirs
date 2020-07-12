@@ -3,17 +3,14 @@ from kivy.lang import Builder
 from kivy.logger import LOG_LEVELS, Logger
 from mimesis import Generic
 
-import mydevoirs.database
-from mydevoirs.main import setup_start
 from mydevoirs.database import init_database
-from mydevoirs.constants import MATIERES_TREE
-from mydevoirs.utils import  build_matieres
+from mydevoirs.main import setup_start
+import mydevoirs.database
+
+# from mydevoirs.utils import build_matieres
 
 generic_mimesis = Generic("fr")
 
-@pytest.fixture()
-def matieres_config():
-    return build_matieres(MATIERES_TREE)
 
 @pytest.fixture(scope="function")
 def gen(request):
@@ -25,9 +22,9 @@ def pytest_configure(config):
 
 
 def pytest_sessionstart():
+    mydevoirs.database.db = init_database()
     Builder.load_file("mydevoirs/mydevoirs.kv")
     setup_start()
-    mydevoirs.database.db = init_database(build_matieres(MATIERES_TREE))
 
 
 @pytest.fixture(scope="function")

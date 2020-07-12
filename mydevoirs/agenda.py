@@ -92,7 +92,7 @@ class JourWidget(BoxLayout):
             item_widget = AgendaItemWidget(**item.to_dict())
         self.jouritem.add_widget(item_widget)
         self.update_progression()
-        MatiereDropdown().open(item_widget.ids.spinner)
+        MatiereDropdown().open(item_widget)
 
     @property
     def items(self):

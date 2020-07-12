@@ -26,6 +26,7 @@ def init_models(db):
             return count(x for x in self.items if x.done), len(self.items)
 
     class Ordre(db.Entity, GetOrCreateMixin):
+        """L'ordre n'est pas maintenu automatiquement dans la ddb"""
         nom = PrimaryKey(str)
         ordre = Required(IntArray, default=[])
 

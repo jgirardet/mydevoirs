@@ -1,42 +1,37 @@
-from kivy.app import App
 from kivy.clock import Clock
 from kivy.properties import (
-    BooleanProperty,
-    DictProperty,
-    ListProperty,
-    NumericProperty,
-    ObjectProperty,
-    StringProperty,
     ColorProperty,
+    ObjectProperty,
 )
-from kivy.uix.behaviors import DragBehavior, ButtonBehavior
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.colorpicker import ColorPicker
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.label import Label
 from kivy.uix.popup import Popup
 from kivy.uix.screenmanager import Screen
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.textinput import TextInput
-from kivy.utils import rgba
-from kivy.uix.image import Image
 from pony.orm import db_session
-from kivy.graphics import Rectangle, Color
+
 from mydevoirs.database import db
 from mydevoirs.imagebutton import ImageButton
-from mydevoirs.itemwidget import ValidationPopup
 from mydevoirs.ouinonpopup import OuiNonPopup
 from mydevoirs.utils import datas
 
 
+MATIERE_ITEM_HEIGHT = 30
+OPACITY_UNSELECTED = 0.5
+
+
 class AddButton(ImageButton):
+    """Add a matière"""
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.source = datas["icon_new"]
         # self.bind(release=self.parent.grid.add_item)
 
     def on_release(self):
+
         self.parent.grid.add_item(self.parent)
 
 
@@ -63,7 +58,7 @@ class MoveButton(ImageButton):
         self.source = datas["icon_arrowmove"]
 
     def on_touch_down(self, touch):
-        if self.collide_point(*touch.pos):
+        if self.collide_point(*touch.pos):  # pragma: no branch
             parent = self.parent
             grid = parent.grid
 
@@ -89,7 +84,7 @@ class MatiereItem(BoxLayout):
         self.orientation = "horizontal"
         self.data = data
         self.grid = grid
-        self.height = 30
+        self.height = MATIERE_ITEM_HEIGHT
         self.size_hint_y = None
         self.texte = MatiereInput(size_hint_x=0.9)
         self.bind(bgColor=self.texte.setter("background_color"))
@@ -100,15 +95,21 @@ class MatiereItem(BoxLayout):
         self.add_widget(remove)
         self.bgColor = data["color"]
 
-    def on_touch_move(self, touch):
+    def __repr__(self):
+        return (
+            f"MatireItem[{self.data['nom']}]"
+            if hasattr(self, "data")
+            else super().__repr__()
+        )
 
+    def on_touch_move(self, touch):
         if grabbed := self.grid.grabbed:
 
             if self.collide_point(touch.x, touch.y) and self != grabbed:
                 self.opacity = 1
                 self.grid.last_hovered = self
             else:
-                self.opacity = 0.5
+                self.opacity = OPACITY_UNSELECTED
         else:
             return
 
@@ -132,15 +133,16 @@ class MatiereInput(TextInput):
             return
         if touch.button == "left":
             super().on_touch_down(touch)
+            return True
 
-        elif touch.button == "right":
+        elif touch.button == "right":  # pragma: no branch
             self.colorpopup = ColorPopup(
                 title=f"Couleur pour {self.parent.data['nom']}",
                 color=self.background_color,
-                # on_color=self.update_color,
             )
             self.colorpopup.bind(color=self.update_color)
             self.colorpopup.open()
+            return True
 
     @db_session
     def update_color(self, popup, color):
@@ -149,7 +151,7 @@ class MatiereInput(TextInput):
 
     @db_session
     def on_text_changed(self, instance, text):
-        if not text:
+        if not text:  # block la souvegarde d'une matiere sans nom
             return
         db.Matiere[self.parent.data["id"]].nom = text
 
@@ -219,7 +221,7 @@ class ColorList(BoxLayout):
         grabbed.opacity = 0.3
         for it in self.children:
             if not it.collide_widget(self.grabbed):
-                it.opacity = 0.5
+                it.opacity = OPACITY_UNSELECTED
 
     def teardown_on_drag(self, *args):
         self.unbind(children=self.save_order)
@@ -259,12 +261,7 @@ class ColorPopup(Popup):
 
 
 class ColorChooser(Screen):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
     def reload(self):
-        # if hasattr(self, "colorlist"):
-        #     self.remove_widget(self.colorlist)
         self.clear_widgets()
         self.colorlist = ColorList(size_hint_y=None)
         self.colorlist.bind(minimum_height=self.colorlist.setter("height"))

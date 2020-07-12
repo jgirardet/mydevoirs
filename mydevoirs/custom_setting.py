@@ -92,25 +92,26 @@ class SettingCustomConfigFilePath(SettingPath):
         self.value = self.new_value
 
     # def _:
-        # def write(*args):
-        #     new.write_bytes(old.read_bytes())
-        #     self._update_value()
-        #
-        # old = Path(self.value)
-        # new = Path(self.new_value)
-        # if new.exists():
-        #     OuiNonPopup(
-        #         title=f"Confirmez le remplacement du contenu de {str(new)} par {str(old)}",
-        #         on_oui=write,
-        #         on_non=self._dismiss,
-        #     )
-        # else:
-        #     write()
-        #     self._update_value()
+    # def write(*args):
+    #     new.write_bytes(old.read_bytes())
+    #     self._update_value()
+    #
+    # old = Path(self.value)
+    # new = Path(self.new_value)
+    # if new.exists():
+    #     OuiNonPopup(
+    #         title=f"Confirmez le remplacement du contenu de {str(new)} par {str(old)}",
+    #         on_oui=write,
+    #         on_non=self._dismiss,
+    #     )
+    # else:
+    #     write()
+    #     self._update_value()
 
     def _do_no(self, *args):
         def do_yes(*args):
             self.value = ""
+
         def do_no(*args):
             pass
 

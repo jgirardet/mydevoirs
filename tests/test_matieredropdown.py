@@ -4,6 +4,7 @@ from kivy.base import EventLoop
 from kivy.uix.dropdown import DropDown
 from kivy.uix.widget import Widget
 
+from mydevoirs.itemwidget import ItemWidget
 from mydevoirs.matieredropdown import MatiereDropdown, MatiereOption
 
 from .fixtures import *
@@ -21,7 +22,7 @@ class MatiereDropdownTestCase(MyDevoirsTestCase):
         self.check_super_init("DropDown", MatiereDropdown)
 
         w = Widget()
-        m = MatiereDropdown(tree=MATIERES_TREE)
+        m = MatiereDropdown()
         m._create_options(w, None)
         assert [p.text for p in m.children[0].children] == [p.text for p in w.children]
 
@@ -29,47 +30,30 @@ class MatiereDropdownTestCase(MyDevoirsTestCase):
         self.check_super_init("DropDown", MatiereDropdown)
 
         w = Widget()
-        m = MatiereDropdown(tree=MATIERES_TREE)
+        m = MatiereDropdown()
         m._create_options(w, None)
 
         res = [str(p) for p in w.children[::-1]]
 
         assert res == [
-            str(MatiereOption(text="Français", has_sub=True)),
-            str(MatiereOption(text="Sciences", has_sub=False)),
-            str(MatiereOption(text="Histoire-Géo", has_sub=True)),
-            str(MatiereOption(text="Divers", has_sub=False)),
+            "MatiereOption: Orthographe",
+            "MatiereOption: Grammaire",
+            "MatiereOption: Conjugaison",
+            "MatiereOption: Vocabulaire",
+            "MatiereOption: Rédaction",
+            "MatiereOption: Mathématiques",
+            "MatiereOption: Géométrie",
+            "MatiereOption: Histoire",
+            "MatiereOption: Géographie",
+            "MatiereOption: Musique",
+            "MatiereOption: Poésie",
+            "MatiereOption: Sciences",
+            "MatiereOption: Anglais",
+            "MatiereOption: Divers",
         ]
-
-    def test_on_select_has_sub(self):
-        EventLoop.ensure_window()
-        window = EventLoop.window
-        base = Widget()
-        window.add_widget(base)
-        m = MatiereDropdown(tree=MATIERES_TREE, attach_to=base)
-
-        m.on_select(MatiereOption(text="Français", has_sub=True))
-
-        res = [str(p) for p in window.children[0].children[0].children][::-1]
-
-        assert res == [
-            str(MatiereOption(text="Orthographe", has_sub=False)),
-            str(MatiereOption(text="Rédaction", has_sub=False)),
-        ]
-
-    def test_on_select_not_has_sub(self):
-        b1 = Widget()
-        b1.update_matiere = MagicMock()
-        # b1.update_matiere =
-        base = Widget()
-        b1.add_widget(base)
-        m = MatiereDropdown(tree=MATIERES_TREE, attach_to=base)
-        m.on_select(MatiereOption(text="Sciences", has_sub=False))
-        assert b1.update_matiere.called
-        assert b1.update_matiere.call_args == call("Sciences")
 
     def test_focus_on_create(self):
-        m = MatiereDropdown(tree=MATIERES_TREE)
+        m = MatiereDropdown()
         # option bold == focused
         assert m.focus
         assert m.focused_index == -1
@@ -80,45 +64,62 @@ class MatiereDropdownTestCase(MyDevoirsTestCase):
         """test haut, bas, dépassement des limites, 
         touche entrée, le tout sur le key general"""
 
-        m = MatiereDropdown(tree=MATIERES_TREE)
+        m = MatiereDropdown()
 
         # Point de départ
         assert m.focused_index == -1
-        assert m.options[3].bold
+        assert m.options[-1].bold
 
         # 1 coup en bas
         self.press_key("down")
         assert m.focused_index == -2
-        assert m.options[2].bold
-        assert not m.options[3].bold
+        assert m.options[-2].bold
+        assert not m.options[-3].bold
 
         # puis 2 coup en bas (donc dernier)
         self.press_key(274)
         self.press_key(274)
         assert m.focused_index == -4
-        assert m.options[0].bold
-        assert not all(x.bold for x in m.options[1:])
+        assert m.options[-4].bold
+        assert not all(x.bold for x in m.options[:-4])
 
         # puis 1 coup en bas (donc dépasse doit repasser premier)
+        m.options[-4].bold = False
+        m.focused_index = 0
         self.press_key(274)
         assert m.focused_index == -1
-        assert m.options[3].bold
-        assert not all(x.bold for x in m.options[-4:-1])
+        assert m.options[-1].bold
+        assert not all(x.bold for x in m.options[:-1])
 
+        # -len donne -1
+        m.options[-1].bold = False
+        m.focused_index = -len(m.options)
+        self.press_key(274)
+        assert m.focused_index == -1
+
+    def test_on_keyboard_keydown3(self):
+        """test haut, bas, dépassement des limites,
+        touche entrée, le tout sur le key general"""
+
+        m = MatiereDropdown()
         # puis 1 coup en haut : dépasse revient en position précédente
+        m.focused_index = -1
         self.press_key(273)
-        assert m.focused_index == -4
-        assert m.options[0].bold
+        assert m.focused_index == -14
+        print(m.options[-14])
+        for x in m.options:
+            print(x.matiere_id, x.text, x.bold, m.options.index(x))
+        assert m.options[-14].bold
         assert not all(x.bold for x in m.options[1:])
 
         # puis 2 coup en haut
         self.press_key(273)
         self.press_key(273)
-        assert m.focused_index == -2
-        assert m.options[2].bold
-        assert not m.options[0].bold
-        assert not m.options[1].bold
-        assert not m.options[3].bold
+        assert m.focused_index == -12
+        assert m.options[-12].bold
+        assert not m.options[-14].bold
+        assert not m.options[-13].bold
+        assert not m.options[-1].bold
 
         # appuyer sur entrée
         m.on_select = MagicMock()
@@ -135,22 +136,20 @@ class MatiereDropdownTestCase(MyDevoirsTestCase):
         EventLoop.ensure_window()
         window = EventLoop.window
         base = Widget()
+        base.update_matiere = lambda x: x == x
         window.add_widget(base)
-        m = MatiereDropdown(tree=MATIERES_TREE, attach_to=base)
+        m = MatiereDropdown(attach_to=base)
         assert m.keyboard_on_key_down("window", (275, "right"), "omk", "modifier")
-        d2 = window.children[0]
-        assert d2.options[-1].text == "Orthographe"
+        assert m.options[-1].text == "Orthographe"
 
         # test pas de touche identifié
         assert not m.keyboard_on_key_down("window", (2000, ""), "omk", "modifier")
 
 
+
 class TestMatiereOption(MyDevoirsTestCase):
     def test_init(self):
         a = MatiereOption()
-        assert not a.has_sub
-        a = MatiereOption(has_sub=True)
-        assert a.has_sub
 
     def test_on_release(self):
         w = DropDown()

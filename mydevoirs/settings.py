@@ -5,11 +5,7 @@ from pathlib import Path
 from mydevoirs.constants import DDB_FILENAME
 from mydevoirs.utils import get_dir
 
-try:
-    from importlib import metadata as importlib_metadata
-except ImportError:
-    # Backwards compatibility - importlib.metadata was added in Python 3.8
-    import importlib_metadata
+from importlib import metadata as importlib_metadata
 
 # Find the name of the module that was used to start the app
 # app_module = sys.modules["__main__"].__package__
@@ -135,7 +131,6 @@ AGENDA_PANEL = [
 
 import mydevoirs.utils
 
-
 DEFAULT_SETTINGS = {
     "agenda": {
         "lundi": 1,
@@ -146,8 +141,7 @@ DEFAULT_SETTINGS = {
         "samedi": 0,
         "dimanche": 0,
     },
-    "ddb": {"path": str(get_dir("cache") / DDB_FILENAME)
-            ,"file_config_path": ""},
+    "ddb": {"path": str(get_dir("cache") / DDB_FILENAME), "file_config_path": ""},
     "aide": {"aide": homepage},
 }
 

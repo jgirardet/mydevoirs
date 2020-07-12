@@ -1,5 +1,5 @@
 # dev dependencies
-pytest
+pytest>=6.0.0rc1
 black
 coverage
 briefcase

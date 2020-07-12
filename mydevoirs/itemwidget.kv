@@ -15,9 +15,8 @@
         id: spinner
         text: root.matiere_nom
         on_release:
-            MatiereDropdown().open(self)
+            MatiereDropdown().open(root)
         background_color: root.matiere_color
-        #background_color: app.gmc(self.text)
         background_normal: '' # pragma: no cover
         color: COLORS["spinner_text_color"]
         size_hint_x: 0.4 # pragma: no cover

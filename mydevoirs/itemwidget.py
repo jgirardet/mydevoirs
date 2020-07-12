@@ -5,11 +5,11 @@ from kivy.clock import Clock
 from kivy.lang import Builder
 from kivy.properties import (
     BooleanProperty,
+    ColorProperty,
     ListProperty,
     NumericProperty,
     ObjectProperty,
     StringProperty,
-    ColorProperty,
 )
 from kivy.uix.behaviors import FocusBehavior
 from kivy.uix.boxlayout import BoxLayout
@@ -100,7 +100,7 @@ class ContentTextInput(TextInput):
             self.parent.jour_widget.ids.add_button.trigger_action(0)
             dropdown = window.window.children[0]
             window.window.remove_widget(dropdown)
-            self.parent.jour_widget.items[0].update_matiere(self.parent.matiere_nom)
+            self.parent.jour_widget.items[0].update_matiere(self.parent.matiere_id)
 
         # ctrl + m = matiere ?
         elif keycode[1] == "m" and "ctrl" in modifiers:

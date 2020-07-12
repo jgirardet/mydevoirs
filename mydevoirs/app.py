@@ -12,20 +12,18 @@ from kivy.properties import ObjectProperty
 from kivy.uix.actionbar import ActionBar
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager, SlideTransition
-
 from pony.orm import OperationalError
 
 import mydevoirs.database
-
 from mydevoirs.constants import BASE_DIR
 from mydevoirs.custom_setting import (
+    SettingCustomConfigFilePath,
     SettingFilePath,
     SettingLabel,
-    SettingCustomConfigFilePath,
 )
 from mydevoirs.database import init_database
 from mydevoirs.settings import DEFAULT_SETTINGS, SETTING_PANELS
-from mydevoirs.utils import get_dir, get_matiere_color, build_matieres
+from mydevoirs.utils import get_dir, get_matiere_color
 
 
 class MyDevoirsApp(App):
@@ -42,27 +40,6 @@ class MyDevoirsApp(App):
         # self.get_matieres()
         print(self.get_application_config())
 
-    #
-    # def get_matieres(self):
-    #     """read settings for alternate matiere"""
-    #     res = self._parse_matiere()
-    #     self.MATIERES_TREE = res or MATIERES_TREE
-    #     self.MATIERES = build_matieres(self.MATIERES_TREE)
-    #
-    # def _parse_matiere(self):
-    #     print(self.config, "dans parser matier")
-    #     cp = ConfigParser()
-    #     config_file = self.get_application_config()
-    #     print(config_file)
-    #     cp.read(config_file)
-    #
-    #     if filename := cp.get('ddb', 'file_config_path', fallback=None):
-    #         with open(filename) as fd:
-    #             res = json.load(fd)
-    #             return res
-    #     else:
-    #         return {}
-
     def init_database(self):
         path = self.load_config()["ddb"]["path"]
         try:
@@ -72,8 +49,8 @@ class MyDevoirsApp(App):
 
     def build(self):
         from mydevoirs.agenda import Agenda
-        from mydevoirs.todo import Todo
         from mydevoirs.colorchooser import ColorChooser
+        from mydevoirs.todo import Todo
 
         self.sm = ScreenManager(transition=SlideTransition(direction="up"))
         self.agenda = Agenda(name="agenda")
@@ -162,11 +139,4 @@ class MyDevoirsApp(App):
         self.config = None
         self.load_config()
         self.config.update({"ddb": {"path": default}})
-        mydevoirs.database.db = init_database(
-            self.MATIERES, filename=default, create_db=True
-        )
-
-    def get_matiere_color(self, nom):
-        return get_matiere_color(nom, self.MATIERES)
-
-    gmc = get_matiere_color
+        mydevoirs.database.db = init_database(filename=default, create_db=True)
