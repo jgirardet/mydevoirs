@@ -34,7 +34,6 @@ class MyDevoirsApp(App):
     def __init__(self, *args, **kwargs):
 
         super().__init__(*args, **kwargs)
-        print(self.get_application_config())
 
     def init_database(self):
         path = self.load_config()["ddb"]["path"]

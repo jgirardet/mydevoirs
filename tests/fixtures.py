@@ -30,7 +30,6 @@ def get_touch(item):
 
 def f_matiere(nom=None, color=None):
     nom = nom or gen.text.word()
-    print(nom)
     color = color or [
         random.randint(0, 10) / 10,
         random.randint(0, 10) / 10,
