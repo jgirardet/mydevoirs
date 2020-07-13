@@ -149,7 +149,6 @@ def cmd_create_env(*args, **kwargs):
 
 
 def cmd_install(*args, **kwargs):
-    breakpoint()
     runCommand(f"python -m pip install -U pip")
     runCommand(f"pip install -r requirements.txt")
     runCommand(f"python run.py install_from_require")
