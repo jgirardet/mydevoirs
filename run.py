@@ -27,7 +27,21 @@ def get_shell():
     return os.environ.get("SHELL", None)
 
 
-def cmd_rien():
+def get_dependencies():
+    import toml
+
+    pp = toml.load("pyproject.toml")
+    app_pp = pp["tool"]["briefcase"]["app"][PACKAGE_NAME]
+    p1 = app_pp["requires"]
+    try:
+        p2 = app_pp[sys.platform.lower()]["requires"]
+    except KeyError:
+        p2 = []
+
+    return p1 + p2
+
+
+def cmd_rien(*args, **kwargs):
     runCommand("pip -V")
 
 
@@ -135,18 +149,16 @@ def cmd_create_env(*args, **kwargs):
 
 
 def cmd_install(*args, **kwargs):
+    breakpoint()
     runCommand(f"python -m pip install -U pip")
     runCommand(f"pip install -r requirements.txt")
     runCommand(f"python run.py install_from_require")
 
 
 def cmd_install_from_require(*args, **kwargs):
-    from briefcase.config import parse_config
-
-    with open("pyproject.toml") as ff:
-        _, appconfig = parse_config(ff, sys.platform, "")
-    reqs = [f'"{r}"' for r in appconfig[PACKAGE_NAME]["requires"]]
-    runCommand(f"pip install {' '.join(reqs)}")
+    deps = [f'"{x}"' for x in get_dependencies()]
+    # breakpoint()
+    runCommand(f"pip install {' '.join(deps)}")
 
 
 def cmd_setup(*args, **kwargs):
@@ -195,6 +207,7 @@ if __name__ == "__main__":
     parser.add_argument("command")
     parser.add_argument("args", nargs="*")
     parser.add_argument("-input", nargs="?")
+    parser.add_argument("-venv", nargs="?")
     parser.add_argument("-ni", "--no-input")
 
     args = parser.parse_args()
