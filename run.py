@@ -1,5 +1,6 @@
 import argparse
 import os
+import platform
 import shutil
 import subprocess
 import sys
@@ -11,13 +12,15 @@ VIRTUAL_ENV = ROOT / ".venv"
 PACKAGE_NAME = "mydevoirs"
 currentProccess = None
 
+OS = platform.system()
+
 
 def get_env():
     env = os.environ
     path = env["PATH"]
-    if sys.platform == "linux":
+    if OS == "Linux":
         new = f"{VIRTUAL_ENV / 'bin'}:"
-    elif sys.platform == "win32":
+    elif OS == "Windows":
         new = f"{VIRTUAL_ENV / 'Scripts'};"
     env["PATH"] = new + path
     return env
@@ -34,7 +37,7 @@ def get_dependencies():
     app_pp = pp["tool"]["briefcase"]["app"][PACKAGE_NAME]
     p1 = app_pp["requires"]
     try:
-        p2 = app_pp[sys.platform.lower()]["requires"]
+        p2 = app_pp[OS.lower()]["requires"]
     except KeyError:
         p2 = []
 
