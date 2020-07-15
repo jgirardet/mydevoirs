@@ -31,6 +31,9 @@ def init_models(db):
         nom = PrimaryKey(str)
         ordre = Required(IntArray, default=[])
 
+    class Configuration(db.Entity):
+        version = Required(str)
+
     class Matiere(db.Entity):
         nom = Required(str)
         color = Required(FloatArray)

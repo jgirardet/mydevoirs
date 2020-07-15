@@ -1,17 +1,22 @@
 import datetime
 import tempfile
 from pathlib import Path
+from unittest.mock import patch
 
 import pytest
 from pony.orm import Database, db_session, select
 
-from mydevoirs.constants import MATIERES_TREE_INIT
+from mydevoirs.constants import MATIERES_TREE_INIT, VERSION
 from mydevoirs.database import (
     db,
     ensure_database_directory,
     init_bind,
     init_database,
     init_update_matiere,
+)
+from mydevoirs.database.base_db import (
+    get_database_version,
+    compare_database_and_app_version,
 )
 
 from .fixtures import f_item, f_matiere
@@ -53,12 +58,54 @@ def test_init_update_matiere():
     check_default_matiere()
 
 
-def test_ensure_update_matiere():
+def test_ensure_database_directory_does_not_exists():
     with tempfile.TemporaryDirectory() as t:
         file = Path(t, "rien", "nouveau", "bla", "lieu", "base.ddb")
-        loc = ensure_database_directory(str(file))
+        loc, exists = ensure_database_directory(str(file))
         assert file.parent.is_dir()
         assert loc == file
+        assert not exists
+
+
+def test_ensure_database_directory_file_exists():
+    with tempfile.TemporaryDirectory() as t:
+        file = Path(t, "base.ddb")
+        file.touch()
+        loc, exists = ensure_database_directory(str(file))
+        assert file.parent.is_dir()
+        assert exists
+        assert loc == file
+
+
+def test_get_database_version_table_configuration_no_exists():
+    db = Database()
+    db.bind(provider="sqlite", filename=":memory:")
+    assert get_database_version(db) == ""
+
+
+def test_get_database_version_table_configuration_no_entry(ddbr):
+    assert get_database_version(ddbr) == ""
+
+
+def test_get_database_version_table_configuration_no_entry(ddbr):
+    assert get_database_version(ddbr) == ""
+
+
+def test_get_database_version_table_configuration_entry_ok(ddbr):
+    with db_session:
+        ddbr.Configuration(version="2.3.4")
+    assert get_database_version(ddbr) == "2.3.4"
+
+
+def test_compare_database_and_app_version():
+    with patch("mydevoirs.database.base_db.VERSION", "1.2.3"):
+        assert compare_database_and_app_version("1.2.2") == "need update"
+
+    with patch("mydevoirs.database.base_db.VERSION", "1.2.1"):
+        assert compare_database_and_app_version("1.2.2") == "incompatible"
+
+    with patch("mydevoirs.database.base_db.VERSION", "1.2.2"):
+        assert compare_database_and_app_version("1.2.2") == "ok"
 
 
 def test_init_bind_memory():
@@ -146,3 +193,11 @@ class TestMatiere:
                 c.to_dict(),
                 b.to_dict(),
             ]
+
+
+class TestConfiguration:
+    def test_init(self):
+        with db_session:
+            x = db.Configuration(version="1.2.3")
+        with db_session:
+            assert db.Configuration[x.id].version == "1.2.3"

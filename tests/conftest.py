@@ -2,6 +2,7 @@ import pytest
 from kivy.lang import Builder
 from kivy.logger import LOG_LEVELS, Logger
 from mimesis import Generic
+from pony.orm import db_session, delete
 
 import mydevoirs.database
 from mydevoirs.database import init_database
@@ -37,3 +38,51 @@ def tmpfile(request, tmp_path, gen):
 def tmpfilename(request, tmp_path, gen):
     """tempfile which does not exists"""
     return tmp_path / gen.file.file_name()
+
+
+@pytest.fixture()
+def ddbn():
+    """database no reset"""
+    from mydevoirs.database import db
+
+    return db
+
+
+@pytest.fixture(scope="session")
+def session_ddb():
+    """database no reset"""
+    from mydevoirs.database import db
+
+    return db
+
+
+@pytest.fixture()
+def ddbr(reset_db):
+    """database reset db"""
+    from mydevoirs.database import db
+
+    return db
+
+
+@pytest.fixture()
+def ddb(ddbr, reset_db):
+    """database reset with ddb_sesion"""
+    db_session.__enter__()
+    yield ddbr
+    db_session.__exit__()
+    # reset_db(database)
+
+
+@pytest.fixture(scope="function")
+def reset_db(ddbn):
+    fn_reset_db(ddbn)
+    yield
+
+
+def fn_reset_db(db):
+    with db_session:
+        for entity in db.entities.values():
+            delete(e for e in entity)
+            db.execute(
+                f"UPDATE SQLITE_SEQUENCE  SET  SEQ = 0 WHERE NAME = '{entity._table_}';"
+            )
