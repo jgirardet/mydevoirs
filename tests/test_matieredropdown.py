@@ -106,9 +106,6 @@ class MatiereDropdownTestCase(MyDevoirsTestCase):
         m.focused_index = -1
         self.press_key(273)
         assert m.focused_index == -14
-        print(m.options[-14])
-        for x in m.options:
-            print(x.matiere_id, x.text, x.bold, m.options.index(x))
         assert m.options[-14].bold
         assert not all(x.bold for x in m.options[1:])
 

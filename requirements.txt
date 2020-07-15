@@ -6,3 +6,5 @@ briefcase
 mimesis
 isort
 freezegun
+gitpython
+toml

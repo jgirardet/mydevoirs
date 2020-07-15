@@ -1,5 +1,4 @@
 
-
 # MyDevoirs :  La prise de devoirs sur ordinateur enfin simple !!!
 
 ![agenda](docs/agenda800.png)
@@ -19,8 +18,8 @@ A priori les enfants qui ont besoin d'un ordiateur à l'école donc les Dys en g
 
 Pour l'instant disponible sous Windows et Linux (Mac possible si quelqu'un le demande).
 
-- Version Windows : [MyDevoirs.exe](https://github.com/jgirardet/mydevoirs/releases/download/0.6.3/MyDevoirs.exe) 
-- Version Linux : [MyDevoirs](https://github.com/jgirardet/mydevoirs/releases/download/0.6.3/MyDevoirs)
+- Version Windows : [MyDevoirs.exe](https://github.com/jgirardet/mydevoirs/releases/download/latest/MyDevoirs.exe) 
+- Version Linux : [MyDevoirs](https://github.com/jgirardet/mydevoirs/releases/download/latest/MyDevoirs)
 
 	- puis sous Windows :
 		- windows va vous mettre en garde car l'application n'est pas certifiée mais pas d'inquiétude, il suffit de cliquer sur `informations complémentaires` puis  `exécuter quand même`:

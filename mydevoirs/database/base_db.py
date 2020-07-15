@@ -33,7 +33,6 @@ def init_bind(db, provider="sqlite", filename=":memory:", create_db=False, **kwa
 
 
 def init_database(**kwargs):
-    print(kwargs)
     ddb = Database()
     init_models(ddb)
     init_bind(ddb, **kwargs)

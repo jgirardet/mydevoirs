@@ -159,4 +159,3 @@ pip-selfcheck.json
 
 # End of https://www.gitignore.io/api/python,virtualenv,sublimetext
 /linux/
-/mydevoirs.dist-info/

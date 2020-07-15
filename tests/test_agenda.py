@@ -250,8 +250,6 @@ class TestCaroussel(MyDevoirsTestCase):
         d = datetime.date(2015, 12, 11)
         c = CarouselWidget(day=d)
         un, deux, trois = c.slides
-        print()
-        print(c.slides)
         # in the middle, no move
         c.on_index(None, 1)
         assert c.index == 1

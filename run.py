@@ -1,5 +1,6 @@
 import argparse
 import os
+import platform
 import shutil
 import subprocess
 import sys
@@ -11,13 +12,15 @@ VIRTUAL_ENV = ROOT / ".venv"
 PACKAGE_NAME = "mydevoirs"
 currentProccess = None
 
+OS = platform.system()
+
 
 def get_env():
     env = os.environ
     path = env["PATH"]
-    if sys.platform == "linux":
+    if OS == "Linux":
         new = f"{VIRTUAL_ENV / 'bin'}:"
-    elif sys.platform == "win32":
+    elif OS == "Windows":
         new = f"{VIRTUAL_ENV / 'Scripts'};"
     env["PATH"] = new + path
     return env
@@ -27,7 +30,21 @@ def get_shell():
     return os.environ.get("SHELL", None)
 
 
-def cmd_rien():
+def get_dependencies():
+    import toml
+
+    pp = toml.load("pyproject.toml")
+    app_pp = pp["tool"]["briefcase"]["app"][PACKAGE_NAME]
+    p1 = app_pp["requires"]
+    try:
+        p2 = app_pp[OS.lower()]["requires"]
+    except KeyError:
+        p2 = []
+
+    return p1 + p2
+
+
+def cmd_rien(*args, **kwargs):
     runCommand("pip -V")
 
 
@@ -141,12 +158,9 @@ def cmd_install(*args, **kwargs):
 
 
 def cmd_install_from_require(*args, **kwargs):
-    from briefcase.config import parse_config
-
-    with open("pyproject.toml") as ff:
-        _, appconfig = parse_config(ff, sys.platform, "")
-    reqs = [f'"{r}"' for r in appconfig[PACKAGE_NAME]["requires"]]
-    runCommand(f"pip install {' '.join(reqs)}")
+    deps = [f'"{x}"' for x in get_dependencies()]
+    # breakpoint()
+    runCommand(f"pip install {' '.join(deps)}")
 
 
 def cmd_setup(*args, **kwargs):
@@ -154,8 +168,31 @@ def cmd_setup(*args, **kwargs):
     cmd_install()
 
 
+def cmd_version(*args, **kwargs):
+    from briefcase.config import parse_config
+    from git import Repo
+
+    vcs = Repo(".")
+    if vcs.is_dirty():
+        raise EnvironmentError("Il reste des changements non validés")
+
+    if vcs.active_branch.name != "master":
+        raise EnvironmentError("Le changement de version doit s'effectuer sur master")
+
+    with open("pyproject.toml") as ff:
+        _, appconfig = parse_config(ff, sys.platform, "")
+    version = appconfig[PACKAGE_NAME]["version"]
+    vcs.create_tag(version)
+    print(f"tag {version} créé")
+
+
 def cmd_test(*args, **kwargs):
     runCommand(f"pytest -s -vvv tests", sleep_time=0.001)
+
+
+def cmd_test_executable(*args, **kwargs):
+    path = ROOT / "scripted" / "check_executable.py"
+    runCommand(f"python  {path}")
 
 
 def build_commands(*args, **kwargs):
@@ -172,6 +209,7 @@ if __name__ == "__main__":
     parser.add_argument("command")
     parser.add_argument("args", nargs="*")
     parser.add_argument("-input", nargs="?")
+    parser.add_argument("-venv", nargs="?")
     parser.add_argument("-ni", "--no-input")
 
     args = parser.parse_args()

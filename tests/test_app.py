@@ -213,7 +213,6 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
         app.stop = MagicMock()
         app._reload_app()
         args = popen.call_args_list[0]
-        print(args)
         assert app.stop.called
         assert args[0][0][0].endswith("python.exe")
         assert len(args[0][0]) == 2
