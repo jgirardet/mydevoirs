@@ -12,7 +12,7 @@ from kivy.uix.screenmanager import ScreenManager, SlideTransition
 from pony.orm import OperationalError
 
 import mydevoirs.database
-from mydevoirs.constants import BASE_DIR
+from mydevoirs.constants import BASE_DIR, APP_NAME
 from mydevoirs.custom_setting import (
     SettingCustomConfigFilePath,
     SettingFilePath,
@@ -29,7 +29,7 @@ class MyDevoirsApp(App):
 
     carousel = ObjectProperty()
 
-    title = "MyDevoirs"
+    title = APP_NAME
 
     def __init__(self, *args, **kwargs):
 
