@@ -20,9 +20,9 @@ def pytest_configure(config):
 
 
 def pytest_sessionstart():
+    setup_start()
     mydevoirs.database.db = init_database()
     Builder.load_file("mydevoirs/mydevoirs.kv")
-    setup_start()
 
 
 @pytest.fixture(scope="function")
