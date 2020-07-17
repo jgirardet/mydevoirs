@@ -23,7 +23,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os : [ubuntu-20.04, windows-latest]
+        os : [ubuntu-20.04, windows-2019]
         python: [3.8]
     env:
       DISPLAY: ':99.0'
@@ -43,12 +43,12 @@ jobs:
     - name: install dev env
       run: python run.py install
 
-#    - name: Tests
-#      run: |
-#        python run.py test
-#    - name: Coverage
-#      if: runner.os == 'Linux'
-#      run: python run.py cov
+    - name: Tests
+      run: |
+        python run.py test
+    - name: Coverage
+      if: runner.os == 'Linux'
+      run: python run.py cov
     - name: build
       run: |
         python run.py create
