@@ -22,10 +22,11 @@ def set_locale_fr():
 
 
 def setup_kivy():
-    from kivy.config import Config
-
     if platform.system() == "Windows":
         os.environ["KIVY_GL_BACKEND"] = "angle_sdl2"
+        os.environ["KIVY_NO_CONSOLELOG"] = "True"
+    from kivy.config import Config
+
     Config.set("input", "mouse", "mouse,multitouch_on_demand")
     Config.set(
         "kivy", "window_icon", Path(__file__).parent / "data" / "icons" / "logo.png"
