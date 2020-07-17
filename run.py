@@ -147,6 +147,14 @@ def cmd_cov_html(*args, **kwargs):
     runCommand(f"firefox {html} &")
 
 
+def cmd_create(*args, **kwargs):
+    runCommand("briefcase create")
+    if OS == "Windows":
+        bundle = ROOT / "windows" / PACKAGE_NAME / "src"
+        share = bundle / "app_packages" / "share"
+        shutil.move(share, bundle / "python")
+
+
 def cmd_create_env(*args, **kwargs):
     runCommand(f"{sys.executable} -m venv .venv", with_env=False)
 

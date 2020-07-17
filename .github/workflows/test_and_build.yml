@@ -41,7 +41,7 @@ jobs:
 #      run: python run.py cov
     - name: build
       run: |
-        briefcase create
+        python run.py create
         briefcase build
     - name: Package Windows
       if: runner.os == 'Windows'
