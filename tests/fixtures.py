@@ -165,7 +165,7 @@ def platform_dispatcher(test, linux, windows):
 class TempFile:
     def __init__(self):
         self._tmpdir = tempfile.TemporaryDirectory()
-        self.dir = Path(self._tmpdir.name)
+        self.dir = Path(self._tmpdir.name).resolve()
         self.file = self.tmpfile()
         self.filename = self.tmpfilename()
         assert not self.filename.exists()

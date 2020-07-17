@@ -21,6 +21,9 @@ from mydevoirs.custom_setting import (
 from mydevoirs.database import init_database
 from mydevoirs.settings import DEFAULT_SETTINGS, SETTING_PANELS
 from mydevoirs.utils import get_dir, get_matiere_color
+import logging
+
+LOG = logging.getLogger(__name__)
 
 
 class MyDevoirsApp(App):
@@ -39,8 +42,9 @@ class MyDevoirsApp(App):
         path = self.load_config()["ddb"]["path"]
         try:
             mydevoirs.database.db = init_database(filename=path, create_db=True)
-        except OperationalError:
-            self._reset_database()
+        except OperationalError as err:
+            LOG.error("Echec de création de la base de donnée")
+            raise err
 
     def build(self):
         from mydevoirs.agenda import Agenda
@@ -119,17 +123,18 @@ class MyDevoirsApp(App):
         subprocess.Popen(exec_app, startupinfo=startupinfo)
         self.stop()
 
-    def _reset_database(self):
-        """ when something wrong with database"""
-        cp = ConfigParser()
-        config_file = self.get_application_config()
-        cp.read(config_file)
-        default = DEFAULT_SETTINGS["ddb"]["path"]
-        cp.update({"ddb": {"path": default}})
-        # cp["ddb"]["path"] = default
-        with open(config_file, "wt") as f:
-            cp.write(f)
-        self.config = None
-        self.load_config()
-        self.config.update({"ddb": {"path": default}})
-        mydevoirs.database.db = init_database(filename=default, create_db=True)
+    # def _reset_database(self):
+    #     """ when something wrong with database"""
+    #     cp = ConfigParser()
+    #     config_file = self.get_application_config()
+    #     cp.read(config_file)
+    #     default = DEFAULT_SETTINGS["ddb"]["path"]
+    #     cp.update({"ddb": {"path": default}})
+    #     # cp["ddb"]["path"] = default
+    #     with open(config_file, "wt") as f:
+    #         cp.write(f)
+    #     self.config = None
+    #     self.load_config()
+    #     self.config.update({"ddb": {"path": default}})
+    #
+    #     mydevoirs.database.db = init_database(filename=default, create_db=True)

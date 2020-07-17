@@ -5,6 +5,7 @@ from unittest.mock import MagicMock, call
 import pytest
 from kivy.config import ConfigParser
 from kivy.uix.settings import Settings
+from pony.orm import OperationalError
 
 from mydevoirs.agenda import CarouselWidget
 from mydevoirs.app import MyDevoirsApp
@@ -153,43 +154,44 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
         self.app.build_config(a)
         assert a.get("aide", "aide") == "https://jgirardet.github.io/mydevoirs"
 
-    def test_reset_database(self):
-        app = MyDevoirsApp()
-        with tempfile.NamedTemporaryFile() as t:
-            t.close()  # windows need it**********************
-            app.get_application_config = lambda: t.name
-            text = """[agenda]
-    lundi = 0
-    mardi = 1
-    mercredi = 0
-    jeudi = 1
-    vendredi = 1
-    samedi = 0
-    dimanche = 1
-
-    [ddb]
-    path = /mauvais/repo
-
-    """
-            Path(t.name).write_text(text)
-            cp = ConfigParser()
-            cp.read(t.name)
-            assert cp.sections() == ["agenda", "ddb"]
-            assert cp["ddb"]["path"] == "/mauvais/repo"
-            app._reset_database()
-            cp = ConfigParser()
-            cp.read(t.name)
-            assert cp["ddb"]["path"] == DEFAULT_SETTINGS["ddb"]["path"]
-            assert app.config["ddb"]["path"] == DEFAULT_SETTINGS["ddb"]["path"]
-            assert cp["agenda"]["lundi"] == app.config["agenda"]["lundi"]
+    # def test_reset_database(self):
+    #     app = MyDevoirsApp()
+    #     with tempfile.NamedTemporaryFile() as t:
+    #         t.close()  # windows need it**********************
+    #         app.get_application_config = lambda: t.name
+    #         text = """[agenda]
+    # lundi = 0
+    # mardi = 1
+    # mercredi = 0
+    # jeudi = 1
+    # vendredi = 1
+    # samedi = 0
+    # dimanche = 1
+    #
+    # [ddb]
+    # path = /mauvais/repo
+    #
+    # """
+    #         Path(t.name).write_text(text)
+    #         cp = ConfigParser()
+    #         cp.read(t.name)
+    #         assert cp.sections() == ["agenda", "ddb"]
+    #         assert cp["ddb"]["path"] == "/mauvais/repo"
+    #         app._reset_database()
+    #         cp = ConfigParser()
+    #         cp.read(t.name)
+    #         assert cp["ddb"]["path"] == DEFAULT_SETTINGS["ddb"]["path"]
+    #         assert app.config["ddb"]["path"] == DEFAULT_SETTINGS["ddb"]["path"]
+    #         assert cp["agenda"]["lundi"] == app.config["agenda"]["lundi"]
 
     def test_init_database(self):
         app = MyDevoirsApp()
         app.load_config = lambda: {"ddb": {"path": str(Path.home())}}
-        app._reset_database = MagicMock()
+        # app._reset_database = MagicMock()
 
-        app.init_database()
-        assert app._reset_database.call_args_list == (call())
+        with pytest.raises(OperationalError):
+            app.init_database()
+        # assert app._reset_database.call_args_list == (call())
 
     @pytest.mark.skipif(platform.system() != "Linux", reason="Linux test")
     @patch("mydevoirs.app.subprocess.Popen")

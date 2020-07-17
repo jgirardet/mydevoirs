@@ -1,3 +1,4 @@
+import tempfile
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
@@ -29,6 +30,17 @@ def test_get_dir():
             assert not Path(n, APP_NAME).exists()
             get_dir("cache", disable_debug=True)
             assert Path(n, APP_NAME).is_dir()
+
+
+def test_get_dir_env(monkeypatch):
+    monkeypatch.setenv("MYDEVOIRS_DEBUG", "True")
+    assert (
+        get_dir("config", enable_pytest=False)
+        == Path(tempfile.gettempdir()) / "mydevoirs_debug" / "config" / APP_NAME
+    )
+
+    # assert get_dir("cache") == Path(user_cache_dir(), APP_NAME)
+    # assert get_dir("data") == Path(user_data_dir(), APP_NAME)
 
 
 @pytest.fixture(scope="module")

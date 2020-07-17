@@ -4,7 +4,7 @@ from pathlib import Path as PythonPath
 
 import appdirs
 from kivy.app import App
-from kivy.config import Config, ConfigParser
+from kivy.config import ConfigParser
 from kivy.utils import rgba
 
 from mydevoirs.constants import APP_NAME
@@ -22,22 +22,22 @@ class Path(type(PythonPath())):
 _temppath = None
 
 
-def get_dir(key, disable_debug=False):
+def get_dir(key, disable_debug=False, enable_pytest=True):
 
     global _temppath
 
     def default():
         return Path(getattr(appdirs, "user_" + key + "_dir")(), APP_NAME)
 
+    print(os.environ.get("MYDEVOIRS_DEBUG", None))
     if disable_debug:
         dire = default()
-    elif os.environ.get("PYTEST_CURRENT_TEST", None):
-        # if DEBUG and not disable_debug:
+    elif os.environ.get("PYTEST_CURRENT_TEST", None) and enable_pytest:
         temppath = _temppath or Path(tempfile.TemporaryDirectory().name)
         _temppath = temppath
         dire = temppath / key / APP_NAME
-    elif DEBUG:  # pragma: no cover_all
-        _temppath = Path(Path(tempfile.gettempdir()) / "mydevoirs_debug")
+    elif os.environ.get("MYDEVOIRS_DEBUG", None):  # pragma: no cover_all
+        _temppath = Path(tempfile.gettempdir()) / "mydevoirs_debug"
         if not _temppath.exists():
             _temppath.mkdir()
         dire = _temppath / key / APP_NAME
