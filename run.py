@@ -152,7 +152,7 @@ def cmd_create(*args, **kwargs):
     if OS == "Windows":
         bundle = ROOT / "windows" / PACKAGE_NAME / "src"
         share = bundle / "app_packages" / "share"
-        shutil.move(share, bundle / "python")
+        shutil.move(str(share.resolve()), str((bundle / "python").resolve()))
 
 
 def cmd_create_env(*args, **kwargs):
