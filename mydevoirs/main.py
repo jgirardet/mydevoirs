@@ -32,10 +32,10 @@ def setup_kivy():
     Config.set(
         "kivy", "window_icon", Path(__file__).parent / "data" / "icons" / "logo.png"
     )
-
+    return True
 
 def setup_start():
-    setup_kivy()
-    app, init_database = do_import()
-    set_locale_fr()
-    return app
+    if setup_kivy():
+        app, init_database = do_import()
+        set_locale_fr()
+        return app
