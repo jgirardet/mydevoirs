@@ -1,3 +1,4 @@
+import os
 import platform
 import subprocess
 import sys
@@ -20,7 +21,7 @@ from mydevoirs.custom_setting import (
 )
 from mydevoirs.database import init_database
 from mydevoirs.settings import DEFAULT_SETTINGS, SETTING_PANELS
-from mydevoirs.utils import get_dir, get_matiere_color
+from mydevoirs.utils import get_dir
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -35,8 +36,8 @@ class MyDevoirsApp(App):
     title = "MyDevoirs"
 
     def __init__(self, *args, **kwargs):
-
         super().__init__(*args, **kwargs)
+        self.avertissement = None
 
     def init_database(self):
         path = self.load_config()["ddb"]["path"]
@@ -47,6 +48,12 @@ class MyDevoirsApp(App):
             raise err
 
     def build(self):
+        if self.avertissement:
+            return self.avertissement
+        else:
+            return self.build_full_app()
+
+    def build_full_app(self):
         from mydevoirs.agenda import Agenda
         from mydevoirs.colorchooser import ColorChooser
         from mydevoirs.todo import Todo
@@ -114,13 +121,22 @@ class MyDevoirsApp(App):
         )
 
     def _reload_app(self):
-        exec_app = [sys.executable, BASE_DIR]
-        startupinfo = None
-        if platform.system() == "Windows":  # pragma: no cover_linux
-            startupinfo = subprocess.STARTUPINFO()
-            startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+        if os.environ.get("MYDEVOIRS_DEBUG", None):  # pragma: no branch
+            startupinfo = None
+            if platform.system() == "Windows":  # pragma: no cover_linux
+                startupinfo = subprocess.STARTUPINFO()
+                startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
 
-        subprocess.Popen(exec_app, startupinfo=startupinfo)
+            subprocess.run(  # pragma: no cover
+                [sys.executable, "run.py", "dev"],
+                cwd=os.getcwd(),
+                startupinfo=startupinfo,
+            )
+        elif platform.system() == "Linux":
+            appimage = os.environ["APPIMAGE"]
+            subprocess.run([appimage])
+        elif platform.system() == "Windows":  # pragma: no branch
+            subprocess.run([sys.executable, "-m", "mydevoirs"], cwd=os.getcwd())
         self.stop()
 
     # def _reset_database(self):

@@ -1,8 +1,4 @@
-from mydevoirs.main import setup_start
+from mydevoirs.main import main
 
-if __name__ == "__main__":  # pragma: no cover_all
-    # covered in check_executable.py
-
-    app = setup_start().MyDevoirsApp()
-    app.init_database()
-    app.run()
+if __name__ == "__main__":
+    main()

@@ -1,8 +1,12 @@
 from pathlib import Path
+from importlib.metadata import metadata
 
 APP_NAME = "MyDevoirs"
 DDB_FILENAME = "ddb_hard.sqlite"
 BASE_DIR = Path(__file__).parent
+
+
+VERSION = metadata("mydevoirs")["version"]
 
 
 SEMAINE = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"]

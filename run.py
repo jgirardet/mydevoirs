@@ -159,6 +159,11 @@ def cmd_create_env(*args, **kwargs):
     runCommand(f"{sys.executable} -m venv .venv", with_env=False)
 
 
+def cmd_dev(*args, **kwargs):
+    os.environ["MYDEVOIRS_DEBUG"] = "True"
+    runCommand(f"briefcase dev")
+
+
 def cmd_install(*args, **kwargs):
     runCommand(f"python -m pip install -U pip")
     runCommand(f"pip install -r requirements.txt")
@@ -167,7 +172,6 @@ def cmd_install(*args, **kwargs):
 
 def cmd_install_from_require(*args, **kwargs):
     deps = [f'"{x}"' for x in get_dependencies()]
-    # breakpoint()
     runCommand(f"pip install {' '.join(deps)}")
 
 
@@ -201,6 +205,10 @@ def cmd_test(*args, **kwargs):
 def cmd_test_executable(*args, **kwargs):
     path = ROOT / "scripted" / "check_executable.py"
     runCommand(f"python  {path}")
+
+
+def cmd_run(*args, **kwargs):
+    runCommand("briefcase run -u")
 
 
 def build_commands(*args, **kwargs):

@@ -22,6 +22,7 @@ class Path(type(PythonPath())):
 _temppath = None
 
 
+
 def get_dir(key, disable_debug=False, enable_pytest=True):
 
     global _temppath
@@ -29,7 +30,6 @@ def get_dir(key, disable_debug=False, enable_pytest=True):
     def default():
         return Path(getattr(appdirs, "user_" + key + "_dir")(), APP_NAME)
 
-    print(os.environ.get("MYDEVOIRS_DEBUG", None))
     if disable_debug:
         dire = default()
     elif os.environ.get("PYTEST_CURRENT_TEST", None) and enable_pytest:
@@ -38,6 +38,7 @@ def get_dir(key, disable_debug=False, enable_pytest=True):
         dire = temppath / key / APP_NAME
     elif os.environ.get("MYDEVOIRS_DEBUG", None):  # pragma: no cover_all
         _temppath = Path(tempfile.gettempdir()) / "mydevoirs_debug"
+        DEBUG = True
         if not _temppath.exists():
             _temppath.mkdir()
         dire = _temppath / key / APP_NAME
@@ -55,9 +56,6 @@ def get_matiere_color(nom, matiere):
         return rgba(matiere[nom])
     except KeyError:
         return rgba((0, 0, 0))
-
-
-DEBUG = True
 
 
 def get_config(section, key, cls=str, default=""):

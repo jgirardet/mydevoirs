@@ -1,4 +1,6 @@
 import datetime
+import os
+import sys
 from pathlib import Path
 from unittest.mock import MagicMock, call
 
@@ -9,6 +11,7 @@ from pony.orm import OperationalError
 
 from mydevoirs.agenda import CarouselWidget
 from mydevoirs.app import MyDevoirsApp
+from mydevoirs.constants import BASE_DIR
 from mydevoirs.settings import DEFAULT_SETTINGS, SETTING_PANELS
 
 from .fixtures import *
@@ -193,29 +196,34 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
             app.init_database()
         # assert app._reset_database.call_args_list == (call())
 
-    @pytest.mark.skipif(platform.system() != "Linux", reason="Linux test")
-    @patch("mydevoirs.app.subprocess.Popen")
-    def test_reload_app_script_linux(self, popen):
+    # @pytest.mark.skipif(platform.system() != "Linux", reason="Linux test")
+    @patch.dict(os.environ, {"APPIMAGE": "/here/it/is/appimage"})
+    @patch("mydevoirs.app.subprocess.run")
+    @patch("mydevoirs.app.platform.system", return_value="Linux")
+    def test_reload_app_script_linux(self, plat, run):
         app = MyDevoirsApp()
         app.stop = MagicMock()
         app._reload_app()
-        args = popen.call_args_list[0]
+        assert run.call_args_list == [call(["/here/it/is/appimage"])]
         assert app.stop.called
-        # assert args[0][0][0].endswith("python")
-        assert len(args[0][0]) == 2
-        assert args[1]["startupinfo"] is None
 
-    @pytest.mark.skipif(platform.system() != "Windows", reason="windows test")
-    @patch("mydevoirs.app.subprocess.Popen")
-    def test_reload_app_script_windows(self, popen):
+    # @pytest.mark.skipif(platform.system() != "Windows", reason="windows test")
+    # @patch.dict(os.environ, {"APPIMAGE": "/here/it/is/appimage"})
+    @patch("mydevoirs.app.subprocess.run")
+    @patch("mydevoirs.app.platform.system", return_value="Windows")
+    def test_reload_app_script_windows(self, plat, run):
         from mydevoirs.app import subprocess as sb
 
         sb.STARTUPINFO = MagicMock()
         app = MyDevoirsApp()
         app.stop = MagicMock()
         app._reload_app()
-        args = popen.call_args_list[0]
+        assert run.call_args_list == [
+            call([sys.executable, "-m", "mydevoirs"], cwd=os.getcwd(),)
+        ]
         assert app.stop.called
-        assert args[0][0][0].endswith("python.exe")
-        assert len(args[0][0]) == 2
-        assert args[1]["startupinfo"] is not None
+
+        # assert app.stop.called
+        # assert args[0][0][0].endswith("python.exe")
+        # assert len(args[0][0]) == 2
+        # assert args[1]["startupinfo"] is not None

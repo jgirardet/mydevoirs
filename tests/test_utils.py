@@ -9,7 +9,7 @@ from kivy.config import ConfigParser
 from kivy.utils import rgba
 
 from mydevoirs.constants import APP_NAME
-from mydevoirs.utils import DEBUG, get_config, get_dir, get_matiere_color
+from mydevoirs.utils import get_config, get_dir, get_matiere_color
 
 res = {"Français": (0, 0, 255), "Anglais": (255, 120, 0), "Divers": (232, 120, 221)}
 
@@ -97,7 +97,3 @@ def test_get_config(
         value = get_config(section, key, **args)
         assert value == res
         assert isinstance(value, cls)
-
-
-def test_DEBUG():
-    assert DEBUG

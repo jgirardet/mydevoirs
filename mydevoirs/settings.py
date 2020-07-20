@@ -1,7 +1,7 @@
 import json
 from importlib.metadata import metadata
 
-from mydevoirs.constants import DDB_FILENAME
+from mydevoirs.constants import DDB_FILENAME, VERSION
 from mydevoirs.utils import get_dir
 
 meta = metadata("mydevoirs")
@@ -97,7 +97,7 @@ DEFAULT_SETTINGS = {
         "auto_next_week": 1,
     },
     "ddb": {"path": str(get_dir("cache") / DDB_FILENAME), "file_config_path": ""},
-    "aide": {"aide": homepage},
+    "aide": {"aide": homepage, "version": VERSION},
 }
 
 
