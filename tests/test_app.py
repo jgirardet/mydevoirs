@@ -7,6 +7,7 @@ from unittest.mock import MagicMock, call
 import pytest
 from kivy.config import ConfigParser
 from kivy.uix.settings import Settings
+from kivy.uix.widget import Widget
 from pony.orm import OperationalError
 
 from mydevoirs.agenda import CarouselWidget
@@ -28,6 +29,14 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
     def test_init_super(self):
         self.check_super_init("App", MyDevoirsApp)
         assert self.app.get_application_name() == APP_NAME
+
+    #
+    # def test_if_avertissement(self):
+    #     ap = MyDevoirsApp()
+    #     w = Widget()
+    #     ap.avertissement = w
+    #     ap.build()
+    #     assert ap.root == w
 
     def test_sm(self):
 
