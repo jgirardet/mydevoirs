@@ -44,8 +44,8 @@ jobs:
       run: python run.py install
 
     - name: Tests
-      run: |
       if: runner.os == 'Linux'
+      run: |
         python run.py test
     - name: Coverage
       if: runner.os == 'Linux'
