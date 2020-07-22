@@ -1,7 +1,7 @@
 [tool.briefcase]
 project_name = "mydevoirs"
 bundle = "coding.cacahuete"
-version = "0.6.4"
+version = "1.0.0"
 url = "https://jgirardet.github.io/mydevoirs"
 license = "GNU General Public License v3 (GPLv3)"
 author = 'Jimmy Girardet'
@@ -15,7 +15,9 @@ sources = ['mydevoirs']
 requires = ['kivy==2.0.0rc3',
             'pony>=0.7.11,<0.8',
             'appdirs>=1.4,<1.5',
-            'kivy-garden.filebrowser==1.1.2']
+            'kivy-garden.filebrowser==1.1.2',
+            'Pillow>=7.2,<7.3'
+            ]
 
 
 [tool.briefcase.app.mydevoirs.macOS]
@@ -23,7 +25,7 @@ requires = []
 
 [tool.briefcase.app.mydevoirs.linux]
 requires = []
-system_requires = ["language-pack-fr", "pulseaudio", "libmtdev1","xclip"]
+system_requires = ["language-pack-fr", "pulseaudio", "libmtdev1","xclip",  	"libgl1", "libfontconfig1","libxrender1"]
 
 [tool.briefcase.app.mydevoirs.windows]
 requires = ["docutils", "pygments", "pypiwin32", "kivy.deps.sdl2", "kivy.deps.glew" , "kivy_deps.angle"]

@@ -1,3 +1,7 @@
+from mydevoirs.__main__ import configure_env
+
+configure_env()
+
 import pytest
 from kivy.lang import Builder
 from kivy.logger import LOG_LEVELS, Logger
@@ -5,7 +9,7 @@ from mimesis import Generic
 
 import mydevoirs.database
 from mydevoirs.database import init_database
-from mydevoirs.main import setup_start
+from mydevoirs.main import setup_kivy
 
 generic_mimesis = Generic("fr")
 
@@ -20,7 +24,7 @@ def pytest_configure(config):
 
 
 def pytest_sessionstart():
-    setup_start()
+    setup_kivy()
     mydevoirs.database.db = init_database()
     Builder.load_file("mydevoirs/mydevoirs.kv")
 

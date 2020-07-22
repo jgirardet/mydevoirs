@@ -29,7 +29,6 @@ def get_dir(key, disable_debug=False, enable_pytest=True):
     def default():
         return Path(getattr(appdirs, "user_" + key + "_dir")(), APP_NAME)
 
-    print(os.environ.get("MYDEVOIRS_DEBUG", None))
     if disable_debug:
         dire = default()
     elif os.environ.get("PYTEST_CURRENT_TEST", None) and enable_pytest:
@@ -38,6 +37,7 @@ def get_dir(key, disable_debug=False, enable_pytest=True):
         dire = temppath / key / APP_NAME
     elif os.environ.get("MYDEVOIRS_DEBUG", None):  # pragma: no cover_all
         _temppath = Path(tempfile.gettempdir()) / "mydevoirs_debug"
+        DEBUG = True
         if not _temppath.exists():
             _temppath.mkdir()
         dire = _temppath / key / APP_NAME
@@ -57,9 +57,6 @@ def get_matiere_color(nom, matiere):
         return rgba((0, 0, 0))
 
 
-DEBUG = True
-
-
 def get_config(section, key, cls=str, default=""):
     """
     Récupère une valeur dans la configuration de l'application.
@@ -70,10 +67,10 @@ def get_config(section, key, cls=str, default=""):
     :param default: fallback. default = ""
     :return: Any or None si la clé n'est pas présente
     """
-    if app := App.get_running_app():
+    if app := App.get_running_app():  # pragma: no branch
         config: ConfigParser = app.config
         # trick pour les tests, ne pas tester
-        if not config:  # pragma: no branch
+        if not config:  # pragma: no cover_all
             config = ConfigParser()
             app.build_config(config)
         value = config.getdefault(section, key, default)
