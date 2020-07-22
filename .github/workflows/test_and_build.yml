@@ -44,7 +44,6 @@ jobs:
       run: python run.py install
     - name: Tests
       run: python run.py test
-#      if: runner.os == 'Linux'
     - name: Coverage
       if: runner.os == 'Linux'
       run: python run.py cov
@@ -69,100 +68,38 @@ jobs:
       with:
         path: windows
         name: MyDevoirs-${{runner.os}}64
-#
 
-
-#  Windows:
-#    runs-on: ${{ matrix.os }}
-#    strategy:
-#      matrix:
-#        os: [windows-latest]
-#        python: [3.7']
-#    env:
-#      KIVY_GL_BACKEND: 'angle_sdl2'
-#
-#    steps:
-#    - name: get repo
-#      uses: actions/checkout@v1
-#    - name: Set up Python
-#      uses: actions/setup-python@v1
-#      with:
-#        python-version: 3.7
-#    - name: Install poetry
-#      run: |
-#        python -m pip install poetry
-#        poetry run python -m pip install --upgrade pip
-#    - name: Install Windows dependencies
-#      run: |
-#        poetry run python -m pip install  docutils pygments pypiwin32 kivy_deps.sdl2==0.1.22 kivy_deps.glew==0.1.12 kivy_deps.gstreamer==0.1.17 kivy_deps.angle==0.1.9 pywin32-ctypes pefile
-#    - name: Install common dependencies
-#      run: poetry install
-#    - name: Tests
-#      run: |
-#        poetry run python -m pytest -vvv -s
-#    - name: Coverage
-#      run: |
-#        poetry run coverage run --rcfile=.coveragerc_win -m pytest
-#        poetry run coverage report
-#    - name: build
-#      run: |
-#        poetry run  python scripted/build_executable.py
-#
-#    - name: upload Window binary in artifact
-#      uses: actions/upload-artifact@v1
-#      with:
-#        path: dist/MyDevoirs.exe
-#        name: MyDevoirs.exe
-##
-#
-#
-#  Test_linux:
-#    needs: [Linux]
-#    runs-on: ubuntu-latest
-#    env:
-#      DISPLAY: ':99.0'
-#    steps:
-#      - name: Set up Python
-#        uses: actions/setup-python@v1
-#        with:
-#          python-version: 3.7
-#      - name: Download Linux binary
-#        uses: actions/download-artifact@v1
-#        with:
-#          name: MyDevoirs
-#      - name: setup_env
-#        run: |
-#          sudo rm -f /etc/apt/sources.list.d/dotnetdev.list /etc/apt/sources.list.d/microsoft-prod.list
-#          sudo apt update
-#          sudo apt install -y language-pack-fr pulseaudio
-#          /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1280x720x24 -ac +extension GLX
-#          pip install -U  appdirs
-#          chmod +x MyDevoirs/MyDevoirs
-#      - name: run_script
-#        run: |
-#          wget https://raw.githubusercontent.com/jgirardet/mydevoirs/master/scripted/check_executable.py
-#          python check_executable.py
-#
-#  Test_windows:
-#
-#    needs: [Windows]
-#    runs-on: windows-latest
-#    env:
-#      KIVY_GL_BACKEND: 'angle_sdl2'
-#    steps:
-#      - name: Set up Python
-#        uses: actions/setup-python@v1
-#        with:
-#          python-version: 3.7
-#      - name: Download Windows binary
-#        uses: actions/download-artifact@v1
-#        with:
-#          name: MyDevoirs.exe
-#      - name: run_script
-#        run: |
-#          pip install -U appdirs
-#          (New-Object System.Net.WebClient).DownloadFile("https://raw.githubusercontent.com/jgirardet/mydevoirs/master/scripted/check_executable.py", "check_executable.py")
-#          python check_executable.py
+  Create_release:
+    needs: TestAndBuild
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact binary
+        uses: actions/download-artifact@v2
+        with:
+          path: .
+      - name: new latest release on master
+        uses: "marvinpinto/action-automatic-releases@latest"
+        if: github.ref == 'refs/heads/master'
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+          automatic_release_tag: "latest"
+          title: "MyDevoirs Latest"
+          files: |
+            mydevoirs*.msi
+            mydevoirs*.AppImage
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: .
+      - name: new tag release
+        uses: "marvinpinto/action-automatic-releases@latest"
+        if: contains(github.ref, '/tags/')
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+          files: |
+            mydevoirs*.msi
+            mydevoirs*.AppImage
 #
 #  Deploy:
 #    name: release github
