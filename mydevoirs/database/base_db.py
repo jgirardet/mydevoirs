@@ -1,20 +1,21 @@
 from pathlib import Path
 
-from pony.orm import Database, db_session
+from pony.orm import Database, db_session, flush
 
-from mydevoirs.constants import MATIERES
+from mydevoirs.constants import MATIERES_TREE_INIT
 
 from .models import init_models
 
 
-def init_update_matiere(db, matieres=MATIERES):
-    with db_session():
-        for k, v in matieres.items():
-            if db.Matiere.exists(nom=k):
-                db.Matiere[k].color = v
-
-            else:
-                db.Matiere(nom=k, color=v)
+@db_session
+def init_update_matiere(db, reset=False):
+    if not db.Matiere.select().count() or reset:
+        if reset:
+            for it in db.Matiere.select():
+                it.delete()
+        flush()
+        for m in MATIERES_TREE_INIT:
+            db.Matiere(nom=m[0], color=m[1])
 
 
 def ensure_database_directory(loc):

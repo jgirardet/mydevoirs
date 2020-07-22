@@ -11,8 +11,8 @@ from kivy.tests.common import GraphicUnitTest, UnitTestTouch
 from mimesis import Generic
 from pony.orm import db_session, delete
 
-from mydevoirs.constants import APP_NAME, MATIERES
-from mydevoirs.database import db
+from mydevoirs.constants import APP_NAME
+from mydevoirs.database import db, init_update_matiere
 from mydevoirs.utils import Path
 
 gen = Generic("fr")
@@ -28,10 +28,16 @@ def get_touch(item):
     return Touche(item.pos[0] + item.size[0] / 2, item.pos[1] + item.size[1] / 2)
 
 
-def f_matiere(matiere=None):
-    matiere = matiere or random.choice(list(MATIERES))
+def f_matiere(nom=None, color=None):
+    nom = nom or gen.text.word()
+    color = color or [
+        random.randint(0, 10) / 10,
+        random.randint(0, 10) / 10,
+        random.randint(0, 10) / 10,
+        1,
+    ]
     with db_session:
-        return db.Matiere[matiere]
+        return db.Matiere(nom=nom, color=color)
 
 
 def f_jour(jour=None):
@@ -44,9 +50,8 @@ def f_item(content=None, matiere=None, jour=None, done=None):
     content = content or gen.text.sentence()
     done = done or False
     with db_session:
-        i = db.Item(
-            content=content, matiere=f_matiere(matiere), jour=f_jour(jour), done=done
-        )
+        matiere = db.Matiere.get(nom=matiere) if matiere else f_matiere()
+        i = db.Item(content=content, matiere=matiere, jour=f_jour(jour), done=done)
         return i
 
 
@@ -58,6 +63,7 @@ class MyDevoirsTestCase(GraphicUnitTest):
         super().setUp()
 
         if not no_db:
+            init_update_matiere(db, reset=True)
             with db_session:
                 for entity in db.entities.values():
                     if entity.__name__ != "Matiere":
@@ -93,6 +99,7 @@ class MyDevoirsTestCase(GraphicUnitTest):
         with patch(full_parent) as m:
             try:
                 enfant(*args, **kwargs)
+
             except Exception:
                 pass
             assert m.called
@@ -114,6 +121,12 @@ class MyDevoirsTestCase(GraphicUnitTest):
     def click(self, widget):
         t = get_touch(widget)
         t.click()
+
+    # def move(self, widget, dx, dy):
+    #     t = get_touch(widget)
+    #     t.touch_down()
+    #     t.touch_move(dx,dy)
+    #     t.touch_up()
 
     def popup_click(self, choix):
         popup = self.window.children[0]
@@ -152,7 +165,7 @@ def platform_dispatcher(test, linux, windows):
 class TempFile:
     def __init__(self):
         self._tmpdir = tempfile.TemporaryDirectory()
-        self.dir = Path(self._tmpdir.name)
+        self.dir = Path(self._tmpdir.name).resolve()
         self.file = self.tmpfile()
         self.filename = self.tmpfilename()
         assert not self.filename.exists()

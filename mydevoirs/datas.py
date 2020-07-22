@@ -1,6 +1,7 @@
 import os
+from pathlib import Path
 
-base = os.environ["MYDEVOIRS_BASE_DIR"]
+from mydevoirs.constants import BASE_DIR
 
 """
 On dispatch les datas sous la forme :
@@ -24,6 +25,8 @@ DATAS = {
     "icon_logo": "logo.png",
     "icon_settings": "params.png",
     "icon_aide": "qmark.png",
+    "icon_colorchooser": "colorchooser.png",
+    "icon_arrowmove": "arrowmove.png",
     "font_base": "Verdana.ttf",
 }
 
@@ -33,5 +36,6 @@ def get_datas():
     for k, v in DATAS.items():
 
         genre, nom = k.split("_")
-        res[k] = os.path.join(base, "data", genre + "s", v)
+        res[k] = os.path.join(BASE_DIR, "data", genre + "s", v)
+        res[k] = str(BASE_DIR / "data" / (genre + "s") / v)
     return res

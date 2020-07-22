@@ -6,8 +6,9 @@ all: dev test
 
 install:
 	python3.7 -m venv .venv
-	.venv/bin/pip install -U pip	
-	poetry install
+	.venv/bin/pip install -U pip
+	.venv/bin/pip install -r requirements.txt
+	.venv/bin/briefcase dev
 
 devtools:
 	.venv/bin/pip install -U ipython pdbpp autoflake toml markdown

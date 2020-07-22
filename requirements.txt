@@ -1,0 +1,11 @@
+# dev dependencies
+pytest>=6.0.0rc1
+black
+coverage
+briefcase==0.3.2
+mimesis
+isort
+freezegun
+gitpython
+toml
+appdirs

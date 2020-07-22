@@ -2,13 +2,11 @@
   plugins =
     tests.coverage
   branch = True
-# source = mydevoirs
-source = 
-	main
-	mydevoirs
+  source = mydevoirs
 omit =
   */__init__.py,
   mydevoirs/reserve
+  */__main__.py
 
 [report]
 ignore_errors = True

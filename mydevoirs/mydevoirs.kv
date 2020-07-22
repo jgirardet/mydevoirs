@@ -1,10 +1,6 @@
-#: import MATIERES mydevoirs.constants.MATIERES
 #: import COLORS mydevoirs.constants.COLORS
 #: import datas  mydevoirs.utils.datas
-#: import MatiereOption mydevoirs.matieredropdown.MatiereOption
 #: import MatiereDropdown mydevoirs.matieredropdown.MatiereDropdown
-#: import gmc mydevoirs.utils.gmc
-
 
 <ActionBar>:
 	id: actionbar
@@ -36,12 +32,18 @@
 		    background_disabled_normal: self.background_normal
 		    on_release: app.sm.current_screen.carousel.load_next()
 
+        ActionButton:
+        	id: go_colorchooser
+		    icon: datas['icon_colorchooser']
+            on_release: app.go_colorchooser()
+
 		ActionButton:
 			id: params
 		    icon: datas['icon_settings']
 		    text: 'Configuration' # pragma: no cover
 		    on_release: app.open_settings()
-		    
+
+
 
 <BaseGrid>:
 	spacing: dp(10)
@@ -121,3 +123,4 @@
         Rectangle:
         	pos: self.pos
         	size: self.size
+

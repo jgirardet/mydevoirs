@@ -1,5 +1,4 @@
 
-
 # MyDevoirs :  La prise de devoirs sur ordinateur enfin simple !!!
 
 ![agenda](docs/agenda800.png)
@@ -19,41 +18,38 @@ A priori les enfants qui ont besoin d'un ordiateur à l'école donc les Dys en g
 
 Pour l'instant disponible sous Windows et Linux (Mac possible si quelqu'un le demande).
 
-- Version Windows : [MyDevoirs.exe](https://github.com/jgirardet/mydevoirs/releases/download/0.6.3/MyDevoirs.exe) 
-- Version Linux : [MyDevoirs](https://github.com/jgirardet/mydevoirs/releases/download/0.6.3/MyDevoirs)
+- Version Windows : [MyDevoirs.exe](https://github.com/jgirardet/mydevoirs/releases/download/latest/MyDevoirs.exe) 
+- Version Linux : [MyDevoirs](https://github.com/jgirardet/mydevoirs/releases/download/latest/MyDevoirs)
 
 	- puis sous Windows :
-		- windows va vous mettre en garde car l'application n'est pas certifiée mais pas d'inquiétude, il suffit de cliquer sur `informations complémentaires` puis  `exécuter quand même`:
-
-			![Avertissement 1](docs/avertissement1.jpeg) ![Avertissement 2](docs/avertissement2.jpeg)
-
-		- Ensuite il suffit d'éxécuter le fichier et c'est parti.
+		- executer l'installateur, un raccourci sera créé dans le menu démarrer.
 
 	- puis sous Linux :
-		- Il faut rendre le fichier exécutable soit en mode terminal:
+	    - cliquer sur le fichier mydevoirs.Appimage
+		- Il faudra peut être rendre le fichier exécutable soit en mode terminal:
 		```bash
-		chmod +x MyDevoirs
+		chmod +x MyDevoirs.appImage
 		```
 		ou en mode graphique, par exemple sous Mint :  click droit => propriétés => permissions => Autoriser l'exécution du fichier comme un programme.
 
 
 ## Comment l'utiliser ?
 
-Il y a 2 interfaces possibles : Une interface  type `agenda` ![agenda](data/icons/014-calendar.png) qui affiche chaque jour de la semaine avec les devoirs de chaque jour, une autre type `todo list` (liste des tâches) ![todo list](data/icons/010-test.png). Il semble plus facile de noter ses devoirs dans le mode `agenda`, mais plus simple de faire ses devoirs en mode `todo list`. La `todolist` n'affiche que les devoirs non encore effectués alors que l'`agenda` affiche l'intégralité des devoirs.
+Il y a 2 interfaces possibles : Une interface  type `agenda` ![agenda](mydevoirs/data/icons/014-calendar.png) qui affiche chaque jour de la semaine avec les devoirs de chaque jour, une autre type `todo list` (liste des tâches) ![todo list](mydevoirs/data/icons/010-test.png). Il semble plus facile de noter ses devoirs dans le mode `agenda`, mais plus simple de faire ses devoirs en mode `todo list`. La `todolist` n'affiche que les devoirs non encore effectués alors que l'`agenda` affiche l'intégralité des devoirs.
 
 Il est possible de modifier les jours affichés dans `Paramètres` ![parametres](docs/params.png).
 
-En mode `agenda`, on change de semaine en cliquant sur ![suivant](data/icons/chevron-right.png) pour semaine suivante ou pour semaine précédente. ![precedant](data/icons/chevron-left.png)
+En mode `agenda`, on change de semaine en cliquant sur ![suivant](mydevoirs/data/icons/chevron-right.png) pour semaine suivante ou pour semaine précédente. ![precedant](mydevoirs/data/icons/chevron-left.png)
 
 ### Pour ajouter un devoir:
 
-On clique sur ![nouveau](data/icons/012-add.png) et on choisit sa matière en cliquant dessus ou avec `entrée`.
+On clique sur ![nouveau](mydevoirs/data/icons/012-add.png) et on choisit sa matière en cliquant dessus ou avec `entrée`.
 
 La zone de texte est directement sélectionnée, pour entrer le texte correspondant.
 
 ### Pour marquer un devoir comme terminé:
 
-On clique sur ![non fait](data/icons/017-cancel.png) qui devient ![fait](data/icons/apply-64.png). En mode `todo list`, la ligne disparaît de l'affichage.
+On clique sur ![non fait](mydevoirs/data/icons/017-cancel.png) qui devient ![fait](mydevoirs/data/icons/apply-64.png). En mode `todo list`, la ligne disparaît de l'affichage.
 
 ### Pour supprimer un devoir:
 
@@ -105,8 +101,21 @@ IL EST DONC IMPORTANT, POUR UN MÊME FICHIER SYNCHRONISÉ, DE N'OUVRIR MYDEVOIRS
 
  - et voilà MyDevoirs va redémarrer depuis nouvelle base de donnée.
 
+## Comment définir des couleurs personnalisées ?
 
+- Cliquer sur la palette ![palette](mydevoirs/data/icons/colorchooser.png).
+- l'écran du choix des couleurs s'affiche :
 
+ ![color-choix](docs/palette/basepalette.png)
+
+- L'édition se fait de la manière suivante:
+  - ![add](mydevoirs/data/icons/012-add.png) permet d'ajouter une matière juste au dessus.
+  - ![move](mydevoirs/data/icons/arrowmove.png) permet de changer l'ordre des matière. Cliquer, maintenir, déplacer la souris, relacher.
+  - ![del](mydevoirs/data/icons/017-cancel.png) pour effacer une matière. ATTENTION la supression d'une matière entraine la supression de tous les devoirs correspondants.
+  - Cliquer avec le bouton  DROIT sur le texte pour changer de couleur:  
+  ![color-choix](docs/palette/colorchooser.png)
+
+ 
 
 ## MyDevoirs c'est gratuit ?
 
@@ -115,3 +124,10 @@ MyDevoirs est un logiciel libre (la code source est disponible) sous licence GPL
 ## Remeciements
 
 Je remercie tous les gens impliqués dans la réalisation des technologies utlisées et plus particuliérement l'équipe de dévelopeurs de [Kivy](https://www.kivy.org) et [Ponyorm](https://ponyorm.org) pour leur disponibilité pour repondre aux questions.
+
+## ChangeLog
+
+- 0.7.0 :
+    - ajout du lien d'aide
+    - ajout de de la personalisation des couleurs et des matières.
+    -  dev : ajout d'un mode debug et test pour ne pas mélanger les fichiers de configuration et la ddb.

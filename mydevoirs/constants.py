@@ -1,49 +1,34 @@
-# MATIERES = {
-#     "Français": (0, 0, 1),
-#     "Mathématiques": (0, 1, 0),
-#     "Histoire": (1, 0, 0),
-#     "Géographie": (0, 1, 1),
-#     "Poésie": (1, 1, 0),
-# }
+from pathlib import Path
+from importlib.metadata import metadata
 
 APP_NAME = "MyDevoirs"
 DDB_FILENAME = "ddb_hard.sqlite"
+BASE_DIR = Path(__file__).parent
+
+
+VERSION = metadata("mydevoirs")["version"]
+
 
 SEMAINE = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"]
 
 
-MATIERES_TREE = {
-    "Français": {
-        "Orthographe": (91, 193, 242),
-        "Grammaire": (153, 200, 245),
-        "Conjugaison": (34, 174, 241),
-        "Vocabulaire": (2, 162, 240),
-        "Rédaction": (0, 120, 255),
-    },
-    "Mathématiques": {"Mathématiques": (216, 88, 243), "Géométrie": (229, 151, 246)},
-    "Histoire-Géo": {"Histoire": (227, 254, 0), "Géographie": (236, 254, 87)},
-    "Sciences": (255, 177, 88),
-    "Musqiue-Poésie": {"Musique": (142, 108, 252), "Poésie": (186, 165, 252)},
-    "Anglais": (255, 90, 90),
-    "Divers": (89, 253, 89),
-}
+MATIERES_TREE_INIT = [
+    ("Orthographe", (91 / 255, 193 / 255, 242 / 255)),
+    ("Grammaire", (153 / 255, 200 / 255, 245 / 255)),
+    ("Conjugaison", (34 / 255, 174 / 255, 241 / 255)),
+    ("Vocabulaire", (2 / 255, 162 / 255, 240 / 255)),
+    ("Rédaction", (0 / 255, 120 / 255, 255 / 255)),
+    ("Mathématiques", (216 / 255, 88 / 255, 243 / 255)),
+    ("Géométrie", (229 / 255, 151 / 255, 246 / 255)),
+    ("Histoire", (227 / 255, 254 / 255, 0 / 255)),
+    ("Géographie", (236 / 255, 254 / 255, 87 / 255)),
+    ("Musique", (142 / 255, 108 / 255, 252 / 255)),
+    ("Poésie", (186 / 255, 165 / 255, 252 / 255)),
+    ("Sciences", (255 / 255, 177 / 255, 88 / 255)),
+    ("Anglais", (255 / 255, 90 / 255, 90 / 255)),
+    ("Divers", (89 / 255, 253 / 255, 89 / 255)),
+]
 
-
-def build_matiere(tree):
-    mat = {}
-    for k, v in tree.items():
-        if isinstance(v, tuple):
-            mat[k] = v
-        else:
-            # base = None
-            for x, y in v.items():
-                if not mat.get(k, None):
-                    mat[k] = y
-                mat[x] = y
-    return mat
-
-
-MATIERES = build_matiere(MATIERES_TREE)
 
 THEMES = {
     "vert": {

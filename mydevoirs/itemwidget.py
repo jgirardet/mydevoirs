@@ -5,6 +5,7 @@ from kivy.clock import Clock
 from kivy.lang import Builder
 from kivy.properties import (
     BooleanProperty,
+    ColorProperty,
     ListProperty,
     NumericProperty,
     ObjectProperty,
@@ -16,17 +17,18 @@ from kivy.uix.popup import Popup
 from kivy.uix.textinput import TextInput
 from pony.orm import db_session
 
+from mydevoirs.constants import BASE_DIR
 from mydevoirs.database import db
-from mydevoirs.utils import get_base_dir
 
-Builder.load_file(str(get_base_dir() / "mydevoirs" / "itemwidget.kv"))
+Builder.load_file(str(BASE_DIR / "itemwidget.kv"))
 
 
 class ItemWidget(BoxLayout):
     content = StringProperty()
     done = BooleanProperty()
     matiere_nom = StringProperty()
-    matiere_color = ListProperty()
+    matiere_color = ColorProperty()
+    matiere_id = NumericProperty()
 
     def __init__(self, **entry):
         self.loaded_flag = False
@@ -35,6 +37,7 @@ class ItemWidget(BoxLayout):
         self.entry = entry.pop("id")
         self.date = entry.pop("date")
         entry.pop("jour")
+        # breakpoint()
         super().__init__(**entry)
 
     def __repr__(self):
@@ -44,13 +47,15 @@ class ItemWidget(BoxLayout):
     def on_kv_post(self, *args):
         self.loaded_flag = True
 
-    def update_matiere(self, text):
-        if text != self.matiere_nom:
+    def update_matiere(self, matiere_id):
+        if matiere_id != self.matiere_id:
             with db_session:
-                a = db.Item[self.entry]
-                a.matiere = text
-                self.matiere_color = a.matiere.color
-                self.matiere_nom = text
+                item = db.Item[self.entry]
+                matiere = db.Matiere[matiere_id]
+                item.matiere = matiere
+                self.matiere_id = matiere_id
+                self.matiere_color = matiere.color
+                self.matiere_nom = matiere.nom
         content = self.ids.textinput
         content.focus = True
         content.do_cursor_movement("cursor_end")
@@ -95,7 +100,7 @@ class ContentTextInput(TextInput):
             self.parent.jour_widget.ids.add_button.trigger_action(0)
             dropdown = window.window.children[0]
             window.window.remove_widget(dropdown)
-            self.parent.jour_widget.items[0].update_matiere(self.parent.matiere_nom)
+            self.parent.jour_widget.items[0].update_matiere(self.parent.matiere_id)
 
         # ctrl + m = matiere ?
         elif keycode[1] == "m" and "ctrl" in modifiers:

@@ -2,14 +2,7 @@ import datetime
 import itertools
 
 from kivy.config import ConfigParser
-from kivy.properties import (
-    BooleanProperty,
-    DictProperty,
-    ListProperty,
-    NumericProperty,
-    ObjectProperty,
-    StringProperty,
-)
+from kivy.properties import NumericProperty, StringProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.carousel import Carousel
 from kivy.uix.gridlayout import GridLayout
@@ -20,6 +13,7 @@ from mydevoirs.constants import SEMAINE
 from mydevoirs.database import db
 from mydevoirs.itemwidget import ItemWidget
 from mydevoirs.matieredropdown import MatiereDropdown
+from mydevoirs.utils import get_config
 
 
 class AgendaItemWidget(ItemWidget):
@@ -86,11 +80,13 @@ class JourWidget(BoxLayout):
     def add_item(self):
         with db_session:
             jour = db.Jour.get_or_create(date=self.date)
-            item = db.Item(jour=jour)
+            matiere = db.Matiere.select().first()
+            item = db.Item(jour=jour, matiere=matiere)
+
             item_widget = AgendaItemWidget(**item.to_dict())
         self.jouritem.add_widget(item_widget)
         self.update_progression()
-        MatiereDropdown().open(item_widget.ids.spinner)
+        MatiereDropdown().open(item_widget)
 
     @property
     def items(self):
@@ -98,8 +94,15 @@ class JourWidget(BoxLayout):
 
 
 class BaseGrid(GridLayout):
-
     number_to_show = NumericProperty()
+
+    def __init__(self, day=None):
+        self.day = day or datetime.date.today()
+        super().__init__(cols=2)
+        self.build_grid(self.get_days_to_show())
+
+    def __repr__(self):
+        return f"BaseGrid : {self.day}"
 
     def get_week_days(self, jours):
         days = [
@@ -120,17 +123,21 @@ class BaseGrid(GridLayout):
         for d in self.get_week_days(jours):
             self.add_widget(JourWidget(d))
 
-    def __init__(self, day=None):
-        super().__init__(cols=2)
-        self.day = day or datetime.date.today()
-        self.build_grid(self.get_days_to_show())
-
 
 class CarouselWidget(Carousel):
     def __init__(self, day=None):
+        self._removing = False
         self.date = day or datetime.date.today()
-        super().__init__()
 
+        # adjust the week
+        if (
+            not day
+            and self.date.weekday() in (5, 6)
+            and get_config("agenda", "auto_next_week", bool, False)
+        ):
+            self.date = self.date + datetime.timedelta(days=3)
+
+        super().__init__()
         self.add_widget(BaseGrid(self.date - datetime.timedelta(weeks=1)))
         self.add_widget(BaseGrid(self.date))
         self.add_widget(BaseGrid(self.date + datetime.timedelta(weeks=1)))
@@ -138,6 +145,8 @@ class CarouselWidget(Carousel):
         self.index = 1
 
     def on_index(self, *args):
+        if self._removing:
+            return
 
         super().on_index(*args)
 
@@ -146,26 +155,28 @@ class CarouselWidget(Carousel):
         if index == 1:
             return
 
+            # else:
+        sens = 0 if index else -1
+
+        # can't remove the if statement/don't why.
+        if index:
+            # build right
+            self.add_widget(
+                BaseGrid(self.slides[index].day + datetime.timedelta(weeks=1)), sens
+            )
+            self._removing = True
+            self.remove_widget(self.slides[sens])
+
         else:
-            sens = 0 if index else -1
-
-            # can't remove the if statement/don't why.
-            if index:
-                # build right
-                self.add_widget(
-                    BaseGrid(self.slides[index].day + datetime.timedelta(weeks=1)), sens
-                )
-                self.remove_widget(self.slides[sens])
-
-            else:
-                # build left
-                self.add_widget(
-                    BaseGrid(self.slides[index].day - datetime.timedelta(weeks=1)), sens
-                )
-                self.remove_widget(self.slides[sens])
+            # build left
+            self.add_widget(
+                BaseGrid(self.slides[index].day - datetime.timedelta(weeks=1)), sens
+            )
+            self.remove_widget(self.slides[sens])
 
         self.index = 1
         self.date = self.current_slide.day
+        self._removing = False
 
 
 class Agenda(Screen):

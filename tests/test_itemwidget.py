@@ -48,7 +48,10 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
         spin = item.ids.spinner
         spin.trigger_action(0)
 
-        self.Window.children[0].select(MatiereOption(text="Divers"))
+        with db_session:
+            divers = db.Matiere.get(nom="Divers")
+        dd = self.Window.children[0]
+        dd.select(MatiereOption(text="Divers", matiere_id=divers.id))
         with db_session:
             it = db.Item[a.id]
             assert a.matiere.nom == "Grammaire"
@@ -59,7 +62,7 @@ class ItemWidgetTestCase(MyDevoirsTestCase):
         assert item.ids.textinput.cursor_col == len(item.ids.textinput._lines[-1])
 
         # no change:
-        assert item.update_matiere("Divers") is None
+        assert item.update_matiere(divers.id) is None
 
     def test_done(self):
 

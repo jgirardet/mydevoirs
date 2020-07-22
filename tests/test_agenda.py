@@ -1,9 +1,10 @@
 import datetime
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
-from kivy.base import EventLoop
+import freezegun
 from kivy.config import ConfigParser
 from kivy.uix.dropdown import DropDown
+from kivy.uix.widget import Widget
 
 from mydevoirs.agenda import (
     Agenda,
@@ -14,11 +15,26 @@ from mydevoirs.agenda import (
     JourWidget,
 )
 from mydevoirs.constants import SEMAINE
+from mydevoirs.matieredropdown import MatiereDropdown
 
 from .fixtures import *
 
 
 class AgendaItemWidgetTestCase(MyDevoirsTestCase):
+    def setUp(self, no_db=False):
+        super().setUp(no_db)
+        # nexecessaire pour utiliser app dans kv independant
+        from mydevoirs.app import MyDevoirsApp
+
+        self.myapp = MyDevoirsApp()
+
+    def tearDown(self):
+        super().tearDown()
+        self.myapp.stop()
+
+    def test_rine(self):
+        assert True
+
     def test_widget_init(self):
 
         self.check_super_init("ItemWidget", AgendaItemWidget, **f_item().to_dict())
@@ -57,6 +73,17 @@ class AgendaItemWidgetTestCase(MyDevoirsTestCase):
 
 
 class JourItemsTestCase(MyDevoirsTestCase):
+    def setUp(self, no_db=False):
+        super().setUp(no_db)
+        # nexecessaire pour utiliser app dans kv independant
+        from mydevoirs.app import MyDevoirsApp
+
+        self.myapp = MyDevoirsApp()
+
+    def tearDown(self):
+        super().tearDown()
+        self.myapp.stop()
+
     def test_init(self):
         self.check_super_init("BoxLayout", JourItems, datetime.date.today())
 
@@ -76,6 +103,17 @@ class JourItemsTestCase(MyDevoirsTestCase):
 
 
 class JourWidgetTestCase(MyDevoirsTestCase):
+    def setUp(self, no_db=False):
+        super().setUp(no_db)
+        # nexecessaire pour utiliser app dans kv independant
+        from mydevoirs.app import MyDevoirsApp
+
+        self.myapp = MyDevoirsApp()
+
+    def tearDown(self):
+        super().tearDown()
+        self.myapp.stop()
+
     def test_init(self):
         self.check_super_init("BoxLayout", JourWidget, datetime.date(1999, 1, 1))
 
@@ -97,6 +135,16 @@ class JourWidgetTestCase(MyDevoirsTestCase):
         assert any(isinstance(x, DropDown) for x in self.Window.children)
         with db_session:
             assert db.Item[jour.jouritem.children[0].entry]
+
+    def test_add_matiere_dropdown_correctly_called(self):
+        day = f_jour()
+        jour = JourWidget(day.date)
+        self.render(jour)
+        jour.ids.add_button.trigger_action(0)
+
+        dd = [x for x in self.Window.children if isinstance(x, MatiereDropdown)][0]
+        dd.select(dd.options[0])
+        # should simply not failed
 
     def test_add_udpate_progression(self):
         day = f_jour()
@@ -177,8 +225,10 @@ class TestBaseGrid(MyDevoirsTestCase):
             assert b.day == datetime.date(2019, 7, 18)
 
 
+@patch("mydevoirs.agenda.get_config", return_value=False)
 class TestCaroussel(MyDevoirsTestCase):
-    def test_init(self):
+    def test_init(self, gc):
+        CarouselWidget()
         self.check_super_init("Carousel", CarouselWidget)
 
         d = datetime.date(2015, 12, 11)
@@ -190,7 +240,7 @@ class TestCaroussel(MyDevoirsTestCase):
         assert c.slides[1].day == datetime.date(2015, 12, 11)
         assert c.slides[2].day == datetime.date(2015, 12, 18)
 
-    def test_on_index(self):
+    def test_on_index_1(self, gc):
         """Carousel slides values:
             0: gauche
             1: centre
@@ -199,46 +249,74 @@ class TestCaroussel(MyDevoirsTestCase):
 
         d = datetime.date(2015, 12, 11)
         c = CarouselWidget(day=d)
-
         un, deux, trois = c.slides
         # in the middle, no move
         c.on_index(None, 1)
+        assert c.index == 1
         assert c.slides == [un, deux, trois]
-        assert len(c.slides) == 3
 
-        # go right/previous
+    def test_on_index_0(self, gc):
+
+        d = datetime.date(2015, 12, 11)
+        c = CarouselWidget(day=d)
+        un, deux, trois = c.slides
+
         c.on_index(None, 0)
-        assert c.slides[1:3] == [un, deux]
-        assert len(c.slides) == 3
 
         quatre = c.slides[0]
+        assert c.slides == [quatre, un, deux]
+        assert len(c.slides) == 3
 
-        # then left/after
+    def test_on_index_2(self, gc):
+        d = datetime.date(2020, 7, 6)
+        c = CarouselWidget(day=d)
+        un, deux, trois = c.slides
+
         c.on_index(None, 2)
-        assert c.slides[0:2] == [un, deux]
-        cinq = c.slides[2]
-        assert trois.day == cinq.day
+
+        quatre = c.slides[2]
+        assert c.slides == [deux, trois, quatre]
         assert len(c.slides) == 3
 
-        # then left/after
-        c.on_index(None, 2)
-        assert c.slides[0:2] == [deux, cinq]
-        assert len(c.slides) == 3
+    def test_auto_next_week(self, gc):
+        # vendredi rien ne change
+        with patch(
+            "mydevoirs.agenda.BaseGrid", side_effect=lambda x: Widget(),
+        ):
+            # vendredi
+            with freezegun.freeze_time("2020-07-10"):
+                c = CarouselWidget()
+                assert c.date == datetime.date(2020, 7, 10)
 
-        # two times right previous
-        c.on_index(None, 0)
-        c.on_index(None, 0)
-        assert c.slides[2] == deux
-        assert len(c.slides) == 3
-        for i, j in zip(range(3), [quatre, un, deux]):
-            assert c.slides[i].day == j.day
+            # samedi
+            with freezegun.freeze_time("2020-07-11"):
+                c = CarouselWidget()
+                assert c.date == datetime.date(2020, 7, 11)
+
+            # autoweek next active active
+            with patch("mydevoirs.agenda.get_config", return_value=True):
+                # vendredi
+                with freezegun.freeze_time("2020-07-10"):
+                    c = CarouselWidget()
+                    assert c.date == datetime.date(2020, 7, 10)
+
+                # samedi
+                with freezegun.freeze_time("2020-07-11"):
+                    c = CarouselWidget()
+                    assert c.date == datetime.date(2020, 7, 14)
+
+                # dimanche
+                with freezegun.freeze_time("2020-07-12"):
+                    c = CarouselWidget()
+                    assert c.date == datetime.date(2020, 7, 15)
 
 
+@patch("mydevoirs.agenda.get_config", return_value=False)
 class TestAgendaScreen(MyDevoirsTestCase):
-    def test_init(self):
+    def test_init(self, gc):
         self.check_super_init("Screen", Agenda)
 
-    def test_go_date(self):
+    def test_go_date(self, gc):
         b = Agenda()
         assert b.carousel.date == datetime.date.today()
         b.go_date(datetime.date(2012, 3, 2))

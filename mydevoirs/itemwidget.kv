@@ -1,7 +1,4 @@
-#: import gmc mydevoirs.utils.gmc
 #: import COLORS mydevoirs.constants.COLORS
-#: import MATIERES_TREE mydevoirs.constants.MATIERES_TREE
-#: import MATIERES mydevoirs.constants.MATIERES
 
 <ItemWidget>:
     size_hint_y: None
@@ -9,7 +6,7 @@
     spacing: dp(5)
     canvas:
         Color:
-            rgb: rgba(root.matiere_color)
+            rgb: root.matiere_color
         Rectangle:
             pos: self.pos
             size: self.size
@@ -18,8 +15,8 @@
         id: spinner
         text: root.matiere_nom
         on_release:
-            MatiereDropdown().open(self)
-        background_color: gmc(self.text)
+            MatiereDropdown().open(root)
+        background_color: root.matiere_color
         background_normal: '' # pragma: no cover
         color: COLORS["spinner_text_color"]
         size_hint_x: 0.4 # pragma: no cover
@@ -30,7 +27,6 @@
         halign: 'center' # pragma: no cover
         shorten: True
         shorten_from: "right" # pragma: no cover
-
 
     ContentTextInput:
         id : textinput
@@ -43,7 +39,6 @@
         font_name: datas['font_base']
         font_size: sp(14)
         # height: root.height * (len(self._lines)+1)
-
 
     ToggleButton:
         id: done
@@ -59,9 +54,8 @@
                 id: image_done
                 source: datas['icon_checked'] if root.done else datas['icon_unchecked']
 
-
     Button:
-        id: remove_item 
+        id: remove_item
         size_hint_x: 0.1 # pragma: no cover
         on_release: root.remove()
         background_color: (1, 1, 1, 0) # pragma: no cover
@@ -71,12 +65,11 @@
             Image:
                 source: datas['icon_remove']
 
-
-
 <MatiereOption>:
     size_hint_y: None
     height: dp(20)
-    background_color: gmc(self.text)
+    #background_color: (255,0,0)
+    #background_color: root.color
     background_normal: '' # pragma: no cover
     color: (0,0,0) # pragma: no cover
 

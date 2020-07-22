@@ -1,14 +1,12 @@
 import json
-from pathlib import Path
+from importlib.metadata import metadata
 
-import toml
+from mydevoirs.constants import DDB_FILENAME, VERSION
+from mydevoirs.utils import get_dir
 
-from mydevoirs.constants import DDB_FILENAME
-from mydevoirs.utils import get_base_dir, get_dir
+meta = metadata("mydevoirs")
+homepage = meta["Home-page"]
 
-homepage = toml.load((get_base_dir() / "pyproject.toml").aname)["tool"]["poetry"][
-    "homepage"
-]
 
 AGENDA_PANEL = [
     {"type": "title", "title": "Aide/À propos de MyDevoirs"},
@@ -68,6 +66,14 @@ AGENDA_PANEL = [
         "section": "agenda",
         "key": "dimanche",
     },
+    {"type": "title", "title": "Le Week-end afficher la semaine suivante"},
+    {
+        "type": "bool",
+        "title": "Afficher la semaine suivante",
+        "desc": "Affiche directement la semaine suivante le WE",
+        "section": "agenda",
+        "key": "auto_next_week",
+    },
     {"type": "title", "title": "Choix du fichier base de donnée"},
     {
         "type": "filepath",
@@ -76,43 +82,6 @@ AGENDA_PANEL = [
         "section": "ddb",
         "key": "path",
     },
-    # {
-    #     "type": "numeric",
-    #     "title": "Nombre de jour à afficher",
-    #     "desc": "Nombre de jour à afficher",
-    #     "section": "agenda",
-    #     "key": "nbjour",
-    # },
-    # {
-    #     "type": "buttons",
-    #     "title": "essai bout",
-    #     # "title": "$lvar(565)",
-    #     "desc": "la desc",
-    #     # "desc": "$lvar(566)",
-    #     # "section": "$var(InterfaceConfigSection)",
-    #     "section": "agenda",
-    #     "key": "configchangebuttons",
-    #     "buttons": [
-    #         {"title": "Add", "id": "button_add"},
-    #         {"title": "Del", "id": "button_delete"},
-    #         {"title": "Rename", "id": "button_rename"},
-    #     ],
-    # },
-    # {
-    #     "type": "slider",
-    #     "title": "essai bout",
-    #     "desc": "la desc",
-    #     "section": "agenda",
-    #     "key": "slider1",
-    # }
-    # {
-    #     "type": "options",
-    #     "title": "An options setting",
-    #     "desc": "Options description text",
-    #     "section": "example",
-    #     "key": "optionsexample",
-    #     "options": ["option1", "option2", "option3"],
-    # },
 ]
 
 
@@ -125,9 +94,10 @@ DEFAULT_SETTINGS = {
         "vendredi": 1,
         "samedi": 0,
         "dimanche": 0,
+        "auto_next_week": 1,
     },
-    "ddb": {"path": str(Path(get_dir("cache"), DDB_FILENAME))},
-    "aide": {"aide": homepage},
+    "ddb": {"path": str(get_dir("cache") / DDB_FILENAME), "file_config_path": ""},
+    "aide": {"aide": homepage, "version": VERSION},
 }
 
 

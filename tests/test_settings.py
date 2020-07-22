@@ -1,8 +1,6 @@
-from pathlib import Path
-
 from mydevoirs.constants import DDB_FILENAME
 from mydevoirs.settings import *
-from mydevoirs.utils import get_dir
+from mydevoirs.utils import Path, get_dir
 from scripted.check_executable import DDB
 
 from .fixtures import *
@@ -36,6 +34,9 @@ def test_each_default_has_good_type():
         elif x["type"] == "filepath":
             assert isinstance(DEFAULT_SETTINGS[x["section"]][x["key"]], str)
 
+        elif x["type"] == "configfilepath":
+            assert isinstance(DEFAULT_SETTINGS[x["section"]][x["key"]], str)
+
         elif x["type"] == "label":
             assert isinstance(DEFAULT_SETTINGS[x["section"]][x["key"]], str)
 
@@ -44,8 +45,7 @@ def test_each_default_has_good_type():
 
 
 def test_ddb_path():
-    assert (
-        DDB
-        == Path(DEFAULT_SETTINGS["ddb"]["path"])
-        == Path(get_dir("cache"), DDB_FILENAME)
+    assert Path(DEFAULT_SETTINGS["ddb"]["path"]) == Path(
+        get_dir("cache", enable_pytest=False), DDB_FILENAME
     )
+    assert str(DDB)[-26:] == str(Path(DEFAULT_SETTINGS["ddb"]["path"]))[-26:]

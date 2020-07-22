@@ -89,5 +89,4 @@ class ColorSlider(Slider):
             g = 0
             b = 1530 - x
 
-        print(r, g, b)
         return (r / 255, g / 255, b / 255)

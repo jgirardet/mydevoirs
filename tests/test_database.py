@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 from pony.orm import Database, db_session, select
 
-from mydevoirs.constants import MATIERES
+from mydevoirs.constants import MATIERES_TREE_INIT
 from mydevoirs.database import (
     db,
     ensure_database_directory,
@@ -14,33 +14,43 @@ from mydevoirs.database import (
     init_update_matiere,
 )
 
-from .fixtures import f_item
+from .fixtures import f_item, f_matiere
 
 
 def test_init_update_matiere():
-    """ in tests init_update_matiere already run
-    so we check the result first"""
-    with db_session:
-        keys = set(select(b.nom for b in db.Matiere))
-    assert set(MATIERES) == keys
 
-    MATIERES["Nouvelle"] = (91, 193, 242)
+    # creation automatique
+    def check_default_matiere():
+        with db_session:
+            assert db.Matiere.select().count() == len(MATIERES_TREE_INIT)
+            assert db.Matiere.get(nom="Orthographe").color == [
+                91 / 255,
+                193 / 255,
+                242 / 255,
+            ]
 
-    init_update_matiere(db, matieres=MATIERES)
-    with db_session:
-        keys = set(select(b.nom for b in db.Matiere))
-    assert set(MATIERES) == keys
+    check_default_matiere()
 
-    MATIERES["Nouvelle"] = (0, 0, 0)
-    init_update_matiere(db, matieres=MATIERES)
+    # si existe on ne change rien
+    init_update_matiere(db)
     with db_session:
-        keys = set(select(b.nom for b in db.Matiere))
-    assert set(MATIERES) == keys
+        assert db.Matiere.select().count() == len(MATIERES_TREE_INIT)
 
-    # teardown
+    # si aucun refait tout :
     with db_session:
-        db.Matiere["Nouvelle"].delete()
-    MATIERES.pop("Nouvelle")
+        for it in db.Matiere.select():
+            it.delete()
+    with db_session:
+        assert db.Matiere.select().count() == 0
+    init_update_matiere(db)
+    check_default_matiere()
+
+    # si reset refait tout :
+    with db_session:
+        db.Matiere.get(nom="Orthographe").color = [1, 2, 3, 4, 5]
+        db.Matiere(nom="aaa", color=[1, 1, 1])
+    init_update_matiere(db, reset=True)
+    check_default_matiere()
 
 
 def test_ensure_update_matiere():
@@ -102,3 +112,37 @@ class TestItem:
                     lambda x: x.jour.date >= datetime.date.today() and not x.done
                 ).order_by(lambda x: x.jour)[:]
             )
+
+
+class TestMatiere:
+    @db_session
+    def reset_matiere(self):
+        for m in db.Matiere.select():
+            m.delete()
+
+    def test_ordered_ordre_empty(self):
+        self.reset_matiere()
+        with db_session:
+            assert not db.Ordre.get(nom="Matiere")
+            res1 = db.Matiere.get_ordered()
+            assert res1 == []
+        a = f_matiere(nom="aaa")
+        b = f_matiere(nom="bbb")
+        c = f_matiere(nom="ccc")
+
+        # with ordre empty
+        with db_session:
+            assert db.Matiere.get_ordered() == [
+                a.to_dict(),
+                b.to_dict(),
+                c.to_dict(),
+            ]
+
+        # with ordre not empty
+        with db_session:
+            db.Ordre.get(nom="Matiere").ordre = [a.id, c.id, b.id]
+            assert db.Matiere.get_ordered() == [
+                a.to_dict(),
+                c.to_dict(),
+                b.to_dict(),
+            ]
