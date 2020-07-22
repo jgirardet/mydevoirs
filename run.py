@@ -148,6 +148,7 @@ def cmd_cov_html(*args, **kwargs):
 
 
 def cmd_create(*args, **kwargs):
+    cmd_clean()
     runCommand("briefcase create")
     if OS == "Windows":
         bundle = ROOT / "windows" / PACKAGE_NAME / "src"
