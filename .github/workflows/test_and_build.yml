@@ -42,12 +42,12 @@ jobs:
         /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1280x720x24 -ac +extension GLX
     - name: install dev env
       run: python run.py install
-    - name: Tests
-      if: runner.os == 'Linux'
-      run: python run.py test
-    - name: Coverage
-      if: runner.os == 'Linux'
-      run: python run.py cov
+#    - name: Tests
+#      if: runner.os == 'Linux'
+#      run: python run.py test
+#    - name: Coverage
+#      if: runner.os == 'Linux'
+#      run: python run.py cov
     - name: build
       run: |
         python run.py create

@@ -121,7 +121,7 @@ class MyDevoirsApp(App):
         )
 
     def _reload_app(self):
-        if os.environ.get("MYDEVOIRS_DEBUG", None):  # pragma: no branch
+        if os.environ.get("MYDEVOIRS_DEBUG", None):  # pragma: no cover_all
             startupinfo = None
             if platform.system() == "Windows":  # pragma: no cover_linux
                 startupinfo = subprocess.STARTUPINFO()
@@ -138,19 +138,3 @@ class MyDevoirsApp(App):
         elif platform.system() == "Windows":  # pragma: no branch
             subprocess.run([sys.executable, "-m", "mydevoirs"], cwd=os.getcwd())
         self.stop()
-
-    # def _reset_database(self):
-    #     """ when something wrong with database"""
-    #     cp = ConfigParser()
-    #     config_file = self.get_application_config()
-    #     cp.read(config_file)
-    #     default = DEFAULT_SETTINGS["ddb"]["path"]
-    #     cp.update({"ddb": {"path": default}})
-    #     # cp["ddb"]["path"] = default
-    #     with open(config_file, "wt") as f:
-    #         cp.write(f)
-    #     self.config = None
-    #     self.load_config()
-    #     self.config.update({"ddb": {"path": default}})
-    #
-    #     mydevoirs.database.db = init_database(filename=default, create_db=True)

@@ -30,13 +30,11 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
         self.check_super_init("App", MyDevoirsApp)
         assert self.app.get_application_name() == APP_NAME
 
-    #
-    # def test_if_avertissement(self):
-    #     ap = MyDevoirsApp()
-    #     w = Widget()
-    #     ap.avertissement = w
-    #     ap.build()
-    #     assert ap.root == w
+    def test_if_avertissement(self):
+        ap = MyDevoirsApp()
+        w = Widget()
+        ap.avertissement = w
+        assert ap.build() == w
 
     def test_sm(self):
 
@@ -166,46 +164,13 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
         self.app.build_config(a)
         assert a.get("aide", "aide") == "https://jgirardet.github.io/mydevoirs"
 
-    # def test_reset_database(self):
-    #     app = MyDevoirsApp()
-    #     with tempfile.NamedTemporaryFile() as t:
-    #         t.close()  # windows need it**********************
-    #         app.get_application_config = lambda: t.name
-    #         text = """[agenda]
-    # lundi = 0
-    # mardi = 1
-    # mercredi = 0
-    # jeudi = 1
-    # vendredi = 1
-    # samedi = 0
-    # dimanche = 1
-    #
-    # [ddb]
-    # path = /mauvais/repo
-    #
-    # """
-    #         Path(t.name).write_text(text)
-    #         cp = ConfigParser()
-    #         cp.read(t.name)
-    #         assert cp.sections() == ["agenda", "ddb"]
-    #         assert cp["ddb"]["path"] == "/mauvais/repo"
-    #         app._reset_database()
-    #         cp = ConfigParser()
-    #         cp.read(t.name)
-    #         assert cp["ddb"]["path"] == DEFAULT_SETTINGS["ddb"]["path"]
-    #         assert app.config["ddb"]["path"] == DEFAULT_SETTINGS["ddb"]["path"]
-    #         assert cp["agenda"]["lundi"] == app.config["agenda"]["lundi"]
-
     def test_init_database(self):
         app = MyDevoirsApp()
         app.load_config = lambda: {"ddb": {"path": str(Path.home())}}
-        # app._reset_database = MagicMock()
 
         with pytest.raises(OperationalError):
             app.init_database()
-        # assert app._reset_database.call_args_list == (call())
 
-    # @pytest.mark.skipif(platform.system() != "Linux", reason="Linux test")
     @patch.dict(os.environ, {"APPIMAGE": "/here/it/is/appimage"})
     @patch("mydevoirs.app.subprocess.run")
     @patch("mydevoirs.app.platform.system", return_value="Linux")
@@ -216,8 +181,6 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
         assert run.call_args_list == [call(["/here/it/is/appimage"])]
         assert app.stop.called
 
-    # @pytest.mark.skipif(platform.system() != "Windows", reason="windows test")
-    # @patch.dict(os.environ, {"APPIMAGE": "/here/it/is/appimage"})
     @patch("mydevoirs.app.subprocess.run")
     @patch("mydevoirs.app.platform.system", return_value="Windows")
     def test_reload_app_script_windows(self, plat, run):
