@@ -60,7 +60,7 @@ def reapply_version(app: MyDevoirsApp) -> Tuple[int, str]:
     file = Path(cf_file)
     return_value = 0
     file_version = None
-    if file.is_file():
+    if file.is_file():  # pragma: no branch
         config = ConfigParser()
         try:
             config.read(cf_file)

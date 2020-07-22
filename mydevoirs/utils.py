@@ -22,7 +22,6 @@ class Path(type(PythonPath())):
 _temppath = None
 
 
-
 def get_dir(key, disable_debug=False, enable_pytest=True):
 
     global _temppath
@@ -68,10 +67,10 @@ def get_config(section, key, cls=str, default=""):
     :param default: fallback. default = ""
     :return: Any or None si la clé n'est pas présente
     """
-    if app := App.get_running_app():
+    if app := App.get_running_app():  # pragma: no branch
         config: ConfigParser = app.config
         # trick pour les tests, ne pas tester
-        if not config:  # pragma: no branch
+        if not config:  # pragma: no cover_all
             config = ConfigParser()
             app.build_config(config)
         value = config.getdefault(section, key, default)
