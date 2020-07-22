@@ -43,8 +43,8 @@ jobs:
     - name: install dev env
       run: python run.py install
     - name: Tests
-      if: runner.os == 'Linux'
       run: python run.py test
+#      if: runner.os == 'Linux'
     - name: Coverage
       if: runner.os == 'Linux'
       run: python run.py cov

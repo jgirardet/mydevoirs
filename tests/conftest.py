@@ -1,3 +1,7 @@
+from mydevoirs.__main__ import configure_env
+
+configure_env()
+
 import pytest
 from kivy.lang import Builder
 from kivy.logger import LOG_LEVELS, Logger

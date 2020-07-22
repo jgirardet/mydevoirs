@@ -35,9 +35,12 @@ def test_setup_kivy_windows():
     setup_kivy()
     assert os.environ.get("KIVY_GL_BACKEND", None) == "angle_sdl2"
     assert os.environ.get("KIVY_NO_CONSOLELOG", None) is None
+    from mydevoirs.__main__ import configure_env
+
     with patch.object(sys, "executable", "some\\path\\pythonw.exe"):
-        setup_kivy()
+        configure_env()
         assert os.environ.get("KIVY_NO_CONSOLELOG", None) == "True"
+        os.environ.pop("KIVY_NO_CONSOLELOG")
 
 
 @pytest.mark.parametrize(
