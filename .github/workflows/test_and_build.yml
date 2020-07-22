@@ -60,14 +60,18 @@ jobs:
       if: runner.os == 'Linux'
       uses: actions/upload-artifact@v2
       with:
-        path: linux
-        name: MyDevoirs-${{runner.os}}64
+        path: |
+          linux/mydevoirs
+          mydevoirs*.AppImage
+#        name: MyDevoirs-${{runner.os}}64
     - name: upload  on Windows binary in artifact
       if: runner.os == 'Windows'
       uses: actions/upload-artifact@v2
       with:
-        path: windows
-        name: MyDevoirs-${{runner.os}}64
+        path: |
+          windows/mydevoirs
+          mydevoirs*.msi
+#        name: MyDevoirs-${{runner.os}}64
 
   Create_release:
     needs: TestAndBuild

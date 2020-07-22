@@ -106,37 +106,17 @@ IL EST DONC IMPORTANT, POUR UN MÊME FICHIER SYNCHRONISÉ, DE N'OUVRIR MYDEVOIRS
 
 ## Comment définir des couleurs personnalisées ?
 
-Pensez bien à sauvegarder vos données ailleurs. Le changement de configuration peut rendre l'ancienne base inutilisable.
-En cas de problème, il faut effacer la base existante ou choisir un nouveau fichier de configuration (cf synchro).
+- Cliquer sur la palette ![palette](mydevoirs/data/icons/colorchooser.png).
+- l'écran du choix des couleurs s'affiche :
 
- - tout d'abord, il faut créer un fichier de configuration au format `json`. C'est assez simple il suffit de partir du model et de changer,
-  les sections, les matières et les couleurs.
-    - pour les couleurs : elle sont au format RGB et peuvent être obtenues ici : [W3 School color](https://www.w3schools.com/colors/colors_picker.asp).
-    - attention en json chaque dernier élément d'une liste ne doit pas avoir de virgule (
-    dans l'exemple c visible pour vocabulaire, géometrie, divers). C'est une erreur classique.
-    - pour vérifier que le fichier est bien valide : le tester sur [jsonChecker](https://jsonchecker.com/) afin d'être sûr
-    que tout est bon. 
-    - sauvergarder votre fichier dans une endroit qui ne changera pas.
+ ![color-choix](docs/palette/basepalette.png)
 
- - puis dans la zone `importer un fichier de configuration` dans les paramètres :
-
- ![clickmenu](docs/import_file_config/0.png)
- 
- - puis sélectionner le fichier et confirmer.
- 
- ![clickmenu](docs/import_file_config/2.png)
-
- 
- 
-Pour annuler la sélection du  fichier de configuration :
-
- - tout d'abord cliquer dans la zone `importer un fichier de configuration` dans les paramètres :
- 
- ![clickmenu](docs/import_file_config/1.png)
- 
- - puis cliquer sur `Cancel` et confirmer son choix.
- 
- ![clickmenu](docs/import_file_config/3.png)
+- L'édition se fait de la manière suivante:
+  - ![add](mydevoirs/data/icons/012-add.png) permet d'ajouter une matière juste au dessus.
+  - ![move](mydevoirs/data/icons/arrowmove.png) permet de changer l'ordre des matière. Cliquer, maintenir, déplacer la souris, relacher.
+  - ![del](mydevoirs/data/icons/017-cancel.png) pour effacer une matière. ATTENTION la supression d'une matière entraine la supression de tous les devoirs correspondants.
+  - Cliquer avec le bouton  DROIT sur le texte pour changer de couleur:  
+  ![color-choix](docs/palette/colorchooser.png)
 
  
 
