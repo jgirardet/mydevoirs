@@ -22,16 +22,13 @@ Pour l'instant disponible sous Windows et Linux (Mac possible si quelqu'un le de
 - Version Linux : [MyDevoirs](https://github.com/jgirardet/mydevoirs/releases/download/latest/MyDevoirs)
 
 	- puis sous Windows :
-		- windows va vous mettre en garde car l'application n'est pas certifiée mais pas d'inquiétude, il suffit de cliquer sur `informations complémentaires` puis  `exécuter quand même`:
-
-			![Avertissement 1](docs/avertissement1.jpeg) ![Avertissement 2](docs/avertissement2.jpeg)
-
-		- Ensuite il suffit d'éxécuter le fichier et c'est parti.
+		- executer l'installateur, un raccourci sera créé dans le menu démarrer.
 
 	- puis sous Linux :
-		- Il faut rendre le fichier exécutable soit en mode terminal:
+	    - cliquer sur le fichier mydevoirs.Appimage
+		- Il faudra peut être rendre le fichier exécutable soit en mode terminal:
 		```bash
-		chmod +x MyDevoirs
+		chmod +x MyDevoirs.appImage
 		```
 		ou en mode graphique, par exemple sous Mint :  click droit => propriétés => permissions => Autoriser l'exécution du fichier comme un programme.
 

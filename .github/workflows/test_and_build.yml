@@ -14,8 +14,6 @@ on:
 
 env:
   CODECOV_TOKEN: b12c1d6f-032c-40bf-ab16-3cc301e48115
-#  USE_SDL2: 1
-
 
 
 jobs:
@@ -90,8 +88,8 @@ jobs:
           automatic_release_tag: "latest"
           title: "MyDevoirs Latest"
           files: |
-            mydevoirs*.msi
-            mydevoirs*.AppImage
+            MyDevoirs-Linux64/mydevoirs*.msi
+            MyDevoirs-Linux64/mydevoirs*.AppImage
       - name: Display structure of downloaded files
         run: ls -R
         working-directory: .
@@ -102,8 +100,8 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
-            mydevoirs*.msi
-            mydevoirs*.AppImage
+            MyDevoirs-Linux64/mydevoirs*.msi
+            MyDevoirs-Linux64/mydevoirs*.AppImage
 #
 #  Deploy:
 #    name: release github
