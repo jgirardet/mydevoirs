@@ -30,10 +30,7 @@ def set_locale_fr() -> None:
 
 
 def setup_kivy() -> bool:
-    if platform.system() == "Windows":  # pragma: no cover_linux
-        os.environ["KIVY_GL_BACKEND"] = "angle_sdl2"
-        if Path(sys.executable).name == "pythonw.exe":
-            os.environ["KIVY_NO_CONSOLELOG"] = "True"
+
     from kivy.config import Config
 
     Config.set("input", "mouse", "mouse,multitouch_on_demand")

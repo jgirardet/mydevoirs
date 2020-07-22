@@ -8,3 +8,4 @@ isort
 freezegun
 gitpython
 toml
+appdirs

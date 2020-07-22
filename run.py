@@ -204,7 +204,7 @@ def cmd_test(*args, **kwargs):
 
 def cmd_test_executable(*args, **kwargs):
     path = ROOT / "scripted" / "check_executable.py"
-    runCommand(f"python  {path}")
+    runCommand(f"{sys.executable}  {path}")
 
 
 def cmd_run(*args, **kwargs):
