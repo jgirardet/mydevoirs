@@ -56,8 +56,8 @@ jobs:
     - name: Package Windows
       if: runner.os == 'Windows'
       run: briefcase package
-#    - name: check executable
-#      run: python run.py test_executable
+    - name: check executable
+      run: python run.py test_executable
 #    - name: upload  on Linux binary in artifact
 #      if: runner.os == 'Linux'
 #      uses: actions/upload-artifact@v2
