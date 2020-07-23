@@ -17,9 +17,9 @@ A priori les enfants qui ont besoin d'un ordiateur à l'école donc les Dys en g
 ## Comment l'installer ?
 
 Pour l'instant disponible sous Windows et Linux (Mac possible si quelqu'un le demande).
-
-- Version Windows : [MyDevoirs.exe](https://github.com/jgirardet/mydevoirs/releases/download/latest/MyDevoirs.exe) 
-- Version Linux : [MyDevoirs](https://github.com/jgirardet/mydevoirs/releases/download/latest/MyDevoirs)
+[Télécharger MyDevoirs](https://github.com/jgirardet/MyCartable/releases/tag/latest)
+- Version Windows : fichier .msi (installateur) 
+- Version Linux : fichier .AppImage (exécutable toutes distros)
 
 	- puis sous Windows :
 		- executer l'installateur, un raccourci sera créé dans le menu démarrer.
