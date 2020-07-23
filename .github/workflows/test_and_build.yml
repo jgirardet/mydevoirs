@@ -88,8 +88,8 @@ jobs:
           automatic_release_tag: "latest"
           title: "MyDevoirs Latest"
           files: |
-            artifact/windows/mydevoirs*.msi
-            artifact/linux/mydevoirs*.AppImage
+            artifact/mydevoirs*.msi
+            artifact/mydevoirs*.AppImage
       - name: Display structure of downloaded files
         run: ls -R
         working-directory: .
@@ -100,8 +100,8 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
-            artifact/windows/mydevoirs*.msi
-            artifact/linux/mydevoirs*.AppImage
+            artifact/mydevoirs*.msi
+            artifact/mydevoirs*.AppImage
 
 #
 #  Deploy:
