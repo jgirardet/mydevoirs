@@ -60,7 +60,7 @@ jobs:
       with:
         path: |
           linux/mydevoirs
-          mydevoirs*.AppImage
+          linux/mydevoirs*.AppImage
 #        name: MyDevoirs-${{runner.os}}64
     - name: upload  on Windows binary in artifact
       if: runner.os == 'Windows'
@@ -68,7 +68,7 @@ jobs:
       with:
         path: |
           windows/mydevoirs
-          mydevoirs*.msi
+          windows/mydevoirs*.msi
 #        name: MyDevoirs-${{runner.os}}64
 
   Create_release:
@@ -88,8 +88,8 @@ jobs:
           automatic_release_tag: "latest"
           title: "MyDevoirs Latest"
           files: |
-            MyDevoirs-Linux64/mydevoirs*.msi
-            MyDevoirs-Linux64/mydevoirs*.AppImage
+            artifact/windows/mydevoirs*.msi
+            artifact/linux/mydevoirs*.AppImage
       - name: Display structure of downloaded files
         run: ls -R
         working-directory: .
@@ -100,8 +100,9 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
-            MyDevoirs-Linux64/mydevoirs*.msi
-            MyDevoirs-Linux64/mydevoirs*.AppImage
+            artifact/windows/mydevoirs*.msi
+            artifact/linux/mydevoirs*.AppImage
+
 #
 #  Deploy:
 #    name: release github
