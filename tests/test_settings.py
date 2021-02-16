@@ -40,6 +40,9 @@ def test_each_default_has_good_type():
         elif x["type"] == "label":
             assert isinstance(DEFAULT_SETTINGS[x["section"]][x["key"]], str)
 
+        elif x["type"] == "options":
+            assert isinstance(DEFAULT_SETTINGS[x["section"]][x["key"]], str)
+
         else:
             assert False  # controle to not forget a use case
 

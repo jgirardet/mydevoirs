@@ -1,7 +1,7 @@
 import datetime
 import itertools
+from typing import List
 
-from kivy.config import ConfigParser
 from kivy.properties import NumericProperty, StringProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.carousel import Carousel
@@ -104,23 +104,30 @@ class BaseGrid(GridLayout):
     def __repr__(self):
         return f"BaseGrid : {self.day}"
 
-    def get_week_days(self, jours):
-        days = [
-            self.day + datetime.timedelta(days=i)
-            for i in range(0 - self.day.weekday(), 7 - self.day.weekday())
-        ]
+    def get_week_days(self, shown_days: List[bool], start_day: int):
+        return self._get_week_days(self.day, start_day, shown_days)
+
+    @staticmethod
+    def _get_week_days(day, start_day, jours_actifs):
+        delta = (
+            day.weekday() - start_day
+            if day.weekday() >= start_day
+            else 7 - (start_day - day.weekday())
+        )
+        start_date = day - datetime.timedelta(days=delta)
+        days = [start_date + datetime.timedelta(days=i) for i in range(7)]
+        jours = jours_actifs[start_day:] + jours_actifs[:start_day]
         return itertools.compress(days, jours)
 
     @staticmethod
     def get_days_to_show():
-        try:
-            cp = ConfigParser.get_configparser("app")
-            return [cp.getboolean("agenda", j) for j in SEMAINE]
-        except AttributeError:
-            return [True, True, False, True, True, False, False]
+        return [get_config("agenda", j, bool, True) for j in SEMAINE]
 
-    def build_grid(self, jours):
-        for d in self.get_week_days(jours):
+    def build_grid(self, days_to_show: List[bool]):
+        getcfg = get_config("agenda", "start_day", str, "lundi")
+        start_day = SEMAINE.index(getcfg)
+
+        for d in self.get_week_days(days_to_show, start_day):
             self.add_widget(JourWidget(d))
 
 

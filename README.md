@@ -37,7 +37,7 @@ Pour l'instant disponible sous Windows et Linux (Mac possible si quelqu'un le de
 
 Il y a 2 interfaces possibles : Une interface  type `agenda` ![agenda](mydevoirs/data/icons/014-calendar.png) qui affiche chaque jour de la semaine avec les devoirs de chaque jour, une autre type `todo list` (liste des tâches) ![todo list](mydevoirs/data/icons/010-test.png). Il semble plus facile de noter ses devoirs dans le mode `agenda`, mais plus simple de faire ses devoirs en mode `todo list`. La `todolist` n'affiche que les devoirs non encore effectués alors que l'`agenda` affiche l'intégralité des devoirs.
 
-Il est possible de modifier les jours affichés dans `Paramètres` ![parametres](docs/params.png).
+Il est possible de modifier les jours affichés et le premier jour de la semaine dans `Paramètres` ![parametres](docs/params.png).
 
 En mode `agenda`, on change de semaine en cliquant sur ![suivant](mydevoirs/data/icons/chevron-right.png) pour semaine suivante ou pour semaine précédente. ![precedant](mydevoirs/data/icons/chevron-left.png)
 
@@ -127,7 +127,11 @@ Je remercie tous les gens impliqués dans la réalisation des technologies utlis
 
 ## ChangeLog
 
-- 0.7.0 :
+- 1.1.0:
+    - il est désormais possible de choisir le premier jour de la semaine. 
+- 1.0.0: 
+    - ajout suppression de matière
+- 0.7.0:
     - ajout du lien d'aide
     - ajout de de la personalisation des couleurs et des matières.
     -  dev : ajout d'un mode debug et test pour ne pas mélanger les fichiers de configuration et la ddb.
