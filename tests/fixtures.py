@@ -4,8 +4,10 @@ import tempfile
 import time
 from unittest.mock import patch
 
+from kivy.app import App
 from kivy.base import EventLoop
 from kivy.clock import Clock
+from kivy.config import ConfigParser
 from kivy.core.window import Keyboard
 from kivy.tests.common import GraphicUnitTest, UnitTestTouch
 from mimesis import Generic
@@ -13,6 +15,7 @@ from pony.orm import db_session, delete
 
 from mydevoirs.constants import APP_NAME
 from mydevoirs.database import db, init_update_matiere
+from mydevoirs.settings import DEFAULT_SETTINGS
 from mydevoirs.utils import Path
 
 gen = Generic("fr")
@@ -61,13 +64,21 @@ class MyDevoirsTestCase(GraphicUnitTest):
 
     def setUp(self, no_db=False):
         super().setUp()
-
-        if not no_db:
-            init_update_matiere(db, reset=True)
-            with db_session:
-                for entity in db.entities.values():
-                    if entity.__name__ != "Matiere":
-                        delete(e for e in entity)
+        if not hasattr(self, "app"):
+            self.app = App()
+            Path(self.app.get_application_config()).unlink(missing_ok=True)
+            if not self.app.config:
+                self.app.config = ConfigParser()
+                self.app.build_config(self.app.config)
+            config = self.app.config
+            for section, values in DEFAULT_SETTINGS.items():
+                config.setdefaults(section, values)
+            if not no_db:
+                init_update_matiere(db, reset=True)
+                with db_session:
+                    for entity in db.entities.values():
+                        if entity.__name__ != "Matiere":
+                            delete(e for e in entity)
 
         self.T = TempFile()
 
@@ -84,6 +95,9 @@ class MyDevoirsTestCase(GraphicUnitTest):
         self.clear_window()
         if self.TIMER:
             print(f"durée: {(time.time()-self.debut_time)*1000}")
+
+        if self.app.__class__.__name__ == App:
+            del self.app
 
     def unschedule_all(self):
         for e in Clock.get_events():

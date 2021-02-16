@@ -1,7 +1,7 @@
 import json
 from importlib.metadata import metadata
 
-from mydevoirs.constants import DDB_FILENAME, VERSION
+from mydevoirs.constants import DDB_FILENAME, VERSION, SEMAINE
 from mydevoirs.utils import get_dir
 
 meta = metadata("mydevoirs")
@@ -66,6 +66,14 @@ AGENDA_PANEL = [
         "section": "agenda",
         "key": "dimanche",
     },
+    {
+        "type": "options",
+        "options": SEMAINE,
+        "title": "Premier jour de la semaine",
+        "desc": "Premier jour de la semaine",
+        "section": "agenda",
+        "key": "start_day",
+    },
     {"type": "title", "title": "Le Week-end afficher la semaine suivante"},
     {
         "type": "bool",
@@ -94,6 +102,7 @@ DEFAULT_SETTINGS = {
         "vendredi": 1,
         "samedi": 0,
         "dimanche": 0,
+        "start_day": "lundi",
         "auto_next_week": 1,
     },
     "ddb": {"path": str(get_dir("cache") / DDB_FILENAME), "file_config_path": ""},

@@ -20,11 +20,16 @@ from .fixtures import *
 
 class TestMyDevoirsApp(MyDevoirsTestCase):
     @classmethod
-    def setUpClass(self):
-        # super().setUp()
-        self.app = MyDevoirsApp()
-        self.app.build()
-        self.actionbar = self.app.box.children[1]
+    def setUpClass(cls):
+        cls.app = MyDevoirsApp()
+        Path(cls.app.get_application_config()).unlink(missing_ok=True)
+        if not cls.app.config:
+            cls.app.config = ConfigParser()
+            cls.app.build_config(cls.app.config)
+        cls.app.build()
+        cls.actionbar = cls.app.box.children[1]
+
+
 
     def test_init_super(self):
         self.check_super_init("App", MyDevoirsApp)
@@ -50,6 +55,7 @@ class TestMyDevoirsApp(MyDevoirsTestCase):
         self.app.sm.current = "agenda"
         todolist = self.app.sm.get_screen("todo").todolist
         self.actionbar.ids.go_todo.trigger_action(0)
+        # breakpoint()
         assert self.app.sm.current == "todo"
         assert self.app.sm.transition.direction == "down"
         assert id(todolist) != id(self.app.sm.current_screen.todolist)  # widget rebuild
