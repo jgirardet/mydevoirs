@@ -81,6 +81,7 @@ def run_mydevoirs():
         else:
             LOG.error("Message d'erreur")
             LOG.error(out.decode())
+            LOG.error(err.decode())
         sys.exit(-1)
 
 
