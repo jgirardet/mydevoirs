@@ -195,7 +195,7 @@ def cmd_version(*args, **kwargs):
     with open("pyproject.toml") as ff:
         _, appconfig = parse_config(ff, sys.platform, "")
     version = appconfig[PACKAGE_NAME]["version"]
-    vcs.create_tag(version)
+    vcs.create_tag("v"+version)
     print(f"tag {version} créé")
 
 
