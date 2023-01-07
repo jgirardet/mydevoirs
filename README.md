@@ -127,6 +127,8 @@ Je remercie tous les gens impliqués dans la réalisation des technologies utlis
 
 ## ChangeLog
 
+- 1.2.0:
+    - ajout d'un theme "contrast"
 - 1.1.0:
     - il est désormais possible de choisir le premier jour de la semaine. 
 - 1.0.0: 

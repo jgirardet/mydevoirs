@@ -1,4 +1,3 @@
-#: import COLORS mydevoirs.constants.COLORS
 #: import datas  mydevoirs.utils.datas
 #: import MatiereDropdown mydevoirs.matieredropdown.MatiereDropdown
 
@@ -50,7 +49,7 @@
 	padding: dp(10)
 	canvas.before:
 		Color:
-			rgba: COLORS["fond"]
+			rgba: app.theme["fond"]
 		Rectangle:
 			pos: self.pos
             size: self.size
@@ -60,7 +59,7 @@
 	orientation: 'vertical' # pragma: no cover
 	canvas.before:
 		Color:
-			rgba: COLORS['card']
+			rgba: app.theme['card']
 		Rectangle:
 			pos: self.pos
             size: self.size
@@ -71,7 +70,7 @@
 		height: dp(30)
 		canvas.before:
 			Color:
-				rgba: COLORS['card_entete']
+				rgba: app.theme['card_entete']
 			Rectangle:
 				pos: self.pos
 	            size: self.size
@@ -79,13 +78,15 @@
 	    	id: titre_jour
 	    	text: root.nice_date
 	    	font_name: datas['font_base']
-	    	font_size: sp(16)
+	    	font_size: app.theme['card_texte_size']
+			color: app.theme['card_texte_entete']
+
 	    Label:
 	    	text: root.progression
 	    	font_name: datas['font_base']
-	    	font_size: sp(16)
+	    	font_size: app.theme['card_texte_size']
 	    	size_hint_x: 0.3 # pragma: no cover
-	    	color: COLORS['fond'] if root.progression[0] == root.progression[2] else COLORS['progression']
+	    	color: app.theme['fond'] if root.progression[0] == root.progression[2] else app.theme['progression']
 	    Button:
 	    	id: add_button
 	    	size_hint_x: 0.2  # pragma: no cover
@@ -119,7 +120,7 @@
 	font_size: sp(16)
 	canvas.before:
         Color:
-            rgb: COLORS['card_entete']
+            rgb: app.theme['card_entete']
         Rectangle:
         	pos: self.pos
         	size: self.size

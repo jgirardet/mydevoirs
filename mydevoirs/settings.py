@@ -1,7 +1,7 @@
 import json
 from importlib.metadata import metadata
 
-from mydevoirs.constants import DDB_FILENAME, VERSION, SEMAINE
+from mydevoirs.constants import DDB_FILENAME, VERSION, SEMAINE, THEMES
 from mydevoirs.utils import get_dir
 
 meta = metadata("mydevoirs")
@@ -82,6 +82,15 @@ AGENDA_PANEL = [
         "section": "agenda",
         "key": "auto_next_week",
     },
+    {"type": "title", "title": "Choisir le thème"},
+    {
+        "type": "options",
+        "options": list(THEMES),
+        "title": "thème",
+        "desc": "",
+        "section": "theme",
+        "key": "theme",
+    },
     {"type": "title", "title": "Choix du fichier base de donnée"},
     {
         "type": "filepath",
@@ -105,6 +114,7 @@ DEFAULT_SETTINGS = {
         "start_day": "lundi",
         "auto_next_week": 1,
     },
+    "theme": {"theme": "standard"},
     "ddb": {"path": str(get_dir("cache") / DDB_FILENAME), "file_config_path": ""},
     "aide": {"aide": homepage, "version": VERSION},
 }

@@ -2,6 +2,7 @@ from unittest.mock import patch
 
 import pytest
 from mydevoirs.main import *
+from mydevoirs.constants import VERSION
 
 
 def test_set_locale_fr():

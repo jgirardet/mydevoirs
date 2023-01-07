@@ -37,7 +37,6 @@ def get_dir(key, disable_debug=False, enable_pytest=True):
         dire = temppath / key / APP_NAME
     elif os.environ.get("MYDEVOIRS_DEBUG", None):  # pragma: no cover_all
         _temppath = Path(tempfile.gettempdir()) / "mydevoirs_debug"
-        DEBUG = True
         if not _temppath.exists():
             _temppath.mkdir()
         dire = _temppath / key / APP_NAME

@@ -1,5 +1,3 @@
-# flake8: noqa
-
 import locale
 import os
 import platform
@@ -8,18 +6,10 @@ from configparser import MissingSectionHeaderError, NoOptionError, NoSectionErro
 from pathlib import Path
 from typing import Optional, Tuple
 
-from kivy.config import ConfigParser
 
+from kivy.config import ConfigParser
 from mydevoirs.app import MyDevoirsApp
 from mydevoirs.avertissement import BackupAncienneDB
-from mydevoirs.constants import VERSION
-
-
-# def do_import():
-#     from mydevoirs import app
-#     from mydevoirs.database import init_database
-#
-#     return app, init_database
 
 
 def set_locale_fr() -> None:
@@ -66,6 +56,8 @@ def reapply_version(app: MyDevoirsApp) -> Tuple[int, str]:
             return_value = 1
         except NoOptionError:
             return_value = 1
+    from mydevoirs.constants import VERSION # not import constant to early because of theme 
+
     if file_version is not None:
         if file_version < VERSION:
             return_value = 3
@@ -77,7 +69,7 @@ def reapply_version(app: MyDevoirsApp) -> Tuple[int, str]:
     return return_value, file_version
 
 
-def get_backup_ddb_path(app: MyDevoirsApp, state: int) -> (Path, Optional[Path]):
+def get_backup_ddb_path(app: MyDevoirsApp, state: int) -> Tuple[Path, Optional[Path]]:
     path = Path(app.load_config()["ddb"]["path"])
     new_path = None
     if path.is_file() and state < 2:

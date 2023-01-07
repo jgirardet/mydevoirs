@@ -132,8 +132,12 @@ class BaseGrid(GridLayout):
 
 
 class CarouselWidget(Carousel):
+    # def on_slides(self, *args):
+    #     pass
+
     def __init__(self, day=None):
         self._removing = False
+        self._init = True
         self.date = day or datetime.date.today()
 
         # adjust the week
@@ -152,6 +156,9 @@ class CarouselWidget(Carousel):
         self.index = 1
 
     def on_index(self, *args):
+        if self._init:
+            self._init = False
+            return
         if self._removing:
             return
 

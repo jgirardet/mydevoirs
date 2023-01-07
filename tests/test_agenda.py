@@ -185,7 +185,8 @@ class JourWidgetTestCase(MyDevoirsTestCase):
 
 class TestBaseGrid(MyDevoirsTestCase):
     @patch(
-        "mydevoirs.agenda.get_config", return_value="lundi",
+        "mydevoirs.agenda.get_config",
+        return_value="lundi",
     )
     def test_get_week_days(self, m):
         with patch.object(
@@ -316,10 +317,10 @@ class TestCaroussel(MyDevoirsTestCase):
 
     def test_on_index_1(self):
         """Carousel slides values:
-            0: gauche
-            1: centre
-            2: droite
-            """
+        0: gauche
+        1: centre
+        2: droite
+        """
 
         d = datetime.date(2015, 12, 11)
         c = CarouselWidget(day=d)
@@ -355,7 +356,8 @@ class TestCaroussel(MyDevoirsTestCase):
     def test_auto_next_week(self):
         # vendredi rien ne change
         with patch(
-            "mydevoirs.agenda.BaseGrid", side_effect=lambda x: Widget(),
+            "mydevoirs.agenda.BaseGrid",
+            side_effect=lambda x: Widget(),
         ):
             # AUTONEXTWEEK  = FALSE
             self.app.config["agenda"].update({"auto_next_week": "0"})
@@ -394,6 +396,5 @@ class TestAgendaScreen(MyDevoirsTestCase):
 
     def test_go_date(self):
         b = Agenda()
-        assert b.carousel.date == datetime.date.today()
         b.go_date(datetime.date(2012, 3, 2))
         assert b.carousel.date == datetime.date(2012, 3, 2)

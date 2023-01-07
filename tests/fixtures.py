@@ -58,14 +58,19 @@ def f_item(content=None, matiere=None, jour=None, done=None):
         return i
 
 
+from mydevoirs.app import MyDevoirsApp
+
+
 class MyDevoirsTestCase(GraphicUnitTest):
 
     TIMER = False
 
     def setUp(self, no_db=False):
         super().setUp()
-        if not hasattr(self, "app"):
-            self.app = App()
+        if hasattr(self, "already_setup"):
+            pass
+        else:
+            self.app = MyDevoirsApp()
             Path(self.app.get_application_config()).unlink(missing_ok=True)
             if not self.app.config:
                 self.app.config = ConfigParser()
@@ -96,7 +101,7 @@ class MyDevoirsTestCase(GraphicUnitTest):
         if self.TIMER:
             print(f"durée: {(time.time()-self.debut_time)*1000}")
 
-        if self.app.__class__.__name__ == App:
+        if not hasattr(self, "already_setup"):
             del self.app
 
     def unschedule_all(self):

@@ -1,34 +1,34 @@
 [tool.briefcase]
-project_name = "mydevoirs"
-bundle = "coding.cacahuete"
-version = "1.1.0"
-url = "https://jgirardet.github.io/mydevoirs"
-license = "GNU General Public License v3 (GPLv3)"
 author = 'Jimmy Girardet'
 author_email = "ijkl@netc.fr"
+bundle = "coding.cacahuete"
+license = "GNU General Public License v3 (GPLv3)"
+project_name = "mydevoirs"
+url = "https://jgirardet.github.io/mydevoirs"
+version = "1.2.0"
 
 [tool.briefcase.app.mydevoirs]
-formal_name = "mydevoirs"
 description = "La prise de devoirs enfin simple !"
+formal_name = "mydevoirs"
 icon = "mydevoirs/data/icons/logo"
+requires = [
+  'kivy',
+  'pony>=0.7.11,<0.8',
+  'appdirs',
+  'kivy-garden.filebrowser',
+  'Pillow',
+]
 sources = ['mydevoirs']
-requires = ['kivy==2.0.0rc3',
-            'pony>=0.7.11,<0.8',
-            'appdirs>=1.4,<1.5',
-            'kivy-garden.filebrowser==1.1.2',
-            'Pillow>=7.2,<7.3'
-            ]
-
 
 [tool.briefcase.app.mydevoirs.macOS]
 requires = []
 
 [tool.briefcase.app.mydevoirs.linux]
 requires = []
-system_requires = ["language-pack-fr", "pulseaudio", "libmtdev1","xclip",  	"libgl1", "libfontconfig1","libxrender1"]
+system_requires = ["language-pack-fr", "pulseaudio", "libmtdev1", "xclip", "libgl1", "libfontconfig1", "libxrender1"]
 
 [tool.briefcase.app.mydevoirs.windows]
-requires = ["docutils", "pygments", "pypiwin32", "kivy.deps.sdl2", "kivy.deps.glew" , "kivy_deps.angle"]
+requires = ["docutils", "pygments", "pypiwin32", "kivy.deps.sdl2", "kivy.deps.glew", "kivy_deps.angle"]
 
 # Mobile deployments
 [tool.briefcase.app.mydevoirs.iOS]
@@ -38,10 +38,8 @@ requires = []
 requires = []
 
 [tool.isort]
-multi_line_output = 3
-include_trailing_comma = true
 force_grid_wrap = 0
-use_parentheses = true
+include_trailing_comma = true
 line_length = 88
-
-
+multi_line_output = 3
+use_parentheses = true

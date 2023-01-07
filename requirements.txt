@@ -9,3 +9,4 @@ freezegun
 gitpython
 toml
 appdirs
+markupsafe==2.0.1

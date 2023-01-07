@@ -11,9 +11,11 @@ from kivy.uix.actionbar import ActionBar
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager, SlideTransition
 from pony.orm import OperationalError
+from mydevoirs.constants import THEMES
 
 import mydevoirs.database
-from mydevoirs.constants import BASE_DIR
+
+# from mydevoirs.constants import BASE_DIR
 from mydevoirs.custom_setting import (
     SettingCustomConfigFilePath,
     SettingFilePath,
@@ -21,7 +23,7 @@ from mydevoirs.custom_setting import (
 )
 from mydevoirs.database import init_database
 from mydevoirs.settings import DEFAULT_SETTINGS, SETTING_PANELS
-from mydevoirs.utils import get_dir
+from mydevoirs.utils import get_config, get_dir
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -34,6 +36,8 @@ class MyDevoirsApp(App):
     carousel = ObjectProperty()
 
     title = "MyDevoirs"
+
+    theme = THEMES["standard"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -58,6 +62,7 @@ class MyDevoirsApp(App):
         from mydevoirs.colorchooser import ColorChooser
         from mydevoirs.todo import Todo
 
+        self.load_theme()
         self.sm = ScreenManager(transition=SlideTransition(direction="up"))
         self.agenda = Agenda(name="agenda")
         self.todo = Todo(name="todo")
@@ -108,6 +113,9 @@ class MyDevoirsApp(App):
     def on_config_change_ddb(self, config, section, key, value):
         self._reload_app()
 
+    def on_config_change_theme(self, config, section, key, value):
+        self._reload_app()
+
     def on_config_change_aide(self, config, section, key, value):
         pass  # pragma: no cover_all
 
@@ -138,3 +146,7 @@ class MyDevoirsApp(App):
         elif platform.system() == "Windows":  # pragma: no branch
             subprocess.run([sys.executable, "-m", "mydevoirs"], cwd=os.getcwd())
         self.stop()
+
+    def load_theme(self):
+        theme = get_config("theme", "theme", str)
+        self.theme = THEMES.get(theme, THEMES["standard"])
