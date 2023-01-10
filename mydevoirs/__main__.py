@@ -9,6 +9,9 @@ def configure_env():
         os.environ["KIVY_GL_BACKEND"] = "angle_sdl2"
         if Path(sys.executable).name == "pythonw.exe":
             os.environ["KIVY_NO_CONSOLELOG"] = "True"
+            import site
+
+            site.getuserbase()
 
 
 if __name__ == "__main__":
