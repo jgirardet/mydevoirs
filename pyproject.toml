@@ -5,7 +5,7 @@ bundle = "coding.cacahuete"
 license = "GNU General Public License v3 (GPLv3)"
 project_name = "mydevoirs"
 url = "https://jgirardet.github.io/mydevoirs"
-version = "1.2.0"
+version = "1.2.1"
 
 [tool.briefcase.app.mydevoirs]
 description = "La prise de devoirs enfin simple !"
