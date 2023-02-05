@@ -5,7 +5,7 @@ MODULE:=mydevoirs
 all: dev test
 
 install:
-	python3.7 -m venv .venv
+	python -m venv .venv
 	.venv/bin/pip install -U pip
 	.venv/bin/pip install -r requirements.txt
 	.venv/bin/briefcase dev
