@@ -27,7 +27,7 @@ DATAS = {
     "icon_aide": "qmark.png",
     "icon_colorchooser": "colorchooser.png",
     "icon_arrowmove": "arrowmove.png",
-    "font_base": "Verdana.ttf",
+    "font_base": "OpenDyslexic-Regular.ttf",
 }
 
 
