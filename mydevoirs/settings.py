@@ -91,10 +91,10 @@ AGENDA_PANEL = [
         "section": "theme",
         "key": "theme",
     },
-    {"type": "title", "title": "Choix du fichier base de donnée"},
+    {"type": "title", "title": "Choix du fichier base de données"},
     {
         "type": "filepath",
-        "title": "chemin de la base de donné",
+        "title": "chemin de la base de données",
         "desc": "",
         "section": "ddb",
         "key": "path",

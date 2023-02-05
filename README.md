@@ -96,7 +96,7 @@ IL EST DONC IMPORTANT, POUR UN MÊME FICHIER SYNCHRONISÉ, DE N'OUVRIR MYDEVOIRS
 
 ![copier](docs/ddb/ecraser.png)
 
-- et voilà MyDevoirs va redémarrer depuis nouvelle base de donnée.
+- et voilà MyDevoirs va redémarrer depuis nouvelle base de données.
 
 ## Comment définir des couleurs personnalisées ?
 

@@ -48,7 +48,7 @@ class MyDevoirsApp(App):
         try:
             mydevoirs.database.db = init_database(filename=path, create_db=True)
         except OperationalError as err:
-            LOG.error("Echec de création de la base de donnée")
+            LOG.error("Echec de création de la base de données")
             raise err
 
     def build(self):
