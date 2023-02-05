@@ -40,7 +40,19 @@ THEMES = {
         "titre_jour": [0.2, 0.4, 0, 1],
         "progression": [0.92, 0.008, 0.008, 1],
         "spinner_text_color": [0, 0, 0, 1],
+        "police": "Verdana.ttf"
     },
+    "standard-dys": {
+        "fond": [130 / 255, 134 / 255, 138 / 255, 1],
+        "card": [98 / 255, 105 / 255, 114 / 236, 1],
+        "card_entete": [83 / 255, 93 / 255, 105 / 236, 1],
+        "card_texte_entete": [0, 0, 0, 1],
+        "card_texte_size": "16sp",
+        "titre_jour": [0.2, 0.4, 0, 1],
+        "progression": [0.92, 0.008, 0.008, 1],
+        "spinner_text_color": [0, 0, 0, 1],
+        "police": "OpenDyslexic-Regular.ttf"
+    },    
     "contrast": {
         "fond": [130 / 255, 134 / 255, 138 / 255, 1],
         "card": [98 / 255, 105 / 255, 114 / 236, 1],
@@ -50,5 +62,17 @@ THEMES = {
         "titre_jour": [0.2, 0.4, 0, 1],
         "progression": [1, 1, 1, 1],
         "spinner_text_color": [0, 0, 0, 1],
+        "police": "Verdana.ttf"
+    },
+    "contrast-dys": {
+        "fond": [130 / 255, 134 / 255, 138 / 255, 1],
+        "card": [98 / 255, 105 / 255, 114 / 236, 1],
+        "card_texte_entete": [1, 1, 1, 1],
+        "card_entete": [0, 0, 0, 1],
+        "card_texte_size": "18sp",
+        "titre_jour": [0.2, 0.4, 0, 1],
+        "progression": [1, 1, 1, 1],
+        "spinner_text_color": [0, 0, 0, 1],
+        "police": "OpenDyslexic-Regular.ttf"
     },
 }

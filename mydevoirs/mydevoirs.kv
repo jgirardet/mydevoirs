@@ -77,13 +77,13 @@
 	    Label:
 	    	id: titre_jour
 	    	text: root.nice_date
-	    	font_name: datas['font_base']
+	    	font_name: app.theme['police']
 	    	font_size: app.theme['card_texte_size']
 			color: app.theme['card_texte_entete']
 
 	    Label:
 	    	text: root.progression
-	    	font_name: datas['font_base']
+	    	font_name: app.theme['police']
 	    	font_size: app.theme['card_texte_size']
 	    	size_hint_x: 0.3 # pragma: no cover
 	    	color: app.theme['fond'] if root.progression[0] == root.progression[2] else app.theme['progression']
@@ -116,7 +116,7 @@
 	size_hint_y: None
 	height: dp(30)
 	spacing: dp(5)
-	font_name: datas['font_base']
+	font_name: app.theme['police']
 	font_size: sp(16)
 	canvas.before:
         Color:
