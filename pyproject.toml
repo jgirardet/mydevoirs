@@ -48,3 +48,4 @@ use_parentheses = true
 name = "mydevoirs"
 version = "1.2.1"
 description = "La prise de devoirs enfin simple !"
+authors = ["Jimmy Girardet <ijkl@netc.fr>",]
