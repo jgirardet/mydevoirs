@@ -27,9 +27,7 @@ DATAS = {
     "icon_aide": "qmark.png",
     "icon_colorchooser": "colorchooser.png",
     "icon_arrowmove": "arrowmove.png",
-    "font_base": "Verdana.ttf",
 }
-
 
 def get_datas():
     res = {}

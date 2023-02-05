@@ -40,7 +40,7 @@ THEMES = {
         "titre_jour": [0.2, 0.4, 0, 1],
         "progression": [0.92, 0.008, 0.008, 1],
         "spinner_text_color": [0, 0, 0, 1],
-        "police": "Verdana.ttf"
+        "police": str(BASE_DIR / "data" / "fonts" / "Verdana.ttf")
     },
     "standard-dys": {
         "fond": [130 / 255, 134 / 255, 138 / 255, 1],
@@ -51,7 +51,7 @@ THEMES = {
         "titre_jour": [0.2, 0.4, 0, 1],
         "progression": [0.92, 0.008, 0.008, 1],
         "spinner_text_color": [0, 0, 0, 1],
-        "police": "OpenDyslexic-Regular.ttf"
+        "police": str(BASE_DIR / "data" / "fonts" / "OpenDyslexic-Regular.ttf")
     },    
     "contrast": {
         "fond": [130 / 255, 134 / 255, 138 / 255, 1],
@@ -62,7 +62,7 @@ THEMES = {
         "titre_jour": [0.2, 0.4, 0, 1],
         "progression": [1, 1, 1, 1],
         "spinner_text_color": [0, 0, 0, 1],
-        "police": "Verdana.ttf"
+        "police": str(BASE_DIR / "data" / "fonts" / "Verdana.ttf")
     },
     "contrast-dys": {
         "fond": [130 / 255, 134 / 255, 138 / 255, 1],
@@ -73,6 +73,6 @@ THEMES = {
         "titre_jour": [0.2, 0.4, 0, 1],
         "progression": [1, 1, 1, 1],
         "spinner_text_color": [0, 0, 0, 1],
-        "police": "OpenDyslexic-Regular.ttf"
+        "police": str(BASE_DIR / "data" / "fonts" / "OpenDyslexic-Regular.ttf")
     },
 }
