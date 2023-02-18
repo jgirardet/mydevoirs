@@ -13,10 +13,10 @@ class BackupAncienneDB(Widget):
         self.app = App.get_running_app()
         self.popup = OuiNonPopup(
             title=f"""Cette de version MyDevoirs n'est pas
-compatible avec la version de la base de donnée actuelle.
+compatible avec la version de la base de données actuelle.
 Si vous continuez, l'actuelle base de donnée sera sauvegardée vers
 {backup_path}.
-Ces données ne serons alors accessible qu'avec  l'ancienne version de MyDevoirs.
+Ces données ne serons alors accessibles qu'avec l'ancienne version de MyDevoirs.
 Cliquez sur OUI pour accepter, NON pour quitter
 """,
             size_hint=(0.6, 0.5),

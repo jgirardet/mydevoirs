@@ -25,7 +25,7 @@ class SettingFilePath(SettingPath):
             return
 
         OuiNonPopup(
-            title="Copier le contenu de l'ancienne base de donnée vers la nouvelle ?",
+            title="Copier le contenu de l'ancienne base de données vers la nouvelle ?",
             on_oui=self._copy_ddb,
             on_non=self._update_value,
         )
