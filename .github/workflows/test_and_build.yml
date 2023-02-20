@@ -74,6 +74,7 @@ jobs:
   Create_release:
     needs: TestAndBuild
     runs-on: ubuntu-latest
+    if: startsWith(github.event.ref, 'refs/tags/v')
     steps:
       - name: Download artifact binary
         uses: actions/download-artifact@v2
