@@ -10,3 +10,7 @@ gitpython
 toml
 appdirs
 markupsafe==2.0.1
+kivy
+kivy_garden.graph
+kivy_garden.filebrowser
+pony
