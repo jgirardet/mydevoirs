@@ -1,4 +1,9 @@
+# ATTENTION MyDevoirs n'est plus maintenu. Vous pouvez toujours l'utiliser mais je ne pourrai vous apporter aucune aide en cas de problème. Merci à tous les utilisateurs pour m'avoir fait confiance pendant toutes ces années.
+
+
 # MyDevoirs : La prise de devoirs sur ordinateur enfin simple !!!
+
+
 
 ![agenda](docs/agenda800.png)
 
