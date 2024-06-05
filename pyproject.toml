@@ -43,3 +43,9 @@ include_trailing_comma = true
 line_length = 88
 multi_line_output = 3
 use_parentheses = true
+
+[tool.poetry]
+name = "mydevoirs"
+version = "1.2.1"
+description = "La prise de devoirs enfin simple !"
+authors = ["Jimmy Girardet <ijkl@netc.fr>",]
